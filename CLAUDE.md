@@ -22,6 +22,15 @@ every texture file each animal needs.
   hyena trio; all three `ModEntity` hooks; `entities/dire_wolf.json` (`dire_wolf` + `pleistocene_wolf`);
   `dire_wolf_spawn_egg.json`; predators spawn-table entry; bones loot table; lang; placeholder skins.
   Uses vanilla wolf sounds (a non-null `threat` sound is required).
+- **`mammoth` new type / proboscideans (done):** `EntityMammoth` (herd herbivore modeled on bison, minus
+  the bison-only coupled goals `BisonTerritorialityFight`/`RodeoGoal`; keeps the generic
+  `MeleeAttackCharger`; adds a `hasWoollyCoat` flag). `ModelMammoth` forks `ModelBison` and adds a
+  3-segment trunk + forward tusks, hides the inherited bison horns, and shows the shaggy fur parts only
+  when `hasWoollyCoat`. `RendererMammoth` uses a single model. 8 species: woolly / columbian /
+  steppe_mammoth / mastodon / straight_tusked / cuvieronius / african_elephant / asian_elephant
+  (`hasWoollyCoat=1` on woolly + steppe_mammoth). Reuses vanilla ravager sounds; loot mirrors the bison
+  table with larger yields. **Geometry is placeholder** (bison body + trunk/tusks) pending a Blockbench
+  pass, same status as dire_wolf.
 - **Part 3 — predator balance (done):** `EntityMonitor` now uses the hunger-gated `HuntMobTarget`
   constructor (threshold 30); `ComplexMobTerrestrial.satiateFromKill(+120)` is called from
   bear/big_cat/hyena/dire_wolf `doHurtTarget`.
@@ -31,8 +40,10 @@ every texture file each animal needs.
 **Not yet done / next up:**
 - Replace all placeholder skins with real art (Track B). The repurposed variant is still displayed as
   "Sabertooth" (sciname already *Smilodon populator*) — rename to "Smilodon" only if desired.
-- Build the remaining Part-2 new types (mammoth, ground_sloth, deer, glyptodont, equid, giraffid,
-  antelope, toxodon, macrauchenia) per the brief below.
+- Build the remaining Part-2 new types (ground_sloth, deer, glyptodont, equid, giraffid, antelope,
+  toxodon, macrauchenia) per the brief below.
+- Resculpt the placeholder geometry for `dire_wolf` and `mammoth` in Blockbench (currently the hyena and
+  bison bodies with additions).
 
 **Verification status / environment caveats:**
 - Verified **statically only** (JSON validity, contiguous `variant` indices, texture-filename resolution,
