@@ -6,6 +6,43 @@ reference for adding new megafauna (Holocene & Pleistocene) without introducing 
 produced separately via Claude Design — this guide covers everything *except* the final art, but names
 every texture file each animal needs.
 
+## Progress log
+
+**Branch `ice-age-megafauna` (committed, not yet pushed).** First PR slice done:
+
+- **Part 1 — data-only variants (done):** `bear:short_faced`, `big_cat:american_lion`,
+  `big_cat:homotherium`, `bison:{steppe,long_horned,aurochs,giant_buffalo}`, `rhino:elasmotherium`,
+  `hyena:cave_hyena`, `camel:western`, `boar:giant_warthog`. Each has a species object, lang name +
+  sciname, and a **placeholder** skin (a copy of an existing same-type texture — real art still needed).
+- **Sabre-fang flag (done):** `hasSabreFangs` on `big_cat`, set on `sabertooth` (=Smilodon) and
+  `homotherium`. `EntityBigCat` mirrors the `dimorphism`/`fluffyTail` synced-flag pattern; `ModelBigCat`
+  scales the existing upper canines (`teeth_right`/`teeth_left`) — no new texture region required.
+  `ModelBigCatCub` has no tooth cubes, so cubs show no fangs (intended).
+- **`dire_wolf` new type (done):** `EntityDireWolf`/`ModelDireWolf`/`RendererDireWolf` forked from the
+  hyena trio; all three `ModEntity` hooks; `entities/dire_wolf.json` (`dire_wolf` + `pleistocene_wolf`);
+  `dire_wolf_spawn_egg.json`; predators spawn-table entry; bones loot table; lang; placeholder skins.
+  Uses vanilla wolf sounds (a non-null `threat` sound is required).
+- **Part 3 — predator balance (done):** `EntityMonitor` now uses the hunger-gated `HuntMobTarget`
+  constructor (threshold 30); `ComplexMobTerrestrial.satiateFromKill(+120)` is called from
+  bear/big_cat/hyena/dire_wolf `doHurtTarget`.
+- **Left untouched on purpose (already shipped):** `big_cat:cave_lion`, `big_cat:sabertooth`,
+  `rhino:wooly`, `bear:cave`, `hyena:shortface`, `manatee:steller`.
+
+**Not yet done / next up:**
+- Replace all placeholder skins with real art (Track B). The repurposed variant is still displayed as
+  "Sabertooth" (sciname already *Smilodon populator*) — rename to "Smilodon" only if desired.
+- Build the remaining Part-2 new types (mammoth, ground_sloth, deer, glyptodont, equid, giraffid,
+  antelope, toxodon, macrauchenia) per the brief below.
+
+**Verification status / environment caveats:**
+- Verified **statically only** (JSON validity, contiguous `variant` indices, texture-filename resolution,
+  lang-key coverage, symbol existence, brace balance). A real `gradle build`/`runClient` was **not** run:
+  this environment's egress policy returns 403 for `maven.minecraftforge.net` and `repo.spongepowered.org`,
+  so the ForgeGradle toolchain can't be resolved here. Run the compile + in-game smoke tests where those
+  Maven repos are reachable.
+- The commit could **not** be pushed: no `origin` remote is configured here and `gh` is unavailable. From
+  a machine with the remote: `git push -u origin ice-age-megafauna`, then open a PR against `1.18.2`.
+
 ## Two mechanisms for adding animals
 
 ### Mechanism A — new *variant* of an existing type (data-only, near-zero risk)
