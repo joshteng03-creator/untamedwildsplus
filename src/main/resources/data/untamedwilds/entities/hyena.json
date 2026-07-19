@@ -102,6 +102,25 @@
           "category|savanna"
         ]
       ]
+    },
+    {
+      "name":"cave_hyena",
+      "variant":5,
+      "scale":1.05,
+      "rarity":1,
+      "attack":5,
+      "health":22,
+      "flags":{
+        "groupCount":4
+      },
+      "spawnBiomes":[
+        [
+          "category|taiga"
+        ],
+        [
+          "category|extreme_hills"
+        ]
+      ]
     }
   ]
 }

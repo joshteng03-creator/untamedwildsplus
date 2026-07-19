@@ -94,6 +94,22 @@
           "category|taiga"
         ]
       ]
+    },
+    {
+      "name":"elasmotherium",
+      "variant":6,
+      "scale":1.4,
+      "rarity":1,
+      "attack":11,
+      "health":75,
+      "spawnBiomes":[
+        [
+          "category|icy"
+        ],
+        [
+          "category|taiga"
+        ]
+      ]
     }
   ]
 }

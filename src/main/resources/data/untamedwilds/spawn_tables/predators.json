@@ -20,6 +20,12 @@
       "size_max":8
     },
     {
+      "type":"untamedwilds:dire_wolf",
+      "weight":5,
+      "size_min":3,
+      "size_max":6
+    },
+    {
       "type":"untamedwilds:large_snake",
       "weight":4,
       "size_min":1,

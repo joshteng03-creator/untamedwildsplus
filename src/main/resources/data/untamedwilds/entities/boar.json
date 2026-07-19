@@ -77,6 +77,22 @@
           "category|savanna"
         ]
       ]
+    },
+    {
+      "name":"giant_warthog",
+      "variant":4,
+      "scale":1.5,
+      "rarity":1,
+      "attack":6,
+      "health":35,
+      "flags":{
+        "isWarthog": 1
+      },
+      "spawnBiomes":[
+        [
+          "category|savanna"
+        ]
+      ]
     }
   ]
 }

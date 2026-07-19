@@ -87,7 +87,7 @@ public class EntityMonitor extends ComplexMobAmphibious implements ISpecies, INe
         this.goalSelector.addGoal(3, new SmartWanderGoal(this, 1.0D, true));
         this.goalSelector.addGoal(3, new LayEggsOnNestGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(3, new HuntMobTarget<>(this, LivingEntity.class, true, false, input ->  getEcoLevel(input) < getEcoLevel(this)));
+        this.targetSelector.addGoal(3, new HuntMobTarget<>(this, LivingEntity.class, true, 30, false, input ->  getEcoLevel(input) < getEcoLevel(this)));
     }
 
     public float getWalkTargetValue(BlockPos p_149140_, LevelReader p_149141_) {

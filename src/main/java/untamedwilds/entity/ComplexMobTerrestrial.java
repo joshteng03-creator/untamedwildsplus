@@ -18,7 +18,9 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.player.Player;
@@ -198,6 +200,14 @@ public abstract class ComplexMobTerrestrial extends ComplexMob implements IAnima
     public void addHunger(int change) {
         int i = this.getHunger() + change;
         this.setHunger((i > 200) ? 200 : (Math.max(i, 0)));
+    }
+
+    /* Restores hunger when a predator lands the killing blow, so HuntMobTarget.canUse() then blocks new hunts
+     * until hunger decays again. Prevents predators from thinning entire herds one animal per cooldown. */
+    public void satiateFromKill(Entity target) {
+        if (target instanceof LivingEntity le && (le.isDeadOrDying() || le.getHealth() <= 0)) {
+            this.addHunger(120);
+        }
     }
 
     public boolean hurt(DamageSource source, float amount) {

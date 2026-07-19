@@ -57,6 +57,7 @@ public class ModEntity {
     public static RegistryObject<EntityType<EntityAardvark>> AARDVARK = createEntity(EntityAardvark::new, "aardvark", 0.9F, 0.9F, 0x463A31, 0x956761);
     public static RegistryObject<EntityType<EntityRhino>> RHINO = createEntity(EntityRhino::new, "rhino", 2.0F, 1.8F, 0x787676, 0x665956);
     public static RegistryObject<EntityType<EntityHyena>> HYENA = createEntity(EntityHyena::new, "hyena", 0.9F, 1.1F, 0x6C6857, 0x978966);
+    public static RegistryObject<EntityType<EntityDireWolf>> DIRE_WOLF = createEntity(EntityDireWolf::new, "dire_wolf", 1.0F, 1.0F, 0x8C8378, 0x4A423B);
     public static RegistryObject<EntityType<EntityBoar>> BOAR = createEntity(EntityBoar::new, "boar", 1.2F, 1.2F, 0x503C2A, 0x605449);
     public static RegistryObject<EntityType<EntityBison>> BISON = createEntity(EntityBison::new, "bison", 1.7F, 1.6F, 0x845B2B, 0x49342A);
     public static RegistryObject<EntityType<EntityCamel>> CAMEL = createEntity(EntityCamel::new, "camel", 1.8F, 2F, 0xE0B989, 0x976B3D);
@@ -129,6 +130,7 @@ public class ModEntity {
         event.put(AARDVARK.get(), EntityAardvark.registerAttributes().build());
         event.put(RHINO.get(), EntityRhino.registerAttributes().build());
         event.put(HYENA.get(), EntityHyena.registerAttributes().build());
+        event.put(DIRE_WOLF.get(), EntityDireWolf.registerAttributes().build());
         event.put(BOAR.get(), EntityBoar.registerAttributes().build());
         event.put(BISON.get(), EntityBison.registerAttributes().build());
         event.put(CAMEL.get(), EntityCamel.registerAttributes().build());
@@ -171,6 +173,7 @@ public class ModEntity {
         event.registerEntityRenderer(ModEntity.AARDVARK.get(), RendererAardvark::new);
         event.registerEntityRenderer(ModEntity.RHINO.get(), RendererRhino::new);
         event.registerEntityRenderer(ModEntity.HYENA.get(), RendererHyena::new);
+        event.registerEntityRenderer(ModEntity.DIRE_WOLF.get(), RendererDireWolf::new);
         event.registerEntityRenderer(ModEntity.BOAR.get(), RendererBoar::new);
         event.registerEntityRenderer(ModEntity.BISON.get(), RendererBison::new);
         event.registerEntityRenderer(ModEntity.CAMEL.get(), RendererCamel::new);

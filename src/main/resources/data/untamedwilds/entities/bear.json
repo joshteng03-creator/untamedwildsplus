@@ -203,6 +203,30 @@
           "category|jungle"
         ]
       ]
+    },
+    {
+      "name":"short_faced",
+      "variant":8,
+      "scale":1.3,
+      "rarity":1,
+      "breeding":"EARLY_SUMMER",
+      "growing_time":8,
+      "offspring":1,
+      "activityType":"cathemeral",
+      "favourite_food":"minecraft:beef",
+      "attack":10,
+      "health":60,
+      "flags":{
+        "hasHump":1
+      },
+      "spawnBiomes":[
+        [
+          "category|taiga"
+        ],
+        [
+          "category|extreme_hills"
+        ]
+      ]
     }
   ]
 }

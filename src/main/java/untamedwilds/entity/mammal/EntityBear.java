@@ -226,10 +226,13 @@ public class EntityBear extends ComplexMobTerrestrial implements ISpecies, INewS
 
     public boolean doHurtTarget(Entity entityIn) {
         boolean flag = super.doHurtTarget(entityIn);
-        if (flag && this.getAnimation() == NO_ANIMATION && !this.isBaby()) {
-            Animation anim = chooseAttackAnimation();
-            this.setAnimation(anim);
-            this.setAnimationTick(0);
+        if (flag) {
+            this.satiateFromKill(entityIn);
+            if (this.getAnimation() == NO_ANIMATION && !this.isBaby()) {
+                Animation anim = chooseAttackAnimation();
+                this.setAnimation(anim);
+                this.setAnimationTick(0);
+            }
         }
         return flag;
     }

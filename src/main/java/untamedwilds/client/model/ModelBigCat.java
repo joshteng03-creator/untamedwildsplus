@@ -439,6 +439,11 @@ public class ModelBigCat extends AdvancedEntityModel<EntityBigCat> {
             tail_part.scaleY = tail_scale;
         }
 
+        // Sabre fangs: elongate the upper canines for Smilodon/Homotherium (uses the existing tooth UVs)
+        float fang_scale = big_cat.hasSabreFangs() ? 2.4F : 1F;
+        this.teeth_right.scaleY = fang_scale;
+        this.teeth_left.scaleY = fang_scale;
+
         // Breathing Animation
         boolean isPurring = big_cat.getAnimation() == EntityBigCat.IDLE_STRETCH && big_cat.getAnimationTick() > 20;
         final double scaleX = Math.sin(ageInTicks * (isPurring ? 2 : 1 / 20F));

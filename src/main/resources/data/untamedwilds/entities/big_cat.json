@@ -11,7 +11,8 @@
   },
   "flags":{
     "fluffyTail": 0,
-    "dimorphism": 0
+    "dimorphism": 0,
+    "hasSabreFangs": 0
   },
   "species":[
     {
@@ -176,7 +177,7 @@
       "attack":9,
       "health":40,
       "flags":{
-
+        "hasSabreFangs":1
       },
       "spawnBiomes":[
         [
@@ -235,6 +236,55 @@
         ],
         [
           "category|taiga"
+        ]
+      ]
+    },
+    {
+      "name":"american_lion",
+      "variant":9,
+      "scale":1.2,
+      "rarity":1,
+      "breeding":"ALL",
+      "growing_time":6,
+      "offspring":2,
+      "activityType":"diurnal",
+      "favourite_food":"minecraft:beef",
+      "attack":10,
+      "health":50,
+      "flags":{
+        "dimorphism":1,
+        "groupCount":3
+      },
+      "spawnBiomes":[
+        [
+          "category|plains"
+        ],
+        [
+          "category|taiga"
+        ]
+      ]
+    },
+    {
+      "name":"homotherium",
+      "variant":10,
+      "scale":1.05,
+      "rarity":1,
+      "breeding":"ALL",
+      "growing_time":6,
+      "offspring":2,
+      "activityType":"cathemeral",
+      "favourite_food":"minecraft:beef",
+      "attack":9,
+      "health":42,
+      "flags":{
+        "hasSabreFangs":1
+      },
+      "spawnBiomes":[
+        [
+          "category|taiga"
+        ],
+        [
+          "category|icy"
         ]
       ]
     }

@@ -26,13 +26,13 @@ import untamedwilds.util.EntityUtils;
 
 import javax.annotation.Nullable;
 
-public class EntityHyena extends ComplexMobTerrestrial implements INewSkins, ISpecies, IPackEntity, INeedsPostUpdate {
+public class EntityDireWolf extends ComplexMobTerrestrial implements INewSkins, ISpecies, IPackEntity, INeedsPostUpdate {
 
     public static Animation ATTACK_POUNCE;
     public static Animation IDLE_TALK;
     public static Animation ATTACK_BITE;
 
-    public EntityHyena(EntityType<? extends ComplexMob> type, Level worldIn) {
+    public EntityDireWolf(EntityType<? extends ComplexMob> type, Level worldIn) {
         super(type, worldIn);
         IDLE_TALK = Animation.create(20);
         ATTACK_POUNCE = Animation.create(42);
@@ -51,8 +51,8 @@ public class EntityHyena extends ComplexMobTerrestrial implements INewSkins, ISp
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.25D));
         this.goalSelector.addGoal(5, new SmartWanderGoal(this, 1D, true));
         this.goalSelector.addGoal(6, new SmartLookAtGoal(this, LivingEntity.class, 10.0F));
-        this.targetSelector.addGoal(1, new HurtPackByTargetGoal(this).setAlertOthers(EntityHyena.class));
-        this.targetSelector.addGoal(2, new ProtectChildrenTarget<>(this, LivingEntity.class, true, input -> !(input instanceof EntityHyena)));
+        this.targetSelector.addGoal(1, new HurtPackByTargetGoal(this).setAlertOthers(EntityDireWolf.class));
+        this.targetSelector.addGoal(2, new ProtectChildrenTarget<>(this, LivingEntity.class, true, input -> !(input instanceof EntityDireWolf)));
         this.targetSelector.addGoal(3, new HuntPackMobTarget<>(this, LivingEntity.class, true, 30, false, input -> getEcoLevel(input) < getEcoLevel(this)));
         this.targetSelector.addGoal(4, new AngrySleeperTarget<>(this, LivingEntity.class, true));
     }
@@ -71,11 +71,11 @@ public class EntityHyena extends ComplexMobTerrestrial implements INewSkins, ISp
 
     public static AttributeSupplier.Builder registerAttributes() {
         return LivingEntity.createLivingAttributes()
-                .add(Attributes.ATTACK_DAMAGE, 6.0D)
+                .add(Attributes.ATTACK_DAMAGE, 7.0D)
                 .add(Attributes.ATTACK_KNOCKBACK, 0.4D)
-                .add(Attributes.MOVEMENT_SPEED, 0.2D)
+                .add(Attributes.MOVEMENT_SPEED, 0.22D)
                 .add(Attributes.FOLLOW_RANGE, 24.0D)
-                .add(Attributes.MAX_HEALTH, 20.0D)
+                .add(Attributes.MAX_HEALTH, 24.0D)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.2);
     }
 
@@ -162,8 +162,8 @@ public class EntityHyena extends ComplexMobTerrestrial implements INewSkins, ISp
     }
 
     @Nullable
-    public EntityHyena getBreedOffspring(ServerLevel serverWorld, AgeableMob ageable) {
-        return create_offspring(new EntityHyena(ModEntity.HYENA.get(), this.level));
+    public EntityDireWolf getBreedOffspring(ServerLevel serverWorld, AgeableMob ageable) {
+        return create_offspring(new EntityDireWolf(ModEntity.DIRE_WOLF.get(), this.level));
     }
 
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
