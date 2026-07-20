@@ -6,9 +6,56 @@ reference for adding new megafauna (Holocene & Pleistocene) without introducing 
 produced separately via Claude Design — this guide covers everything *except* the final art, but names
 every texture file each animal needs.
 
+## ▶ Start here (session handoff — read this first)
+
+**Where things stand (2026-07-20):**
+- You are on branch **`ice-age-megafauna`**, which is **committed and pushed** to
+  `origin` (`github.com/joshteng03-creator/untamedwildsplus`) — local and remote are in sync
+  (verify with `git status` → "up to date with 'origin/ice-age-megafauna'").
+- **All 10 new entity types are already implemented and wired** end-to-end: `mammoth, deer,
+  ground_sloth, glyptodont, dire_wolf, equid, giraffid, antelope, toxodon, macrauchenia`. Each has an
+  `Entity*.java`, `Model*.java`, `Renderer*.java`, full `ModEntity` registration (all three hooks), a
+  species JSON, a loot table, and spawn-table entries. Part-1 variants, the `hasSabreFangs` flag, and the
+  predator-balance work are also in. See the Progress log below for specifics.
+- **Two things are deliberately placeholder:** (1) every new texture is a stub PNG, and (2) the new-type
+  **geometry** is a fork of an existing body (bison/hyena/etc.) with feature cubes bolted on — not yet
+  sculpted to the real animal.
+
+**The remaining work ("the rest of the mod creation process"), in recommended order:**
+1. **Verify it compiles first.** Run `./gradlew build` from the repo root, then `./gradlew runClient`
+   for an in-game smoke test. The new-type code was AI-generated and verified *statically only* (see
+   caveats below), so a real compile may surface issues — fix those before investing in art/geometry.
+   Smoke test per type: obtain the `<type>_spawn_egg`, `/summon untamedwilds:<type>`, confirm it renders
+   with no missing-texture (pink/black) or console errors, spawns in its biomes, drops loot, breeds, and
+   that predators only hunt when hungry (Part 3).
+2. **Resculpt geometry in Blockbench (Track A)** — use the Blockbench MCP connection (next section) to
+   shape each new type to its real silhouette, then translate the geometry into the matching
+   `client/model/Model<Name>.java`. Priority: `mammoth` (currently a bison body + trunk/tusks) and
+   `dire_wolf` (a hyena body), then the 8 herbivores (all bison-body forks).
+3. **Paint real skins (Track B, Claude Design)** — replace the placeholder PNGs. See "Models & skins".
+4. **Open a PR** from `ice-age-megafauna` against `1.18.2` once it builds and looks right.
+
+## ▶ Blockbench MCP — how models get made this session
+
+A live **Blockbench ⇄ Claude Code** bridge is set up so geometry can be sculpted with AI help:
+- **Connector:** `jasonjgardner/blockbench-mcp-plugin`. The plugin runs an MCP server **inside Blockbench**
+  over HTTP at **`http://localhost:3000/bb-mcp`**. It is registered in Claude Code at **user scope**
+  (in `~/.claude.json`), so it's available in every project — no per-project setup.
+- **To use it in a session (order matters):**
+  1. Launch **Blockbench (desktop)** and confirm the MCP plugin is enabled (it listens on port 3000).
+  2. **Then** start Claude Code from this repo folder — MCP tools are loaded at session start, so
+     Blockbench must already be up. (If you started Claude Code first, restart it.)
+  3. Confirm with `claude mcp list` → `blockbench … ✔ Connected`, and ask the agent to "list your
+     Blockbench tools" or "screenshot the current Blockbench view" to prove the tools are callable.
+- **The workflow loop for THIS mod:** models here are hand-written Citadel `AdvancedEntityModel` **Java**
+  classes — there are **no `.bbmodel` files**, and Blockbench cannot open the Java models directly. So:
+  Blockbench is the **sculpting surface** (build/preview geometry, export the UV template for skinning),
+  and the `Model<Name>.java` file is the **build target** (the agent translates the sculpted boxes into
+  the `AdvancedModelBox` code). Keep `client/model/ModelBison.java` open as the format gold standard.
+
 ## Progress log
 
-**Branch `ice-age-megafauna` (committed, not yet pushed).** First PR slice done:
+**Branch `ice-age-megafauna` (committed and pushed to `origin`, in sync).** First PR slice done:
 
 - **Part 1 — data-only variants (done):** `bear:short_faced`, `big_cat:american_lion`,
   `big_cat:homotherium`, `bison:{steppe,long_horned,aurochs,giant_buffalo}`, `rhino:elasmotherium`,
@@ -60,8 +107,8 @@ every texture file each animal needs.
   this environment's egress policy returns 403 for `maven.minecraftforge.net` and `repo.spongepowered.org`,
   so the ForgeGradle toolchain can't be resolved here. Run the compile + in-game smoke tests where those
   Maven repos are reachable.
-- The commit could **not** be pushed: no `origin` remote is configured here and `gh` is unavailable. From
-  a machine with the remote: `git push -u origin ice-age-megafauna`, then open a PR against `1.18.2`.
+- The branch **is now pushed** to `origin` (`github.com/joshteng03-creator/untamedwildsplus`) and local is
+  in sync (0 ahead / 0 behind). Next: run the compile + in-game smoke tests, then open a PR against `1.18.2`.
 
 ## Two mechanisms for adding animals
 
