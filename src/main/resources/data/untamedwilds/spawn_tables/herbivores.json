@@ -1,41 +1,89 @@
 {
-  "name":"herbivores",
-  "entries":[
+  "name": "herbivores",
+  "entries": [
     {
-      "type":"untamedwilds:bison",
-      "weight":6,
-      "size_min":3,
-      "size_max":6
+      "type": "untamedwilds:bison",
+      "weight": 6,
+      "size_min": 3,
+      "size_max": 6
     },
     {
-      "type":"untamedwilds:mammoth",
-      "weight":4,
-      "size_min":2,
-      "size_max":4
+      "type": "untamedwilds:mammoth",
+      "weight": 4,
+      "size_min": 2,
+      "size_max": 4
     },
     {
-      "type":"untamedwilds:boar",
-      "weight":8,
-      "size_min":1,
-      "size_max":3
+      "type": "untamedwilds:boar",
+      "weight": 8,
+      "size_min": 1,
+      "size_max": 3
     },
     {
-      "type":"untamedwilds:camel",
-      "weight":4,
-      "size_min":1,
-      "size_max":4
+      "type": "untamedwilds:camel",
+      "weight": 4,
+      "size_min": 1,
+      "size_max": 4
     },
     {
-      "type":"untamedwilds:hippo",
-      "weight":3,
-      "size_min":2,
-      "size_max":5
+      "type": "untamedwilds:hippo",
+      "weight": 3,
+      "size_min": 2,
+      "size_max": 5
     },
     {
-      "type":"untamedwilds:rhino",
-      "weight":3,
-      "size_min":1,
-      "size_max":2
+      "type": "untamedwilds:rhino",
+      "weight": 3,
+      "size_min": 1,
+      "size_max": 2
+    },
+    {
+      "type": "untamedwilds:deer",
+      "weight": 6,
+      "size_min": 3,
+      "size_max": 6
+    },
+    {
+      "type": "untamedwilds:equid",
+      "weight": 5,
+      "size_min": 2,
+      "size_max": 5
+    },
+    {
+      "type": "untamedwilds:giraffid",
+      "weight": 3,
+      "size_min": 1,
+      "size_max": 3
+    },
+    {
+      "type": "untamedwilds:macrauchenia",
+      "weight": 3,
+      "size_min": 1,
+      "size_max": 3
+    },
+    {
+      "type": "untamedwilds:toxodon",
+      "weight": 3,
+      "size_min": 1,
+      "size_max": 2
+    },
+    {
+      "type": "untamedwilds:ground_sloth",
+      "weight": 3,
+      "size_min": 1,
+      "size_max": 2
+    },
+    {
+      "type": "untamedwilds:antelope",
+      "weight": 6,
+      "size_min": 3,
+      "size_max": 7
+    },
+    {
+      "type": "untamedwilds:glyptodont",
+      "weight": 3,
+      "size_min": 1,
+      "size_max": 3
     }
   ]
 }

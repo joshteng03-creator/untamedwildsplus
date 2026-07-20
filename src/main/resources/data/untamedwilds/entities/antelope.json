@@ -1,0 +1,67 @@
+{
+  "name": "antelope",
+  "breeding": "EARLY_SUMMER",
+  "growing_time": 6,
+  "offspring": 1,
+  "activityType": "diurnal",
+  "favourite_food": "minecraft:wheat",
+  "sounds": {
+    "ambient": "minecraft:entity.cow.ambient",
+    "hurt": "minecraft:entity.cow.hurt",
+    "death": "minecraft:entity.cow.death"
+  },
+  "flags": {
+    "groupCount": 5,
+    "hasBulbousNose": 0
+  },
+  "species": [
+    {
+      "name": "saiga",
+      "variant": 0,
+      "scale": 0.8,
+      "rarity": 3,
+      "attack": 3,
+      "health": 18,
+      "flags": {
+        "groupCount": 5,
+        "hasBulbousNose": 1
+      },
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ],
+        [
+          "category|icy"
+        ]
+      ]
+    },
+    {
+      "name": "pronghorn",
+      "variant": 1,
+      "scale": 0.85,
+      "rarity": 3,
+      "attack": 3,
+      "health": 18,
+      "flags": {},
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ]
+      ]
+    },
+    {
+      "name": "springbok",
+      "variant": 2,
+      "scale": 0.8,
+      "rarity": 3,
+      "attack": 3,
+      "health": 16,
+      "flags": {},
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ]
+      ]
+    }
+  ]
+}

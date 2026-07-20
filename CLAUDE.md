@@ -31,6 +31,14 @@ every texture file each animal needs.
   (`hasWoollyCoat=1` on woolly + steppe_mammoth). Reuses vanilla ravager sounds; loot mirrors the bison
   table with larger yields. **Geometry is placeholder** (bison body + trunk/tusks) pending a Blockbench
   pass, same status as dire_wolf.
+- **8 more herd-herbivore types (done):** deer, equid, giraffid, antelope, toxodon, macrauchenia,
+  glyptodont, ground_sloth. Each is a lean `ComplexMobTerrestrial` herbivore (declaring
+  `ATTACK_THREATEN`+`ATTACK_GORE`) with a `ModelBison` fork that hides the inherited bison horns and
+  adds feature cubes: deer antlers, giraffid ossicones, antelope horns + toggled bulbous nose
+  (`hasBulbousNose`, saiga), macrauchenia proboscis, glyptodont carapace + toggled tail club
+  (`hasTailClub`, Doedicurus); equid/toxodon/ground_sloth are horn-hidden bison bodies. 20 species
+  total, vanilla sounds, bison-style loot, all three ModEntity hooks, herbivores spawn-table entries,
+  placeholder 128x64 skins. Geometry is placeholder pending Blockbench, same status as mammoth.
 - **Part 3 — predator balance (done):** `EntityMonitor` now uses the hunger-gated `HuntMobTarget`
   constructor (threshold 30); `ComplexMobTerrestrial.satiateFromKill(+120)` is called from
   bear/big_cat/hyena/dire_wolf `doHurtTarget`.
@@ -40,8 +48,9 @@ every texture file each animal needs.
 **Not yet done / next up:**
 - Replace all placeholder skins with real art (Track B). The repurposed variant is still displayed as
   "Sabertooth" (sciname already *Smilodon populator*) — rename to "Smilodon" only if desired.
-- Build the remaining Part-2 new types (ground_sloth, deer, glyptodont, equid, giraffid, antelope,
-  toxodon, macrauchenia) per the brief below.
+- All Part-2 new types are now implemented (dire_wolf, mammoth, deer, equid, giraffid, antelope,
+  toxodon, macrauchenia, glyptodont, ground_sloth). Remaining: replace placeholder skins with real
+  art and resculpt the placeholder geometry in Blockbench.
 - Resculpt the placeholder geometry for `dire_wolf` and `mammoth` in Blockbench (currently the hyena and
   bison bodies with additions).
 

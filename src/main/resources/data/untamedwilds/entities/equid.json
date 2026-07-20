@@ -1,0 +1,63 @@
+{
+  "name": "equid",
+  "breeding": "EARLY_SUMMER",
+  "growing_time": 10,
+  "offspring": 1,
+  "activityType": "diurnal",
+  "favourite_food": "minecraft:wheat",
+  "sounds": {
+    "ambient": "minecraft:entity.horse.ambient",
+    "hurt": "minecraft:entity.horse.hurt",
+    "death": "minecraft:entity.horse.death"
+  },
+  "flags": {
+    "groupCount": 5
+  },
+  "species": [
+    {
+      "name": "western_horse",
+      "variant": 0,
+      "scale": 1.1,
+      "rarity": 3,
+      "attack": 4,
+      "health": 32,
+      "flags": {},
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ]
+      ]
+    },
+    {
+      "name": "hippidion",
+      "variant": 1,
+      "scale": 1.0,
+      "rarity": 2,
+      "attack": 4,
+      "health": 30,
+      "flags": {},
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ],
+        [
+          "category|forest"
+        ]
+      ]
+    },
+    {
+      "name": "tarpan",
+      "variant": 2,
+      "scale": 1.0,
+      "rarity": 3,
+      "attack": 4,
+      "health": 28,
+      "flags": {},
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ]
+      ]
+    }
+  ]
+}

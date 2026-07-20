@@ -1,0 +1,35 @@
+{
+  "name": "macrauchenia",
+  "breeding": "EARLY_SUMMER",
+  "growing_time": 11,
+  "offspring": 1,
+  "activityType": "diurnal",
+  "favourite_food": "minecraft:hay_block",
+  "sounds": {
+    "ambient": "minecraft:entity.cow.ambient",
+    "hurt": "minecraft:entity.cow.hurt",
+    "death": "minecraft:entity.cow.death"
+  },
+  "flags": {
+    "groupCount": 3
+  },
+  "species": [
+    {
+      "name": "macrauchenia",
+      "variant": 0,
+      "scale": 1.15,
+      "rarity": 2,
+      "attack": 6,
+      "health": 50,
+      "flags": {},
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ],
+        [
+          "category|forest"
+        ]
+      ]
+    }
+  ]
+}

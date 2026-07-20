@@ -1,0 +1,63 @@
+{
+  "name": "ground_sloth",
+  "breeding": "EARLY_SUMMER",
+  "growing_time": 14,
+  "offspring": 1,
+  "activityType": "cathemeral",
+  "favourite_food": "minecraft:sweet_berries",
+  "sounds": {
+    "ambient": "minecraft:entity.cow.ambient",
+    "hurt": "minecraft:entity.cow.hurt",
+    "death": "minecraft:entity.cow.death"
+  },
+  "flags": {
+    "groupCount": 2
+  },
+  "species": [
+    {
+      "name": "megatherium",
+      "variant": 0,
+      "scale": 1.4,
+      "rarity": 2,
+      "attack": 9,
+      "health": 95,
+      "flags": {},
+      "spawnBiomes": [
+        [
+          "category|jungle"
+        ],
+        [
+          "category|forest"
+        ]
+      ]
+    },
+    {
+      "name": "eremotherium",
+      "variant": 1,
+      "scale": 1.35,
+      "rarity": 2,
+      "attack": 9,
+      "health": 90,
+      "flags": {},
+      "spawnBiomes": [
+        [
+          "category|jungle"
+        ]
+      ]
+    },
+    {
+      "name": "megalonyx",
+      "variant": 2,
+      "scale": 1.1,
+      "rarity": 3,
+      "attack": 7,
+      "health": 65,
+      "flags": {},
+      "spawnBiomes": [
+        [
+          "category|forest"
+        ]
+      ]
+    }
+  ]
+}

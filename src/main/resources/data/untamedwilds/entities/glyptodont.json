@@ -1,0 +1,53 @@
+{
+  "name": "glyptodont",
+  "breeding": "EARLY_SUMMER",
+  "growing_time": 12,
+  "offspring": 1,
+  "activityType": "cathemeral",
+  "favourite_food": "minecraft:sweet_berries",
+  "sounds": {
+    "ambient": "minecraft:entity.cow.ambient",
+    "hurt": "minecraft:entity.cow.hurt",
+    "death": "minecraft:entity.cow.death"
+  },
+  "flags": {
+    "groupCount": 2,
+    "hasTailClub": 0
+  },
+  "species": [
+    {
+      "name": "glyptodon",
+      "variant": 0,
+      "scale": 1.1,
+      "rarity": 3,
+      "attack": 6,
+      "health": 65,
+      "flags": {},
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|plains"
+        ]
+      ]
+    },
+    {
+      "name": "doedicurus",
+      "variant": 1,
+      "scale": 1.15,
+      "rarity": 2,
+      "attack": 7,
+      "health": 75,
+      "flags": {
+        "groupCount": 2,
+        "hasTailClub": 1
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ]
+      ]
+    }
+  ]
+}
