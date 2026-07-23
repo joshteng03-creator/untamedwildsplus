@@ -41,6 +41,7 @@ public class EntityBigCat extends ComplexMobTerrestrial implements ISpecies, INe
     private static final EntityDataAccessor<Boolean> DIMORPHISM = SynchedEntityData.defineId(EntityBigCat.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> FLUFFY_TAIL = SynchedEntityData.defineId(EntityBigCat.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> SABRE_FANGS = SynchedEntityData.defineId(EntityBigCat.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> SHORT_SABRES = SynchedEntityData.defineId(EntityBigCat.class, EntityDataSerializers.BOOLEAN);
 
     public static Animation ATTACK_MAUL;
     public static Animation ATTACK_POUNCE;
@@ -55,6 +56,7 @@ public class EntityBigCat extends ComplexMobTerrestrial implements ISpecies, INe
         this.entityData.define(DIMORPHISM, false);
         this.entityData.define(FLUFFY_TAIL, false);
         this.entityData.define(SABRE_FANGS, false);
+        this.entityData.define(SHORT_SABRES, false);
         ATTACK_POUNCE = Animation.create(42);
         ATTACK_MAUL = Animation.create(22);
         IDLE_TALK = Animation.create(20);
@@ -275,6 +277,7 @@ public class EntityBigCat extends ComplexMobTerrestrial implements ISpecies, INe
         this.setDimorphism(getEntityData(this.getType()).getFlags(this.getVariant(), "dimorphism") == 1);
         this.setFluffyTail(getEntityData(this.getType()).getFlags(this.getVariant(), "fluffyTail") == 1);
         this.setSabreFangs(getEntityData(this.getType()).getFlags(this.getVariant(), "hasSabreFangs") == 1);
+        this.setShortSabres(getEntityData(this.getType()).getFlags(this.getVariant(), "shortSabres") == 1);
     }
 
     public boolean hasDimorphism(){ return (this.entityData.get(DIMORPHISM)); }
@@ -286,11 +289,15 @@ public class EntityBigCat extends ComplexMobTerrestrial implements ISpecies, INe
     public boolean hasSabreFangs(){ return (this.entityData.get(SABRE_FANGS)); }
     private void setSabreFangs(boolean sabre_fangs){ this.entityData.set(SABRE_FANGS, sabre_fangs); }
 
+    public boolean hasShortSabres(){ return (this.entityData.get(SHORT_SABRES)); }
+    private void setShortSabres(boolean short_sabres){ this.entityData.set(SHORT_SABRES, short_sabres); }
+
     public void addAdditionalSaveData(CompoundTag compound){
         super.addAdditionalSaveData(compound);
         compound.putBoolean("hasDimorphism", this.hasDimorphism());
         compound.putBoolean("fluffy", this.hasFluffyTail());
         compound.putBoolean("hasSabreFangs", this.hasSabreFangs());
+        compound.putBoolean("shortSabres", this.hasShortSabres());
     }
 
     public void readAdditionalSaveData(CompoundTag compound){
@@ -298,6 +305,7 @@ public class EntityBigCat extends ComplexMobTerrestrial implements ISpecies, INe
         this.setDimorphism(compound.getBoolean("hasDimorphism"));
         this.setFluffyTail(compound.getBoolean("fluffy"));
         this.setSabreFangs(compound.getBoolean("hasSabreFangs"));
+        this.setShortSabres(compound.getBoolean("shortSabres"));
     }
 
     public ResourceLocation getTexture() {

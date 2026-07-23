@@ -32,108 +32,114 @@ public class ModelDireWolf extends AdvancedEntityModel<EntityDireWolf> {
     public AdvancedModelBox leg_right_lower;
 
     private final ModelAnimator animator;
-    private float tailX = -1;
+    private float tailX = -0.35F;
 
     public ModelDireWolf() {
-        this.texWidth = 64;
-        this.texHeight = 32;
-        this.leg_left_lower = new AdvancedModelBox(this, 48, 10);
-        this.leg_left_lower.mirror = true;
-        this.leg_left_lower.setRotationPoint(0.5F, 2.0F, 2.0F);
-        this.leg_left_lower.addBox(-1.0F, 0.0F, -1.0F, 2, 7, 2, 0.0F);
-        this.setRotateAngle(leg_left_lower, 0.36425021489121656F, 0.045553093477052F, 0.045553093477052F);
-        this.leg_right_lower = new AdvancedModelBox(this, 48, 10);
-        this.leg_right_lower.setRotationPoint(-0.5F, 2.0F, 2.0F);
-        this.leg_right_lower.addBox(-1.0F, 0.0F, -1.0F, 2, 7, 2, 0.0F);
-        this.setRotateAngle(leg_right_lower, 0.36425021489121656F, -0.045553093477052F, -0.045553093477052F);
+        this.texWidth = 128;
+        this.texHeight = 64;
+
+        // Sculpted fresh in Blockbench as a VANILLA-WOLF-shaped dire wolf: blocky head, heavy shoulder
+        // ruff (hair), level back, even robust 2-segment legs and a thick bushy tail. Box coords +
+        // texOffs transcribed VERBATIM from the modded_entity export (128x64, Y-down flip handled by
+        // it). Every part overlaps its neighbour by 0.5 so no two faces are coplanar (coplanar faces
+        // z-fight and render as black streaks).
         this.body_main = new AdvancedModelBox(this, 0, 0);
-        this.body_main.setRotationPoint(0.0F, 16.1F, 1.0F);
-        this.body_main.addBox(-3.0F, -5.0F, -6.0F, 6, 7, 11, 0.0F);
-        this.setRotateAngle(body_main, -0.136659280431156F, 0.0F, 0.0F);
-        this.arm_left_upper = new AdvancedModelBox(this, 36, 11);
-        this.arm_left_upper.mirror = true;
-        this.arm_left_upper.setRotationPoint(2.0F, -2.7F, -3.2F);
-        this.arm_left_upper.addBox(-1.0F, 0.0F, -2.5F, 3, 6, 3, 0.0F);
-        this.setRotateAngle(arm_left_upper, 0.045553093477052F, -0.0F, -0.091106186954104F);
-        this.tail_1 = new AdvancedModelBox(this, 23, 0);
-        this.tail_1.setRotationPoint(0.0F, -3.0F, 5.0F);
-        this.tail_1.addBox(-1.5F, -1.5F, 0.0F, 3, 3, 8, 0.0F);
-        this.setRotateAngle(tail_1, -1.1383037381507017F, 0.0F, 0.0F);
-        this.eye_right = new AdvancedModelBox(this, 0, 22);
-        this.eye_right.setRotationPoint(-2.51F, -2.0F, -3.01F);
-        this.eye_right.addBox(0.0F, 0.0F, 0.0F, 2, 1, 1, 0.0F);
-        this.ear_left = new AdvancedModelBox(this, 0, 18);
-        this.ear_left.mirror = true;
-        this.ear_left.setRotationPoint(1.2F, -2.5F, -1.0F);
-        this.ear_left.addBox(0.0F, -2.0F, 0.0F, 2, 2, 1, 0.0F);
-        this.setRotateAngle(ear_left, 0.0F, -0.045553093477052F, 0.31869712141416456F);
-        this.arm_left_lower = new AdvancedModelBox(this, 38, 20);
-        this.arm_left_lower.mirror = true;
-        this.arm_left_lower.setRotationPoint(1.0F, 4.6F, -0.2F);
-        this.arm_left_lower.addBox(-1.5F, 0.0F, -1.5F, 2, 7, 2, 0.0F);
-        this.setRotateAngle(arm_left_lower, -0.091106186954104F, 0.0F, 0.045553093477052F);
-        this.hair = new AdvancedModelBox(this, 24, 22);
-        this.hair.setRotationPoint(0.0F, -1.0F, -2.7F);
-        this.hair.addBox(-1.0F, -2.0F, -4.0F, 2, 2, 8, 0.0F);
-        this.head_neck = new AdvancedModelBox(this, 0, 21);
-        this.head_neck.setRotationPoint(0.0F, -2.6F, -4.0F);
-        this.head_neck.addBox(-2.0F, -1.6F, -6.0F, 4, 5, 6, 0.0F);
-        this.setRotateAngle(head_neck, -0.5918411493512771F, 0.0F, 0.0F);
-        this.head_snout = new AdvancedModelBox(this, 0, 0);
-        this.head_snout.setRotationPoint(0.0F, -1.2F, -2.0F);
-        this.head_snout.addBox(-1.5F, 0.0F, -4.0F, 3, 2, 4, 0.0F);
-        this.setRotateAngle(head_snout, 0.136659280431156F, 0.0F, 0.0F);
-        this.head_jaw = new AdvancedModelBox(this, 0, 6);
-        this.head_jaw.setRotationPoint(0.0F, 0.8F, -1.7F);
-        this.head_jaw.addBox(-1.5F, 0.0F, -4.0F, 3, 1, 4, 0.0F);
-        this.setRotateAngle(head_jaw, 0.091106186954104F, 0.0F, 0.0F);
-        this.leg_right_upper = new AdvancedModelBox(this, 48, 0);
-        this.leg_right_upper.setRotationPoint(-2.0F, -2.2F, 4.4F);
-        this.leg_right_upper.addBox(-2.0F, -1.0F, -3.0F, 3, 5, 5, 0.0F);
-        this.setRotateAngle(leg_right_upper, -0.27314402793711257F, -0.0F, 0.045553093477052F);
-        this.head_main = new AdvancedModelBox(this, 14, 18);
-        this.head_main.setRotationPoint(0.0F, 1.1F, -4.5F);
-        this.head_main.addBox(-2.5F, -3.0F, -3.0F, 5, 5, 4, 0.0F);
-        this.setRotateAngle(head_main, 0.7740535232594852F, 0.0F, 0.0F);
-        this.ear_right = new AdvancedModelBox(this, 0, 18);
-        this.ear_right.setRotationPoint(-1.2F, -2.5F, -1.0F);
-        this.ear_right.addBox(-2.0F, -2.0F, 0.0F, 2, 2, 1, 0.0F);
-        this.setRotateAngle(ear_right, 0.0F, 0.045553093477052F, -0.31869712141416456F);
-        this.arm_right_lower = new AdvancedModelBox(this, 38, 20);
-        this.arm_right_lower.setRotationPoint(-1.0F, 4.6F, -0.2F);
-        this.arm_right_lower.addBox(-0.5F, 0.0F, -1.5F, 2, 7, 2, 0.0F);
-        this.setRotateAngle(arm_right_lower, -0.091106186954104F, 0.0F, -0.045553093477052F);
-        this.arm_right_upper = new AdvancedModelBox(this, 36, 11);
-        this.arm_right_upper.setRotationPoint(-2.0F, -2.7F, -3.2F);
-        this.arm_right_upper.addBox(-2.0F, 0.0F, -2.5F, 3, 6, 3, 0.0F);
-        this.setRotateAngle(arm_right_upper, 0.045553093477052F, -0.0F, 0.091106186954104F);
-        this.eye_left = new AdvancedModelBox(this, 0, 22);
-        this.eye_left.mirror = true;
-        this.eye_left.setRotationPoint(2.51F, -2.0F, -3.01F);
-        this.eye_left.addBox(-2.0F, 0.0F, 0.0F, 2, 1, 1, 0.0F);
-        this.leg_left_upper = new AdvancedModelBox(this, 48, 0);
-        this.leg_left_upper.mirror = true;
-        this.leg_left_upper.setRotationPoint(2.0F, -2.2F, 4.4F);
-        this.leg_left_upper.addBox(-1.0F, -1.0F, -3.0F, 3, 5, 5, 0.0F);
-        this.setRotateAngle(leg_left_upper, -0.27314402793711257F, -0.0F, -0.045553093477052F);
-        this.leg_left_upper.addChild(this.leg_left_lower);
-        this.leg_right_upper.addChild(this.leg_right_lower);
-        this.body_main.addChild(this.arm_left_upper);
-        this.body_main.addChild(this.tail_1);
-        this.head_main.addChild(this.eye_right);
-        this.head_main.addChild(this.ear_left);
-        this.arm_left_upper.addChild(this.arm_left_lower);
-        this.head_neck.addChild(this.hair);
+        this.body_main.setRotationPoint(0.0F, 14.0F, 1.0F);
+        this.body_main.addBox(-3.5F, -3.5F, -5.5F, 7.0F, 7.0F, 11.0F, 0.0F);
+
+        this.hair = new AdvancedModelBox(this, 36, 0);
+        this.hair.setRotationPoint(0.0F, -1.5F, -3.5F);
+        this.hair.addBox(-4.0F, -3.5F, -4.0F, 8.0F, 8.0F, 8.0F, 0.0F);
+
+        this.head_neck = new AdvancedModelBox(this, 0, 18);
+        this.head_neck.setRotationPoint(0.0F, -2.5F, -5.5F);
+        this.head_neck.addBox(-2.5F, -2.0F, -4.0F, 5.0F, 4.5F, 4.5F, 0.0F);
+
+        this.head_main = new AdvancedModelBox(this, 68, 0);
+        this.head_main.setRotationPoint(0.0F, -0.5F, -4.5F);
+        this.head_main.addBox(-3.5F, -3.5F, -4.5F, 7.0F, 7.0F, 5.5F, 0.0F);
+
+        this.head_snout = new AdvancedModelBox(this, 20, 18);
+        this.head_snout.setRotationPoint(0.0F, 0.0F, -4.5F);
+        this.head_snout.addBox(-2.0F, -2.0F, -4.0F, 4.0F, 4.0F, 4.5F, 0.0F);
+
+        this.head_jaw = new AdvancedModelBox(this, 24, 28);
+        this.head_jaw.setRotationPoint(0.0F, 1.5F, -4.5F);
+        this.head_jaw.addBox(-1.8F, 0.0F, -3.5F, 3.6F, 1.5F, 4.5F, 0.0F);
+
+        this.ear_left = new AdvancedModelBox(this, 41, 28);
+        this.ear_left.setRotationPoint(-2.2F, -3.0F, -1.0F);
+        this.ear_left.addBox(-1.25F, -2.5F, -0.5F, 2.5F, 3.0F, 1.0F, 0.0F);
+
+        this.ear_right = new AdvancedModelBox(this, 49, 28);
+        this.ear_right.setRotationPoint(2.2F, -3.0F, -1.0F);
+        this.ear_right.addBox(-1.25F, -2.5F, -0.5F, 2.5F, 3.0F, 1.0F, 0.0F);
+
+        this.eye_left = new AdvancedModelBox(this, 57, 28);
+        this.eye_left.setRotationPoint(-2.6F, -1.5F, -4.4F);
+        this.eye_left.addBox(-1.0F, -0.5F, -0.5F, 1.5F, 1.5F, 1.0F, 0.0F);
+
+        this.eye_right = new AdvancedModelBox(this, 63, 28);
+        this.eye_right.setRotationPoint(2.6F, -1.5F, -4.4F);
+        this.eye_right.addBox(-0.5F, -0.5F, -0.5F, 1.5F, 1.5F, 1.0F, 0.0F);
+
+        this.arm_left_upper = new AdvancedModelBox(this, 38, 18);
+        this.arm_left_upper.setRotationPoint(-2.3F, 2.5F, -3.0F);
+        this.arm_left_upper.addBox(-1.75F, 0.0F, -1.75F, 3.5F, 4.0F, 3.5F, 0.0F);
+
+        this.arm_left_lower = new AdvancedModelBox(this, 98, 18);
+        this.arm_left_lower.setRotationPoint(0.0F, 4.0F, 0.0F);
+        this.arm_left_lower.addBox(-1.25F, -0.5F, -1.5F, 2.5F, 4.0F, 3.0F, 0.0F);
+
+        this.arm_right_upper = new AdvancedModelBox(this, 53, 18);
+        this.arm_right_upper.setRotationPoint(2.3F, 2.5F, -3.0F);
+        this.arm_right_upper.addBox(-1.75F, 0.0F, -1.75F, 3.5F, 4.0F, 3.5F, 0.0F);
+
+        this.arm_right_lower = new AdvancedModelBox(this, 110, 18);
+        this.arm_right_lower.setRotationPoint(0.0F, 4.0F, 0.0F);
+        this.arm_right_lower.addBox(-1.25F, -0.5F, -1.5F, 2.5F, 4.0F, 3.0F, 0.0F);
+
+        this.leg_left_upper = new AdvancedModelBox(this, 68, 18);
+        this.leg_left_upper.setRotationPoint(-2.3F, 2.5F, 4.5F);
+        this.leg_left_upper.addBox(-1.75F, 0.0F, -1.75F, 3.5F, 4.0F, 3.5F, 0.0F);
+
+        this.leg_left_lower = new AdvancedModelBox(this, 0, 28);
+        this.leg_left_lower.setRotationPoint(0.0F, 4.0F, 0.0F);
+        this.leg_left_lower.addBox(-1.25F, -0.5F, -1.5F, 2.5F, 4.0F, 3.0F, 0.0F);
+
+        this.leg_right_upper = new AdvancedModelBox(this, 83, 18);
+        this.leg_right_upper.setRotationPoint(2.3F, 2.5F, 4.5F);
+        this.leg_right_upper.addBox(-1.75F, 0.0F, -1.75F, 3.5F, 4.0F, 3.5F, 0.0F);
+
+        this.leg_right_lower = new AdvancedModelBox(this, 12, 28);
+        this.leg_right_lower.setRotationPoint(0.0F, 4.0F, 0.0F);
+        this.leg_right_lower.addBox(-1.25F, -0.5F, -1.5F, 2.5F, 4.0F, 3.0F, 0.0F);
+
+        this.tail_1 = new AdvancedModelBox(this, 94, 0);
+        this.tail_1.setRotationPoint(0.0F, -2.0F, 5.0F);
+        this.tail_1.addBox(-1.5F, -1.0F, -0.5F, 3.0F, 3.0F, 8.0F, 0.0F);
+        // Slight resting droop; setupAnim lerps toward defaultRotationX + speed, so the tail lifts as
+        // the wolf picks up pace (positive rotateAngleX raises the tail: +Y is down in model space).
+        this.setRotateAngle(tail_1, -0.35F, 0.0F, 0.0F);
+
+        this.body_main.addChild(this.hair);
         this.body_main.addChild(this.head_neck);
+        this.head_neck.addChild(this.head_main);
         this.head_main.addChild(this.head_snout);
         this.head_main.addChild(this.head_jaw);
-        this.body_main.addChild(this.leg_right_upper);
-        this.head_neck.addChild(this.head_main);
+        this.head_main.addChild(this.ear_left);
         this.head_main.addChild(this.ear_right);
-        this.arm_right_upper.addChild(this.arm_right_lower);
-        this.body_main.addChild(this.arm_right_upper);
         this.head_main.addChild(this.eye_left);
+        this.head_main.addChild(this.eye_right);
+        this.body_main.addChild(this.arm_left_upper);
+        this.arm_left_upper.addChild(this.arm_left_lower);
+        this.body_main.addChild(this.arm_right_upper);
+        this.arm_right_upper.addChild(this.arm_right_lower);
         this.body_main.addChild(this.leg_left_upper);
+        this.leg_left_upper.addChild(this.leg_left_lower);
+        this.body_main.addChild(this.leg_right_upper);
+        this.leg_right_upper.addChild(this.leg_right_lower);
+        this.body_main.addChild(this.tail_1);
 
         animator = ModelAnimator.create();
         updateDefaultPose();
@@ -256,10 +262,10 @@ public class ModelDireWolf extends AdvancedEntityModel<EntityDireWolf> {
         bob(leg_right_upper, 0.4F * globalSpeed, 0.03F, false, -ageInTicks / 20, 2);
         bob(leg_left_upper, 0.4F * globalSpeed, 0.03F, false, -ageInTicks / 20, 2);
 
-        // Blinking Animation
+        // Blinking Animation - tuck both eye cubes fully inside head_main so they are occluded
         if (!wolf.shouldRenderEyes()) {
-            this.eye_right.setRotationPoint(-1.5F, -2.0F, -1.5F);
-            this.eye_left.setRotationPoint(1.5F, -2.0F, -1.5F);
+            this.eye_right.setRotationPoint(0.6F, -1.5F, -2.0F);
+            this.eye_left.setRotationPoint(-0.6F, -1.5F, -2.0F);
         }
 
         // Head Tracking Animation
@@ -272,7 +278,7 @@ public class ModelDireWolf extends AdvancedEntityModel<EntityDireWolf> {
         if (wolf.isInWater() && !wolf.isOnGround()) {
             limbSwing = ageInTicks / 3;
             limbSwingAmount = 0.5f;
-            this.body_main.rotationPointY += 4; // Model offset to make the Big Cat "sink" in water (while not drowning)
+            this.body_main.rotationPointY += 4; // Model offset to make the wolf "sink" in water (while not drowning)
             this.setRotateAngle(head_neck, -0.18203784098300857F, 0.0F, 0.0F);
             float pitch = Mth.clamp(wolf.getXRot() - 10, -25F, 25.0F);
             this.setRotateAngle(body_main, (float) (pitch * Math.PI / 180F), 0, 0);
@@ -317,11 +323,11 @@ public class ModelDireWolf extends AdvancedEntityModel<EntityDireWolf> {
             }
         }
 
-        // Sitting Animation
+        // Sitting Animation (positions follow the new rig: body_main sits at y 14, left parts are -X)
         if (wolf.sitProgress > 0) {
-            this.progressPosition(body_main, wolf.sitProgress, 0.0F, 22.5F, 1.0F, 40);
-            this.progressPosition(leg_left_upper, wolf.sitProgress, 2.0F, -2.0F, 6F, 40);
-            this.progressPosition(leg_right_upper, wolf.sitProgress, -2.0F, -2.0F, 6F, 40);
+            this.progressPosition(body_main, wolf.sitProgress, 0.0F, 20.4F, 1.0F, 40);
+            this.progressPosition(leg_left_upper, wolf.sitProgress, -2.3F, 2.7F, 6.1F, 40);
+            this.progressPosition(leg_right_upper, wolf.sitProgress, 2.3F, 2.7F, 6.1F, 40);
             this.progressRotation(body_main, wolf.sitProgress, 0.0F, 0.0F, 0.0F, 40);
             this.progressRotation(head_neck, wolf.sitProgress, -0.8F, 0.0F, 0.0F, 40);
             this.progressRotation(leg_left_upper, wolf.sitProgress, -0.27314402793711257F, -0.0F, -0.045553093477052F, 40);
@@ -337,7 +343,7 @@ public class ModelDireWolf extends AdvancedEntityModel<EntityDireWolf> {
 
         // Sleeping Animation
         if (wolf.sleepProgress > 0) {
-            this.progressPosition(body_main, wolf.sleepProgress, -1.0F, 20F, 0.0F, 40);
+            this.progressPosition(body_main, wolf.sleepProgress, -1.0F, 17.9F, 0.0F, 40);
             this.progressRotation(body_main, wolf.sleepProgress, 0, 0.0F, -1.50255395F, 40);
             this.progressRotation(leg_right_upper, wolf.sleepProgress, -0.500909495F , -0.0F, 0.045553093477052F, 40);
             this.progressRotation(leg_left_lower, wolf.sleepProgress, -0.13665928F, 0, 0.77405352F, 40);

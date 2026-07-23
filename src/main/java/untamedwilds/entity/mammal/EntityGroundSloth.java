@@ -32,7 +32,7 @@ import untamedwilds.util.EntityUtils;
 
 import javax.annotation.Nullable;
 
-public class EntityGroundSloth extends ComplexMobTerrestrial implements INewSkins, ISpecies, IPackEntity {
+public class EntityGroundSloth extends ComplexMobTerrestrial implements INewSkins, ISpecies, IPackEntity, INeedsPostUpdate {
 
     public static Animation ATTACK_THREATEN;
     public static Animation ATTACK_GORE;

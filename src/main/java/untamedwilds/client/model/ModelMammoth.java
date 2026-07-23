@@ -11,229 +11,384 @@ import untamedwilds.entity.mammal.EntityMammoth;
 
 public class ModelMammoth extends AdvancedEntityModel<EntityMammoth> {
 
-    private final AdvancedModelBox body_main;
-    private final AdvancedModelBox body_torso;
-    private final AdvancedModelBox leg_left_thigh;
-    private final AdvancedModelBox leg_right_thigh;
-    private final AdvancedModelBox body_hair;
+    private final AdvancedModelBox body_hips;
+    private final AdvancedModelBox body_rump;
     private final AdvancedModelBox tail;
-    private final AdvancedModelBox arm_right_1;
-    private final AdvancedModelBox arm_left_1;
-    private final AdvancedModelBox head_neck;
-    private final AdvancedModelBox arm_right_2;
-    private final AdvancedModelBox arm_right_fur;
-    private final AdvancedModelBox arm_left_2;
-    private final AdvancedModelBox arm_left_fur;
-    private final AdvancedModelBox head_main;
-    private final AdvancedModelBox head_hair;
-    private final AdvancedModelBox head_horn_right;
-    private final AdvancedModelBox head_ear_right;
-    private final AdvancedModelBox head_ear_left;
-    private final AdvancedModelBox head_horn_left;
-    private final AdvancedModelBox head_beard;
+    private final AdvancedModelBox tail_tuft;
+    private final AdvancedModelBox fur_rump;
+    private final AdvancedModelBox body_chest;
+    private final AdvancedModelBox body_hump;
+    private final AdvancedModelBox neck;
+    private final AdvancedModelBox head;
+    private final AdvancedModelBox head_dome;
+    private final AdvancedModelBox ear_left;
+    private final AdvancedModelBox ear_right;
     private final AdvancedModelBox eye_left;
     private final AdvancedModelBox eye_right;
-    private final AdvancedModelBox leg_left_calf;
-    private final AdvancedModelBox leg_right_calf;
     private final AdvancedModelBox trunk_1;
     private final AdvancedModelBox trunk_2;
     private final AdvancedModelBox trunk_3;
-    private final AdvancedModelBox tusk_left;
-    private final AdvancedModelBox tusk_right;
+    private final AdvancedModelBox trunk_4;
+    private final AdvancedModelBox trunk_5;
+    private final AdvancedModelBox trunk_tip;
+    private final AdvancedModelBox tusk_left_1;
+    private final AdvancedModelBox tusk_left_2;
+    private final AdvancedModelBox tusk_left_3;
+    private final AdvancedModelBox tusk_left_4;
+    private final AdvancedModelBox tusk_left_5;
+    private final AdvancedModelBox tusk_right_1;
+    private final AdvancedModelBox tusk_right_2;
+    private final AdvancedModelBox tusk_right_3;
+    private final AdvancedModelBox tusk_right_4;
+    private final AdvancedModelBox tusk_right_5;
+    private final AdvancedModelBox fur_neck;
+    private final AdvancedModelBox leg_front_left_1;
+    private final AdvancedModelBox leg_front_left_2;
+    private final AdvancedModelBox foot_front_left;
+    private final AdvancedModelBox leg_front_right_1;
+    private final AdvancedModelBox leg_front_right_2;
+    private final AdvancedModelBox foot_front_right;
+    private final AdvancedModelBox fur_mane;
+    private final AdvancedModelBox fur_chest;
+    private final AdvancedModelBox leg_back_left_1;
+    private final AdvancedModelBox leg_back_left_2;
+    private final AdvancedModelBox foot_back_left;
+    private final AdvancedModelBox leg_back_right_1;
+    private final AdvancedModelBox leg_back_right_2;
+    private final AdvancedModelBox foot_back_right;
+    private final AdvancedModelBox fur_skirt_left;
+    private final AdvancedModelBox fur_skirt_right;
 
     private final ModelAnimator animator;
-    
-    public ModelMammoth() {
-        this.texWidth = 128;
-        this.texHeight = 64;
-        
-        this.body_torso = new AdvancedModelBox(this, 64, 0);
-        this.body_torso.setRotationPoint(0.0F, 0.0F, -8.0F);
-        this.body_torso.addBox(-6.0F, -7.0F, -6.0F, 12, 14, 12, 0.0F);
-        this.setRotateAngle(body_torso, 0.31869712141416456F, 0.0F, 0.0F);
-        this.arm_left_1 = new AdvancedModelBox(this, 0, 0);
-        this.arm_left_1.setRotationPoint(4.5F, 2.2F, -2.0F);
-        this.arm_left_1.addBox(-2.0F, 0.0F, -2.0F, 4, 7, 4, 0.0F);
-        this.setRotateAngle(arm_left_1, -0.18203784098300857F, 0.0F, 0.0F);
-        this.arm_left_2 = new AdvancedModelBox(this, 0, 12);
-        this.arm_left_2.setRotationPoint(0.0F, 6.3F, 0.0F);
-        this.arm_left_2.addBox(-1.5F, 0.0F, -1.5F, 3, 5, 3, 0.0F);
-        this.setRotateAngle(arm_left_2, -0.136659280431156F, 0.0F, 0.0F);
-        this.arm_right_2 = new AdvancedModelBox(this, 0, 12);
-        this.arm_right_2.mirror = true;
-        this.arm_right_2.setRotationPoint(0.0F, 6.3F, 0.0F);
-        this.arm_right_2.addBox(-1.5F, 0.0F, -1.5F, 3, 5, 3, 0.0F);
-        this.setRotateAngle(arm_right_2, -0.136659280431156F, 0.0F, 0.0F);
-        this.head_horn_right = new AdvancedModelBox(this, 0, 47);
-        this.head_horn_right.mirror = true;
-        this.head_horn_right.setRotationPoint(-2.0F, -3.0F, -2.5F);
-        this.head_horn_right.addBox(-4.0F, -1.0F, 0.0F, 4, 2, 2, 0.0F);
-        this.setRotateAngle(head_horn_right, 0.18203784098300857F, -0.18203784098300857F, 0.36425021489121656F);
-        this.leg_left_calf = new AdvancedModelBox(this, 86, 26);
-        this.leg_left_calf.setRotationPoint(0.7F, 3.5F, 2.5F);
-        this.leg_left_calf.addBox(-1.0F, 0.0F, -1.0F, 3, 10, 3, 0.0F);
-        this.head_horn_left = new AdvancedModelBox(this, 0, 47);
-        this.head_horn_left.setRotationPoint(2.0F, -3.0F, -2.5F);
-        this.head_horn_left.addBox(0.0F, -1.0F, 0.0F, 4, 2, 2, 0.0F);
-        this.setRotateAngle(head_horn_left, 0.18203784098300857F, 0.18203784098300857F, -0.36425021489121656F);
-        this.head_beard = new AdvancedModelBox(this, 22, 44);
-        this.head_beard.setRotationPoint(0.0F, 3.0F, -0.5F);
-        this.head_beard.addBox(-2.0F, 0.0F, -1.5F, 4, 5, 3, 0.0F);
-        this.setRotateAngle(head_beard, 0.18203784098300857F, 0.0F, 0.0F);
-        this.body_hair = new AdvancedModelBox(this, 0, 36);
-        this.body_hair.setRotationPoint(0.0F, 5.3F, -0.4F);
-        this.body_hair.addBox(0.0F, 0.0F, -12.0F, 0, 4, 24, 0.0F);
-        this.setRotateAngle(body_hair, 0.091106186954104F, 0.0F, 0.0F);
-        this.eye_right = new AdvancedModelBox(this, 0, 30);
-        this.eye_right.setRotationPoint(-2.51F, 0.0F, -2.0F);
-        this.eye_right.addBox(0.0F, -0.5F, -1.0F, 0, 1, 2, 0.0F);
-        this.body_main = new AdvancedModelBox(this, 0, 0);
-        this.body_main.setRotationPoint(0.0F, 10.0F, 6.0F);
-        this.body_main.addBox(-5.5F, -6.0F, -10.0F, 11, 12, 20, 0.0F);
-        this.leg_right_thigh = new AdvancedModelBox(this, 62, 26);
-        this.leg_right_thigh.mirror = true;
-        this.leg_right_thigh.setRotationPoint(-4.0F, 0.5F, 7.5F);
-        this.leg_right_thigh.addBox(-3.0F, -3.5F, -3.5F, 5, 10, 7, 0.0F);
-        this.head_neck = new AdvancedModelBox(this, 8, 47);
-        this.head_neck.setRotationPoint(0.0F, -1.0F, -3.5F);
-        this.head_neck.addBox(-2.0F, -3.5F, -6.0F, 4, 7, 6, 0.0F);
-        this.setRotateAngle(head_neck, -0.22759093446006054F, 0.0F, 0.0F);
-        this.leg_right_calf = new AdvancedModelBox(this, 86, 26);
-        this.leg_right_calf.mirror = true;
-        this.leg_right_calf.setRotationPoint(-0.7F, 3.5F, 2.5F);
-        this.leg_right_calf.addBox(-2.0F, 0.0F, -1.0F, 3, 10, 3, 0.0F);
-        this.head_ear_right = new AdvancedModelBox(this, 18, 32);
-        this.head_ear_right.setRotationPoint(-3.5F, -1.3F, -0.4F);
-        this.head_ear_right.addBox(-2.0F, -1.0F, 0.0F, 3, 2, 1, 0.0F);
-        this.setRotateAngle(head_ear_right, 0.18203784098300857F, 0.18203784098300857F, -0.136659280431156F);
-        this.head_main = new AdvancedModelBox(this, 0, 32);
-        this.head_main.setRotationPoint(0.0F, 2.0F, -5.0F);
-        this.head_main.addBox(-2.5F, -4.5F, -5.0F, 5, 9, 6, 0.0F);
-        this.setRotateAngle(head_main, -0.36425021489121656F, 0.0F, 0.0F);
-        this.head_hair = new AdvancedModelBox(this, 22, 32);
-        this.head_hair.setRotationPoint(0.0F, -2.4F, -2.4F);
-        this.head_hair.addBox(-3.0F, -3.0F, -3.0F, 6, 4, 7, 0.0F);
-        this.setRotateAngle(head_hair, 0.22759093446006054F, 0.0F, 0.0F);
-        this.arm_right_1 = new AdvancedModelBox(this, 0, 0);
-        this.arm_right_1.mirror = true;
-        this.arm_right_1.setRotationPoint(-4.5F, 2.2F, -2.0F);
-        this.arm_right_1.addBox(-2.0F, 0.0F, -2.0F, 4, 7, 4, 0.0F);
-        this.setRotateAngle(arm_right_1, -0.18203784098300857F, 0.0F, 0.0F);
-        this.arm_left_fur = new AdvancedModelBox(this, 42, 0);
-        this.arm_left_fur.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.arm_left_fur.addBox(-2.5F, -0.1F, -3.0F, 5, 9, 6, 0.0F);
-        this.leg_left_thigh = new AdvancedModelBox(this, 62, 26);
-        this.leg_left_thigh.setRotationPoint(4.0F, 0.5F, 7.5F);
-        this.leg_left_thigh.addBox(-2.0F, -3.5F, -3.5F, 5, 10, 7, 0.0F);
-        this.tail = new AdvancedModelBox(this, 64, 0);
-        this.tail.setRotationPoint(0.0F, -6.0F, 10.0F);
-        this.tail.addBox(-2.5F, 0.0F, 0.0F, 5, 10, 0, 0.0F);
-        this.setRotateAngle(tail, 0.18203784098300857F, 0.0F, 0.0F);
-        this.head_ear_left = new AdvancedModelBox(this, 18, 32);
-        this.head_ear_left.mirror = true;
-        this.head_ear_left.setRotationPoint(3.5F, -1.3F, -0.4F);
-        this.head_ear_left.addBox(-1.0F, -1.0F, 0.0F, 3, 2, 1, 0.0F);
-        this.setRotateAngle(head_ear_left, 0.18203784098300857F, -0.18203784098300857F, 0.136659280431156F);
-        this.eye_left = new AdvancedModelBox(this, 0, 30);
-        this.eye_left.setRotationPoint(2.51F, 0.0F, -2.0F);
-        this.eye_left.addBox(0.0F, -0.5F, -1.0F, 0, 1, 2, 0.0F);
-        this.arm_right_fur = new AdvancedModelBox(this, 42, 0);
-        this.arm_right_fur.mirror = true;
-        this.arm_right_fur.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.arm_right_fur.addBox(-2.5F, -0.1F, -3.0F, 5, 9, 6, 0.0F);
-        this.body_main.addChild(this.body_torso);
-        this.body_torso.addChild(this.arm_left_1);
-        this.arm_left_1.addChild(this.arm_left_2);
-        this.arm_right_1.addChild(this.arm_right_2);
-        this.head_main.addChild(this.head_horn_right);
-        this.leg_left_thigh.addChild(this.leg_left_calf);
-        this.head_main.addChild(this.head_horn_left);
-        this.head_main.addChild(this.head_beard);
-        this.body_main.addChild(this.body_hair);
-        this.head_main.addChild(this.eye_right);
-        this.body_main.addChild(this.leg_right_thigh);
-        this.body_torso.addChild(this.head_neck);
-        this.leg_right_thigh.addChild(this.leg_right_calf);
-        this.head_main.addChild(this.head_ear_right);
-        this.head_neck.addChild(this.head_main);
-        this.head_main.addChild(this.head_hair);
-        this.body_torso.addChild(this.arm_right_1);
-        this.arm_left_1.addChild(this.arm_left_fur);
-        this.body_main.addChild(this.leg_left_thigh);
-        this.body_main.addChild(this.tail);
-        this.head_main.addChild(this.head_ear_left);
-        this.head_main.addChild(this.eye_left);
-        this.arm_right_1.addChild(this.arm_right_fur);
 
-        // Proboscidean features: trunk (3 segments) and forward-curving tusks, attached to the head
-        this.trunk_1 = new AdvancedModelBox(this, 100, 0);
-        this.trunk_1.setRotationPoint(0.0F, 3.5F, -4.5F);
-        this.trunk_1.addBox(-1.5F, 0.0F, -1.5F, 3, 5, 3, 0.0F);
-        this.setRotateAngle(trunk_1, 0.9599310885968813F, 0.0F, 0.0F);
-        this.trunk_2 = new AdvancedModelBox(this, 100, 8);
-        this.trunk_2.setRotationPoint(0.0F, 4.5F, 0.0F);
-        this.trunk_2.addBox(-1.0F, 0.0F, -1.0F, 2, 4, 2, 0.0F);
-        this.setRotateAngle(trunk_2, 0.4553564018453205F, 0.0F, 0.0F);
-        this.trunk_3 = new AdvancedModelBox(this, 100, 14);
-        this.trunk_3.setRotationPoint(0.0F, 3.5F, 0.0F);
-        this.trunk_3.addBox(-1.0F, 0.0F, -1.0F, 2, 4, 2, 0.0F);
-        this.setRotateAngle(trunk_3, 0.31869712141416456F, 0.0F, 0.0F);
-        this.tusk_left = new AdvancedModelBox(this, 112, 0);
-        this.tusk_left.mirror = true;
-        this.tusk_left.setRotationPoint(2.2F, 3.5F, -4.0F);
-        this.tusk_left.addBox(-0.5F, -0.5F, -8.0F, 1, 1, 8, 0.0F);
-        this.setRotateAngle(tusk_left, 0.31869712141416456F, -0.13665928F, 0.0F);
-        this.tusk_right = new AdvancedModelBox(this, 112, 0);
-        this.tusk_right.setRotationPoint(-2.2F, 3.5F, -4.0F);
-        this.tusk_right.addBox(-0.5F, -0.5F, -8.0F, 1, 1, 8, 0.0F);
-        this.setRotateAngle(tusk_right, 0.31869712141416456F, 0.13665928F, 0.0F);
-        this.head_main.addChild(this.trunk_1);
+    public ModelMammoth() {
+        this.texWidth = 256;
+        this.texHeight = 256;
+
+        // Full Blockbench rebuild (47 boxes). The silhouette is carried by ANGLED boxes in the
+        // ModelRhino manner: body_chest is pitched up 8 deg, body_hump another 9 deg on top of it and
+        // body_rump 13 deg down at the back, so the mammoth wedge (high shoulder hump falling away to a
+        // low croup) is three stacked planes rather than one stepped box. The tusks and the trunk are
+        // real rotation CHAINS -- each segment is a child of the previous one, so the ~185 deg tusk
+        // spiral and the trunk curl accumulate smoothly and animate as a whip. Legs are three segments
+        // with opposing rotations (front -13/+5, hind +12/-18/+6) exactly like the rhino, which bends
+        // the limb while keeping the foot plumb and on the ground.
+        // Every coordinate below is transcribed VERBATIM from the modded_entity export -- never
+        // re-derived by hand (the Y-up/Y-down flip does not generalise; see CLAUDE.md lesson 1).
+        this.body_hips = new AdvancedModelBox(this, 0, 86);
+        this.body_hips.setRotationPoint(0.0F, -6.0F, 4.0F);
+        this.body_hips.addBox(-11.5F, -5.0F, -8.0F, 23.0F, 13.0F, 17.0F, 0.0F);
+
+        this.body_rump = new AdvancedModelBox(this, 168, 116);
+        this.body_rump.setRotationPoint(0.0F, -5.0F, 6.0F);
+        this.body_rump.addBox(-11.0F, -1.0F, 0.0F, 22.0F, 11.0F, 10.0F, 0.0F);
+        this.setRotateAngle(body_rump, -0.2269F, 0.0F, 0.0F);
+
+        this.tail = new AdvancedModelBox(this, 212, 162);
+        this.tail.setRotationPoint(0.0F, 3.0F, 8.0F);
+        this.tail.addBox(-2.0F, 0.0F, -0.5F, 4.0F, 11.0F, 3.5F, 0.0F);
+        this.setRotateAngle(tail, 0.2443F, 0.0F, 0.0F);
+
+        this.tail_tuft = new AdvancedModelBox(this, 82, 182);
+        this.tail_tuft.setRotationPoint(0.0F, 11.0F, 1.0F);
+        this.tail_tuft.addBox(-2.75F, -0.5F, -2.25F, 5.5F, 7.0F, 5.0F, 0.0F);
+
+        this.fur_rump = new AdvancedModelBox(this, 166, 162);
+        this.fur_rump.setRotationPoint(0.0F, 6.0F, 8.0F);
+        this.fur_rump.addBox(-10.0F, -2.0F, -0.5F, 20.0F, 14.0F, 3.0F, 0.0F);
+        this.setRotateAngle(fur_rump, -0.2269F, 0.0F, 0.0F);
+
+        this.body_chest = new AdvancedModelBox(this, 102, 47);
+        this.body_chest.setRotationPoint(0.0F, 0.0F, -8.0F);
+        this.body_chest.addBox(-12.0F, -7.0F, -20.0F, 24.0F, 15.5F, 22.0F, 0.0F);
+        this.setRotateAngle(body_chest, -0.1396F, 0.0F, 0.0F);
+
+        this.body_hump = new AdvancedModelBox(this, 0, 47);
+        this.body_hump.setRotationPoint(0.0F, -7.0F, -18.0F);
+        this.body_hump.addBox(-10.5F, -7.0F, 0.0F, 21.0F, 8.5F, 30.0F, 0.0F);
+        this.setRotateAngle(body_hump, -0.1571F, 0.0F, 0.0F);
+
+        this.neck = new AdvancedModelBox(this, 40, 116);
+        this.neck.setRotationPoint(0.0F, -3.0F, -18.0F);
+        this.neck.addBox(-9.0F, -4.0F, -7.0F, 18.0F, 14.0F, 10.0F, 0.0F);
+        this.setRotateAngle(neck, 0.0698F, 0.0F, 0.0F);
+
+        this.head = new AdvancedModelBox(this, 80, 86);
+        this.head.setRotationPoint(0.0F, 0.0F, -6.0F);
+        this.head.addBox(-9.0F, -7.0F, -11.0F, 18.0F, 16.0F, 12.0F, 0.0F);
+        this.setRotateAngle(head, 0.0873F, 0.0F, 0.0F);
+
+        this.head_dome = new AdvancedModelBox(this, 116, 162);
+        this.head_dome.setRotationPoint(0.0F, -6.0F, -6.0F);
+        this.head_dome.addBox(-6.5F, -5.5F, -3.5F, 13.0F, 5.5F, 11.5F, 0.0F);
+        this.setRotateAngle(head_dome, -0.0873F, 0.0F, 0.0F);
+
+        this.ear_left = new AdvancedModelBox(this, 228, 162);
+        this.ear_left.setRotationPoint(9.0F, 0.0F, -1.0F);
+        this.ear_left.addBox(-0.2F, -1.5F, -2.0F, 1.1F, 7.0F, 6.5F, 0.0F);
+        this.setRotateAngle(ear_left, 0.0F, -0.1047F, -0.0698F);
+
+        this.ear_right = new AdvancedModelBox(this, 0, 182);
+        this.ear_right.setRotationPoint(-9.0F, 0.0F, -1.0F);
+        this.ear_right.addBox(-0.9F, -1.5F, -2.0F, 1.1F, 7.0F, 6.5F, 0.0F);
+        this.setRotateAngle(ear_right, 0.0F, 0.1047F, 0.0698F);
+
+        // Eye planes sit 0.35 units clear of the skull face (which is at |x| = 9.0). The previous model
+        // left only 0.0075 units of clearance, which is far below depth-buffer precision and made the
+        // eyes shimmer/z-fight against the cheek every frame.
+        // The planes are a LITERAL COPY of ModelGroundSloth's: 3x3 rather than 2.5x2.5, because a 2.5px
+        // plane samples a fractional-pixel UV rect and left no room for a pupil to read against the hide.
+        // At 3x3 the footprint is exactly 2*(0+3) x (3+3) = 6x6 px, which is what the sloth's eye art is
+        // painted on, so the same 6x6 blocks drop straight into the mammoth atlas at these texOffs. A
+        // full-model footprint sweep confirms 82-88 and 88-94 x 196-202 collide with nothing else.
+        this.eye_left = new AdvancedModelBox(this, 82, 196);
+        this.eye_left.setRotationPoint(9.35F, -1.5F, -6.0F);
+        this.eye_left.addBox(0.0F, -1.5F, -1.5F, 0.0F, 3.0F, 3.0F, 0.0F);
+
+        this.eye_right = new AdvancedModelBox(this, 88, 196);
+        this.eye_right.setRotationPoint(-9.35F, -1.5F, -6.0F);
+        this.eye_right.addBox(0.0F, -1.5F, -1.5F, 0.0F, 3.0F, 3.0F, 0.0F);
+
+        this.trunk_1 = new AdvancedModelBox(this, 18, 182);
+        this.trunk_1.setRotationPoint(0.0F, 5.5F, -7.5F);
+        this.trunk_1.addBox(-5.0F, 0.0F, -3.5F, 10.0F, 5.5F, 7.0F, 0.0F);
+        this.setRotateAngle(trunk_1, -0.0873F, 0.0F, 0.0F);
+
+        this.trunk_2 = new AdvancedModelBox(this, 52, 182);
+        this.trunk_2.setRotationPoint(0.0F, 5.5F, 0.0F);
+        this.trunk_2.addBox(-4.5F, -1.0F, -3.0F, 9.0F, 6.0F, 6.0F, 0.0F);
+        this.setRotateAngle(trunk_2, -0.1047F, 0.0F, 0.0F);
+
+        this.trunk_3 = new AdvancedModelBox(this, 104, 182);
+        this.trunk_3.setRotationPoint(0.0F, 5.0F, 0.0F);
+        this.trunk_3.addBox(-4.0F, -1.0F, -2.5F, 8.0F, 5.5F, 5.0F, 0.0F);
+        this.setRotateAngle(trunk_3, -0.1222F, 0.0F, 0.0F);
+
+        this.trunk_4 = new AdvancedModelBox(this, 226, 182);
+        this.trunk_4.setRotationPoint(0.0F, 4.5F, 0.0F);
+        this.trunk_4.addBox(-3.5F, -1.0F, -2.0F, 7.0F, 4.5F, 4.0F, 0.0F);
+        this.setRotateAngle(trunk_4, -0.1571F, 0.0F, 0.0F);
+
+        this.trunk_5 = new AdvancedModelBox(this, 48, 196);
+        this.trunk_5.setRotationPoint(0.0F, 3.5F, 0.0F);
+        this.trunk_5.addBox(-3.0F, -1.0F, -1.5F, 6.0F, 4.0F, 3.0F, 0.0F);
+        this.setRotateAngle(trunk_5, -0.2094F, 0.0F, 0.0F);
+
+        this.trunk_tip = new AdvancedModelBox(this, 66, 196);
+        this.trunk_tip.setRotationPoint(0.0F, 3.0F, 0.0F);
+        this.trunk_tip.addBox(-2.5F, -1.0F, -1.5F, 5.0F, 3.5F, 3.0F, 0.0F);
+        this.setRotateAngle(trunk_tip, -0.2443F, 0.0F, 0.0F);
+
+        this.tusk_left_1 = new AdvancedModelBox(this, 194, 182);
+        this.tusk_left_1.setRotationPoint(7.0F, 6.0F, -7.0F);
+        this.tusk_left_1.addBox(-2.0F, 0.0F, -2.0F, 4.0F, 5.5F, 4.0F, 0.0F);
+        this.setRotateAngle(tusk_left_1, -0.4363F, 0.0F, -0.1745F);
+
+        this.tusk_left_2 = new AdvancedModelBox(this, 130, 182);
+        this.tusk_left_2.setRotationPoint(0.0F, 5.5F, 0.0F);
+        this.tusk_left_2.addBox(-1.85F, -1.0F, -1.85F, 3.7F, 6.5F, 3.7F, 0.0F);
+        this.setRotateAngle(tusk_left_2, -0.6109F, 0.0F, -0.1047F);
+
+        this.tusk_left_3 = new AdvancedModelBox(this, 146, 182);
+        this.tusk_left_3.setRotationPoint(0.0F, 5.5F, 0.0F);
+        this.tusk_left_3.addBox(-1.7F, -1.0F, -1.7F, 3.4F, 6.5F, 3.4F, 0.0F);
+        this.setRotateAngle(tusk_left_3, -0.7854F, 0.0F, 0.0698F);
+
+        this.tusk_left_4 = new AdvancedModelBox(this, 0, 196);
+        this.tusk_left_4.setRotationPoint(0.0F, 5.5F, 0.0F);
+        this.tusk_left_4.addBox(-1.5F, -1.0F, -1.5F, 3.0F, 6.0F, 3.0F, 0.0F);
+        this.setRotateAngle(tusk_left_4, -0.7854F, 0.0F, 0.1745F);
+
+        this.tusk_left_5 = new AdvancedModelBox(this, 12, 196);
+        this.tusk_left_5.setRotationPoint(0.0F, 5.0F, 0.0F);
+        this.tusk_left_5.addBox(-1.25F, -1.0F, -1.25F, 2.5F, 5.5F, 2.5F, 0.0F);
+        this.setRotateAngle(tusk_left_5, -0.6109F, 0.0F, 0.2094F);
+
+        this.tusk_right_1 = new AdvancedModelBox(this, 210, 182);
+        this.tusk_right_1.setRotationPoint(-7.0F, 6.0F, -7.0F);
+        this.tusk_right_1.addBox(-2.0F, 0.0F, -2.0F, 4.0F, 5.5F, 4.0F, 0.0F);
+        this.setRotateAngle(tusk_right_1, -0.4363F, 0.0F, 0.1745F);
+
+        this.tusk_right_2 = new AdvancedModelBox(this, 162, 182);
+        this.tusk_right_2.setRotationPoint(0.0F, 5.5F, 0.0F);
+        this.tusk_right_2.addBox(-1.85F, -1.0F, -1.85F, 3.7F, 6.5F, 3.7F, 0.0F);
+        this.setRotateAngle(tusk_right_2, -0.6109F, 0.0F, 0.1047F);
+
+        this.tusk_right_3 = new AdvancedModelBox(this, 178, 182);
+        this.tusk_right_3.setRotationPoint(0.0F, 5.5F, 0.0F);
+        this.tusk_right_3.addBox(-1.7F, -1.0F, -1.7F, 3.4F, 6.5F, 3.4F, 0.0F);
+        this.setRotateAngle(tusk_right_3, -0.7854F, 0.0F, -0.0698F);
+
+        this.tusk_right_4 = new AdvancedModelBox(this, 24, 196);
+        this.tusk_right_4.setRotationPoint(0.0F, 5.5F, 0.0F);
+        this.tusk_right_4.addBox(-1.5F, -1.0F, -1.5F, 3.0F, 6.0F, 3.0F, 0.0F);
+        this.setRotateAngle(tusk_right_4, -0.7854F, 0.0F, -0.1745F);
+
+        this.tusk_right_5 = new AdvancedModelBox(this, 36, 196);
+        this.tusk_right_5.setRotationPoint(0.0F, 5.0F, 0.0F);
+        this.tusk_right_5.addBox(-1.25F, -1.0F, -1.25F, 2.5F, 5.5F, 2.5F, 0.0F);
+        this.setRotateAngle(tusk_right_5, -0.6109F, 0.0F, -0.2094F);
+
+        this.fur_neck = new AdvancedModelBox(this, 140, 86);
+        this.fur_neck.setRotationPoint(0.0F, -1.0F, -2.0F);
+        this.fur_neck.addBox(-10.0F, -4.0F, -6.0F, 20.0F, 14.0F, 11.0F, 0.0F);
+        this.setRotateAngle(fur_neck, 0.0698F, 0.0F, 0.0F);
+
+        this.leg_front_left_1 = new AdvancedModelBox(this, 202, 86);
+        this.leg_front_left_1.setRotationPoint(8.0F, 1.0F, -12.0F);
+        this.leg_front_left_1.addBox(-4.0F, -0.5F, -6.0F, 7.6F, 12.5F, 12.0F, 0.0F);
+        this.setRotateAngle(leg_front_left_1, 0.2269F, 0.0F, 0.0F);
+
+        this.leg_front_left_2 = new AdvancedModelBox(this, 0, 141);
+        this.leg_front_left_2.setRotationPoint(0.0F, 12.0F, 0.0F);
+        this.leg_front_left_2.addBox(-3.5F, -0.5F, -5.0F, 7.0F, 11.0F, 10.0F, 0.0F);
+        this.setRotateAngle(leg_front_left_2, -0.0873F, 0.0F, 0.0F);
+
+        this.foot_front_left = new AdvancedModelBox(this, 192, 141);
+        this.foot_front_left.setRotationPoint(0.0F, 10.5F, 0.0F);
+        this.foot_front_left.addBox(-4.25F, -0.5F, -5.5F, 8.5F, 8.75F, 11.0F, 0.0F);
+
+        this.leg_front_right_1 = new AdvancedModelBox(this, 0, 116);
+        this.leg_front_right_1.setRotationPoint(-8.0F, 1.0F, -12.0F);
+        this.leg_front_right_1.addBox(-3.6F, -0.5F, -6.0F, 7.6F, 12.5F, 12.0F, 0.0F);
+        this.setRotateAngle(leg_front_right_1, 0.2269F, 0.0F, 0.0F);
+
+        this.leg_front_right_2 = new AdvancedModelBox(this, 34, 141);
+        this.leg_front_right_2.setRotationPoint(0.0F, 12.0F, 0.0F);
+        this.leg_front_right_2.addBox(-3.5F, -0.5F, -5.0F, 7.0F, 11.0F, 10.0F, 0.0F);
+        this.setRotateAngle(leg_front_right_2, -0.0873F, 0.0F, 0.0F);
+
+        this.foot_front_right = new AdvancedModelBox(this, 0, 162);
+        this.foot_front_right.setRotationPoint(0.0F, 10.5F, 0.0F);
+        this.foot_front_right.addBox(-4.25F, -0.5F, -5.5F, 8.5F, 8.75F, 11.0F, 0.0F);
+
+        this.fur_mane = new AdvancedModelBox(this, 148, 0);
+        this.fur_mane.setRotationPoint(0.0F, -8.0F, -18.0F);
+        this.fur_mane.addBox(-11.5F, -7.5F, -1.0F, 23.0F, 9.0F, 30.0F, 0.0F);
+        this.setRotateAngle(fur_mane, -0.1571F, 0.0F, 0.0F);
+
+        this.fur_chest = new AdvancedModelBox(this, 132, 141);
+        this.fur_chest.setRotationPoint(0.0F, 3.0F, -19.0F);
+        this.fur_chest.addBox(-11.0F, 0.0F, -1.5F, 22.0F, 12.0F, 7.5F, 0.0F);
+        this.setRotateAngle(fur_chest, -0.1396F, 0.0F, 0.0F);
+
+        this.leg_back_left_1 = new AdvancedModelBox(this, 96, 116);
+        this.leg_back_left_1.setRotationPoint(7.5F, 1.0F, 3.0F);
+        this.leg_back_left_1.addBox(-3.5F, -1.0F, -5.0F, 6.6F, 12.5F, 11.0F, 0.0F);
+        this.setRotateAngle(leg_back_left_1, -0.2094F, 0.0F, 0.0F);
+
+        this.leg_back_left_2 = new AdvancedModelBox(this, 68, 141);
+        this.leg_back_left_2.setRotationPoint(0.0F, 11.5F, 0.0F);
+        this.leg_back_left_2.addBox(-3.0F, -1.0F, -4.75F, 6.0F, 10.5F, 10.0F, 0.0F);
+        this.setRotateAngle(leg_back_left_2, 0.3142F, 0.0F, 0.0F);
+
+        this.foot_back_left = new AdvancedModelBox(this, 40, 162);
+        this.foot_back_left.setRotationPoint(0.0F, 9.5F, 0.0F);
+        this.foot_back_left.addBox(-3.75F, -0.5F, -4.75F, 7.5F, 9.0F, 10.5F, 0.0F);
+        this.setRotateAngle(foot_back_left, -0.1047F, 0.0F, 0.0F);
+
+        this.leg_back_right_1 = new AdvancedModelBox(this, 132, 116);
+        this.leg_back_right_1.setRotationPoint(-7.5F, 1.0F, 3.0F);
+        this.leg_back_right_1.addBox(-3.1F, -1.0F, -5.0F, 6.6F, 12.5F, 11.0F, 0.0F);
+        this.setRotateAngle(leg_back_right_1, -0.2094F, 0.0F, 0.0F);
+
+        this.leg_back_right_2 = new AdvancedModelBox(this, 100, 141);
+        this.leg_back_right_2.setRotationPoint(0.0F, 11.5F, 0.0F);
+        this.leg_back_right_2.addBox(-3.0F, -1.0F, -4.75F, 6.0F, 10.5F, 10.0F, 0.0F);
+        this.setRotateAngle(leg_back_right_2, 0.3142F, 0.0F, 0.0F);
+
+        this.foot_back_right = new AdvancedModelBox(this, 78, 162);
+        this.foot_back_right.setRotationPoint(0.0F, 9.5F, 0.0F);
+        this.foot_back_right.addBox(-3.75F, -0.5F, -4.75F, 7.5F, 9.0F, 10.5F, 0.0F);
+        this.setRotateAngle(foot_back_right, -0.1047F, 0.0F, 0.0F);
+
+        this.fur_skirt_left = new AdvancedModelBox(this, 0, 0);
+        this.fur_skirt_left.setRotationPoint(11.5F, 3.0F, 0.0F);
+        this.fur_skirt_left.addBox(-0.5F, 0.0F, -26.0F, 2.0F, 12.0F, 35.0F, 0.0F);
+        this.setRotateAngle(fur_skirt_left, 0.0F, 0.0F, -0.1047F);
+
+        this.fur_skirt_right = new AdvancedModelBox(this, 74, 0);
+        this.fur_skirt_right.setRotationPoint(-11.5F, 3.0F, 0.0F);
+        this.fur_skirt_right.addBox(-1.5F, 0.0F, -26.0F, 2.0F, 12.0F, 35.0F, 0.0F);
+        this.setRotateAngle(fur_skirt_right, 0.0F, 0.0F, 0.1047F);
+
+        this.body_hips.addChild(this.body_rump);
+        this.body_rump.addChild(this.tail);
+        this.tail.addChild(this.tail_tuft);
+        this.body_rump.addChild(this.fur_rump);
+        this.body_hips.addChild(this.body_chest);
+        this.body_chest.addChild(this.body_hump);
+        this.body_chest.addChild(this.neck);
+        this.neck.addChild(this.head);
+        this.head.addChild(this.head_dome);
+        this.head.addChild(this.ear_left);
+        this.head.addChild(this.ear_right);
+        this.head.addChild(this.eye_left);
+        this.head.addChild(this.eye_right);
+        this.head.addChild(this.trunk_1);
         this.trunk_1.addChild(this.trunk_2);
         this.trunk_2.addChild(this.trunk_3);
-        this.head_main.addChild(this.tusk_left);
-        this.head_main.addChild(this.tusk_right);
+        this.trunk_3.addChild(this.trunk_4);
+        this.trunk_4.addChild(this.trunk_5);
+        this.trunk_5.addChild(this.trunk_tip);
+        this.head.addChild(this.tusk_left_1);
+        this.tusk_left_1.addChild(this.tusk_left_2);
+        this.tusk_left_2.addChild(this.tusk_left_3);
+        this.tusk_left_3.addChild(this.tusk_left_4);
+        this.tusk_left_4.addChild(this.tusk_left_5);
+        this.head.addChild(this.tusk_right_1);
+        this.tusk_right_1.addChild(this.tusk_right_2);
+        this.tusk_right_2.addChild(this.tusk_right_3);
+        this.tusk_right_3.addChild(this.tusk_right_4);
+        this.tusk_right_4.addChild(this.tusk_right_5);
+        this.neck.addChild(this.fur_neck);
+        this.body_chest.addChild(this.leg_front_left_1);
+        this.leg_front_left_1.addChild(this.leg_front_left_2);
+        this.leg_front_left_2.addChild(this.foot_front_left);
+        this.body_chest.addChild(this.leg_front_right_1);
+        this.leg_front_right_1.addChild(this.leg_front_right_2);
+        this.leg_front_right_2.addChild(this.foot_front_right);
+        this.body_chest.addChild(this.fur_mane);
+        this.body_chest.addChild(this.fur_chest);
+        this.body_hips.addChild(this.leg_back_left_1);
+        this.leg_back_left_1.addChild(this.leg_back_left_2);
+        this.leg_back_left_2.addChild(this.foot_back_left);
+        this.body_hips.addChild(this.leg_back_right_1);
+        this.leg_back_right_1.addChild(this.leg_back_right_2);
+        this.leg_back_right_2.addChild(this.foot_back_right);
+        this.body_hips.addChild(this.fur_skirt_left);
+        this.body_hips.addChild(this.fur_skirt_right);
+
+        // The tusks are a 5-box chain, so scaling only the root box would fatten one segment and leave
+        // the rest behind. setShouldScaleChildren makes AdvancedModelBox apply its scale to the whole
+        // subtree (translateAndRotate pushes the scale onto the PoseStack instead of cancelling it out
+        // before the children render), so hasLargeTusks grows the entire tusk about its base pivot.
+        this.tusk_left_1.setShouldScaleChildren(true);
+        this.tusk_right_1.setShouldScaleChildren(true);
 
         animator = ModelAnimator.create();
         updateDefaultPose();
     }
-    
+
     @Override
     public Iterable<BasicModelPart> parts() {
-        return ImmutableList.of(body_main);
+        return ImmutableList.of(body_hips);
     }
 
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
         return ImmutableList.of(
-            body_main,
-            body_torso,
-            leg_left_thigh,
-            leg_right_thigh,
-            body_hair,
-            tail,
-            arm_right_1,
-            arm_left_1,
-            head_neck,
-            arm_right_2,
-            arm_right_fur,
-            arm_left_2,
-            arm_left_fur,
-            head_main,
-            head_hair,
-            head_horn_right,
-            head_ear_right,
-            head_ear_left,
-            head_horn_left,
-            head_beard,
-            eye_left,
-            eye_right,
-            leg_left_calf,
-            leg_right_calf,
-            trunk_1,
-            trunk_2,
-            trunk_3,
-            tusk_left,
-            tusk_right
+            body_hips, body_rump, tail, tail_tuft,
+            body_chest, body_hump, neck, head, head_dome,
+            ear_left, ear_right, eye_left, eye_right,
+            trunk_1, trunk_2, trunk_3, trunk_4, trunk_5, trunk_tip,
+            tusk_left_1, tusk_left_2, tusk_left_3, tusk_left_4, tusk_left_5,
+            tusk_right_1, tusk_right_2, tusk_right_3, tusk_right_4, tusk_right_5,
+            fur_neck, fur_mane, fur_chest, fur_skirt_left, fur_skirt_right, fur_rump,
+            leg_front_left_1, leg_front_left_2, foot_front_left,
+            leg_front_right_1, leg_front_right_2, foot_front_right,
+            leg_back_left_1, leg_back_left_2, foot_back_left,
+            leg_back_right_1, leg_back_right_2, foot_back_right
         );
     }
 
@@ -241,35 +396,49 @@ public class ModelMammoth extends AdvancedEntityModel<EntityMammoth> {
         EntityMammoth mammoth = (EntityMammoth) entityIn;
         animator.update(mammoth);
 
+        // Threat display: rock the shoulders, swing the head so the tusks sweep, and paw the ground.
         animator.setAnimation(EntityMammoth.ATTACK_THREATEN);
         for (int i = 0; i < 2; i++) {
             animator.startKeyframe(12);
-            this.rotate(animator, body_torso, 0, 0, 7.83F);
-            this.rotate(animator, head_neck, 7.83F, 0, -13.04F);
-            this.rotate(animator, arm_right_2, 31.31F, 0, 0);
-            animator.move(arm_left_1, 0, -0.6F, 0);
-            this.rotate(animator, arm_left_1, 0, 0, -7.83F);
-            animator.move(arm_right_1, 0, -0.5F, 0);
-            this.rotate(animator, arm_right_1, -46.96F, 0, -5.21F);
+            this.rotate(animator, body_chest, 0, 0, 6.5F);
+            this.rotate(animator, neck, 5.2F, 0, -10.4F);
+            this.rotate(animator, head, 5.2F, 0, -7.8F);
+            this.rotate(animator, trunk_1, -18F, 0, 0);
+            this.rotate(animator, trunk_2, -14F, 0, 0);
+            animator.move(leg_front_left_1, 0, -0.6F, 0);
+            this.rotate(animator, leg_front_left_1, 0, 0, -6.5F);
+            animator.move(leg_front_right_1, 0, -0.5F, 0);
+            this.rotate(animator, leg_front_right_1, -18F, 0, -5.2F);
             animator.endKeyframe();
             animator.startKeyframe(9);
-            this.rotate(animator, body_torso, 0, 0, -13.05F);
-            this.rotate(animator, head_neck, 7.83F, 0, 26.08F);
-            this.rotate(animator, arm_right_2, 31.31F, 0, 0);
-            animator.move(arm_left_1, 0, 0.5F, 0);
-            this.rotate(animator, arm_left_1, 0, 0, 13.04F);
-            animator.move(arm_right_1, 0, 0.5F, 0);
-            this.rotate(animator, arm_right_1, 54.79F, 0, 10.43F);
+            this.rotate(animator, body_chest, 0, 0, -10.4F);
+            this.rotate(animator, neck, 5.2F, 0, 20.9F);
+            this.rotate(animator, head, 5.2F, 0, 13.0F);
+            this.rotate(animator, trunk_1, -10F, 0, 0);
+            this.rotate(animator, trunk_2, -8F, 0, 0);
+            animator.move(leg_front_left_1, 0, 0.5F, 0);
+            this.rotate(animator, leg_front_left_1, 0, 0, 10.4F);
+            animator.move(leg_front_right_1, 0, 0.5F, 0);
+            this.rotate(animator, leg_front_right_1, 22F, 0, 10.4F);
             animator.endKeyframe();
         }
         animator.resetKeyframe(8);
 
+        // Gore: rear the head back, then drive the tusks forward and up.
         animator.setAnimation(EntityMammoth.ATTACK_GORE);
         animator.startKeyframe(6);
-        this.rotate(animator, head_neck, 31.31F, 0, 26.08F);
+        this.rotate(animator, neck, 20.9F, 0, 13.0F);
+        this.rotate(animator, head, 15.6F, 0, 10.4F);
+        this.rotate(animator, trunk_1, -26F, 0, 0);
+        this.rotate(animator, trunk_2, -20F, 0, 0);
+        this.rotate(animator, trunk_3, -16F, 0, 0);
         animator.endKeyframe();
         animator.startKeyframe(4);
-        this.rotate(animator, head_neck, -26.08F, 0, -46.96F);
+        this.rotate(animator, neck, -20.9F, 0, -31.3F);
+        this.rotate(animator, head, -18.2F, 0, -20.9F);
+        this.rotate(animator, trunk_1, 10F, 0, 0);
+        this.rotate(animator, trunk_2, 14F, 0, 0);
+        this.rotate(animator, trunk_3, 18F, 0, 0);
         animator.endKeyframe();
         animator.resetKeyframe(4);
     }
@@ -277,104 +446,153 @@ public class ModelMammoth extends AdvancedEntityModel<EntityMammoth> {
     public void setupAnim(EntityMammoth mammoth, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.resetToDefaultPose();
         animate(mammoth);
-        float globalSpeed = 1.5f;
+        float globalSpeed = 1.1f;
         float globalDegree = 1f;
         float f = limbSwing / 2;
         limbSwingAmount = Math.min(0.4F, limbSwingAmount);
 
-        // Proboscidean features: mammoths carry tusks, not bison horns, so hide the inherited horns;
-        // show the shaggy fur parts only on woolly variants.
-        this.head_horn_left.setScale(0F, 0F, 0F);
-        this.head_horn_right.setScale(0F, 0F, 0F);
-        float fur = mammoth.hasWoollyCoat() ? 1F : 0F;
-        this.body_hair.setScale(fur, fur, fur);
-        this.head_hair.setScale(fur, fur, fur);
-        this.head_beard.setScale(fur, fur, fur);
-        this.arm_left_fur.setScale(fur, fur, fur);
-        this.arm_right_fur.setScale(fur, fur, fur);
-        // Gentle trunk sway
-        this.walk(trunk_1, 0.15F, 0.08F, false, 0, 0, ageInTicks, 1);
-        this.walk(trunk_2, 0.15F, 0.12F, false, 1, 0, ageInTicks, 1);
-        this.walk(trunk_3, 0.15F, 0.12F, false, 2, 0, ageInTicks, 1);
+        // ---- Per-species toggles (Part B). Entity-flag driven, so they only run in a live client;
+        // Blockbench never calls setupAnim, which is why every species looks identical there. The model
+        // instance is shared across all mammoths, so BOTH branches must be written every frame or one
+        // species' state leaks into the next entity rendered.
+        boolean woollyCoat = mammoth.hasWoollyCoat();
+        this.fur_mane.showModel = woollyCoat;
+        this.fur_neck.showModel = woollyCoat;
+        this.fur_chest.showModel = woollyCoat;
+        this.fur_rump.showModel = woollyCoat;
+        this.fur_skirt_left.showModel = woollyCoat;
+        this.fur_skirt_right.showModel = woollyCoat;
 
-        // Breathing Animation
-        this.body_main.setScale((float) (1.0F + Math.sin(ageInTicks / 20) * 0.08F), (float) (1.0F + Math.sin(ageInTicks / 16) * 0.08F), 1.0F);
-        this.body_torso.setScale((float) (1.0F + Math.sin(ageInTicks / 20) * 0.08F), (float) (1.0F + Math.sin(ageInTicks / 16) * 0.08F), 1.0F);
-        bob(body_main, 0.4F * globalSpeed, 0.1F, false, ageInTicks / 20, 2);
-        bob(arm_right_1, 0.4F * globalSpeed, 0.1F, false, -ageInTicks / 20, 2);
-        bob(arm_left_1, 0.4F * globalSpeed, 0.1F, false, -ageInTicks / 20, 2);
-        bob(leg_right_thigh, 0.4F * globalSpeed, 0.1F, false, -ageInTicks / 20, 2);
-        bob(leg_left_thigh, 0.4F * globalSpeed, 0.1F, false, -ageInTicks / 20, 2);
-        walk(head_neck, 0.4f * globalSpeed, 0.03f, false, 2.8F, 0.06F, ageInTicks / 20, 2);
+        float tuskScale = mammoth.hasLargeTusks() ? 1.35F : 1.0F;
+        this.tusk_left_1.setScale(tuskScale, tuskScale, tuskScale);
+        this.tusk_right_1.setScale(tuskScale, tuskScale, tuskScale);
 
-        // Blinking Animation
+        // Mastodon/Cuvieronius: low flat skull and a much shallower shoulder hump.
+        boolean flatBack = mammoth.hasFlatBack();
+        this.head_dome.setScale(1.0F, flatBack ? 0.35F : 1.0F, 1.0F);
+        this.body_hump.setScale(1.0F, flatBack ? 0.55F : 1.0F, 1.0F);
+
+        // ---- Idle: trunk hangs and sways, amplitude growing toward the tip so the chain reads as a
+        // heavy muscular hose rather than a stiff rod. Ears flick, tail swings.
+        this.walk(trunk_1, 0.10F, 0.035F, false, 0.0F, 0F, ageInTicks, 1);
+        this.walk(trunk_2, 0.10F, 0.05F, false, 0.6F, 0F, ageInTicks, 1);
+        this.walk(trunk_3, 0.10F, 0.07F, false, 1.2F, 0F, ageInTicks, 1);
+        this.walk(trunk_4, 0.10F, 0.09F, false, 1.8F, 0F, ageInTicks, 1);
+        this.walk(trunk_5, 0.10F, 0.11F, false, 2.4F, 0F, ageInTicks, 1);
+        this.walk(trunk_tip, 0.10F, 0.14F, false, 3.0F, 0F, ageInTicks, 1);
+        this.swing(trunk_2, 0.07F, 0.04F, false, 1.0F, 0F, ageInTicks, 1);
+        this.swing(trunk_4, 0.07F, 0.07F, false, 2.0F, 0F, ageInTicks, 1);
+        this.swing(trunk_tip, 0.07F, 0.10F, false, 3.0F, 0F, ageInTicks, 1);
+        this.flap(ear_left, 0.09F, 0.10F, true, 0F, 0F, ageInTicks, 1);
+        this.flap(ear_right, 0.09F, 0.10F, false, 0F, 0F, ageInTicks, 1);
+        this.swing(tail, 0.10F, 0.16F, false, 0F, 0F, ageInTicks, 1);
+        this.walk(tail_tuft, 0.10F, 0.10F, false, 1F, 0F, ageInTicks, 1);
+
+        // Breathing
+        this.body_hips.setScale((float) (1.0F + Math.sin(ageInTicks / 20) * 0.06F), (float) (1.0F + Math.sin(ageInTicks / 16) * 0.06F), 1.0F);
+        this.body_chest.setScale((float) (1.0F + Math.sin(ageInTicks / 20) * 0.06F), (float) (1.0F + Math.sin(ageInTicks / 16) * 0.06F), 1.0F);
+        bob(body_hips, 0.4F * globalSpeed, 0.1F, false, ageInTicks / 20, 2);
+        bob(leg_front_left_1, 0.4F * globalSpeed, 0.1F, false, -ageInTicks / 20, 2);
+        bob(leg_front_right_1, 0.4F * globalSpeed, 0.1F, false, -ageInTicks / 20, 2);
+        bob(leg_back_left_1, 0.4F * globalSpeed, 0.1F, false, -ageInTicks / 20, 2);
+        bob(leg_back_right_1, 0.4F * globalSpeed, 0.1F, false, -ageInTicks / 20, 2);
+        walk(neck, 0.4f * globalSpeed, 0.03f, false, 2.8F, 0.06F, ageInTicks / 20, 2);
+
+        // Blinking: bury the eye planes inside the skull (|x| 9.35 -> 8.0) so they stop rendering.
         if (!mammoth.shouldRenderEyes()) {
-            this.eye_right.setRotationPoint(-2F, -2.0F, -4.0F);
-            this.eye_left.setRotationPoint(2F, -2.0F, -4.0F);
+            this.eye_left.setRotationPoint(8.0F, -1.5F, -6.0F);
+            this.eye_right.setRotationPoint(-8.0F, -1.5F, -6.0F);
         }
 
-        // Head Tracking Animation
+        // Head tracking
         if (!mammoth.isSleeping()) {
-            this.faceTarget(netHeadYaw, headPitch, 3, head_neck);
-            this.faceTarget(netHeadYaw, headPitch, 3, head_main);
+            this.faceTarget(netHeadYaw, headPitch, 3, neck);
+            this.faceTarget(netHeadYaw, headPitch, 3, head);
         }
 
         // Pitch/Yaw handler
         if (mammoth.isInWater()) {
-            this.setRotateAngle(head_main, -0.18203784098300857F, 0.0F, 0.0F);
+            this.setRotateAngle(head, -0.18203784098300857F, 0.0F, 0.0F);
             if (!mammoth.isOnGround()) {
                 f = ageInTicks / 6;
                 limbSwingAmount = 0.5f;
                 float pitch = Mth.clamp(mammoth.getXRot() - 10, -25F, 25.0F);
-                this.setRotateAngle(body_main, (float) (pitch * Math.PI / 180F), 0, 0);
+                this.setRotateAngle(body_hips, (float) (pitch * Math.PI / 180F), 0, 0);
             }
         }
 
-        // Movement Animation
+        // ---- Walk. Two-segment legs driven exactly like ModelRhino: the upper segment leads and the
+        // lower segment follows a step out of phase (and slightly hotter) so the knee/hock flexes
+        // through the stride instead of the whole leg swinging as one rigid post. Front and hind run at
+        // opposite sign for a diagonal gait; the feet counter-rotate so the sole stays flat at plant.
+        // Speeds are lower than the rhino's -- a mammoth strides slowly and heavily.
         if (mammoth.canMove()) {
-            bob(body_main, 0.8f * globalSpeed, 0.6f * globalDegree, true, f, limbSwingAmount);
-            walk(head_neck, 0.8f * globalSpeed, 0.2f * globalDegree, false, 0, 0, f, limbSwingAmount);
-            walk(head_main, 0.8f * globalSpeed, 0.15f * globalDegree, true, 0, 0, f, limbSwingAmount);
-            walk(arm_right_1, -0.8f * globalSpeed, 1.4f * globalDegree, true, 0F, 1.4f, f, limbSwingAmount);
-            walk(arm_right_2, -0.8f * globalSpeed, 1.4f * globalDegree, false, -1F, 1.4f, f, limbSwingAmount * 1.2f);
-            walk(arm_left_1, -0.8f * globalSpeed, 1.4f * globalDegree, true, 2F, 1.4f, f, limbSwingAmount);
-            walk(arm_left_2, -0.8f * globalSpeed, 1.4f * globalDegree, false, 1F, 1.4f, f, limbSwingAmount * 1.2f);
-            walk(leg_right_thigh, 0.8f * globalSpeed, 1.4f * globalDegree, false, 2.8F, 0, f, limbSwingAmount);
-            walk(leg_right_calf, 0.8f * globalSpeed, 1.4f * globalDegree, true, 1.8F, 0, f, limbSwingAmount);
-            walk(leg_left_thigh, 0.8f * globalSpeed, 1.4f * globalDegree, false, 0.8F, 0, f, limbSwingAmount);
-            walk(leg_left_calf, 0.8f * globalSpeed, 1.4f * globalDegree, true, -0.2F, 0, f, limbSwingAmount);
+            bob(body_hips, 0.8f * globalSpeed, 0.5f * globalDegree, true, f, limbSwingAmount);
+            walk(neck, 0.8f * globalSpeed, 0.18f * globalDegree, false, 0, 0, f, limbSwingAmount);
+            walk(head, 0.8f * globalSpeed, 0.12f * globalDegree, true, 0, 0, f, limbSwingAmount);
+
+            walk(leg_front_right_1, -0.8f * globalSpeed, 1.0f * globalDegree, true, 0F, 1.0f, f, limbSwingAmount);
+            walk(leg_front_right_2, -0.8f * globalSpeed, 1.0f * globalDegree, false, -1F, 1.0f, f, limbSwingAmount * 1.2f);
+            walk(foot_front_right, -0.8f * globalSpeed, 0.5f * globalDegree, true, -2F, 0, f, limbSwingAmount);
+            walk(leg_front_left_1, -0.8f * globalSpeed, 1.0f * globalDegree, true, 2F, 1.0f, f, limbSwingAmount);
+            walk(leg_front_left_2, -0.8f * globalSpeed, 1.0f * globalDegree, false, 1F, 1.0f, f, limbSwingAmount * 1.2f);
+            walk(foot_front_left, -0.8f * globalSpeed, 0.5f * globalDegree, true, 0F, 0, f, limbSwingAmount);
+
+            walk(leg_back_right_1, 0.8f * globalSpeed, 1.0f * globalDegree, false, 2.8F, 0, f, limbSwingAmount);
+            walk(leg_back_right_2, 0.8f * globalSpeed, 1.0f * globalDegree, true, 1.8F, 0, f, limbSwingAmount);
+            walk(foot_back_right, 0.8f * globalSpeed, 0.5f * globalDegree, false, 0.8F, 0, f, limbSwingAmount);
+            walk(leg_back_left_1, 0.8f * globalSpeed, 1.0f * globalDegree, false, 0.8F, 0, f, limbSwingAmount);
+            walk(leg_back_left_2, 0.8f * globalSpeed, 1.0f * globalDegree, true, -0.2F, 0, f, limbSwingAmount);
+            walk(foot_back_left, 0.8f * globalSpeed, 0.5f * globalDegree, false, -1.2F, 0, f, limbSwingAmount);
+
+            // The trunk swings with the stride, lagging further down the chain.
+            walk(trunk_1, 0.8f * globalSpeed, 0.22f * globalDegree, false, 0F, 0, f, limbSwingAmount);
+            walk(trunk_2, 0.8f * globalSpeed, 0.26f * globalDegree, false, -0.6F, 0, f, limbSwingAmount);
+            walk(trunk_3, 0.8f * globalSpeed, 0.30f * globalDegree, false, -1.2F, 0, f, limbSwingAmount);
+            walk(trunk_4, 0.8f * globalSpeed, 0.34f * globalDegree, false, -1.8F, 0, f, limbSwingAmount);
+            walk(trunk_5, 0.8f * globalSpeed, 0.38f * globalDegree, false, -2.4F, 0, f, limbSwingAmount);
+            walk(trunk_tip, 0.8f * globalSpeed, 0.42f * globalDegree, false, -3.0F, 0, f, limbSwingAmount);
+            swing(tail, 0.8f * globalSpeed, 0.35f * globalDegree, false, 0F, 0, f, limbSwingAmount);
         }
 
-        // Sitting Animation
+        // ---- Rest / sleep. Both use one validated pose: the body sinks 16 units so the belly settles
+        // just off the ground, each leg folds against itself (front knee forward, hind hock back) and
+        // the trunk lies stretched out in front. The fold angles were solved against the actual box
+        // geometry so all four feet land AT ground level -- the previous model dropped the body but left
+        // the legs unfolded, so they hung in the air underneath it.
         if (mammoth.sitProgress > 0) {
-            this.progressPosition(body_main, mammoth.sitProgress, 0.0F, 17.5F, 0.0F, 40);
-            this.progressRotation(head_neck, mammoth.sitProgress, (float) Math.toRadians(-33.91F), 0, 0, 40);
-            this.progressRotation(head_main, mammoth.sitProgress, (float) Math.toRadians(-2.61F), 0, 0, 40);
-            this.progressPosition(arm_right_1, mammoth.sitProgress, -4.5F, 0.2F, -2.0F, 40);
-            this.progressRotation(arm_right_1, mammoth.sitProgress, (float) Math.toRadians(-65.22F), 0, 0, 40);
-            this.progressRotation(arm_right_2, mammoth.sitProgress, (float) Math.toRadians(135.65F), 0.0F, (float) Math.toRadians(-15.65F), 40);
-            this.progressPosition(arm_left_1, mammoth.sitProgress, 4.5F, 0.2F, -2.0F, 40);
-            this.progressRotation(arm_left_1, mammoth.sitProgress, (float) Math.toRadians(-65.22F), 0, 0, 40);
-            this.progressRotation(arm_left_2, mammoth.sitProgress, (float) Math.toRadians(135.65F), 0.0F, (float) Math.toRadians(15.65F), 40);
-            this.progressRotation(leg_right_thigh, mammoth.sitProgress, (float) Math.toRadians(-73.04F), (float) Math.toRadians(15.65F), 0, 40);
-            this.progressRotation(leg_right_calf, mammoth.sitProgress, (float) Math.toRadians(-10.43F), 0.0F, (float) Math.toRadians(-10.43F), 40);
-            this.progressRotation(leg_left_thigh, mammoth.sitProgress, (float) Math.toRadians(-73.04F), (float) Math.toRadians(-15.65F), 0, 40);
-            this.progressRotation(leg_left_calf, mammoth.sitProgress, (float) Math.toRadians(-10.43F), 0.0F, (float) Math.toRadians(10.43F), 40);
+            applyRestingPose(mammoth.sitProgress);
         }
-
-        // Sleeping Animation
         else if (mammoth.sleepProgress > 0) {
-            this.progressPosition(body_main, mammoth.sleepProgress, 0.0F, 17.5F, 0.0F, 40);
-            this.progressPosition(arm_right_1, mammoth.sleepProgress, -4.5F, 0.2F, -2.0F, 40);
-            this.progressRotation(arm_right_1, mammoth.sleepProgress, (float) Math.toRadians(-65.22F), 0, 0, 40);
-            this.progressRotation(arm_right_2, mammoth.sleepProgress, (float) Math.toRadians(135.65F), 0.0F, (float) Math.toRadians(-15.65F), 40);
-            this.progressPosition(arm_left_1, mammoth.sleepProgress, 4.5F, 0.2F, -2.0F, 40);
-            this.progressRotation(arm_left_1, mammoth.sleepProgress, (float) Math.toRadians(-65.22F), 0, 0, 40);
-            this.progressRotation(arm_left_2, mammoth.sleepProgress, (float) Math.toRadians(135.65F), 0.0F, (float) Math.toRadians(15.65F), 40);
-            this.progressRotation(leg_right_thigh, mammoth.sleepProgress, (float) Math.toRadians(-73.04F), (float) Math.toRadians(15.65F), 0, 40);
-            this.progressRotation(leg_right_calf, mammoth.sleepProgress, (float) Math.toRadians(-10.43F), 0.0F, (float) Math.toRadians(-10.43F), 40);
-            this.progressRotation(leg_left_thigh, mammoth.sleepProgress, (float) Math.toRadians(-73.04F), (float) Math.toRadians(-15.65F), 0, 40);
-            this.progressRotation(leg_left_calf, mammoth.sleepProgress, (float) Math.toRadians(-10.43F), 0.0F, (float) Math.toRadians(10.43F), 40);
+            applyRestingPose(mammoth.sleepProgress);
         }
+    }
+
+    private void applyRestingPose(float progress) {
+        this.progressPosition(body_hips, progress, 0.0F, 10.0F, 4.0F, 40);
+
+        this.progressRotation(leg_front_left_1, progress, (float) Math.toRadians(-30F), 0, 0, 40);
+        this.progressRotation(leg_front_left_2, progress, (float) Math.toRadians(130F), 0, 0, 40);
+        this.progressRotation(foot_front_left, progress, 0, 0, 0, 40);
+        this.progressRotation(leg_front_right_1, progress, (float) Math.toRadians(-30F), 0, 0, 40);
+        this.progressRotation(leg_front_right_2, progress, (float) Math.toRadians(130F), 0, 0, 40);
+        this.progressRotation(foot_front_right, progress, 0, 0, 0, 40);
+
+        this.progressRotation(leg_back_left_1, progress, (float) Math.toRadians(45F), 0, 0, 40);
+        this.progressRotation(leg_back_left_2, progress, (float) Math.toRadians(-140F), 0, 0, 40);
+        this.progressRotation(foot_back_left, progress, 0, 0, 0, 40);
+        this.progressRotation(leg_back_right_1, progress, (float) Math.toRadians(45F), 0, 0, 40);
+        this.progressRotation(leg_back_right_2, progress, (float) Math.toRadians(-140F), 0, 0, 40);
+        this.progressRotation(foot_back_right, progress, 0, 0, 0, 40);
+
+        this.progressRotation(neck, progress, (float) Math.toRadians(2F), 0, 0, 40);
+        this.progressRotation(head, progress, (float) Math.toRadians(8F), 0, 0, 40);
+
+        this.progressRotation(trunk_1, progress, (float) Math.toRadians(-40F), 0, 0, 40);
+        this.progressRotation(trunk_2, progress, (float) Math.toRadians(-30F), 0, 0, 40);
+        this.progressRotation(trunk_3, progress, (float) Math.toRadians(-20F), 0, 0, 40);
+        this.progressRotation(trunk_4, progress, (float) Math.toRadians(-4F), 0, 0, 40);
+        this.progressRotation(trunk_5, progress, (float) Math.toRadians(-2F), 0, 0, 40);
+        this.progressRotation(trunk_tip, progress, (float) Math.toRadians(-2F), 0, 0, 40);
     }
 }

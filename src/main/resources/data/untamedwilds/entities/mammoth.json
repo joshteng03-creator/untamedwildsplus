@@ -12,7 +12,9 @@
   },
   "flags":{
     "groupCount":4,
-    "hasWoollyCoat":0
+    "hasWoollyCoat":0,
+    "hasLargeTusks":0,
+    "flatBack":0
   },
   "species":[
     {
@@ -24,7 +26,8 @@
       "health":90,
       "flags":{
         "groupCount":4,
-        "hasWoollyCoat":1
+        "hasWoollyCoat":1,
+        "hasLargeTusks":1
       },
       "spawnBiomes":[
         [
@@ -43,7 +46,8 @@
       "attack":11,
       "health":110,
       "flags":{
-        "groupCount":4
+        "groupCount":4,
+        "hasLargeTusks":1
       },
       "spawnBiomes":[
         [
@@ -60,7 +64,8 @@
       "health":120,
       "flags":{
         "groupCount":3,
-        "hasWoollyCoat":1
+        "hasWoollyCoat":1,
+        "hasLargeTusks":1
       },
       "spawnBiomes":[
         [
@@ -79,7 +84,9 @@
       "attack":10,
       "health":95,
       "flags":{
-        "groupCount":3
+        "groupCount":3,
+        "hasLargeTusks":1,
+        "flatBack":1
       },
       "spawnBiomes":[
         [
@@ -98,7 +105,8 @@
       "attack":11,
       "health":105,
       "flags":{
-        "groupCount":3
+        "groupCount":3,
+        "hasLargeTusks":1
       },
       "spawnBiomes":[
         [
@@ -114,7 +122,8 @@
       "attack":8,
       "health":70,
       "flags":{
-        "groupCount":3
+        "groupCount":3,
+        "flatBack":1
       },
       "spawnBiomes":[
         [

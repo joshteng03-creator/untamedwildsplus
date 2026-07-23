@@ -65,10 +65,10 @@ public class ModEntity {
     public static RegistryObject<EntityType<EntityEquid>> EQUID = createEntity(EntityEquid::new, "equid", 1.4F, 1.6F, 0x9C6B3F, 0x5A3B22);
     public static RegistryObject<EntityType<EntityGiraffid>> GIRAFFID = createEntity(EntityGiraffid::new, "giraffid", 1.6F, 2.4F, 0xD8A44A, 0x6E4B22);
     public static RegistryObject<EntityType<EntityMacrauchenia>> MACRAUCHENIA = createEntity(EntityMacrauchenia::new, "macrauchenia", 1.3F, 1.9F, 0xA98A5C, 0x5E4A2E);
-    public static RegistryObject<EntityType<EntityToxodon>> TOXODON = createEntity(EntityToxodon::new, "toxodon", 1.6F, 1.3F, 0x6B5A47, 0x3A2E22);
+    public static RegistryObject<EntityType<EntityToxodon>> TOXODON = createEntity(EntityToxodon::new, "toxodon", 1.7F, 1.5F, 0x6B5A47, 0x3A2E22);
     public static RegistryObject<EntityType<EntityGroundSloth>> GROUND_SLOTH = createEntity(EntityGroundSloth::new, "ground_sloth", 1.6F, 2.2F, 0x7A5A3A, 0x3E2C1C);
     public static RegistryObject<EntityType<EntityAntelope>> ANTELOPE = createEntity(EntityAntelope::new, "antelope", 1.0F, 1.2F, 0xC79A5B, 0x6E5230);
-    public static RegistryObject<EntityType<EntityGlyptodont>> GLYPTODONT = createEntity(EntityGlyptodont::new, "glyptodont", 1.8F, 1.2F, 0x7A6E52, 0x3E3626);
+    public static RegistryObject<EntityType<EntityGlyptodont>> GLYPTODONT = createEntity(EntityGlyptodont::new, "glyptodont", 2.2F, 1.8F, 0x7A6E52, 0x3E3626);
     public static RegistryObject<EntityType<EntityCamel>> CAMEL = createEntity(EntityCamel::new, "camel", 1.8F, 2F, 0xE0B989, 0x976B3D);
     public static RegistryObject<EntityType<EntityManatee>> MANATEE = createEntity(EntityManatee::new, "manatee", 1.8F, 2F, 0x4A4040, 0x787676);
     public static RegistryObject<EntityType<EntityBaleenWhale>> BALEEN_WHALE = createEntity(EntityBaleenWhale::new, "baleen_whale", 2.6F, 1.6F, 0x12141E, 0x5B6168);

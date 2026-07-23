@@ -3,6 +3,7 @@ package untamedwilds.entity.mammal;
 import com.github.alexthe666.citadel.animation.Animation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -38,6 +39,7 @@ import javax.annotation.Nullable;
 public class EntityRhino extends ComplexMobTerrestrial implements INewSkins, ISpecies, INeedsPostUpdate {
 
    private static final EntityDataAccessor<Boolean> CHARGING = SynchedEntityData.defineId(EntityRhino.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> STUB_HORN = SynchedEntityData.defineId(EntityRhino.class, EntityDataSerializers.BOOLEAN);
 
     public static Animation ATTACK_THREATEN;
     public static Animation ATTACK_GORE;
@@ -53,6 +55,7 @@ public class EntityRhino extends ComplexMobTerrestrial implements INewSkins, ISp
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(CHARGING, false);
+        this.entityData.define(STUB_HORN, false);
     }
 
     public void registerGoals() {
@@ -181,6 +184,19 @@ public class EntityRhino extends ComplexMobTerrestrial implements INewSkins, ISp
         entityData.set(CHARGING, bool);
     }
 
+    public boolean hasStubHorn() { return this.entityData.get(STUB_HORN); }
+    private void setStubHorn(boolean bool) { this.entityData.set(STUB_HORN, bool); }
+
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putBoolean("stubHorn", this.hasStubHorn());
+    }
+
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        this.setStubHorn(compound.getBoolean("stubHorn"));
+    }
+
     @Override
     public Animation[] getAnimations() {
         return new Animation[]{NO_ANIMATION, ATTACK_THREATEN, ATTACK_GORE};
@@ -193,5 +209,6 @@ public class EntityRhino extends ComplexMobTerrestrial implements INewSkins, ISp
         this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getAttack());
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getHealth());
         this.setHealth(this.getMaxHealth());
+        this.setStubHorn(getEntityData(this.getType()).getFlags(this.getVariant(), "stubHorn") == 1);
     }
 }

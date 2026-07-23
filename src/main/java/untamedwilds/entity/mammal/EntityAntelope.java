@@ -36,7 +36,7 @@ import untamedwilds.util.EntityUtils;
 
 import javax.annotation.Nullable;
 
-public class EntityAntelope extends ComplexMobTerrestrial implements INewSkins, ISpecies, IPackEntity {
+public class EntityAntelope extends ComplexMobTerrestrial implements INewSkins, ISpecies, IPackEntity, INeedsPostUpdate {
 
     private static final EntityDataAccessor<Boolean> BULBOUS_NOSE = SynchedEntityData.defineId(EntityAntelope.class, EntityDataSerializers.BOOLEAN);
 

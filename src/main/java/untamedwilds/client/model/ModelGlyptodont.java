@@ -11,205 +11,237 @@ import untamedwilds.entity.mammal.EntityGlyptodont;
 
 public class ModelGlyptodont extends AdvancedEntityModel<EntityGlyptodont> {
 
-    private final AdvancedModelBox body_main;
-    private final AdvancedModelBox body_torso;
-    private final AdvancedModelBox leg_left_thigh;
-    private final AdvancedModelBox leg_right_thigh;
-    private final AdvancedModelBox body_hair;
-    private final AdvancedModelBox tail;
-    private final AdvancedModelBox arm_right_1;
-    private final AdvancedModelBox arm_left_1;
+    private final AdvancedModelBox body_core;
+    private final AdvancedModelBox shell_crown;
+    private final AdvancedModelBox shell_front;
+    private final AdvancedModelBox shell_rear;
+    private final AdvancedModelBox shell_flank_left;
+    private final AdvancedModelBox shell_flank_right;
     private final AdvancedModelBox head_neck;
-    private final AdvancedModelBox arm_right_2;
-    private final AdvancedModelBox arm_right_fur;
-    private final AdvancedModelBox arm_left_2;
-    private final AdvancedModelBox arm_left_fur;
     private final AdvancedModelBox head_main;
-    private final AdvancedModelBox head_hair;
-    private final AdvancedModelBox head_horn_right;
-    private final AdvancedModelBox head_ear_right;
-    private final AdvancedModelBox head_ear_left;
-    private final AdvancedModelBox head_horn_left;
-    private final AdvancedModelBox head_beard;
+    private final AdvancedModelBox head_cap;
+    private final AdvancedModelBox snout;
     private final AdvancedModelBox eye_left;
     private final AdvancedModelBox eye_right;
-    private final AdvancedModelBox leg_left_calf;
-    private final AdvancedModelBox leg_right_calf;
-    private final AdvancedModelBox shell;
+    private final AdvancedModelBox arm_left_1;
+    private final AdvancedModelBox arm_left_2;
+    private final AdvancedModelBox arm_right_1;
+    private final AdvancedModelBox arm_right_2;
+    private final AdvancedModelBox leg_left_1;
+    private final AdvancedModelBox leg_left_2;
+    private final AdvancedModelBox leg_right_1;
+    private final AdvancedModelBox leg_right_2;
+    private final AdvancedModelBox tail_1;
+    private final AdvancedModelBox tail_2;
+    private final AdvancedModelBox tail_3;
     private final AdvancedModelBox tail_club;
+    private final AdvancedModelBox club_spike_left;
+    private final AdvancedModelBox club_spike_right;
+    private final AdvancedModelBox club_spike_top;
+    private final AdvancedModelBox club_spike_rear;
 
     private final ModelAnimator animator;
-    
-    public ModelGlyptodont() {
-        this.texWidth = 128;
-        this.texHeight = 64;
-        
-        this.body_torso = new AdvancedModelBox(this, 64, 0);
-        this.body_torso.setRotationPoint(0.0F, 0.0F, -8.0F);
-        this.body_torso.addBox(-6.0F, -7.0F, -6.0F, 12, 14, 12, 0.0F);
-        this.setRotateAngle(body_torso, 0.31869712141416456F, 0.0F, 0.0F);
-        this.arm_left_1 = new AdvancedModelBox(this, 0, 0);
-        this.arm_left_1.setRotationPoint(4.5F, 2.2F, -2.0F);
-        this.arm_left_1.addBox(-2.0F, 0.0F, -2.0F, 4, 7, 4, 0.0F);
-        this.setRotateAngle(arm_left_1, -0.18203784098300857F, 0.0F, 0.0F);
-        this.arm_left_2 = new AdvancedModelBox(this, 0, 12);
-        this.arm_left_2.setRotationPoint(0.0F, 6.3F, 0.0F);
-        this.arm_left_2.addBox(-1.5F, 0.0F, -1.5F, 3, 5, 3, 0.0F);
-        this.setRotateAngle(arm_left_2, -0.136659280431156F, 0.0F, 0.0F);
-        this.arm_right_2 = new AdvancedModelBox(this, 0, 12);
-        this.arm_right_2.mirror = true;
-        this.arm_right_2.setRotationPoint(0.0F, 6.3F, 0.0F);
-        this.arm_right_2.addBox(-1.5F, 0.0F, -1.5F, 3, 5, 3, 0.0F);
-        this.setRotateAngle(arm_right_2, -0.136659280431156F, 0.0F, 0.0F);
-        this.head_horn_right = new AdvancedModelBox(this, 0, 47);
-        this.head_horn_right.mirror = true;
-        this.head_horn_right.setRotationPoint(-2.0F, -3.0F, -2.5F);
-        this.head_horn_right.addBox(-4.0F, -1.0F, 0.0F, 4, 2, 2, 0.0F);
-        this.setRotateAngle(head_horn_right, 0.18203784098300857F, -0.18203784098300857F, 0.36425021489121656F);
-        this.leg_left_calf = new AdvancedModelBox(this, 86, 26);
-        this.leg_left_calf.setRotationPoint(0.7F, 3.5F, 2.5F);
-        this.leg_left_calf.addBox(-1.0F, 0.0F, -1.0F, 3, 10, 3, 0.0F);
-        this.head_horn_left = new AdvancedModelBox(this, 0, 47);
-        this.head_horn_left.setRotationPoint(2.0F, -3.0F, -2.5F);
-        this.head_horn_left.addBox(0.0F, -1.0F, 0.0F, 4, 2, 2, 0.0F);
-        this.setRotateAngle(head_horn_left, 0.18203784098300857F, 0.18203784098300857F, -0.36425021489121656F);
-        this.head_beard = new AdvancedModelBox(this, 22, 44);
-        this.head_beard.setRotationPoint(0.0F, 3.0F, -0.5F);
-        this.head_beard.addBox(-2.0F, 0.0F, -1.5F, 4, 5, 3, 0.0F);
-        this.setRotateAngle(head_beard, 0.18203784098300857F, 0.0F, 0.0F);
-        this.body_hair = new AdvancedModelBox(this, 0, 36);
-        this.body_hair.setRotationPoint(0.0F, 5.3F, -0.4F);
-        this.body_hair.addBox(0.0F, 0.0F, -12.0F, 0, 4, 24, 0.0F);
-        this.setRotateAngle(body_hair, 0.091106186954104F, 0.0F, 0.0F);
-        this.eye_right = new AdvancedModelBox(this, 0, 30);
-        this.eye_right.setRotationPoint(-2.51F, 0.0F, -2.0F);
-        this.eye_right.addBox(0.0F, -0.5F, -1.0F, 0, 1, 2, 0.0F);
-        this.body_main = new AdvancedModelBox(this, 0, 0);
-        this.body_main.setRotationPoint(0.0F, 10.0F, 6.0F);
-        this.body_main.addBox(-5.5F, -6.0F, -10.0F, 11, 12, 20, 0.0F);
-        this.leg_right_thigh = new AdvancedModelBox(this, 62, 26);
-        this.leg_right_thigh.mirror = true;
-        this.leg_right_thigh.setRotationPoint(-4.0F, 0.5F, 7.5F);
-        this.leg_right_thigh.addBox(-3.0F, -3.5F, -3.5F, 5, 10, 7, 0.0F);
-        this.head_neck = new AdvancedModelBox(this, 8, 47);
-        this.head_neck.setRotationPoint(0.0F, -1.0F, -3.5F);
-        this.head_neck.addBox(-2.0F, -3.5F, -6.0F, 4, 7, 6, 0.0F);
-        this.setRotateAngle(head_neck, -0.22759093446006054F, 0.0F, 0.0F);
-        this.leg_right_calf = new AdvancedModelBox(this, 86, 26);
-        this.leg_right_calf.mirror = true;
-        this.leg_right_calf.setRotationPoint(-0.7F, 3.5F, 2.5F);
-        this.leg_right_calf.addBox(-2.0F, 0.0F, -1.0F, 3, 10, 3, 0.0F);
-        this.head_ear_right = new AdvancedModelBox(this, 18, 32);
-        this.head_ear_right.setRotationPoint(-3.5F, -1.3F, -0.4F);
-        this.head_ear_right.addBox(-2.0F, -1.0F, 0.0F, 3, 2, 1, 0.0F);
-        this.setRotateAngle(head_ear_right, 0.18203784098300857F, 0.18203784098300857F, -0.136659280431156F);
-        this.head_main = new AdvancedModelBox(this, 0, 32);
-        this.head_main.setRotationPoint(0.0F, 2.0F, -5.0F);
-        this.head_main.addBox(-2.5F, -4.5F, -5.0F, 5, 9, 6, 0.0F);
-        this.setRotateAngle(head_main, -0.36425021489121656F, 0.0F, 0.0F);
-        this.head_hair = new AdvancedModelBox(this, 22, 32);
-        this.head_hair.setRotationPoint(0.0F, -2.4F, -2.4F);
-        this.head_hair.addBox(-3.0F, -3.0F, -3.0F, 6, 4, 7, 0.0F);
-        this.setRotateAngle(head_hair, 0.22759093446006054F, 0.0F, 0.0F);
-        this.arm_right_1 = new AdvancedModelBox(this, 0, 0);
-        this.arm_right_1.mirror = true;
-        this.arm_right_1.setRotationPoint(-4.5F, 2.2F, -2.0F);
-        this.arm_right_1.addBox(-2.0F, 0.0F, -2.0F, 4, 7, 4, 0.0F);
-        this.setRotateAngle(arm_right_1, -0.18203784098300857F, 0.0F, 0.0F);
-        this.arm_left_fur = new AdvancedModelBox(this, 42, 0);
-        this.arm_left_fur.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.arm_left_fur.addBox(-2.5F, -0.1F, -3.0F, 5, 9, 6, 0.0F);
-        this.leg_left_thigh = new AdvancedModelBox(this, 62, 26);
-        this.leg_left_thigh.setRotationPoint(4.0F, 0.5F, 7.5F);
-        this.leg_left_thigh.addBox(-2.0F, -3.5F, -3.5F, 5, 10, 7, 0.0F);
-        this.tail = new AdvancedModelBox(this, 64, 0);
-        this.tail.setRotationPoint(0.0F, -6.0F, 10.0F);
-        this.tail.addBox(-2.5F, 0.0F, 0.0F, 5, 10, 0, 0.0F);
-        this.setRotateAngle(tail, 0.18203784098300857F, 0.0F, 0.0F);
-        this.head_ear_left = new AdvancedModelBox(this, 18, 32);
-        this.head_ear_left.mirror = true;
-        this.head_ear_left.setRotationPoint(3.5F, -1.3F, -0.4F);
-        this.head_ear_left.addBox(-1.0F, -1.0F, 0.0F, 3, 2, 1, 0.0F);
-        this.setRotateAngle(head_ear_left, 0.18203784098300857F, -0.18203784098300857F, 0.136659280431156F);
-        this.eye_left = new AdvancedModelBox(this, 0, 30);
-        this.eye_left.setRotationPoint(2.51F, 0.0F, -2.0F);
-        this.eye_left.addBox(0.0F, -0.5F, -1.0F, 0, 1, 2, 0.0F);
-        this.arm_right_fur = new AdvancedModelBox(this, 42, 0);
-        this.arm_right_fur.mirror = true;
-        this.arm_right_fur.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.arm_right_fur.addBox(-2.5F, -0.1F, -3.0F, 5, 9, 6, 0.0F);
-        this.body_main.addChild(this.body_torso);
-        this.body_torso.addChild(this.arm_left_1);
-        this.arm_left_1.addChild(this.arm_left_2);
-        this.arm_right_1.addChild(this.arm_right_2);
-        this.head_main.addChild(this.head_horn_right);
-        this.leg_left_thigh.addChild(this.leg_left_calf);
-        this.head_main.addChild(this.head_horn_left);
-        this.head_main.addChild(this.head_beard);
-        this.body_main.addChild(this.body_hair);
-        this.head_main.addChild(this.eye_right);
-        this.body_main.addChild(this.leg_right_thigh);
-        this.body_torso.addChild(this.head_neck);
-        this.leg_right_thigh.addChild(this.leg_right_calf);
-        this.head_main.addChild(this.head_ear_right);
-        this.head_neck.addChild(this.head_main);
-        this.head_main.addChild(this.head_hair);
-        this.body_torso.addChild(this.arm_right_1);
-        this.arm_left_1.addChild(this.arm_left_fur);
-        this.body_main.addChild(this.leg_left_thigh);
-        this.body_main.addChild(this.tail);
-        this.head_main.addChild(this.head_ear_left);
-        this.head_main.addChild(this.eye_left);
-        this.arm_right_1.addChild(this.arm_right_fur);
 
-        // Domed carapace over the back, and an optional Doedicurus tail club
-        this.shell = new AdvancedModelBox(this, 96, 0);
-        this.shell.setRotationPoint(0.0F, -5.0F, -1.0F);
-        this.shell.addBox(-7.0F, -9.0F, -11.0F, 14, 10, 22, 0.0F);
-        this.tail_club = new AdvancedModelBox(this, 100, 32);
-        this.tail_club.setRotationPoint(0.0F, 10.0F, 0.0F);
-        this.tail_club.addBox(-2.5F, -2.0F, -2.5F, 5, 5, 5, 0.0F);
-        this.body_main.addChild(this.shell);
-        this.tail.addChild(this.tail_club);
+    public ModelGlyptodont() {
+        this.texWidth = 256;
+        this.texHeight = 256;
+
+        // Full Blockbench rebuild (28 boxes, 256x256 -- the old model was 23 boxes on 256x128 and the
+        // carapace needed the extra texture space). The shell is ONE core box with five angled panels
+        // NESTED into it rather than bolted on top: a flat crown, front and rear rims at +/-26 deg
+        // giving the overhanging lip a glyptodont carapace actually has, and two flanks rolled inward
+        // at the bottom on Z (+/-0.2793 rad). That inward roll is what turns a box into a dome -- without
+        // it the shell reads as a crate.
+        // Anatomy: the carapace IS the animal; a small head pokes out under the shell front carrying a
+        // bony cephalic shield; legs are short two-segment pillars with almost no bend, mostly hidden
+        // under the shell rim; the tail is sheathed in armoured rings.
+        // All coords/rotations/texOffs transcribed VERBATIM from the modded_entity export.
+        this.body_core = new AdvancedModelBox(this, 0, 0);
+        this.body_core.setRotationPoint(0.0F, 4.0F, -2.0F);
+        this.body_core.addBox(-12.5F, -6.0F, -14.0F, 25.0F, 15.0F, 29.0F, 0.0F);
+
+        this.shell_crown = new AdvancedModelBox(this, 0, 44);
+        this.shell_crown.setRotationPoint(0.0F, -5.0F, -1.0F);
+        this.shell_crown.addBox(-11.0F, -4.0F, -10.0F, 22.0F, 5.0F, 22.0F, 0.0F);
+
+        this.shell_front = new AdvancedModelBox(this, 88, 44);
+        this.shell_front.setRotationPoint(0.0F, -5.0F, -11.0F);
+        this.shell_front.addBox(-11.5F, -2.0F, -8.0F, 23.0F, 10.0F, 10.0F, 0.0F);
+        this.setRotateAngle(shell_front, 0.4538F, 0.0F, 0.0F);
+
+        this.shell_rear = new AdvancedModelBox(this, 154, 44);
+        this.shell_rear.setRotationPoint(0.0F, -5.0F, 10.0F);
+        this.shell_rear.addBox(-11.5F, -2.0F, -1.0F, 23.0F, 10.0F, 9.0F, 0.0F);
+        this.setRotateAngle(shell_rear, -0.4538F, 0.0F, 0.0F);
+
+        this.shell_flank_left = new AdvancedModelBox(this, 108, 0);
+        this.shell_flank_left.setRotationPoint(12.0F, -4.0F, 0.0F);
+        this.shell_flank_left.addBox(-1.0F, -1.0F, -13.0F, 3.0F, 13.0F, 27.0F, 0.0F);
+        this.setRotateAngle(shell_flank_left, 0.0F, 0.0F, 0.2793F);
+
+        this.shell_flank_right = new AdvancedModelBox(this, 168, 0);
+        this.shell_flank_right.setRotationPoint(-12.0F, -4.0F, 0.0F);
+        this.shell_flank_right.addBox(-2.0F, -1.0F, -13.0F, 3.0F, 13.0F, 27.0F, 0.0F);
+        this.setRotateAngle(shell_flank_right, 0.0F, 0.0F, -0.2793F);
+
+        this.head_neck = new AdvancedModelBox(this, 98, 71);
+        this.head_neck.setRotationPoint(0.0F, 3.0F, -13.0F);
+        this.head_neck.addBox(-5.5F, -3.5F, -6.0F, 11.0F, 7.5F, 7.0F, 0.0F);
+        this.setRotateAngle(head_neck, 0.1047F, 0.0F, 0.0F);
+
+        this.head_main = new AdvancedModelBox(this, 134, 71);
+        this.head_main.setRotationPoint(0.0F, 0.0F, -5.0F);
+        this.head_main.addBox(-5.5F, -3.0F, -5.5F, 11.0F, 7.5F, 6.5F, 0.0F);
+        this.setRotateAngle(head_main, 0.0873F, 0.0F, 0.0F);
+
+        this.head_cap = new AdvancedModelBox(this, 208, 90);
+        this.head_cap.setRotationPoint(0.0F, -3.0F, -2.0F);
+        this.head_cap.addBox(-5.0F, -1.8F, -3.0F, 10.0F, 2.3F, 5.5F, 0.0F);
+        this.setRotateAngle(head_cap, 0.0524F, 0.0F, 0.0F);
+
+        this.snout = new AdvancedModelBox(this, 186, 90);
+        this.snout.setRotationPoint(0.0F, 1.5F, -5.0F);
+        this.snout.addBox(-3.5F, -2.5F, -3.5F, 7.0F, 5.5F, 4.0F, 0.0F);
+        this.setRotateAngle(snout, 0.1222F, 0.0F, 0.0F);
+
+        // Eye planes sit 0.35 clear of the skull face (|x| 5.5) so they cannot z-fight the cheek, and
+        // are 3x3 -- at 2px there is no room for a pupil to read.
+        this.eye_left = new AdvancedModelBox(this, 72, 104);
+        this.eye_left.setRotationPoint(5.85F, -0.5F, -5.0F);
+        this.eye_left.addBox(0.0F, -1.5F, -1.5F, 0.0F, 3.0F, 3.0F, 0.0F);
+
+        this.eye_right = new AdvancedModelBox(this, 78, 104);
+        this.eye_right.setRotationPoint(-5.85F, -0.5F, -5.0F);
+        this.eye_right.addBox(0.0F, -1.5F, -1.5F, 0.0F, 3.0F, 3.0F, 0.0F);
+
+        this.arm_left_1 = new AdvancedModelBox(this, 170, 71);
+        this.arm_left_1.setRotationPoint(8.0F, 7.0F, -8.0F);
+        this.arm_left_1.addBox(-3.0F, -0.5F, -3.5F, 6.0F, 8.0F, 7.0F, 0.0F);
+        this.setRotateAngle(arm_left_1, -0.0698F, 0.0F, -0.0698F);
+
+        this.arm_left_2 = new AdvancedModelBox(this, 114, 90);
+        this.arm_left_2.setRotationPoint(0.0F, 7.5F, 0.0F);
+        this.arm_left_2.addBox(-2.5F, -0.5F, -3.0F, 5.0F, 6.0F, 6.0F, 0.0F);
+        this.setRotateAngle(arm_left_2, 0.0698F, 0.0F, 0.0F);
+
+        this.arm_right_1 = new AdvancedModelBox(this, 196, 71);
+        this.arm_right_1.setRotationPoint(-8.0F, 7.0F, -8.0F);
+        this.arm_right_1.addBox(-3.0F, -0.5F, -3.5F, 6.0F, 8.0F, 7.0F, 0.0F);
+        this.setRotateAngle(arm_right_1, -0.0698F, 0.0F, 0.0698F);
+
+        this.arm_right_2 = new AdvancedModelBox(this, 136, 90);
+        this.arm_right_2.setRotationPoint(0.0F, 7.5F, 0.0F);
+        this.arm_right_2.addBox(-2.5F, -0.5F, -3.0F, 5.0F, 6.0F, 6.0F, 0.0F);
+        this.setRotateAngle(arm_right_2, 0.0698F, 0.0F, 0.0F);
+
+        this.leg_left_1 = new AdvancedModelBox(this, 42, 71);
+        this.leg_left_1.setRotationPoint(8.5F, 7.0F, 8.0F);
+        this.leg_left_1.addBox(-3.0F, -0.5F, -4.0F, 6.0F, 8.0F, 8.0F, 0.0F);
+        this.setRotateAngle(leg_left_1, 0.0698F, 0.0F, -0.0698F);
+
+        this.leg_left_2 = new AdvancedModelBox(this, 36, 90);
+        this.leg_left_2.setRotationPoint(0.0F, 7.5F, 0.0F);
+        this.leg_left_2.addBox(-2.5F, -0.5F, -3.5F, 5.0F, 6.0F, 7.0F, 0.0F);
+        this.setRotateAngle(leg_left_2, -0.0698F, 0.0F, 0.0F);
+
+        this.leg_right_1 = new AdvancedModelBox(this, 70, 71);
+        this.leg_right_1.setRotationPoint(-8.5F, 7.0F, 8.0F);
+        this.leg_right_1.addBox(-3.0F, -0.5F, -4.0F, 6.0F, 8.0F, 8.0F, 0.0F);
+        this.setRotateAngle(leg_right_1, 0.0698F, 0.0F, 0.0698F);
+
+        this.leg_right_2 = new AdvancedModelBox(this, 60, 90);
+        this.leg_right_2.setRotationPoint(0.0F, 7.5F, 0.0F);
+        this.leg_right_2.addBox(-2.5F, -0.5F, -3.5F, 5.0F, 6.0F, 7.0F, 0.0F);
+        this.setRotateAngle(leg_right_2, -0.0698F, 0.0F, 0.0F);
+
+        this.tail_1 = new AdvancedModelBox(this, 0, 90);
+        this.tail_1.setRotationPoint(0.0F, 1.0F, 14.0F);
+        this.tail_1.addBox(-5.5F, -2.0F, -1.0F, 11.0F, 7.0F, 6.5F, 0.0F);
+        this.setRotateAngle(tail_1, -0.1222F, 0.0F, 0.0F);
+
+        this.tail_2 = new AdvancedModelBox(this, 84, 90);
+        this.tail_2.setRotationPoint(0.0F, 1.0F, 4.5F);
+        this.tail_2.addBox(-4.5F, -1.5F, -1.0F, 9.0F, 6.0F, 6.0F, 0.0F);
+        this.setRotateAngle(tail_2, -0.1396F, 0.0F, 0.0F);
+
+        this.tail_3 = new AdvancedModelBox(this, 158, 90);
+        this.tail_3.setRotationPoint(0.0F, 1.5F, 4.0F);
+        this.tail_3.addBox(-3.6F, -1.3F, -1.0F, 7.2F, 4.8F, 5.5F, 0.0F);
+        this.setRotateAngle(tail_3, -0.1396F, 0.0F, 0.0F);
+
+        // Doedicurus tail club + its four spikes. Toggled with showModel, NOT setScale: setScale does
+        // not reach children unless setShouldScaleChildren(true), so scale-0 on the club (what the old
+        // model did) would leave four spikes floating in mid-air on every glyptodon.
+        this.tail_club = new AdvancedModelBox(this, 0, 71);
+        this.tail_club.setRotationPoint(0.0F, 1.0F, 3.5F);
+        this.tail_club.addBox(-6.5F, -5.5F, -0.5F, 13.0F, 10.5F, 7.5F, 0.0F);
+        this.setRotateAngle(tail_club, -0.0524F, 0.0F, 0.0F);
+
+        this.club_spike_left = new AdvancedModelBox(this, 40, 104);
+        this.club_spike_left.setRotationPoint(6.5F, -0.5F, 3.0F);
+        this.club_spike_left.addBox(-0.5F, -1.5F, -1.5F, 3.5F, 3.0F, 4.0F, 0.0F);
+        this.setRotateAngle(club_spike_left, 0.0F, 0.0F, -0.3142F);
+
+        this.club_spike_right = new AdvancedModelBox(this, 56, 104);
+        this.club_spike_right.setRotationPoint(-6.5F, -0.5F, 3.0F);
+        this.club_spike_right.addBox(-3.0F, -1.5F, -1.5F, 3.5F, 3.0F, 4.0F, 0.0F);
+        this.setRotateAngle(club_spike_right, 0.0F, 0.0F, 0.3142F);
+
+        this.club_spike_top = new AdvancedModelBox(this, 0, 104);
+        this.club_spike_top.setRotationPoint(0.0F, -5.5F, 3.0F);
+        this.club_spike_top.addBox(-3.0F, -3.0F, -1.5F, 6.0F, 3.5F, 4.0F, 0.0F);
+        this.setRotateAngle(club_spike_top, 0.2094F, 0.0F, 0.0F);
+
+        this.club_spike_rear = new AdvancedModelBox(this, 20, 104);
+        this.club_spike_rear.setRotationPoint(0.0F, 0.0F, 7.0F);
+        this.club_spike_rear.addBox(-3.0F, -2.0F, -0.5F, 6.0F, 4.0F, 3.5F, 0.0F);
+
+        this.body_core.addChild(this.shell_crown);
+        this.body_core.addChild(this.shell_front);
+        this.body_core.addChild(this.shell_rear);
+        this.body_core.addChild(this.shell_flank_left);
+        this.body_core.addChild(this.shell_flank_right);
+        this.body_core.addChild(this.head_neck);
+        this.head_neck.addChild(this.head_main);
+        this.head_main.addChild(this.head_cap);
+        this.head_main.addChild(this.snout);
+        this.head_main.addChild(this.eye_left);
+        this.head_main.addChild(this.eye_right);
+        this.body_core.addChild(this.arm_left_1);
+        this.arm_left_1.addChild(this.arm_left_2);
+        this.body_core.addChild(this.arm_right_1);
+        this.arm_right_1.addChild(this.arm_right_2);
+        this.body_core.addChild(this.leg_left_1);
+        this.leg_left_1.addChild(this.leg_left_2);
+        this.body_core.addChild(this.leg_right_1);
+        this.leg_right_1.addChild(this.leg_right_2);
+        this.body_core.addChild(this.tail_1);
+        this.tail_1.addChild(this.tail_2);
+        this.tail_2.addChild(this.tail_3);
+        this.tail_3.addChild(this.tail_club);
+        this.tail_club.addChild(this.club_spike_left);
+        this.tail_club.addChild(this.club_spike_right);
+        this.tail_club.addChild(this.club_spike_top);
+        this.tail_club.addChild(this.club_spike_rear);
 
         animator = ModelAnimator.create();
         updateDefaultPose();
     }
-    
+
     @Override
     public Iterable<BasicModelPart> parts() {
-        return ImmutableList.of(body_main);
+        return ImmutableList.of(body_core);
     }
 
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
         return ImmutableList.of(
-            body_main,
-            body_torso,
-            leg_left_thigh,
-            leg_right_thigh,
-            body_hair,
-            tail,
-            arm_right_1,
-            arm_left_1,
-            head_neck,
-            arm_right_2,
-            arm_right_fur,
-            arm_left_2,
-            arm_left_fur,
-            head_main,
-            head_hair,
-            head_horn_right,
-            head_ear_right,
-            head_ear_left,
-            head_horn_left,
-            head_beard,
-            eye_left,
-            eye_right,
-            leg_left_calf,
-            leg_right_calf,
-            shell,
-            tail_club
+            body_core, shell_crown, shell_front, shell_rear, shell_flank_left, shell_flank_right,
+            head_neck, head_main, head_cap, snout, eye_left, eye_right,
+            arm_left_1, arm_left_2, arm_right_1, arm_right_2,
+            leg_left_1, leg_left_2, leg_right_1, leg_right_2,
+            tail_1, tail_2, tail_3, tail_club,
+            club_spike_left, club_spike_right, club_spike_top, club_spike_rear
         );
     }
 
@@ -217,35 +249,44 @@ public class ModelGlyptodont extends AdvancedEntityModel<EntityGlyptodont> {
         EntityGlyptodont glyptodont = (EntityGlyptodont) entityIn;
         animator.update(glyptodont);
 
+        // Threat: hunker down, pull the head back under the shell rim and cock the tail to one side --
+        // a glyptodont's defence is its carapace, and (for doedicurus) winding up the club.
         animator.setAnimation(EntityGlyptodont.ATTACK_THREATEN);
         for (int i = 0; i < 2; i++) {
             animator.startKeyframe(12);
-            this.rotate(animator, body_torso, 0, 0, 7.83F);
-            this.rotate(animator, head_neck, 7.83F, 0, -13.04F);
-            this.rotate(animator, arm_right_2, 31.31F, 0, 0);
-            animator.move(arm_left_1, 0, -0.6F, 0);
-            this.rotate(animator, arm_left_1, 0, 0, -7.83F);
-            animator.move(arm_right_1, 0, -0.5F, 0);
-            this.rotate(animator, arm_right_1, -46.96F, 0, -5.21F);
+            animator.move(body_core, 0, 1.5F, 0);
+            this.rotate(animator, head_neck, 14F, 0, 0);
+            this.rotate(animator, head_main, 10F, 0, 0);
+            this.rotate(animator, tail_1, 0, 26F, 0);
+            this.rotate(animator, tail_2, 0, 20F, 0);
+            this.rotate(animator, tail_3, 0, 16F, 0);
             animator.endKeyframe();
             animator.startKeyframe(9);
-            this.rotate(animator, body_torso, 0, 0, -13.05F);
-            this.rotate(animator, head_neck, 7.83F, 0, 26.08F);
-            this.rotate(animator, arm_right_2, 31.31F, 0, 0);
-            animator.move(arm_left_1, 0, 0.5F, 0);
-            this.rotate(animator, arm_left_1, 0, 0, 13.04F);
-            animator.move(arm_right_1, 0, 0.5F, 0);
-            this.rotate(animator, arm_right_1, 54.79F, 0, 10.43F);
+            animator.move(body_core, 0, 1.0F, 0);
+            this.rotate(animator, head_neck, 8F, 0, 0);
+            this.rotate(animator, head_main, 6F, 0, 0);
+            this.rotate(animator, tail_1, 0, -26F, 0);
+            this.rotate(animator, tail_2, 0, -20F, 0);
+            this.rotate(animator, tail_3, 0, -16F, 0);
             animator.endKeyframe();
         }
         animator.resetKeyframe(8);
 
+        // Gore: the tail-club swing. Wind up to one side, then whip across.
         animator.setAnimation(EntityGlyptodont.ATTACK_GORE);
         animator.startKeyframe(6);
-        this.rotate(animator, head_neck, 31.31F, 0, 26.08F);
+        this.rotate(animator, body_core, 0, -14F, 0);
+        this.rotate(animator, tail_1, 0, -42F, 0);
+        this.rotate(animator, tail_2, 0, -34F, 0);
+        this.rotate(animator, tail_3, 0, -28F, 0);
+        this.rotate(animator, tail_club, 0, -18F, 0);
         animator.endKeyframe();
         animator.startKeyframe(4);
-        this.rotate(animator, head_neck, -26.08F, 0, -46.96F);
+        this.rotate(animator, body_core, 0, 16F, 0);
+        this.rotate(animator, tail_1, 0, 52F, 0);
+        this.rotate(animator, tail_2, 0, 44F, 0);
+        this.rotate(animator, tail_3, 0, 36F, 0);
+        this.rotate(animator, tail_club, 0, 24F, 0);
         animator.endKeyframe();
         animator.resetKeyframe(4);
     }
@@ -253,42 +294,39 @@ public class ModelGlyptodont extends AdvancedEntityModel<EntityGlyptodont> {
     public void setupAnim(EntityGlyptodont glyptodont, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.resetToDefaultPose();
         animate(glyptodont);
-        float globalSpeed = 1.5f;
+        float globalSpeed = 1.0f;
         float globalDegree = 1f;
         float f = limbSwing / 2;
         limbSwingAmount = Math.min(0.4F, limbSwingAmount);
 
-        // This species carries no bison horns; hide the inherited horn cubes.
-        this.head_horn_left.setScale(0F, 0F, 0F);
-        this.head_horn_right.setScale(0F, 0F, 0F);
-        // Armoured, not furry: hide the shaggy bison fur parts.
-        this.body_hair.setScale(0F, 0F, 0F);
-        this.head_hair.setScale(0F, 0F, 0F);
-        this.head_beard.setScale(0F, 0F, 0F);
-        // Only Doedicurus-type variants show the tail club.
-        float club = glyptodont.hasTailClub() ? 1F : 0F;
-        this.tail_club.setScale(club, club, club);
+        // Per-species: doedicurus carries the tail club, glyptodon's tail just tapers out. showModel
+        // rather than setScale, so the four spikes (children of the club) vanish with it. Written on
+        // BOTH branches every frame -- the model instance is shared across all glyptodonts.
+        boolean club = glyptodont.hasTailClub();
+        this.tail_club.showModel = club;
+        this.club_spike_left.showModel = club;
+        this.club_spike_right.showModel = club;
+        this.club_spike_top.showModel = club;
+        this.club_spike_rear.showModel = club;
 
-        // Breathing Animation
-        this.body_main.setScale((float) (1.0F + Math.sin(ageInTicks / 20) * 0.08F), (float) (1.0F + Math.sin(ageInTicks / 16) * 0.08F), 1.0F);
-        this.body_torso.setScale((float) (1.0F + Math.sin(ageInTicks / 20) * 0.08F), (float) (1.0F + Math.sin(ageInTicks / 16) * 0.08F), 1.0F);
-        bob(body_main, 0.4F * globalSpeed, 0.1F, false, ageInTicks / 20, 2);
-        bob(arm_right_1, 0.4F * globalSpeed, 0.1F, false, -ageInTicks / 20, 2);
-        bob(arm_left_1, 0.4F * globalSpeed, 0.1F, false, -ageInTicks / 20, 2);
-        bob(leg_right_thigh, 0.4F * globalSpeed, 0.1F, false, -ageInTicks / 20, 2);
-        bob(leg_left_thigh, 0.4F * globalSpeed, 0.1F, false, -ageInTicks / 20, 2);
-        walk(head_neck, 0.4f * globalSpeed, 0.03f, false, 2.8F, 0.06F, ageInTicks / 20, 2);
+        // Idle: the shell barely moves -- only a slow breath and a lazy tail sway.
+        this.body_core.setScale((float) (1.0F + Math.sin(ageInTicks / 24) * 0.035F), (float) (1.0F + Math.sin(ageInTicks / 20) * 0.035F), 1.0F);
+        bob(body_core, 0.3F * globalSpeed, 0.08F, false, ageInTicks / 24, 2);
+        walk(head_neck, 0.3f * globalSpeed, 0.04f, false, 2.8F, 0.05F, ageInTicks / 24, 2);
+        this.swing(tail_1, 0.07F, 0.09F, false, 0F, 0F, ageInTicks, 1);
+        this.swing(tail_2, 0.07F, 0.13F, false, 1F, 0F, ageInTicks, 1);
+        this.swing(tail_3, 0.07F, 0.17F, false, 2F, 0F, ageInTicks, 1);
 
-        // Blinking Animation
+        // Blinking: bury the eye planes inside the skull (|x| 5.85 -> 4.6).
         if (!glyptodont.shouldRenderEyes()) {
-            this.eye_right.setRotationPoint(-2F, -2.0F, -4.0F);
-            this.eye_left.setRotationPoint(2F, -2.0F, -4.0F);
+            this.eye_left.setRotationPoint(4.6F, -0.5F, -5.0F);
+            this.eye_right.setRotationPoint(-4.6F, -0.5F, -5.0F);
         }
 
-        // Head Tracking Animation
+        // Head Tracking. The head is short and buried under the shell rim, so it turns less than most.
         if (!glyptodont.isSleeping()) {
-            this.faceTarget(netHeadYaw, headPitch, 3, head_neck);
-            this.faceTarget(netHeadYaw, headPitch, 3, head_main);
+            this.faceTarget(netHeadYaw, headPitch, 4, head_neck);
+            this.faceTarget(netHeadYaw, headPitch, 4, head_main);
         }
 
         // Pitch/Yaw handler
@@ -298,55 +336,61 @@ public class ModelGlyptodont extends AdvancedEntityModel<EntityGlyptodont> {
                 f = ageInTicks / 6;
                 limbSwingAmount = 0.5f;
                 float pitch = Mth.clamp(glyptodont.getXRot() - 10, -25F, 25.0F);
-                this.setRotateAngle(body_main, (float) (pitch * Math.PI / 180F), 0, 0);
+                this.setRotateAngle(body_core, (float) (pitch * Math.PI / 180F), 0, 0);
             }
         }
 
-        // Movement Animation
+        // Walk: short two-segment pillars with a small stride and a heavy body bob. The carapace is
+        // rigid, so unlike the other megafauna nothing in the torso flexes -- all the motion is in the
+        // legs, plus the tail swinging behind.
         if (glyptodont.canMove()) {
-            bob(body_main, 0.8f * globalSpeed, 0.6f * globalDegree, true, f, limbSwingAmount);
-            walk(head_neck, 0.8f * globalSpeed, 0.2f * globalDegree, false, 0, 0, f, limbSwingAmount);
-            walk(head_main, 0.8f * globalSpeed, 0.15f * globalDegree, true, 0, 0, f, limbSwingAmount);
-            walk(arm_right_1, -0.8f * globalSpeed, 1.4f * globalDegree, true, 0F, 1.4f, f, limbSwingAmount);
-            walk(arm_right_2, -0.8f * globalSpeed, 1.4f * globalDegree, false, -1F, 1.4f, f, limbSwingAmount * 1.2f);
-            walk(arm_left_1, -0.8f * globalSpeed, 1.4f * globalDegree, true, 2F, 1.4f, f, limbSwingAmount);
-            walk(arm_left_2, -0.8f * globalSpeed, 1.4f * globalDegree, false, 1F, 1.4f, f, limbSwingAmount * 1.2f);
-            walk(leg_right_thigh, 0.8f * globalSpeed, 1.4f * globalDegree, false, 2.8F, 0, f, limbSwingAmount);
-            walk(leg_right_calf, 0.8f * globalSpeed, 1.4f * globalDegree, true, 1.8F, 0, f, limbSwingAmount);
-            walk(leg_left_thigh, 0.8f * globalSpeed, 1.4f * globalDegree, false, 0.8F, 0, f, limbSwingAmount);
-            walk(leg_left_calf, 0.8f * globalSpeed, 1.4f * globalDegree, true, -0.2F, 0, f, limbSwingAmount);
+            bob(body_core, 0.8f * globalSpeed, 0.35f * globalDegree, true, f, limbSwingAmount);
+            walk(head_neck, 0.8f * globalSpeed, 0.12f * globalDegree, false, 0, 0, f, limbSwingAmount);
+
+            walk(arm_right_1, -0.8f * globalSpeed, 0.75f * globalDegree, true, 0F, 0.6f, f, limbSwingAmount);
+            walk(arm_right_2, -0.8f * globalSpeed, 0.75f * globalDegree, false, -1F, 0.6f, f, limbSwingAmount * 1.2f);
+            walk(arm_left_1, -0.8f * globalSpeed, 0.75f * globalDegree, true, 2F, 0.6f, f, limbSwingAmount);
+            walk(arm_left_2, -0.8f * globalSpeed, 0.75f * globalDegree, false, 1F, 0.6f, f, limbSwingAmount * 1.2f);
+            walk(leg_right_1, 0.8f * globalSpeed, 0.75f * globalDegree, false, 2.8F, 0, f, limbSwingAmount);
+            walk(leg_right_2, 0.8f * globalSpeed, 0.75f * globalDegree, true, 1.8F, 0, f, limbSwingAmount);
+            walk(leg_left_1, 0.8f * globalSpeed, 0.75f * globalDegree, false, 0.8F, 0, f, limbSwingAmount);
+            walk(leg_left_2, 0.8f * globalSpeed, 0.75f * globalDegree, true, -0.2F, 0, f, limbSwingAmount);
+
+            swing(tail_1, 0.8f * globalSpeed, 0.22f * globalDegree, false, 0F, 0, f, limbSwingAmount);
+            swing(tail_2, 0.8f * globalSpeed, 0.28f * globalDegree, false, -1F, 0, f, limbSwingAmount);
+            swing(tail_3, 0.8f * globalSpeed, 0.34f * globalDegree, false, -2F, 0, f, limbSwingAmount);
         }
 
-        // Sitting Animation
+        // Rest / sleep: the animal simply settles, which is what an armoured tank does -- the shell
+        // sinks 7 units until its rim is just off the ground and the short legs fold flat underneath
+        // it. The tail also has to FLATTEN (its standing droop would otherwise put the club 1.9 units
+        // through the floor once the body drops). Solved against real box geometry: nothing clips.
         if (glyptodont.sitProgress > 0) {
-            this.progressPosition(body_main, glyptodont.sitProgress, 0.0F, 17.5F, 0.0F, 40);
-            this.progressRotation(head_neck, glyptodont.sitProgress, (float) Math.toRadians(-33.91F), 0, 0, 40);
-            this.progressRotation(head_main, glyptodont.sitProgress, (float) Math.toRadians(-2.61F), 0, 0, 40);
-            this.progressPosition(arm_right_1, glyptodont.sitProgress, -4.5F, 0.2F, -2.0F, 40);
-            this.progressRotation(arm_right_1, glyptodont.sitProgress, (float) Math.toRadians(-65.22F), 0, 0, 40);
-            this.progressRotation(arm_right_2, glyptodont.sitProgress, (float) Math.toRadians(135.65F), 0.0F, (float) Math.toRadians(-15.65F), 40);
-            this.progressPosition(arm_left_1, glyptodont.sitProgress, 4.5F, 0.2F, -2.0F, 40);
-            this.progressRotation(arm_left_1, glyptodont.sitProgress, (float) Math.toRadians(-65.22F), 0, 0, 40);
-            this.progressRotation(arm_left_2, glyptodont.sitProgress, (float) Math.toRadians(135.65F), 0.0F, (float) Math.toRadians(15.65F), 40);
-            this.progressRotation(leg_right_thigh, glyptodont.sitProgress, (float) Math.toRadians(-73.04F), (float) Math.toRadians(15.65F), 0, 40);
-            this.progressRotation(leg_right_calf, glyptodont.sitProgress, (float) Math.toRadians(-10.43F), 0.0F, (float) Math.toRadians(-10.43F), 40);
-            this.progressRotation(leg_left_thigh, glyptodont.sitProgress, (float) Math.toRadians(-73.04F), (float) Math.toRadians(-15.65F), 0, 40);
-            this.progressRotation(leg_left_calf, glyptodont.sitProgress, (float) Math.toRadians(-10.43F), 0.0F, (float) Math.toRadians(10.43F), 40);
+            applyRestingPose(glyptodont.sitProgress);
         }
-
-        // Sleeping Animation
         else if (glyptodont.sleepProgress > 0) {
-            this.progressPosition(body_main, glyptodont.sleepProgress, 0.0F, 17.5F, 0.0F, 40);
-            this.progressPosition(arm_right_1, glyptodont.sleepProgress, -4.5F, 0.2F, -2.0F, 40);
-            this.progressRotation(arm_right_1, glyptodont.sleepProgress, (float) Math.toRadians(-65.22F), 0, 0, 40);
-            this.progressRotation(arm_right_2, glyptodont.sleepProgress, (float) Math.toRadians(135.65F), 0.0F, (float) Math.toRadians(-15.65F), 40);
-            this.progressPosition(arm_left_1, glyptodont.sleepProgress, 4.5F, 0.2F, -2.0F, 40);
-            this.progressRotation(arm_left_1, glyptodont.sleepProgress, (float) Math.toRadians(-65.22F), 0, 0, 40);
-            this.progressRotation(arm_left_2, glyptodont.sleepProgress, (float) Math.toRadians(135.65F), 0.0F, (float) Math.toRadians(15.65F), 40);
-            this.progressRotation(leg_right_thigh, glyptodont.sleepProgress, (float) Math.toRadians(-73.04F), (float) Math.toRadians(15.65F), 0, 40);
-            this.progressRotation(leg_right_calf, glyptodont.sleepProgress, (float) Math.toRadians(-10.43F), 0.0F, (float) Math.toRadians(-10.43F), 40);
-            this.progressRotation(leg_left_thigh, glyptodont.sleepProgress, (float) Math.toRadians(-73.04F), (float) Math.toRadians(-15.65F), 0, 40);
-            this.progressRotation(leg_left_calf, glyptodont.sleepProgress, (float) Math.toRadians(-10.43F), 0.0F, (float) Math.toRadians(10.43F), 40);
+            applyRestingPose(glyptodont.sleepProgress);
         }
+    }
+
+    private void applyRestingPose(float progress) {
+        this.progressPosition(body_core, progress, 0.0F, 11.0F, -2.0F, 40);
+
+        this.progressRotation(arm_left_1, progress, (float) Math.toRadians(75F), 0, (float) Math.toRadians(-4F), 40);
+        this.progressRotation(arm_left_2, progress, 0, 0, 0, 40);
+        this.progressRotation(arm_right_1, progress, (float) Math.toRadians(75F), 0, (float) Math.toRadians(4F), 40);
+        this.progressRotation(arm_right_2, progress, 0, 0, 0, 40);
+        this.progressRotation(leg_left_1, progress, (float) Math.toRadians(80F), 0, (float) Math.toRadians(-4F), 40);
+        this.progressRotation(leg_left_2, progress, 0, 0, 0, 40);
+        this.progressRotation(leg_right_1, progress, (float) Math.toRadians(80F), 0, (float) Math.toRadians(4F), 40);
+        this.progressRotation(leg_right_2, progress, 0, 0, 0, 40);
+
+        this.progressRotation(tail_1, progress, (float) Math.toRadians(2F), 0, 0, 40);
+        this.progressRotation(tail_2, progress, (float) Math.toRadians(2F), 0, 0, 40);
+        this.progressRotation(tail_3, progress, (float) Math.toRadians(2F), 0, 0, 40);
+        this.progressRotation(tail_club, progress, (float) Math.toRadians(6F), 0, 0, 40);
+
+        this.progressRotation(head_neck, progress, (float) Math.toRadians(2F), 0, 0, 40);
+        this.progressRotation(head_main, progress, (float) Math.toRadians(2F), 0, 0, 40);
     }
 }

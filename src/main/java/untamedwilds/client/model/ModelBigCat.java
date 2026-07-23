@@ -440,7 +440,7 @@ public class ModelBigCat extends AdvancedEntityModel<EntityBigCat> {
         }
 
         // Sabre fangs: elongate the upper canines for Smilodon/Homotherium (uses the existing tooth UVs)
-        float fang_scale = big_cat.hasSabreFangs() ? 2.4F : 1F;
+        float fang_scale = big_cat.hasSabreFangs() ? (big_cat.hasShortSabres() ? 0.85F : 2.4F) : 1F;
         this.teeth_right.scaleY = fang_scale;
         this.teeth_left.scaleY = fang_scale;
 

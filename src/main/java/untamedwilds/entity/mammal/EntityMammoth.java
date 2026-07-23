@@ -36,9 +36,11 @@ import untamedwilds.util.EntityUtils;
 
 import javax.annotation.Nullable;
 
-public class EntityMammoth extends ComplexMobTerrestrial implements INewSkins, ISpecies, IPackEntity {
+public class EntityMammoth extends ComplexMobTerrestrial implements INewSkins, ISpecies, IPackEntity, INeedsPostUpdate {
 
     private static final EntityDataAccessor<Boolean> WOOLLY_COAT = SynchedEntityData.defineId(EntityMammoth.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> LARGE_TUSKS = SynchedEntityData.defineId(EntityMammoth.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> FLAT_BACK = SynchedEntityData.defineId(EntityMammoth.class, EntityDataSerializers.BOOLEAN);
 
     public static Animation ATTACK_THREATEN;
     public static Animation ATTACK_GORE;
@@ -54,6 +56,8 @@ public class EntityMammoth extends ComplexMobTerrestrial implements INewSkins, I
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(WOOLLY_COAT, false);
+        this.entityData.define(LARGE_TUSKS, false);
+        this.entityData.define(FLAT_BACK, false);
     }
 
     public void registerGoals() {
@@ -185,15 +189,23 @@ public class EntityMammoth extends ComplexMobTerrestrial implements INewSkins, I
 
     public boolean hasWoollyCoat(){ return (this.entityData.get(WOOLLY_COAT)); }
     private void setWoollyCoat(boolean woolly){ this.entityData.set(WOOLLY_COAT, woolly); }
+    public boolean hasLargeTusks(){ return (this.entityData.get(LARGE_TUSKS)); }
+    private void setLargeTusks(boolean large){ this.entityData.set(LARGE_TUSKS, large); }
+    public boolean hasFlatBack(){ return (this.entityData.get(FLAT_BACK)); }
+    private void setFlatBack(boolean flat){ this.entityData.set(FLAT_BACK, flat); }
 
     public void addAdditionalSaveData(CompoundTag compound){
         super.addAdditionalSaveData(compound);
         compound.putBoolean("hasWoollyCoat", this.hasWoollyCoat());
+        compound.putBoolean("hasLargeTusks", this.hasLargeTusks());
+        compound.putBoolean("flatBack", this.hasFlatBack());
     }
 
     public void readAdditionalSaveData(CompoundTag compound){
         super.readAdditionalSaveData(compound);
         this.setWoollyCoat(compound.getBoolean("hasWoollyCoat"));
+        this.setLargeTusks(compound.getBoolean("hasLargeTusks"));
+        this.setFlatBack(compound.getBoolean("flatBack"));
     }
 
     @Override
@@ -202,5 +214,7 @@ public class EntityMammoth extends ComplexMobTerrestrial implements INewSkins, I
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getHealth());
         this.setHealth(this.getMaxHealth());
         this.setWoollyCoat(getEntityData(this.getType()).getFlags(this.getVariant(), "hasWoollyCoat") == 1);
+        this.setLargeTusks(getEntityData(this.getType()).getFlags(this.getVariant(), "hasLargeTusks") == 1);
+        this.setFlatBack(getEntityData(this.getType()).getFlags(this.getVariant(), "flatBack") == 1);
     }
 }

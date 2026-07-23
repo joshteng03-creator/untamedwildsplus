@@ -98,10 +98,13 @@
     {
       "name":"elasmotherium",
       "variant":6,
-      "scale":1.4,
+      "scale":1.75,
       "rarity":1,
       "attack":11,
       "health":75,
+      "flags":{
+        "stubHorn":1
+      },
       "spawnBiomes":[
         [
           "category|icy"

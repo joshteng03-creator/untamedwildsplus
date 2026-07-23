@@ -6,6 +6,26 @@ reference for adding new megafauna (Holocene & Pleistocene) without introducing 
 produced separately via Claude Design — this guide covers everything *except* the final art, but names
 every texture file each animal needs.
 
+## ▶ REMODELLING SOP — read before any model work
+
+Any time you remodel an animal, follow the standing 9-phase SOP at
+`~/.claude/projects/C--Users-josht-OneDrive-Desktop-untamed-wilds-plus/memory/reference_remodel_sop.md`
+(indexed first in `MEMORY.md`, so it loads every session). Summary of the phase order:
+
+0. Read the model/entity/JSON **contract** first (animations, per-species flags, scales).
+1. Write a `<animal>_spec.py` and validate it with a **forward-kinematics checker** — ground contact for
+   every weight-bearing part, size in blocks, truthful volume-sampled silhouette — *before* Blockbench.
+2. Massing: **few, big, NESTED** boxes; angle major masses 13–21°; overlap chain joints ~1 unit.
+   If two visual passes fail to converge, **stop and ask** rather than guessing more coordinates.
+3. Build from the spec, preview with a **flat grey** texture, screenshot 4 angles.
+4. Programmatic **z-fighting sweep**; eyes need ≥0.3 units clearance from the skull face.
+5. UV: shelf-pack the true `2*(w+d) × (h+d)` footprint, assert 0 overlaps, then a flat-colour checker.
+6. Port from `export_model("modded_entity")` **verbatim** (never pass `path`; never re-derive the Y-flip).
+7. **Solve** sit/sleep poses by grid search against real geometry — never hand-guess them.
+8. Skins one at a time, approval before each; change the surface *treatment*, not just the palette;
+   nothing written into `assets/` before the user says yes.
+9. `./gradlew build` then `runClient` with output **redirected to a file, not piped through `tail`**.
+
 ## ▶ Start here (session handoff — read this first)
 
 **Where things stand (2026-07-20):**
@@ -53,6 +73,152 @@ A live **Blockbench ⇄ Claude Code** bridge is set up so geometry can be sculpt
   and the `Model<Name>.java` file is the **build target** (the agent translates the sculpted boxes into
   the `AdvancedModelBox` code). Keep `client/model/ModelBison.java` open as the format gold standard.
 
+## ▶ Blockbench hard-won lessons (read before touching any model — these caused real bugs)
+
+These were each discovered by shipping a visibly broken mammoth and having to root-cause it. Follow
+them from the start on every future animal to avoid repeating the same debugging sessions.
+
+1. **Never hand-copy coordinates off the Blockbench UI.** Blockbench's internal viewport is
+   **Y-up**; Minecraft's `ModelPart`/`AdvancedModelBox` convention is **Y-down**. The
+   `modded_entity` export (Java Class export) correctly performs this flip for you — raw
+   `Group.origin`/`Cube.from`/`Cube.to` values do not match what ends up in-game and will render the
+   model **upside-down**. Always call `export_model(codec_id: "modded_entity")`, read the emitted
+   `PartPose.offset(...)`/`addBox(...)` values, and transcribe those into `AdvancedModelBox`
+   verbatim (same numeric literals, same parent/child structure) — never re-derive them by
+   subtracting raw Blockbench values yourself, even if you worked out a "flip formula" once; it does
+   not generalize across scales or hierarchy depths, and re-deriving it a second time introduced a
+   fresh inversion bug.
+2. **A part's UV footprint is fixed by its own box dimensions — `texOffs` only changes the corner,
+   not the size.** Minecraft's box-UV auto-layout always reserves a footprint of
+   `2×(width+depth)` px wide by `(height+depth)` px tall starting at `texOffs`, no matter how small a
+   region you intend to give it. Picking an arbitrary small "UV budget" for a part (instead of its
+   real footprint) does **not** confine sampling to that budget — the renderer still lays out the
+   full-size cross starting there, spilling into whatever's next to it (another part's paint, or
+   blank canvas). This caused two real bugs: features rendering on the wrong body part, and a large
+   flank face sampling into unpainted background and rendering solid black.
+   - **The fix:** for every `AdvancedModelBox`, compute its real footprint —
+     `w = 2 * (round(width) + round(depth))`, `h = round(height) + round(depth)` — and shelf-pack
+     those exact sizes onto the texture canvas with zero overlap. Do not invent smaller sizes to
+     save space.
+   - Sum the footprints before picking a canvas size. A model scaled up from its original design
+     (e.g. after a manual resize pass) can easily need 4×+ the pixel budget of a 128×64 canvas —
+     check the total against `texWidth × texHeight` before assuming it fits, and bump to 256×256 (or
+     whatever fits) rather than cramming.
+3. **`texOffs` in the Java file and the live Blockbench project's per-cube `uv_offset` are one
+   source of truth — keep them identical, always.** Any time geometry is rescaled/resculpted and the
+   UV layout is recomputed, push the new values to **both places in the same pass** via
+   `modify_cube(uv_offset: [...], mirror_uv: ...)` for each cube (get UUIDs from `list_outline`).
+   Never edit the Java file's `texOffs` without also syncing Blockbench, or vice versa — they will
+   silently diverge and the next painting session will paint the wrong regions.
+4. **Verify UV alignment with a flat-color checker pass before investing in real painting.** After
+   any geometry/UV change, fill each region with a distinct solid color via `risky_eval`
+   (`ctx.fillStyle=...; ctx.fillRect(x,y,w,h)`) and screenshot the 3D view. If every part shows one
+   clean, correctly-shaped block of color with no bleeding into neighboring parts, the UV is safe to
+   paint for real. This is cheap and catches both of the bugs in point 2 immediately, instead of
+   discovering them after a full paint pass.
+5. **Blockbench's viewport never runs the mod's Java code.** Per-species toggles
+   (`hasWoollyCoat()`-gated `showModel`/`setScale` calls in `setupAnim`, or any other entity-driven
+   conditional) only execute inside a running Minecraft client, via `RendererX` calling
+   `Model.setupAnim(entity, ...)` every frame. A Blockbench screenshot is a static preview of the
+   raw box hierarchy with whatever texture is currently loaded — it has no entity, no species, and
+   never calls `setupAnim`. **Every species will look identical in Blockbench regardless of the
+   toggle**; this is expected, not a bug. The only way to see a toggle actually work is
+   `./gradlew runClient` and spawning the different species in-game.
+6. **Blockbench's directional preview lighting can make a correctly-painted face look near-black.**
+   Faces angled away from the viewport's implied light source render much darker than their actual
+   hex value, especially on large flank faces. Don't conclude a color is wrong from how dark a
+   screenshot looks — check the actual painted hex, and lean toward brighter base tones for large
+   surfaces so they still read clearly under this shading.
+7. **`export_model` with a `path` argument hangs the whole Blockbench MCP connection** (triggers an
+   unanswerable native filesystem-permission dialog, freezing every subsequent call including
+   read-only ones). Never pass `path`. To get a texture out of Blockbench, use `risky_eval` to call
+   `Texture.all[0].canvas.toDataURL()`, then base64-decode and write the PNG yourself via Bash —
+   never rely on `create_texture`'s width/height parameters sticking either (they default to 16×16
+   regardless of what's passed); if you need a specific resolution, recreate the canvas manually in
+   `risky_eval` (new `<canvas>`, reassign `tex.canvas`/`tex.ctx`/`tex.width`/`tex.height`, set
+   `Project.texture_width`/`texture_height`, call `tex.updateSource(...)`).
+8. **Frame `capture_screenshot` wide enough to see the whole model.** A camera `position` too close
+   to `target` just shows one giant clipped face, not the animal. For a large (mammoth-scale) model
+   centered near the origin, a position offset of roughly `±90, 55, ±100` with `target: [0, 15, 0]`
+   gives a usable full-body 3/4 view; adjust proportionally for other sizes.
+9. **You CAN rebuild an existing `Model*.java` as a Blockbench rig to preview skins in 3D.** This was
+   previously written off as too error-prone because of the Y-flip — it isn't, provided you
+   **calibrate instead of guessing**. Point 1 still stands for the Blockbench→Java direction; this is
+   the reverse direction, used for *skinning an already-shipped model*, not for authoring geometry.
+   - **Calibrate first.** Create one group + one cube with known values, `export_model(codec_id:
+     "modded_entity")`, and read the emitted Java. Derived transform (24-unit world):
+     `bbOrigin = (-javaPivotX, 24 - javaPivotY, javaPivotZ)` using **absolute** pivots (accumulate
+     `setRotationPoint` down the parent chain — both engines apply rotation after hierarchy offsets,
+     so naive addition is correct); `bbTo.x = -(absX + addBoxX)`, `bbFrom.x = bbTo.x - width`;
+     `bbTo.y = 24 - (absY + addBoxY)`, `bbFrom.y = bbTo.y - height`; `bbFrom.z = absZ + addBoxZ`,
+     `bbTo.z = bbFrom.z + depth`; rotation `bbRot = [-rxDeg, -ryDeg, +rzDeg]`.
+   - **Prove it every time:** after building, `export_model` again and diff against the original
+     `.java`. For `ModelRhino` every `addBox`/`texOffs`/`PartPose`/`mirror` matched exactly. Do not
+     paint against an unverified rig.
+   - Build it in one `risky_eval` from a SPEC array of
+     `[name, parent, origin, rotation, from, to, uv_offset, mirror]` → `new Group(...)` +
+     `new Cube({... box_uv:true, uv_offset, mirror_uv})` → `c.applyTexture(tex, true)`. **Omit parts
+     the species hides** (e.g. skip `horn_front`/`horn_back` when `stubHorn=1`) so the preview equals
+     what the player actually sees. Point 5 still applies: Blockbench never runs `setupAnim`, so bake
+     the toggle into the rig by hand.
+10. **The viewport pins the texture image — you must replace the `Texture` object to reload a skin.**
+    `updateSource` / `updateImageFromCanvas` / `updateMaterial` / `refresh` all fail to refresh what
+    is rendered, which makes you chase phantom bugs. Define one helper and reuse it:
+    `window.reloadSkin(path)` = read file → base64 → `new Texture().fromDataURL(...).add()` →
+    reassign every `cube.faces[f].texture` to the new uuid → `.remove(false)` the old ones. Then force
+    a fresh frame by calling `set_camera_angle` with a slightly changed position (it returns the
+    image); `capture_screenshot` on its own can return a stale frame.
+11. **Probe UV face orientation before painting — it is cheap and catches invisible mistakes.** Paint
+    each face of a part a distinct flat colour / directional ramp and screenshot (an extension of
+    point 4). Established for this codebase's box-UV layout:
+    - Row-1 first quad `A` = **UP** face, second quad `B` = **DOWN**; `front` = −Z, `back` = +Z.
+    - On **UP** faces, `j=0` is the **+Z (rear)** end and `j=max` is the front.
+    - **`side1` and `side2` run in OPPOSITE directions along `i`.** A "rear-only" feature painted
+      naively lands on opposite ends of the two flanks. Use a `rearness()` helper that flips for one
+      side, or keep side features symmetric along `i`.
+    - **Check whether the region you are painting is buried inside another box.** In `ModelRhino`,
+      `head_face`'s rear ~3px of its UP face sit inside `head_neck` and never render — the first
+      Elasmotherium frontal dome was painted there and was completely invisible.
+12. **Alpha-0 pixels delete a part, with no Java change.** `MobRenderer` draws with
+    `RenderType.entityCutoutNoCull`, which discards fully transparent fragments. Clearing exactly a
+    part's six face rects makes it vanish in-game — this is how the bison forelock (`head_hair`) is
+    removed on the aurochs. Only clear that part's own face rects; the surrounding dead zone often
+    holds *another* part's faces (see the packing notes in "Skin painting"), and those must stay
+    opaque or you will punch a hole in the mob.
+
+## Skin painting — making a variant look like its real animal, not a recolour
+
+Learned while redoing `bison:aurochs`, `bison:giant_buffalo` and `rhino:elasmotherium`, which had all
+shipped as hue-shifted copies of their siblings and read as "the same animal in a different colour".
+
+- **Recolouring is not enough.** A luminance-preserving hue shift keeps the *donor's* texture
+  signature — the bison's dense wool dithering, the woolly rhino's shaggy ginger nap — which is
+  exactly what makes the variant read as a reskin. Replace the **surface treatment**, not just the
+  palette.
+- **Design each variant against its sibling, deliberately opposite.** Pick 4–6 diagnostic cues and
+  invert them where the real animals differ. Shipped examples:
+  aurochs = glossy short cattle coat, smooth gradients, **pale** mealy muzzle ring, cream horns;
+  giant buffalo = matte slate hide, sparse hair with worn bare patches, wrinkle folds, **black**
+  muzzle, heavy dried ochre mud, keratin boss;
+  elasmotherium = cool ash-grey coarse **grizzled/agouti** pelage (vs the woolly rhino's warm ginger
+  shag), a large pale domed frontal boss, stiff dark neck mane, light dry steppe dust on long legs.
+- **When a species flag hides its signature feature, the skin has to carry the identity.**
+  `elasmotherium` has `stubHorn:1`, so the horn is gone — the painted frontal dome is what makes it
+  recognisable.
+- **Keep procedural noise LOW-contrast.** The first Elasmotherium pass used ±0.26 luminance speckle
+  and read as TV static / camo, not fur. Roughly ±0.13 with mild clumping reads as coarse hair.
+- **Fine detail must respect how few pixels a face gets.** A 1px highlight on a 2px-wide eye covers
+  half the eye and reads as a giant block — use a dim warm catchlight, not white. Likewise, at ~6px
+  across, concentric rings alias into random mottling; transverse bands stay legible.
+- **Do not paint an eye socket or ring onto a cheek face.** The eye is its own zero-width plane cube;
+  anything painted around it on `head_main`/`head_face` renders as a stray blotch *beside* the eye.
+- **Markings must be blended, dithered and broken, never hard lines.** A hard pale dorsal stripe on
+  the aurochs was rejected in-game as "an ugly white line"; the accepted version is a gaussian blend
+  toward a dun tone with hash-dithered edges that fade out at both ends of each face. Same for the
+  buffalo's mud tide line — offset it per column so it does not read as a straight horizontal band.
+- **Iterate in the 3D rig (point 9), not on the flat PNG.** Flat previews hid every one of the issues
+  above. Get per-animal approval before moving to the next skin.
+
 ## Progress log
 
 **Branch `ice-age-megafauna` (committed and pushed to `origin`, in sync).** First PR slice done:
@@ -89,12 +255,26 @@ A live **Blockbench ⇄ Claude Code** bridge is set up so geometry can be sculpt
 - **Part 3 — predator balance (done):** `EntityMonitor` now uses the hunger-gated `HuntMobTarget`
   constructor (threshold 30); `ComplexMobTerrestrial.satiateFromKill(+120)` is called from
   bear/big_cat/hyena/dire_wolf `doHurtTarget`.
+- **Skin realism pass — `bison:aurochs`, `bison:giant_buffalo`, `rhino:elasmotherium` (done,
+  approved):** all three had shipped as hue-shifted copies of a sibling and read as reskins. Repainted
+  from real-animal cues against verified Blockbench preview rigs for `ModelBison` and `ModelRhino`
+  (see Blockbench lessons 9–12 and "Skin painting"). The aurochs additionally has the inherited bison
+  forelock (`head_hair`) **deleted via alpha-0 UV rects** — no Java change — and a soft dithered dun
+  eel-stripe. Only data change: **`longHorns:1` added to `giant_buffalo`** in `bison.json` (correct for
+  *Syncerus antiquus*; it now shares that flag with `long_horned`). `elasmotherium` keeps
+  `stubHorn:1`, so its painted frontal dome carries the identity instead of a horn.
+  **Not yet verified in-game:** the new `longHorns` toggle needs a `runClient` look, since per-species
+  flags never execute in Blockbench (lesson 5).
 - **Left untouched on purpose (already shipped):** `big_cat:cave_lion`, `big_cat:sabertooth`,
   `rhino:wooly`, `bear:cave`, `hyena:shortface`, `manatee:steller`.
 
 **Not yet done / next up:**
 - Replace all placeholder skins with real art (Track B). The repurposed variant is still displayed as
   "Sabertooth" (sciname already *Smilodon populator*) — rename to "Smilodon" only if desired.
+- Audit the remaining variant skins for the "reskin" problem fixed on aurochs / giant_buffalo /
+  elasmotherium — any variant whose art was produced by recolouring a sibling is a candidate
+  (see "Skin painting" for the method). The `glyptodont` migration was paused mid-way for this pass
+  and should be resumed.
 - All Part-2 new types are now implemented (dire_wolf, mammoth, deer, equid, giraffid, antelope,
   toxodon, macrauchenia, glyptodont, ground_sloth). Remaining: replace placeholder skins with real
   art and resculpt the placeholder geometry in Blockbench.

@@ -7,6 +7,7 @@ import com.github.alexthe666.citadel.client.model.ModelAnimator;
 import com.github.alexthe666.citadel.client.model.basic.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.util.Mth;
+import untamedwilds.entity.ComplexMob;
 import untamedwilds.entity.mammal.EntityBison;
 
 public class ModelBison extends AdvancedEntityModel<EntityBison> {
@@ -253,6 +254,19 @@ public class ModelBison extends AdvancedEntityModel<EntityBison> {
         bob(leg_right_thigh, 0.4F * globalSpeed, 0.1F, false, -ageInTicks / 20, 2);
         bob(leg_left_thigh, 0.4F * globalSpeed, 0.1F, false, -ageInTicks / 20, 2);
         walk(head_neck, 0.4f * globalSpeed, 0.03f, false, 2.8F, 0.06F, ageInTicks / 20, 2);
+
+        // Per-species toggles read straight from the species data. long_horned = longer horns;
+        // aurochs/giant_buffalo = cattle/buffalo, so hide the shaggy bison hair. Shared model instance,
+        // so set on BOTH branches every frame.
+        boolean longHorns = ComplexMob.getEntityData(bison.getType()).getFlags(bison.getVariant(), "longHorns") == 1;
+        float hornLen = longHorns ? 2.0F : 1.0F;
+        this.head_horn_left.setScale(hornLen, 1.0F, 1.0F);
+        this.head_horn_right.setScale(hornLen, 1.0F, 1.0F);
+        boolean lessHair = ComplexMob.getEntityData(bison.getType()).getFlags(bison.getVariant(), "lessHair") == 1;
+        this.body_hair.showModel = !lessHair;
+        this.head_beard.showModel = !lessHair;
+        this.arm_left_fur.showModel = !lessHair;
+        this.arm_right_fur.showModel = !lessHair;
 
         // Blinking Animation
         if (!bison.shouldRenderEyes()) {

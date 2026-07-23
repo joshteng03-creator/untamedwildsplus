@@ -64,7 +64,7 @@
     {
       "name":"western",
       "variant":3,
-      "scale":1.15,
+      "scale":1.53,
       "rarity":1,
       "activityType":"diurnal",
       "favourite_food":"untamedwilds:flora_junegrass",

@@ -73,7 +73,8 @@
       "favourite_food":"untamedwilds:flora_junegrass",
       "health":80,
       "flags":{
-        "groupCount":4
+        "groupCount":4,
+        "longHorns":1
       },
       "spawnBiomes":[
         [
@@ -93,7 +94,8 @@
       "favourite_food":"minecraft:wheat",
       "health":65,
       "flags":{
-        "groupCount":5
+        "groupCount":5,
+        "lessHair":1
       },
       "spawnBiomes":[
         [
@@ -113,7 +115,9 @@
       "favourite_food":"untamedwilds:flora_junegrass",
       "health":85,
       "flags":{
-        "groupCount":5
+        "groupCount":5,
+        "lessHair":1,
+        "longHorns":1
       },
       "spawnBiomes":[
         [

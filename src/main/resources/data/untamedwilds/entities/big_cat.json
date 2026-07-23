@@ -277,7 +277,8 @@
       "attack":9,
       "health":42,
       "flags":{
-        "hasSabreFangs":1
+        "hasSabreFangs":1,
+        "shortSabres":1
       },
       "spawnBiomes":[
         [

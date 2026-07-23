@@ -205,6 +205,12 @@ public class ModelRhino extends AdvancedEntityModel<EntityRhino> {
         bob(leg_left, 0.4F * globalSpeed, 0.1F, false, -ageInTicks / 20, 2);
         walk(head_neck, 0.4f * globalSpeed, 0.03f, false, 2.8F, 0.06F, ageInTicks / 20, 2);
 
+        // Per-species stub horn (elasmotherium): hide the big front horn + back horn, leaving the small
+        // nub. Set on BOTH branches every frame since the model instance is shared across all rhinos.
+        boolean stubHorn = rhino.hasStubHorn();
+        this.horn_front.showModel = !stubHorn;
+        this.horn_back.showModel = !stubHorn;
+
         // Blinking Animation
         if (!rhino.shouldRenderEyes()) {
             this.eye_right.setRotationPoint(-2F, -2.0F, -4.0F);
