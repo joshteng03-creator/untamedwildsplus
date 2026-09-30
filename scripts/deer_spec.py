@@ -192,9 +192,19 @@ for side, s in (("left", -1.0), ("right", 1.0)):
 # ================================================================ TAIL
 # Cervid tails are short. The dock threads between the thighs (inner face 1.6),
 # so its half-width stays at 1.2 -- 0.4 clear, well outside the 0.15u plane tolerance.
-zchain("body_croup", (0, 25.4, 20.0), [
-    ("tail_dock", -62, 4.4, 1.2, 1.0, 1.4, 1.0),
-    ("tail_tip",  -78, 4.0, 0.9, 0.8, 1.1, 0.9),
+#
+# zchain lays segments forward along -Z, so a tail needs a world angle PAST -90 to hang
+# behind its pivot. The original -62/-78 from (25.4, 20.0) swung the whole tail down and
+# FORWARD into the rump: 100% of both boxes sat inside body_croup and no tail rendered
+# (the latent bug the toxodon pass flagged). Re-solved 2026-09-30 by grid search
+# (pivot y/z x both angles) against croup + thighs: pivot moved onto the rear face,
+# dock hangs at -110 with the tip 5 degrees further under. 12% of the dock stays inside
+# the croup as the anchor, the tip is 0% buried, nothing touches a thigh. Box sizes and
+# texOffs are unchanged, so the shipped skins still map -- and past -90 the dock's
+# dorsal (+Y) face turns to face backwards, which is anatomically where it belongs.
+zchain("body_croup", (0, 25.5, 22.5), [
+    ("tail_dock", -110, 4.4, 1.2, 1.0, 1.4, 1.0),
+    ("tail_tip",  -115, 4.0, 0.9, 0.8, 1.1, 0.9),
 ], "tail", parent_tilt=TILT["body_croup"])
 
 # ================================================================ LEGS

@@ -22,11 +22,15 @@ public class HerdEntity {
     public final List<ComplexMob> creatureList = new ArrayList<>();
     public double splitOffDistance = 1024D;
 
-    /* How often the herd's own bookkeeping runs. tick() is called by EVERY member's aiStep, so all of
-     * the state below is advanced inside the existing `leader.tickCount % HERD_TICK == 0` block and
-     * counted down in steps of HERD_TICK -- decrementing per call would run twenty times a tick in a
-     * twenty-strong herd. */
+    /* How often the herd's own bookkeeping runs. The land species call tick() from EVERY member's
+     * aiStep (fish call it from the leader only), and a `leader.tickCount % HERD_TICK` gate does not
+     * stop that: every member sees the same leader tickCount in the same server tick, so the block ran
+     * N times in an N-strong herd -- N entity scans, and every counter below decaying N times too
+     * fast (a twenty-strong herd's 6000-tick migration cooldown lasted ~300 ticks, and pack losses
+     * and pressure evaporated before they could ever rout a pack). lastTickedGameTime makes tick()
+     * run once per herd per server tick no matter how many members call it. */
     private static final int HERD_TICK = 10;
+    private long lastTickedGameTime = Long.MIN_VALUE;
     /* Distance beyond which a member is dropped from the herd, while a migration is under way. The
      * normal 1024 (32 blocks) shreds a herd that is crossing a hundred blocks in single file: the
      * stragglers are removed mid-journey and each founds its own herd where it stands. */
@@ -342,6 +346,11 @@ public class HerdEntity {
     }
 
     public void tick() {
+        long now = this.getLeader().getLevel().getGameTime();
+        if (now == this.lastTickedGameTime) {
+            return;
+        }
+        this.lastTickedGameTime = now;
         if (this.adultCount() >= this.getMaxSize()) {
             this.setOpenToCombine(false);
         }
@@ -351,8 +360,7 @@ public class HerdEntity {
 
         if (this.getLeader().tickCount % HERD_TICK == 0) {
             /* Counted down in steps of HERD_TICK because this block runs once per HERD_TICK ticks, not
-             * once per tick -- and note tick() itself is called by every member, which is why nothing
-             * outside this branch may touch a counter. */
+             * once per tick. */
             if (this.migrationCooldown > 0) {
                 this.migrationCooldown = Math.max(0, this.migrationCooldown - HERD_TICK);
             }

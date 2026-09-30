@@ -10,6 +10,9 @@
     "hurt":"minecraft:entity.cow.hurt",
     "death":"minecraft:entity.cow.death"
   },
+  "flags":{
+    "stubHorn":0
+  },
   "species":[
     {
       "name":"black",

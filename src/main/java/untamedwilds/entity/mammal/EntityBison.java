@@ -3,9 +3,6 @@ package untamedwilds.entity.mammal;
 import com.github.alexthe666.citadel.animation.Animation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -50,7 +47,6 @@ import untamedwilds.entity.ai.RetreatWhenRoutedGoal;
 
 public class EntityBison extends ComplexMobTerrestrial implements INewSkins, ISpecies, IPackEntity {
 
-   private static final EntityDataAccessor<Boolean> CHARGING = SynchedEntityData.defineId(EntityBison.class, EntityDataSerializers.BOOLEAN);
 
     public static Animation ATTACK_THREATEN;
     public static Animation ATTACK_GORE;
@@ -61,11 +57,6 @@ public class EntityBison extends ComplexMobTerrestrial implements INewSkins, ISp
         ATTACK_GORE = Animation.create(14);
         this.maxUpStep = 1F;
         this.turn_speed = 0.2F;
-    }
-
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(CHARGING, false);
     }
 
     public void registerGoals() {
@@ -163,10 +154,8 @@ public class EntityBison extends ComplexMobTerrestrial implements INewSkins, ISp
         if (flag && this.getAnimation() == NO_ANIMATION && !this.isBaby()) {
             Animation anim = chooseAttackAnimation();
             this.setAnimation(anim);
-            if (!this.isCharging()) {
-                this.playSound(SoundEvents.ZOGLIN_ATTACK, 1.0F, this.getVoicePitch());
-                HoglinBase.hurtAndThrowTarget(this, (LivingEntity)entityIn);
-            }
+            this.playSound(SoundEvents.ZOGLIN_ATTACK, 1.0F, this.getVoicePitch());
+            HoglinBase.hurtAndThrowTarget(this, (LivingEntity)entityIn);
         }
         return flag;
     }
@@ -222,11 +211,6 @@ public class EntityBison extends ComplexMobTerrestrial implements INewSkins, ISp
         return super.mobInteract(player, hand);
     }
 
-    public boolean isCharging() {
-        return entityData.get(CHARGING);
-    }
-
-    public void setCharging(boolean bool) { entityData.set(CHARGING, bool); }
 
     @Override
     public Animation[] getAnimations() {

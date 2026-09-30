@@ -928,6 +928,44 @@ a wolf's eco level immediately after a hunting blow must equal its value at rest
 bison immediately after a connected charge** — that is a brand-new `applyAttackBonus` call site with
 the identical leak risk.
 
+### Roadmap + Phase 1 correctness fixes (2026-09-30)
+
+The active plan is `docs/plans/2026-09-30-status-audit-and-roadmap.md` (11 phases: safety net,
+correctness, runClient + census baseline, optimization, predator balance, prey ecology, skins,
+mammoth animations, upstream cleanup, release, future mobs). **Approved plans now live in
+`docs/plans/`** — `~/.claude/plans` is auto-cleaned and every earlier mod plan, including the
+future-species list, was lost that way. Phase 1 (build SUCCESSFUL, runClient pending):
+- **`HerdEntity.tick()` ran once per MEMBER.** The land species call it from every member's
+  `aiStep` (fish guard it with a leader check); the `leader.tickCount % HERD_TICK` gate does not
+  dedupe, because every member sees the same leader tickCount in the same tick. Herd timers decayed
+  N× too fast — a 20-herd's 6000-tick migration cooldown lasted ~300 ticks, and pack losses/pressure
+  evaporated so fast that **packs could never rout**. Now guarded by `lastTickedGameTime`. Any
+  rout/migration tuning done before this fix was tuned against the bug.
+- **Per-frame ERROR spam**: `ModelBison.setupAnim` reads `longHorns`/`lessHair` every frame and
+  `EntityDataHolder.getFlags` logged every miss (12k lines in one session). Type-level defaults added
+  to bison/big_cat/rhino; `getFlags` now reports each missing (type, flag) once. **Any flag a model
+  reads must have a type-level default.**
+- **Deer tail was 100% buried** in `body_croup` (zchain lays a chain forward along −Z, so −62°
+  meant down-and-FORWARD). Re-solved by grid search in `deer_spec.py`: pivot on the rear face,
+  −110/−115. Box sizes + texOffs unchanged; Java re-verified against the spec via `java2bb.py`
+  (59/59 parts). The skins were painted while the tail was invisible — look at it in-game.
+- **Worldgen**: `FaunaSpawn` discarded its random offset (`pos.offset(...)` result unused), so every
+  surface group spawned on the chunk-corner column; `FeatureUndergroundFaunaLarge` spawned at the
+  unchanged origin and could make 625 attempts per placement. Spawn-table `size_min/size_max` is
+  still ignored (pack size = species `groupCount`) — deliberately left for Phase 4, since honouring
+  it changes spawn density for every solitary species.
+- Dead `CHARGING` removed from bison/rhino (never set). `performRetaliation` left **inert on
+  purpose** (thorns-only check; enabling it is a balance decision for Phase 5).
+- **`/untamedwilds census`** (op 2) + `census auto <minutes>` → `logs/uw_census.csv` with adults,
+  juveniles, mean condition, starving, senescent per species. This is the measuring tool for every
+  ecology change from here on. **`/untamedwilds census <species>`** prints one species' status in
+  chat — population by sex/age with the change since your last check, groups + migration, condition,
+  hunger, pregnancies, elderly, eco level range, and the nearest animal (click to fill a `/tp`).
+  Accepts `type:species`, a whole `type`, or a unique bare species name; Tab suggestions match
+  anywhere in the name (`gray` → `dire_wolf:gray_wolf`) and show the in-game name as a tooltip.
+  It is a greedy-string argument beside the `auto` literal (Brigadier prefers the literal), because
+  `word()` rejects the colon.
+
 ## Models & skins (Claude Design)
 
 Models are hand-written Citadel `AdvancedEntityModel<EntityXxx>` from `AdvancedModelBox` cubes

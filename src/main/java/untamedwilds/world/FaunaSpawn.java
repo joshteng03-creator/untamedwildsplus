@@ -82,7 +82,11 @@ public class FaunaSpawn {
             int j = pos.getZ() + random.nextInt(16);
 
             if (heightMap != null) {
-                pos.offset(i, 0, j);
+                /* i/j are already absolute coordinates. This used to be `pos.offset(i, 0, j)` with the
+                 * result thrown away (BlockPos is immutable), so every surface group spawned on the
+                 * chunk's corner column. Surface features place at the chunk origin with no in-square
+                 * spread, so 0..15 stays inside the chunk being generated. */
+                pos = new BlockPos(i, pos.getY(), j);
                 pos = worldIn.getHeightmapPos(heightMap, pos);
                 //worldIn.setBlockState(pos, Blocks.TORCH.defaultBlockState(), 2);
             }

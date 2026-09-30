@@ -9,7 +9,9 @@
     "death": "minecraft:entity.cow.death"
   },
   "flags": {
-    "groupCount": 6
+    "groupCount": 6,
+    "longHorns": 0,
+    "lessHair": 0
   },
   "species": [
     {

@@ -34,6 +34,8 @@ public class EntityDataHolder {
             EcologyDataHolder.CODEC.fieldOf("ecology").orElse(EcologyDataHolder.EMPTY).forGetter((p_237054_0_) -> p_237054_0_.ecology),
             SpeciesDataHolder.CODEC.listOf().fieldOf("species").orElse(new ArrayList<>()).forGetter((p_237052_0_) -> p_237052_0_.speciesData))
             .apply(p_237051_0_, EntityDataHolder::new));
+    private static final Set<String> MISSING_FLAGS_REPORTED = Collections.newSetFromMap(new java.util.concurrent.ConcurrentHashMap<>());
+
     private final String name;
     private final float modelScale;
     private final int rarity;
@@ -211,7 +213,12 @@ public class EntityDataHolder {
             return this.speciesData.get(i).getFlags().get(flag);
         }
         if (!this.flags.containsKey(flag)) {
-            UntamedWilds.LOGGER.error("Couldn't find " + flag + " flag in ENTITY_DATA");
+            /* Models read flags in setupAnim, i.e. every frame, so an unconditional log here wrote
+             * ~12k ERROR lines in one short session. Report each missing (type, flag) once; the fix is a
+             * type-level default in the JSON's "flags". */
+            if (MISSING_FLAGS_REPORTED.add(this.name + ":" + flag)) {
+                UntamedWilds.LOGGER.error("Couldn't find " + flag + " flag in ENTITY_DATA for " + this.name + " (defaulting to 0; add a type-level default)");
+            }
             return 0;
         }
         return this.flags.get(flag);

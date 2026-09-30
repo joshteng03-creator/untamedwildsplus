@@ -55,6 +55,10 @@ public class FeatureUndergroundFaunaLarge extends Feature<NoneFeatureConfigurati
                 for(int k = -vert; k < vert + 1; k++) {
                     setPos.set(blockpos.getX() + i, blockpos.getY() + k, blockpos.getZ() + j);
 
+                    /* Spawn at the air block that was found (this used to pass the unchanged origin, so every
+                     * attempt tested the same spot), and only try the FIRST air block: previously a failed
+                     * roll moved on to the next of up to 125 positions x 5 attempts, i.e. up to 625
+                     * spawn attempts and biodiversity rolls per placement. */
                     if (world.isStateAtPosition(setPos, BlockState::isAir)) {
                         for (int l = 0; l < 5; l++) {
                             if (entry.isEmpty())
@@ -62,12 +66,13 @@ public class FeatureUndergroundFaunaLarge extends Feature<NoneFeatureConfigurati
                             if (entry.isPresent()) {
                                 EntityType<?> type = entry.get().entityType;
                                 if (type != null) {
-                                    if (FaunaSpawn.performWorldGenSpawning(type, SpawnPlacements.Type.NO_RESTRICTIONS, null, world, blockpos, rng, entry.get().getGroupCount())) {
+                                    if (FaunaSpawn.performWorldGenSpawning(type, SpawnPlacements.Type.NO_RESTRICTIONS, null, world, setPos.immutable(), rng, entry.get().getGroupCount())) {
                                         return true;
                                     }
                                 }
                             }
                         }
+                        return true;
                     }
                 }
 

@@ -287,13 +287,13 @@ public class ModelDeer extends AdvancedEntityModel<EntityDeer> {
         this.body_croup.addBox(-6.3000F, -4.3000F, -4.0F, 12.6000F, 11.2000F, 13.0F, 0.0F);
         this.setRotateAngle(body_croup, 0.1396F, 0.0F, 0.0F);
         this.tail_dock = new AdvancedModelBox(this, 156, 72);
-        this.tail_dock.setRotationPoint(0.0F, -2.9000F, 7.0F);
+        this.tail_dock.setRotationPoint(0.0F, -3.0000F, 9.5000F);
         this.tail_dock.addBox(-1.2000F, -1.0F, -4.4000F, 2.4000F, 2.4000F, 5.4000F, 0.0F);
-        this.setRotateAngle(tail_dock, 0.9425F, 0.0F, 0.0F);
+        this.setRotateAngle(tail_dock, 1.7802F, 0.0F, 0.0F);
         this.tail_tip = new AdvancedModelBox(this, 172, 72);
         this.tail_tip.setRotationPoint(0.0F, 0.0F, -4.4000F);
         this.tail_tip.addBox(-0.9000F, -0.8000F, -4.0F, 1.8000F, 1.9000F, 4.9000F, 0.0F);
-        this.setRotateAngle(tail_tip, 0.2793F, 0.0F, 0.0F);
+        this.setRotateAngle(tail_tip, 0.0873F, 0.0F, 0.0F);
         this.hind_left_thigh = new AdvancedModelBox(this, 145, 32);
         this.hind_left_thigh.setRotationPoint(4.3000F, -2.4981F, 4.5000F);
         this.hind_left_thigh.addBox(-2.7000F, -1.8000F, -3.8000F, 5.4000F, 11.3000F, 7.0F, 0.0F);

@@ -12,7 +12,8 @@
   "flags":{
     "fluffyTail":0,
     "dimorphism":0,
-    "hasSabreFangs":0
+    "hasSabreFangs":0,
+    "shortSabres":0
   },
   "species":[
     {

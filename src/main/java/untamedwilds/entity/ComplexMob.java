@@ -1472,6 +1472,11 @@ public abstract class ComplexMob extends TamableAnimal {
         return EcologyTags.getTags(this).contains(EcologyTags.CARNIVORE);
     }
 
+    /* INERT, deliberately (2026-09-30). Upstream's "retaliation strike" only fires when the INCOMING
+     * damage is thorns, which nothing deals, so all 16 callers do nothing -- the check was probably
+     * meant to be !isThorns() (the thorns source it deals is what stops two animals retaliating
+     * forever). Re-enabling it hands every herbivore a free counter-hit on predators, so it is a
+     * balance decision, taken with the prey-side ecology pass rather than as a bug fix. */
     protected void performRetaliation(DamageSource damageSource, float health, float damage, boolean needsActiveTarget) {
         if (needsActiveTarget && this.getTarget() != damageSource.getDirectEntity())
             return;

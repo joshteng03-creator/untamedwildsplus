@@ -43,7 +43,6 @@ import untamedwilds.util.EcologyTags;
 
 public class EntityRhino extends ComplexMobTerrestrial implements INewSkins, ISpecies, INeedsPostUpdate {
 
-   private static final EntityDataAccessor<Boolean> CHARGING = SynchedEntityData.defineId(EntityRhino.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> STUB_HORN = SynchedEntityData.defineId(EntityRhino.class, EntityDataSerializers.BOOLEAN);
 
     public static Animation ATTACK_THREATEN;
@@ -59,7 +58,6 @@ public class EntityRhino extends ComplexMobTerrestrial implements INewSkins, ISp
 
     protected void defineSynchedData() {
         super.defineSynchedData();
-        this.entityData.define(CHARGING, false);
         this.entityData.define(STUB_HORN, false);
     }
 
@@ -143,10 +141,8 @@ public class EntityRhino extends ComplexMobTerrestrial implements INewSkins, ISp
         if (flag && this.getAnimation() == NO_ANIMATION && !this.isBaby()) {
             Animation anim = chooseAttackAnimation();
             this.setAnimation(anim);
-            if (!this.isCharging()) {
-                this.playSound(SoundEvents.ZOGLIN_ATTACK, 1.0F, this.getVoicePitch());
-                HoglinBase.hurtAndThrowTarget(this, (LivingEntity)entityIn);
-            }
+            this.playSound(SoundEvents.ZOGLIN_ATTACK, 1.0F, this.getVoicePitch());
+            HoglinBase.hurtAndThrowTarget(this, (LivingEntity)entityIn);
         }
         return flag;
     }
@@ -193,13 +189,6 @@ public class EntityRhino extends ComplexMobTerrestrial implements INewSkins, ISp
         return super.mobInteract(player, hand);
     }
 
-    public boolean isCharging() {
-        return entityData.get(CHARGING);
-    }
-
-    public void setCharging(boolean bool) {
-        entityData.set(CHARGING, bool);
-    }
 
     public boolean hasStubHorn() { return this.entityData.get(STUB_HORN); }
     private void setStubHorn(boolean bool) { this.entityData.set(STUB_HORN, bool); }
