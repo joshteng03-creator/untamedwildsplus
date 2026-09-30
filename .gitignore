@@ -28,3 +28,9 @@ forge*changelog.txt
 /src/main/unused/
 /src/test/
 /.gitattributes
+
+# local debug artifacts / working files
+*.hprof
+*.jar.log
+scratch/
+__pycache__/
