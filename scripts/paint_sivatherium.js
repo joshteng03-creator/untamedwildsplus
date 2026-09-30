@@ -32,7 +32,7 @@
     dorsal : MM.hex('#33383a'),   // near-black cool slate along the topline
     flank  : MM.hex('#474e50'),
     ventral: MM.hex('#5e6668'),
-    mask   : MM.hex('#9aa0a0'),   // pale grey face mask + throat
+    mask   : MM.hex('#b8bdbb'),   // pale grey face mask + throat
     muzzle : MM.hex('#3d4244'),
     mane   : MM.hex('#24292b'),   // dark crest on the short thick neck
     palm   : MM.hex('#b9a888'),   // bone-keratin ossicone plate
@@ -45,6 +45,21 @@
   MM.bounds();
   girEyeInit();
   var mz = MM.map['head_muzzle'], noseZ = mz.lo.z;
+  // The head's own forward axis (the muzzle's front-face normal) and how far along it the
+  // nose tip reaches, so the face mask can be measured back from the nose at any head angle.
+  var headFwd = [0, 0, -1];
+  for (var fk in mz.faces) { if (mz.faces[fk].key === 'front') headFwd = mz.faces[fk].wn; }
+  var noseT = -1e9;
+  for (var fk2 in mz.faces) {
+    var mf = mz.faces[fk2];
+    [[0, 0], [1, 0], [0, 1], [1, 1]].forEach(function (t) {
+      var q = mf.o.clone().addScaledVector(mf.du, t[0] * (mf.u1 - mf.u0)).addScaledVector(mf.dv, t[1] * (mf.v1 - mf.v0));
+      noseT = Math.max(noseT, q.x * headFwd[0] + q.y * headFwd[1] + q.z * headFwd[2]);
+    });
+  }
+  // Chest and shoulders only (user's call, 2026-09-30): on the croup and thighs the creases broke
+  // into short dashes that read as speckling rather than folds.
+  var FOLDED = { fore_left_shoulder: 1, fore_right_shoulder: 1, body_chest: 1 };
   var tas = MM.map['tail_tassel'];
 
   var cv = MM.paint(function (o) {
@@ -96,8 +111,13 @@
     if (window.GIR_HEAD[o.part]) {
       // The pale mask sits over the cheeks and bridge and fades out toward the muzzle,
       // which stays dark. Keyed on world height so the jaw and the skull agree.
-      var mask = MM.smooth(33.0, 39.5, p.y) * MM.smooth(noseZ - 1.0, noseZ + 7.0, p.z);
-      col = MM.mix(C.flank, C.mask, 0.72 * mask);
+      // Keyed on distance back from the nose along the HEAD's own axis (2026-09-30). The first
+      // pass used world y and z, but this rig's head points steeply up, so the skull spans only
+      // a few units of world z and the mask came out partial and dim -- barely lighter than the
+      // body, when it is meant to be the one bright thing on the animal.
+      var back = noseT - (p.x * headFwd[0] + p.y * headFwd[1] + p.z * headFwd[2]);
+      var mask = MM.smooth(1.5, 6.0, back);
+      col = MM.mix(C.flank, C.mask, 0.88 * mask);
       if (o.part === 'head_muzzle') {
         col = MM.mix(col, C.muzzle, 0.55 + 0.35 * MM.smooth(noseZ + 5.0, noseZ, p.z));
       }
@@ -117,6 +137,13 @@
     // is carried by the GROUND colour, and the treatment only has to stop it reading flat.
     var fold = Math.sin(p.y * 0.72 + MM.fbm(p, 0.30, 2, 23) * 3.4);
     col = MM.mul(col, 1 + 0.085 * fold * MM.smooth(21.0, 34.0, p.y));
+    // The broad fold above is invisible on a hide this dark, so the folds that sell "heavy
+    // animal" are narrow dark CREASES where a thick hide actually folds: over the shoulder and
+    // the haunch. Noise-warped so they read as skin, not as stripes.
+    if (FOLDED[o.part] && o.face !== 'up' && o.face !== 'down') {
+      var crease = 1 - MM.smooth(0.0, 0.45, Math.abs(Math.sin(p.y * 1.15 + MM.fbm(p, 0.25, 2, 41) * 0.9)));
+      col = MM.mul(col, 1 - 0.24 * crease);
+    }
     col = MM.mul(col, 1 + (MM.fbm(p, 1.05, 3, 2) - 0.5) * 0.15);
     col = MM.mul(col, 0.97 + 0.06 * MM.dith(o.u, o.v, 7));
     // Pin the saturation DOWN after all the mixing. Repeated mixes toward the warm keratin of

@@ -35,6 +35,10 @@
   girEyeInit();
   var mz = MM.map['head_muzzle'], noseZ = mz.lo.z;
   var tas = MM.map['tail_tassel'];
+  var eyeC = MM.map['eye_left'].ctr;
+  var skullUp = [0, 1, 0];
+  var sf = MM.map['head_skull'].faces;
+  for (var fk in sf) { if (sf[fk].key === 'up') skullUp = sf[fk].wn; }
 
   var cv = MM.paint(function (o) {
     var p = o.wp, col;
@@ -78,7 +82,12 @@
       // The crown darkens sharply above the eye line. On a hornless skull this is the only
       // thing giving the head structure, so it is stronger than a countershading gradient
       // would be -- 0.85 rather than the ~0.4 used elsewhere.
-      col = MM.mix(col, C.crown, 0.85 * MM.smooth(37.5, 40.5, p.y));
+      // Keyed on height along the SKULL's own up axis, measured from the eye. The first pass
+      // used world y (37.5-40.5), which was tuned to one neck length -- on this species' rig
+      // the whole head sits above 40.5 and came out solid charcoal -- and world y cannot find
+      // "above the eye" on a head this steeply tilted anyway.
+      var hUp = (p.x - eyeC.x) * skullUp[0] + (p.y - eyeC.y) * skullUp[1] + (p.z - eyeC.z) * skullUp[2];
+      col = MM.mix(col, C.crown, 0.85 * MM.smooth(-0.6, 1.2, hUp));   // skull spans -4.4..+2.0 from the eye
       if (o.part === 'head_muzzle') {
         col = MM.mix(col, C.muzzle, 0.50 + 0.30 * MM.smooth(noseZ + 5.0, noseZ, p.z));
       }
@@ -100,7 +109,10 @@
     // after all the mixing, because repeated mixes toward warm tones creep the hue back up and
     // the cool desaturation is this animal's only separation axis.
     col = MM.sat(col, 0.72);
-    col = MM.mul(col, 1 + (MM.fbm(p, 0.75, 3, 2) - 0.5) * 0.065);
+    // Grain raised 0.065 -> 0.10 plus a broad +/-5% tonal drift (2026-09-30): at 0.065 it
+    // rendered as flat untextured plastic. Still the smoothest coat in the set.
+    col = MM.mul(col, 1 + (MM.fbm(p, 0.75, 3, 2) - 0.5) * 0.10);
+    col = MM.mul(col, 1 + (MM.fbm(p, 0.22, 2, 29) - 0.5) * 0.10);
     col = MM.mul(col, 0.99 + 0.02 * MM.dith(o.u, o.v, 7));
 
     return MM.cl(window.girFaceLight(col, o.face));

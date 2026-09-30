@@ -31,12 +31,15 @@ import sys
 SRC = pathlib.Path(__file__).resolve().parent.parent / "src/main/java/untamedwilds/client/model"
 F = r"(-?[\d.]+)F?"
 
-RE_NEW = re.compile(r"this\.(\w+)\s*=\s*new AdvancedModelBox\(this,\s*([\d.]+)\s*,\s*([\d.]+)\s*\)")
-RE_RP = re.compile(r"this\.(\w+)\.setRotationPoint\(\s*%s,\s*%s,\s*%s\s*\)" % (F, F, F))
-RE_BOX = re.compile(r"this\.(\w+)\.addBox\(\s*%s,\s*%s,\s*%s,\s*%s,\s*%s,\s*%s" % (F, F, F, F, F, F))
+# Parts may be `this.<field>` OR a LOCAL `AdvancedModelBox x = new ...` -- ModelBear declares
+# body_tail / head_teeth / ear_left / ear_right as locals, and a this.-only parse silently dropped
+# them (the rig had 19 of 23 parts and the ears were never painted -- 2026-09-30).
+RE_NEW = re.compile(r"(?:this\.|AdvancedModelBox\s+)(\w+)\s*=\s*new AdvancedModelBox\(this,\s*([\d.]+)\s*,\s*([\d.]+)\s*\)")
+RE_RP = re.compile(r"(?:this\.)?(\w+)\.setRotationPoint\(\s*%s,\s*%s,\s*%s\s*\)" % (F, F, F))
+RE_BOX = re.compile(r"(?:this\.)?(\w+)\.addBox\(\s*%s,\s*%s,\s*%s,\s*%s,\s*%s,\s*%s" % (F, F, F, F, F, F))
 RE_ROT = re.compile(r"this\.setRotateAngle\(\s*(\w+)\s*,\s*%s,\s*%s,\s*%s\s*\)" % (F, F, F))
-RE_CHILD = re.compile(r"this\.(\w+)\.addChild\(this\.(\w+)\)")
-RE_MIRROR = re.compile(r"this\.(\w+)\.mirror\s*=\s*true")
+RE_CHILD = re.compile(r"(?:this\.)?(\w+)\.addChild\((?:this\.)?(\w+)\)")
+RE_MIRROR = re.compile(r"(?:this\.)?(\w+)\.mirror\s*=\s*true")
 RE_CANVAS = re.compile(r"texWidth\s*=\s*(\d+).*?texHeight\s*=\s*(\d+)", re.S)
 
 

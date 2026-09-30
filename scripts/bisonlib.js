@@ -9,6 +9,29 @@
             'arm_right_fur', 'leg_left_thigh', 'leg_left_calf', 'leg_right_thigh',
             'leg_right_calf'];
   B.TAIL = ['tail'];
+  // The shaggy fringe parts. The shipped plains skin cuts their bottom rows into alternating
+  // opaque/clear texels, which is what renders as hanging tufts instead of a flat rectangle.
+  B.FUR = ['body_hair', 'head_beard', 'head_hair', 'arm_left_fur', 'arm_right_fur'];
+  B.stampTufts = function (c, refPath, S) {
+    var ref = MM.load(refPath);
+    var rd = ref.getContext('2d').getImageData(0, 0, ref.width, ref.height).data;
+    var cx = c.getContext('2d'), img = cx.getImageData(0, 0, c.width, c.height), n = 0;
+    B.FUR.forEach(function (name) {
+      if (S.noForelock && name === 'head_hair') return;
+      var F = MM.map[name].faces;
+      for (var k in F) {
+        var f = F[k];
+        for (var y = f.v0; y < f.v1; y++) for (var x = f.u0; x < f.u1; x++) {
+          var i = (y * c.width + x) * 4;
+          if (rd[i + 3] === 0 && img.data[i + 3] !== 0) { img.data[i + 3] = 0; n++; }
+        }
+      }
+    });
+    cx.putImageData(img, 0, 0);
+    return n;
+  };
+  B.MANE = ['head_neck', 'head_main', 'head_hair', 'head_beard', 'head_ear_left', 'head_ear_right',
+            'arm_left_fur', 'arm_right_fur'];
 
   B.has = function (arr, n) { return arr.indexOf(n) >= 0; };
 
@@ -65,6 +88,26 @@
         var t = MM.smooth(S.shadeLo, S.shadeHi, (p.y - B.Y0) / (B.Y1 - B.Y0));
         col = MM.mix(belly, flank, MM.smooth(0.0, 0.55, t));
         col = MM.mix(col, back, MM.smooth(0.55, 1.0, t));
+      }
+
+      // A dark MANE over the head, beard, forelock, shoulder wool and forearm fur, over a
+      // lighter body -- the black-and-red two-tone of the Altamira / Lascaux steppe bison
+      // (2026-09-30). The HUMP is body_torso (body_hair is only the thin belly fringe), and
+      // it is graded front to back so the cape fades out over the hump instead of ending in
+      // a hard line across the barrel.
+      var maneW = 0;
+      // S.maneParts overrides which parts carry it; S.maneTop turns it into a CAPE graded by
+      // HEIGHT over the hump and back (a pale winter cape over a dark body -- long_horned)
+      // instead of the default dark front-to-back cape (steppe).
+      var maneList = S.maneParts || B.MANE;
+      var topPart = S.maneTop && (n === 'body_torso' || n === 'body_main' || n === 'head_neck');
+      if (S.maneAmt && (B.has(maneList, n) || topPart || (!S.maneTop && (n === 'body_torso' || n === 'body_hair')))) {
+        var mw = topPart ? MM.smooth(S.maneTopLo, S.maneTopHi, p.y) * (n === 'body_main' ? MM.smooth(8.0, -2.0, p.z) : 1)
+               : n === 'body_torso' ? MM.smooth(3.0, -6.5, p.z)
+               : (n === 'body_hair' ? MM.smooth(8.0, -4.0, p.z) : 1);
+        mw *= 0.85 + 0.15 * MM.dith(o.u, o.v, 17);
+        col = MM.mix(col, MM.hex(S.maneCol), S.maneAmt * mw);
+        maneW = S.maneAmt * mw;
       }
 
       if (B.has(B.HEAD, n)) {
@@ -150,6 +193,21 @@
         var gz = MM.dith(o.u, o.v, 2) - 0.5;
         var cl = MM.smooth(0.35, 0.75, MM.fbm(p, 1.9, 2, 6));
         col = MM.mul(col, 1 + S.grizzleAmt * gz * (0.35 + 0.65 * cl));
+      }
+      // Clumped wool with HUE variation, not just brightness: mottled patches pulled toward a
+      // second colour. Without it a coat is one smooth ramp and reads as flat (steppe, 2026-09-30).
+      if (S.clumpAmt) {
+        var cm = MM.smooth(0.42, 0.72, MM.fbm(p, S.clumpScale || 0.8, 3, 27));
+        // not over a dark mane, or the cape comes out blotched with body colour
+        col = MM.mix(col, MM.hex(S.clumpCol), S.clumpAmt * cm * (1 - maneW));
+      }
+      // Hand-pixelled fur, the way the shipped plains skin is drawn: short streaks ~3 texels
+      // long down each texel column, quantised to four tones. Keyed on UV (u = column, v = run)
+      // on purpose -- on side faces v runs down the body, so the streaks hang vertically like
+      // hair; on top faces they lie along the back. A continuous noise cannot produce this.
+      if (S.strandAmt) {
+        var sh = MM.h(o.u, Math.floor((o.v + 5 * MM.h(o.u, 1, 0, 3)) / 3), 0, 19);
+        col = MM.mul(col, 1 + S.strandAmt * (Math.floor(sh * 4) / 3 - 0.5));
       }
 
       return MM.cl(col);

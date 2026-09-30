@@ -36,6 +36,8 @@ if "--skin" in sys.argv:
     skin = pathlib.Path(arg) if pathlib.Path(arg).exists() else TEX / arg
 
 spec = {"canvas": java2bb.canvas(model), "parts": java2bb.convert(model)}
+# Original box sizes, before any bake option below resizes a box. See the UV note further down.
+ORIG_SIZE = {p["n"]: [p["t"][i] - p["f"][i] for i in range(3)] for p in spec["parts"]}
 
 # Blockbench never runs setupAnim, so a species' showModel toggles do not exist in the
 # preview (CLAUDE.md lesson 5). Bake them in by dropping the parts the species hides --
@@ -124,6 +126,66 @@ if "--lift" in sys.argv:
                 p[key][1] += dy
     print("lifted: %s" % sys.argv[sys.argv.index("--lift") + 1])
 
+# Bake a NON-uniform Java setScale(sx, sy, sz) on ONE part's own box (children untouched,
+# i.e. setShouldScaleChildren false). In the unrotated frame Blockbench stores, a box's axes
+# are its local axes, so scaling its from/to about its own pivot is exactly the Java scale.
+#   --boxscale head_horn_left:2:1:1,head_horn_right:2:1:1     (ModelBison longHorns)
+if "--boxscale" in sys.argv:
+    byname = {p["n"]: p for p in spec["parts"]}
+    for item in sys.argv[sys.argv.index("--boxscale") + 1].split(","):
+        n, sx, sy, sz = item.split(":")
+        f = [float(sx), float(sy), float(sz)]
+        p = byname[n]
+        o = p["o"]
+        a = [o[i] + (p["f"][i] - o[i]) * f[i] for i in range(3)]
+        b = [o[i] + (p["t"][i] - o[i]) * f[i] for i in range(3)]
+        p["f"], p["t"] = [min(a[i], b[i]) for i in range(3)], [max(a[i], b[i]) for i in range(3)]
+    print("box-scaled: %s" % sys.argv[sys.argv.index("--boxscale") + 1])
+
+# Preview ModelGiraffid's per-species neck (setupAnim, "PER-SPECIES NECK LENGTH"): each
+# neck segment's box is scaled (nthick, nthick, nf) about its own pivot, each mane blade
+# (1, 1, nf), and exactly the child pivots the Java moves -- neck_2..4, head_skull and the
+# four mane blades -- are moved to their scaled offsets, carrying their subtrees with them.
+# Blockbench stores every part in the fully unrotated frame, where a parent's local axes
+# are the world axes, so a pivot offset in the parent's frame is a plain translation here.
+# Offsets are read BEFORE anything moves, so the translations compose down the chain.
+#   --giraffid-neck 0.65        (okapi; nthick = 1 + (1 - nf) * 0.45, as in the Java)
+if "--giraffid-neck" in sys.argv:
+    nf = float(sys.argv[sys.argv.index("--giraffid-neck") + 1])
+    nthick = 1.0 + (1.0 - nf) * 0.45
+    byname = {p["n"]: p for p in spec["parts"]}
+
+    def subtree(n):
+        out = [n]
+        for p in spec["parts"]:
+            if p["p"] == n:
+                out += subtree(p["n"])
+        return out
+
+    def rel(child):
+        c, par = byname[child]["o"], byname[byname[child]["p"]]["o"]
+        return [c[i] - par[i] for i in range(3)]
+
+    moves = {n: rel(n) for n in ("neck_2", "neck_3", "neck_4", "head_skull",
+                                 "mane_1", "mane_2", "mane_3", "mane_4")}
+    for n, (sx, sy, sz) in [("neck_%d" % k, (nthick, nthick, nf)) for k in range(1, 5)] + \
+                           [("mane_%d" % k, (1.0, 1.0, nf)) for k in range(1, 5)]:
+        p = byname[n]
+        ox, oy, oz = p["o"]
+        for key in ("f", "t"):
+            x, y, z = p[key]
+            p[key] = [ox + (x - ox) * sx, oy + (y - oy) * sy, oz + (z - oz) * sz]
+        # a negative factor never happens here, but keep from <= to anyway
+        p["f"], p["t"] = ([min(a, b) for a, b in zip(p["f"], p["t"])],
+                          [max(a, b) for a, b in zip(p["f"], p["t"])])
+    for n in ("neck_2", "neck_3", "neck_4", "head_skull", "mane_1", "mane_2", "mane_3", "mane_4"):
+        rx, ry, rz = moves[n]
+        d = [0.0, ry * (nthick - 1.0) if n.startswith("mane") else 0.0, rz * (nf - 1.0)]
+        for m in subtree(n):
+            for key in ("o", "f", "t"):
+                byname[m][key] = [byname[m][key][i] + d[i] for i in range(3)]
+    print("giraffid neck: nf %.4f nthick %.4f" % (nf, nthick))
+
 if "--hide" in sys.argv:
     hide = set(sys.argv[sys.argv.index("--hide") + 1].split(","))
     grew = True
@@ -141,6 +203,18 @@ if "--hide" in sys.argv:
 # once made a UV checker run come back looking clean and prove nothing.
 # risky_eval rejects any payload containing "//", and a base64 blob hits that pair
 # constantly, so '/' is escaped to '_' here and restored in the JS.
+# UV FOOTPRINTS MUST NOT FOLLOW A BAKED RESIZE (bug found 2026-09-30). Blockbench recomputes a
+# box_uv cube's UV layout from its CURRENT size, but MC's setScale never touches UVs -- they
+# come from the addBox size. So a --scale / --boxscale / --giraffid-neck / --limb resize made the
+# rig map texels into rects sized for the scaled box: consistent inside Blockbench (so previews
+# looked right) and misaligned in game. Every resized part now carries its original size ("os");
+# the JS builds its box UV at that size, freezes those face UVs, then applies the real geometry.
+for p in spec["parts"]:
+    size = [p["t"][i] - p["f"][i] for i in range(3)]
+    if any(abs(size[i] - ORIG_SIZE[p["n"]][i]) > 1e-6 for i in range(3)):
+        p["os"] = ORIG_SIZE[p["n"]]
+print("uv-frozen (resized) parts: %d" % sum(1 for p in spec["parts"] if "os" in p))
+
 src = base64.b64encode(skin.read_bytes()).decode().replace("/", "_") if skin else None
 
 js = """(function () {
@@ -174,11 +248,19 @@ js = """(function () {
   let n = 0;
   for (const p of SPEC.parts) {
     const c = new Cube({
-      name: p.n, from: p.f, to: p.t,
+      name: p.n, from: p.f, to: p.os ? [p.f[0] + p.os[0], p.f[1] + p.os[1], p.f[2] + p.os[2]] : p.t,
       autouv: 0, box_uv: true, uv_offset: p.uv, mirror_uv: !!p.m
     }).init();
     c.addTo(G[p.n]);
     c.applyTexture(tex, true);
+    if (p.os) {
+      const fu = {};
+      for (const k in c.faces) fu[k] = c.faces[k].uv.slice();
+      c.setUVMode(false);
+      c.from = p.f.slice(); c.to = p.t.slice();
+      for (const k in fu) c.faces[k].uv = fu[k];
+      c.updateElement();
+    }
     n++;
   }
   Canvas.updateAll();

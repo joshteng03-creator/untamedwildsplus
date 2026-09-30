@@ -126,7 +126,13 @@
 
     // ---------- the band field ----------
     if (HAUNCH[o.part]) {
-      col = MM.mix(col, C.stripe, band(p.z + 0.30 * p.y, o.u, o.v) * 0.92);
+      // Keyed on HEIGHT with a slight rearward droop, not on z: a real okapi's hindquarter
+      // stripes run near-horizontally across the rump and thigh, and the first z-keyed pass
+      // came out as diagonal slashes. The top face stays dark -- the rump top is plain in life,
+      // and a constant-y face would otherwise just be one flat stripe or one flat gap.
+      if (o.face !== 'up') {
+        col = MM.mix(col, C.stripe, band(p.y + 0.10 * p.z, o.u, o.v) * 0.92);
+      }
     } else if (RINGED[o.part]) {
       // Rings fade out downward so they hand over to the white sock rather than fighting it.
       col = MM.mix(col, C.stripe, band(p.y, o.u, o.v) * 0.88 * MM.smooth(12.0, 18.0, p.y));

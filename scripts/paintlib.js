@@ -49,7 +49,16 @@ window.MM = (function () {
         var dv = at(u0, v1).clone().sub(o).divideScalar(v1 - v0);
         var n = k2.split(',').map(Number);
         var wn = new THREE.Vector3(n[0], n[1], n[2]).transformDirection(mesh.matrixWorld);
+        // The FRACTIONAL extents MC actually samples, and a texel->world mapping based on them.
+        // The rounded u0..u1 above cut a face short whenever its true edge was fractional, and
+        // the texel it straddled was then painted only by the NEIGHBOURING face -- see MM.paint.
+        var fu0 = Math.min(vs[0].u, vs[1].u, vs[2].u, vs[3].u), fu1 = Math.max(vs[0].u, vs[1].u, vs[2].u, vs[3].u);
+        var fv0 = Math.min(vs[0].v, vs[1].v, vs[2].v, vs[3].v), fv1 = Math.max(vs[0].v, vs[1].v, vs[2].v, vs[3].v);
+        var fo = at(fu0, fv0);
+        var fdu = at(fu1, fv0).clone().sub(fo).divideScalar(fu1 - fu0);
+        var fdv = at(fu0, fv1).clone().sub(fo).divideScalar(fv1 - fv0);
         faces[k2] = { u0: u0, v0: v0, u1: u1, v1: v1, o: o, du: du, dv: dv,
+                      fu0: fu0, fu1: fu1, fv0: fv0, fv1: fv1, fo: fo, fdu: fdu, fdv: fdv,
                       n: n, wn: [wn.x, wn.y, wn.z], key: MM.faceName(n) };
         for (var q2 = 0; q2 < 4; q2++) {
           var p = vs[q2].p;
@@ -172,16 +181,41 @@ window.MM = (function () {
     var c = document.createElement('canvas'); c.width = TW; c.height = TH;
     var ctx = c.getContext('2d');
     var img = ctx.createImageData(TW, TH);
+    // Fractional box sizes (every sculpted rig here) put face edges mid-texel, and MC samples
+    // every texel a face's FRACTIONAL UV range touches. Painting only the ROUNDED rect left the
+    // straddled texel to whichever neighbour's rounded rect happened to include it -- usually
+    // the DOWN face, which painters brighten x1.2 against MC's bottom shading, so on a pale
+    // species every shoulder and thigh showed a near-white line along its top edge
+    // (samotherium, 2026-09-30). Now each face paints every texel its fractional range
+    // touches (its "fringe" beyond the rounded core, sampled at the clamped edge), and shared
+    // texels go by priority, lowest first: down fringe, down core, other fringe, other core.
+    // So a face's majority coverage beats another's sliver, a top edge beats a bottom face
+    // (rarely seen on a standing animal), and a neighbouring part's own texels are never taken
+    // by a fringe. Equal priority keeps the old last-wins. `i`/`j` passed to the callback stay
+    // within the rounded rect so face-local painters behave exactly as before.
+    var owner = new Uint8Array(TW * TH);
     for (var name in MM.map) {
       var F = MM.map[name].faces;
       for (var k in F) {
         var f = F[k], w = f.u1 - f.u0, h = f.v1 - f.v0;
-        for (var j = 0; j < h; j++) for (var i = 0; i < w; i++) {
-          var p = f.o.clone().addScaledVector(f.du, i + 0.5).addScaledVector(f.dv, j + 0.5);
+        var fw = f.fu1 - f.fu0, fh = f.fv1 - f.fv0;
+        var cu0 = Math.floor(f.fu0 + 1e-6), cu1 = Math.ceil(f.fu1 - 1e-6);
+        var cv0 = Math.floor(f.fv0 + 1e-6), cv1 = Math.ceil(f.fv1 - 1e-6);
+        for (var tv = cv0; tv < cv1; tv++) for (var tu = cu0; tu < cu1; tu++) {
+          if (tu < 0 || tv < 0 || tu >= TW || tv >= TH) continue;
+          var su = Math.min(Math.max(tu + 0.5 - f.fu0, 0), fw);
+          var sv = Math.min(Math.max(tv + 0.5 - f.fv0, 0), fh);
+          var p = f.fo.clone().addScaledVector(f.fdu, su).addScaledVector(f.fdv, sv);
+          var i = Math.min(Math.max(tu - f.u0, 0), w - 1), j = Math.min(Math.max(tv - f.v0, 0), h - 1);
           var col = cb({ part: name, face: f.key, n: f.n, wn: f.wn, i: i, j: j, w: w, h: h,
-                         wp: p, u: f.u0 + i, v: f.v0 + j });
+                         wp: p, u: tu, v: tv });
           if (!col) continue;
-          var px = ((f.v0 + j) * TW + (f.u0 + i)) * 4;
+          var tx = tv * TW + tu;
+          var core = tu >= f.u0 && tu < f.u1 && tv >= f.v0 && tv < f.v1;
+          var prio = (f.key === 'down' ? 1 : 3) + (core ? 1 : 0);
+          if (owner[tx] > prio) continue;
+          owner[tx] = prio;
+          var px = tx * 4;
           img.data[px] = col[0]; img.data[px + 1] = col[1]; img.data[px + 2] = col[2];
           img.data[px + 3] = col.length > 3 ? col[3] : 255;
         }
@@ -296,13 +330,61 @@ window.MM = (function () {
     return t.uuid;
   };
 
+  // Decoded SYNCHRONOUSLY. This used to hand the bytes to an <img> and drawImage it on the
+  // next line, but image decoding is asynchronous, so whenever the decode had not finished
+  // the canvas came back blank -- and CAMEL.stampEyes then "stamped" 8 transparent texels,
+  // shipping an eyeless western camel (2026-09-30). It only ever worked when the decode
+  // happened to win the race. zlib is Node's, so this is exact and needs no event loop.
+  MM.decodePNG = function (buf) {
+    var zlib = require('zlib');
+    var pos = 8, w = 0, h = 0, depth = 0, ctype = 0, idat = [], plte = null, trns = null;
+    while (pos < buf.length) {
+      var len = buf.readUInt32BE(pos), type = buf.toString('ascii', pos + 4, pos + 8);
+      var data = buf.slice(pos + 8, pos + 8 + len);
+      if (type === 'IHDR') { w = data.readUInt32BE(0); h = data.readUInt32BE(4); depth = data[8]; ctype = data[9]; }
+      else if (type === 'PLTE') plte = data;
+      else if (type === 'tRNS') trns = data;
+      else if (type === 'IDAT') idat.push(data);
+      else if (type === 'IEND') break;
+      pos += 12 + len;
+    }
+    if (depth !== 8) throw new Error('MM.decodePNG: only 8-bit PNGs, got depth ' + depth);
+    var bpp = { 6: 4, 2: 3, 0: 1, 4: 2, 3: 1 }[ctype];
+    if (!bpp) throw new Error('MM.decodePNG: unsupported colour type ' + ctype);
+    var raw = zlib.inflateSync(Buffer.concat(idat)), stride = w * bpp;
+    var cur = Buffer.alloc(stride), prev = Buffer.alloc(stride), out = new Uint8ClampedArray(w * h * 4);
+    for (var y = 0; y < h; y++) {
+      var ft = raw[y * (stride + 1)];
+      raw.copy(cur, 0, y * (stride + 1) + 1, (y + 1) * (stride + 1));
+      for (var x = 0; x < stride; x++) {
+        var a = x >= bpp ? cur[x - bpp] : 0, b2 = prev[x], c2 = x >= bpp ? prev[x - bpp] : 0, v = cur[x];
+        if (ft === 1) v += a;
+        else if (ft === 2) v += b2;
+        else if (ft === 3) v += (a + b2) >> 1;
+        else if (ft === 4) { var pp = a + b2 - c2, pa = Math.abs(pp - a), pb = Math.abs(pp - b2), pc = Math.abs(pp - c2);
+          v += (pa <= pb && pa <= pc) ? a : (pb <= pc ? b2 : c2); }
+        cur[x] = v & 255;
+      }
+      for (var px = 0; px < w; px++) {
+        var o = (y * w + px) * 4, s = px * bpp;
+        if (ctype === 6) { out[o] = cur[s]; out[o + 1] = cur[s + 1]; out[o + 2] = cur[s + 2]; out[o + 3] = cur[s + 3]; }
+        else if (ctype === 2) { out[o] = cur[s]; out[o + 1] = cur[s + 1]; out[o + 2] = cur[s + 2]; out[o + 3] = 255; }
+        else if (ctype === 0) { out[o] = out[o + 1] = out[o + 2] = cur[s]; out[o + 3] = 255; }
+        else if (ctype === 4) { out[o] = out[o + 1] = out[o + 2] = cur[s]; out[o + 3] = cur[s + 1]; }
+        else { var i3 = cur[s] * 3; out[o] = plte[i3]; out[o + 1] = plte[i3 + 1]; out[o + 2] = plte[i3 + 2];
+          out[o + 3] = trns && cur[s] < trns.length ? trns[cur[s]] : 255; }
+      }
+      var t = prev; prev = cur; cur = t;
+    }
+    return { w: w, h: h, data: out };
+  };
+
   MM.load = function (path) {
-    var b = require('fs').readFileSync(path);
+    var png = MM.decodePNG(require('fs').readFileSync(path));
     var c = document.createElement('canvas');
-    var im = new Image();
-    im.src = 'data:image/png;base64,' + b.toString('base64');
     c.width = Project.texture_width; c.height = Project.texture_height;
-    c.getContext('2d').drawImage(im, 0, 0);
+    var img = new ImageData(png.data, png.w, png.h);
+    c.getContext('2d').putImageData(img, 0, 0);
     return c;
   };
 

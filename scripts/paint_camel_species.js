@@ -2,6 +2,24 @@
   var F = 'body_hump_front', B = 'body_hump_back', M = 'body_hump_centre';
 
   var SPECIES = {
+    // Camelops hesternus -- the western camel of Pleistocene North America. Shipped as a
+    // luminance-preserving recolour of wild_bactrian; the user asked for it redone as more than
+    // a recolour. Every camel here packs into hue 24-44, so hue cannot separate it -- STRUCTURE
+    // does. Body plan kept (the long three-hump dorsal ridge + tail, shared with titanotylopus),
+    // and designed against that sibling on every axis titanotylopus claims:
+    //   * cool, DESATURATED ashy fawn (sat ~0.2) vs the Old World camels' rich sand
+    //   * the ridge painted as a dark chestnut SADDLE -- the ridge itself becomes the mark
+    //   * DARK lower legs, where titanotylopus has cream cannons
+    //   * no wool, where titanotylopus is shaggy; a short dry open-country coat
+    western: {
+      humps: [F, B, M], hasTail: true, hasWool: false,
+      back: '#8a7a60', flank: '#a39478', belly: '#cbc1aa',
+      ridgeCol: '#4e3522', ridgeAmt: 0.75,
+      muzzle: '#d2c9b5', muzzleAmt: 0.40, throatAmt: 0.30,
+      legCol: '#3d3024', legAmt: 0.62, hoof: '#26201a',
+      shadeLo: 0.25, shadeHi: 0.95,
+      hairScale: 1.3, hairAmt: 0.12, grizzleAmt: 0.08
+    },
     // Camelus knoblochi -- a giant cold-steppe Bactrian relative, so TWO humps and the
     // full wool overlay, read straight off bactrian.png's alpha pattern. Colour has to
     // clear bactrian (H32/L0.29) and wild_bactrian: goes paler and greyer, a

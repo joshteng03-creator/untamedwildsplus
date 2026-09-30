@@ -117,15 +117,19 @@
       var v = MM.vor(p, 2.6, 19);
       var lo = 0.14 + 0.16 * MM.dith(o.u, o.v, 4);
       var d = MM.smooth(lo, lo + 0.42, v.edge) * amt;
-      col = MM.mix(col, MM.mix(C.dappleD, C.ground, 0.35 * v.cell), d * 0.30);
+      col = MM.mix(col, MM.mix(C.dappleD, C.ground, 0.35 * v.cell), d * 0.45);
     }
 
     // ---------- the dorsal stripe ----------
     // Narrow, dithered and fading out at both ends. A hard pale dorsal line was rejected in
     // game once before as "an ugly white line", so this is a soft dark one with broken edges.
-    var mid = 1 - MM.smooth(0.0, 2.4, Math.abs(p.x));
+    // Restricted to the TOPLINE (2026-09-30): keyed on |x| alone it also ran a dark line down
+    // the middle of the belly, and at 0.40 on top faces already darkened for MC's lighting it
+    // did not read on the back at all.
+    var mid = 1 - MM.smooth(0.6, 2.0, Math.abs(p.x));
     var along = MM.smooth(-6.0, 2.0, p.z) * MM.smooth(24.0, 20.0, p.z);
-    col = MM.mix(col, C.dorsal, 0.40 * mid * along
+    var topline = MM.smooth(27.0, 29.5, p.y) * (o.face === 'down' ? 0 : 1);
+    col = MM.mix(col, C.dorsal, 0.70 * mid * along * topline
                  * (0.75 + 0.25 * MM.dith(o.u, o.v, 12)));
 
     // ---------- treatment: short fine coat ----------

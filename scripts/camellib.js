@@ -76,6 +76,21 @@
         col = MM.mix(col, back, MM.smooth(0.55, 1.0, t));
       }
 
+      // a dark dorsal SADDLE over the hump ridge, fading onto the midline of the back. Lets
+      // a ridge-backed species make the ridge itself its field mark (western, 2026-09-30).
+      if (S.ridgeAmt) {
+        // Graded up each hump from its base rather than flat: painted uniformly, the ridge
+        // read as a dark saddle blanket strapped on top of the animal, not as coat.
+        var hm = MM.map[n];
+        var ridge = C.HUMPS.indexOf(n) >= 0
+          ? MM.smooth(hm.lo.y + 0.15 * (hm.hi.y - hm.lo.y), hm.hi.y - 0.10 * (hm.hi.y - hm.lo.y), p.y)
+          : (n === 'body_main' ? (1 - MM.smooth(1.5, 4.5, Math.abs(p.x))) * MM.smooth(26.0, 30.0, p.y) * 0.5 : 0);
+        if (ridge > 0) {
+          ridge *= 0.80 + 0.20 * MM.dith(o.u, o.v, 13);
+          col = MM.mix(col, MM.hex(S.ridgeCol), S.ridgeAmt * ridge);
+        }
+      }
+
       // a camelid's pale muzzle and eye surround, kept to the NOSE cubes and the lower
       // face so it does not wash the whole head into a mask
       if (C.has(C.HEAD, n) && S.muzzleAmt) {
