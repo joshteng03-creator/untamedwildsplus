@@ -268,6 +268,162 @@ shipped as hue-shifted copies of their siblings and read as "the same animal in 
 - **Left untouched on purpose (already shipped):** `big_cat:cave_lion`, `big_cat:sabertooth`,
   `rhino:wooly`, `bear:cave`, `hyena:shortface`, `manatee:steller`.
 
+- **`deer` remodel + all 5 skins (done, 2026-07-28):** full 9-phase SOP pass. 59 boxes on 256×128
+  replacing the 28-box bison fork; `scripts/deer_spec.py` holds the spec, FK checker, z-fight sweep,
+  UV pack and the phase-7 pose solver, and `scripts/gen_model_deer.py` transcribes the Blockbench
+  export into `ModelDeer.java` (verified by diffing the emitted Java back against the export).
+  Two antler families on a shared pedicle toggled by `getVariant()` — PALMATE (megaloceros /
+  stag_moose / moose), BRANCHED (wapiti / red_deer) — each sized by one `setScale` +
+  `setShouldScaleChildren(true)`; families and `throat_bell` hidden with `showModel`. All five skins
+  painted from real-animal cues and user-approved. `./gradlew build` **SUCCESSFUL**; **runClient not
+  yet run** — that is the only outstanding item.
+
+- **Ecology pass — wolf scale, megaherbivore predation, hunt mortality, grazing, mate-finding (done
+  2026-07-29, `./gradlew build` SUCCESSFUL, runClient pending):** `dire_wolf.json` scales corrected to
+  the remodel spec (1.1→**0.90**, 1.0→**0.82**; `scripts/dire_wolf_spec.py` calibrates 16u = 1 block
+  withers, so `scale` is literally the species' shoulder height in metres). Predation rules 1–4 above,
+  plus three new `ConfigGamerules`. **`GrazeGoal` rewritten** — its own `// TODO: Fix this shit so mobs
+  actually walk to a grazeable pos` was real: `locateGrazeables` tested `testpos` (the spot in front of
+  the animal) instead of the candidate it had just generated, so it only succeeded when the animal did
+  not need it; its `getWalkTargetValue < 0` clause demanded a *penalised* block and was never true; and
+  `canUse` issued a `moveTo` then returned false, so the goal never held MOVE and `SmartWanderGoal`
+  re-pathed the animal immediately. Herbivores on sand starved where they stood. Now SEEKING/EATING
+  phases, a ±16 search, and `isGrazeable(BlockPos)` is the overridable form (`EntitySpitter`'s anonymous
+  subclass was moved to it, or spitters would have walked toward grass they do not eat).
+
+- **14 new reskin-only species (done 2026-07-30, `./gradlew build` SUCCESSFUL, runClient pending):**
+  variants added to the four already-modelled rigs, so each is pure Mechanism A (species object + skin +
+  lang, no Java). `bear:arctotherium`; `mammoth:notiomastodon`/`paleoloxodon_namadicus`/`pygmy_mammoth`/
+  `cretan_dwarf`; `dire_wolf:dhole`/`african_wild_dog`/`protocyon`/`thylacine`; `big_cat:cheetah`/
+  `american_cheetah`/`barbary_lion` (dimorphic, 2 PNGs)/`caspian_tiger`/`thylacosmilus`. 15 PNGs, each
+  user-approved before being written to `assets/`.
+  - Painted against Blockbench rigs rebuilt from the Java per lesson 9 and **verified exact by
+    re-export diff**: bear 23/23, mammoth 47/47, dire_wolf 39/39, big_cat 35/35 parts.
+  - **Conventions derived from the shipped PNGs, not invented** — worth re-reading before any skin work:
+    `ModelBigCat` renders all four fang cubes at full size regardless of `hasSabreFangs`, and every
+    non-sabre skin **alpha-0s** them (only `sabertooth` paints the two uppers); `dimorphism` is
+    texture-only, so a lioness's mane is deleted by clearing `neck_mane`'s six rects (male 632/632
+    opaque, female 0/632); eye art and `head_snout_teeth` are standardised per type and are stamped
+    verbatim. Mirrored L/R parts frequently share one UV rect.
+  - **Two dwarf mammoths have an intentional hitbox mismatch.** `getMobSize()` scales only the rendered
+    model; `EntityMammoth` has no `getDimensions`/`getScale` override, so every mammoth species keeps the
+    fixed 2.6x2.6 hitbox from `ModEntity.createEntity`. At scale 0.55/0.45 `pygmy_mammoth` and
+    `cretan_dwarf` are much smaller than their hitbox. Fixing it means overriding `getScale()` on the
+    entity, which changes collision and combat reach for **all** proboscideans - deliberately not done.
+
+- **`rhino:mercks` + `camel:titanotylopus` repaint (done 2026-07-30, build SUCCESSFUL):**
+  `rhino.json` variant 7 `mercks` (*Stephanorhinus kirchbergensis*, scale 1.3, forest/jungle, no
+  `stubHorn` so both horns show). Every dark slot in the rhino set was taken, so it is a **pale warm dun**
+  hide (L 0.40 at real saturation — a combination no sibling occupies) carrying its identity on treatment:
+  sparse coarse bristle, deep folds, and heavy dark forest-floor leaf mud booting the legs.
+  `titanotylopus.png` **repainted** — it had shipped as a luminance-preserving recolour of `western.png`
+  (both exactly 4622 opaque px). Now a two-tone animal: deep rufous body, dark chocolate shaggy wool,
+  cream cannons (H34/L0.52 → H24/L0.37, 5455 opaque px).
+  - **`ModelCamel`'s UV forces all wool overlays to ONE tone.** `neck_hair_1` `[89,56,101,64]` overlaps
+    `arm_left_hair` `[89,55,96,64]`, and all four limb skirts share a single rect set. Two attempts at a
+    dark neck cape over body-coloured limb wool failed because the cape simply overwrote the skirts —
+    only the skirts' `up` faces (non-overlapping rects) kept their colour, which is what exposed it.
+    Before designing any per-part colour split, check the UV rects for sharing.
+  - The camel eye convention is the **inverse** of the rhino's: the camel paints the INWARD quad and
+    clears the outward one, and the two eyes share both rects. Both work because
+    `entityCutoutNoCull` does not backface-cull, so copy the reference verbatim rather than reasoning
+    about which half faces out.
+
+- **`toxodon` remodel + `mixotoxodon` + both skins (done 2026-07-31, `./gradlew build` SUCCESSFUL,
+  runClient pending):** full 9-phase SOP pass. **34 boxes on 256x128** replacing the 19-box / 128x128
+  bison fork, whose own comment admitted its sit/sleep fold angles were inherited and never re-derived.
+  `scripts/toxodon_spec.py` holds the spec, FK checker, z-fight sweep, UV pack and pose solver;
+  `scripts/gen_model_toxodon.py` transcribes the Blockbench export into `ModelToxodon.java` (verified
+  by a re-export diff: 34/34 parts, every `texOffs`/`addBox`/`PartPose`/parent link identical).
+  Both species share ONE mesh and differ only by JSON `scale`, so there is deliberately **no
+  `getVariant()` switch** in the model.
+  - **Scale recalibrated to life size** (1 block = 1 m at the shoulder): `toxodon` **1.5 -> 0.87**
+    (2.34 -> 1.50 blocks tall) and `mixotoxodon` 1.014. The old rig overflowed the registered
+    1.7x1.5 hitbox by 56%; the new one matches it exactly and correctly reads *shorter* than a bison.
+  - Four defects the numbers caught that renders hid: the ear roll sign was inverted (`s*-48` rolled
+    both ear tips down INTO the skull); the tail was 64% buried inside `body_croup` and invisible from
+    behind; five z-fight patches, the worst 36u2 where the chest's -6 tilt lifted its top plane into
+    the barrel's; and head+neck at 42% of body length (real: 22%) rendering as one slab from rump to
+    nose. **`ModelDeer`'s tail has the same latent burial bug at -62/-78.**
+
+- **Edge bleed is now MANDATORY for every skin (`MM.bleed` in `paintlib.js`).** MC computes a box's UV
+  footprint `2*(w+d) x (h+d)` from the RAW FLOAT sizes, so any non-integer box - which is all of them
+  on the sculpted rigs - samples a fractional texel region. The painter can only fill whole texels, so
+  the outermost fraction of every face edge lands on an unpainted, fully transparent texel, and
+  `entityCutoutNoCull` DISCARDS those fragments: visible holes along the seams, worst on small parts
+  (`incisor_lower` had 87 transparent texels in a 150-texel edge halo, which is what made the toxodon's
+  mouth look punctured). `MM.bleed(canvas, passes, protect)` dilates painted colour outward; pass
+  `MM.faceRects(['eye_left','eye_right'])` as `protect` so the eyes' deliberately alpha-0'd inward quad
+  is not refilled. **This is the same root cause as the deferred "mammoth leg/toe invisible texture
+  spots" item.**
+
+- **`antelope` extended to 9 species + 6 skins (done 2026-07-31, build SUCCESSFUL, runClient pending):**
+  `ModelAntelope` went 36 -> **56 boxes**, EXTENDED not rebuilt. The original 36 are byte-identical
+  (`scripts/gen_model_antelope.py` re-verifies texOffs/addBox/rotationPoint/rotation/parent against the
+  file on disk and **refuses to write** if any moved), so `saiga`/`pronghorn`/`springbok` were untouched
+  — confirmed by loading the shipped `springbok.png` onto the extended rig and rendering it correctly.
+  New boxes are packed into UV rows **53–65**; the shipped footprints stop at v=52, so nothing moved.
+  - **Five horn families on one skull**, selected by `showModel` on the chain ROOT (ModelPart.render
+    returns before recursing into children when `visible` is false): GAZELLE (springbok/pronghorn),
+    FORKED (tetrameryx, +rear prong), SPIRAL (giant_eland/blackbuck), RAPIER (gemsbok),
+    SCIMITAR (sable/bluebuck). New species: tetrameryx, blackbuck, giant_eland, gemsbok, sable, bluebuck.
+  - **Segment-to-segment TWIST is load-bearing.** A box's X-face normal is untouched by `rx`, so a chain
+    that only varies its backsweep leaves consecutive side planes near-parallel and the sweep found
+    1.0–1.4u2 at every joint. The shipped gazelle horn does not flag because base and tip differ by 20
+    degrees of rz. Every new joint now turns >8 degrees of yaw or roll — which doubles as the spiral cue.
+  - **Heavy build scales the torso AND moves the limb roots.** `AdvancedModelBox` does not scale a
+    child's rotation point, so a wider chest alone swallows the legs (chest 4.15 -> 4.65 against a
+    shoulder whose outer face is at 5.00). Limb roots go to 1.16x, which keeps the shoulder 0.37 clear
+    of the barrel and the thigh 0.78.
+  - `EntityAntelope.java` unchanged: `hasBulbousNose` is the only flag, everything else reads
+    `getVariant()`. giant_eland (1.60 m) and sable (1.35) exceed the fixed 1.0x1.2 hitbox — accepted and
+    documented, exactly as the dwarf mammoths ship.
+
+- **`scripts/java2bb.py` — parse ONLY the constructor.** It rebuilds a shipped `Model*.java` as a
+  Blockbench rig. A file-wide regex keeps the LAST `setRotationPoint` per part, and `setupAnim` re-issues
+  one on the eye planes for the blink — so the eyes come back at their hidden-inside-the-skull position.
+  **A round-trip diff will NOT catch this**, because both sides of the comparison come from the same bad
+  parse. It reported "EXACT MATCH" while `eye_left` sat at x 1.0 instead of 2.6.
+
+- **Release 2.4.0 jar built** (`build/libs/untamedwilds-1.18.2-2.4.0.jar`). Version bumped in BOTH
+  `gradle.properties` (drives the jar name) and `mods.toml` (what Forge reports in-game) — they are not
+  linked. Modpack-safe: `forge [38,)` and `citadel [1.10,)` have no upper pins.
+
+- **`macrauchenia` remodel + `xenorhinotherium`, and `tapir` as a NEW TYPE with 7 species
+  (done 2026-08-01, `./gradlew build` SUCCESSFUL + jar verified, runClient pending):**
+  macrauchenia was the LAST raw `ModelBison` fork -- 26 boxes / 128x64 still declaring bison
+  horns, beard, forelock and limb wool -- replaced by a **35-box 256x128** sculpt
+  (`scripts/macrauchenia_spec.py`, `gen_model_macrauchenia.py`). Hitbox raised 1.3x1.9 ->
+  **1.4x2.4**; scales recalibrated to 1 block = 1 m at the withers (1.15 -> **1.018**, new
+  `xenorhinotherium` **0.876**). `tapir` is a full Mechanism B type built from scratch:
+  **34 boxes**, `EntityTapir`/`RendererTapir`/all three `ModEntity` hooks/`tapir.json`/loot/
+  spawn entry/egg model/16 lang keys, hitbox 1.3x1.2. Seven species off one mesh with two
+  `showModel` gates on `getVariant()`: `crest` on lowland/bairds/mountain/megatapirus/
+  vero_tapir, and `claw_left/right` on **palorchestes alone** (a diprotodontid marsupial
+  grouped by convergence, as thylacine is under dire_wolf -- its clawed forelimbs are
+  MODELLED, not left to the skin). All 9 skins user-approved one at a time.
+  - **Blockbench MCP tools missing from a session no longer requires a restart.**
+    `scripts/bb.py` drives the plugin directly over HTTP JSON-RPC at localhost:3000/bb-mcp.
+    `claude mcp list` reporting "Connected" is NOT evidence the tools are loaded -- it runs a
+    fresh subprocess check. Note `risky_eval` REFUSES any payload containing `console.`,
+    `//` or `/* */`, and paths must use forward slashes.
+  - **`gen_bb_build.py` WIPES the outliner**, so a user's hand edit in Blockbench is
+    destroyed by the next rebuild. It now snapshots to `scratch/rig_prewipe.json` first, and
+    `scripts/read_back.py <spec_module>` diffs the live rig against the spec. **Run read_back
+    before rebuilding if the user has touched Blockbench.** This was learned by destroying a
+    hand-painted eye and having to recover it by diffing the live TEXTURE against MM.canvas.
+  - **When a head will not read as a separate object, measure how far it projects past the
+    box behind it BEFORE touching the head.** Two tapir passes failed by retuning the head;
+    the cause was a 13u `body_chest` reaching to z=-14, leaving the muzzle only 9u of
+    projection on a 47u animal. Cutting the chest to 7u fixed it at once.
+  - **A treatment change does not move a skin's MEAN colour.** megatapirus measured 16.8
+    from lowland (inside the 10-20 "hue shift" band) despite a full agouti-grizzle treatment
+    no other species uses. Two species sharing a treatment also cannot share a lightness
+    (palorchestes vs mountain, 16.6 apart at L 0.275 vs 0.282). Measure each new skin against
+    ALL shipped siblings, not just the last one.
+  - MC face-lighting compensation must **MULTIPLY**, never mix toward a fixed body colour:
+    mixing drags every part's hue toward it and turned macrauchenia's grey muzzle brown.
+
 **Not yet done / next up:**
 - Replace all placeholder skins with real art (Track B). The repurposed variant is still displayed as
   "Sabertooth" (sciname already *Smilodon populator*) — rename to "Smilodon" only if desired.
@@ -390,15 +546,387 @@ events (e.g. `minecraft:entity.wolf.growl`) or the mod's own registered events.
 
 ## Predator hunt balance (implemented)
 
-`entity/ai/target/HuntMobTarget.java::canUse()` refuses to hunt while `getHunger() > threshold` and sets
-`huntingCooldown = 6000` ticks on start. Hunger is an int capped at 200 (`ComplexMobTerrestrial.addHunger`).
-- All predators pass `threshold = 30` (only hunt when hungry). The no-threshold constructor defaults to 200
-  (always hunts); `EntityMonitor` was fixed to 30. (`EntityGiantSalamander`/`EntityFootballFish` remain
-  intentionally opportunistic aquatic ambushers.)
-- `ComplexMobTerrestrial.satiateFromKill(Entity)` restores +120 hunger when a predator lands a killing blow,
-  called from each predator's `doHurtTarget`. This stops predators from thinning whole herds one kill per
-  cooldown. Canids reuse `HuntPackMobTarget` (shared pack target) so a pack takes one animal, not one each.
+`entity/ai/target/HuntMobTarget.java::canUse()` refuses to hunt while `getHunger() > threshold`. Hunger is
+an int capped at 200 (`ComplexMob.addHunger`).
+- All predators pass `threshold = 30` (only hunt when hungry). The no-threshold constructor defaults to 30;
+  `EntityMonitor` was fixed to 30. (`EntityGiantSalamander`/`EntityFootballFish` remain intentionally
+  opportunistic aquatic ambushers.)
+- `ComplexMob.satiateFromKill(Entity)` restores +120 hunger when a predator lands a killing blow (+90 to
+  pack-mates within 16 blocks, who share the carcass), called from each predator's `doHurtTarget`. This
+  stops predators from thinning whole herds one kill per cooldown. Canids reuse `HuntPackMobTarget` (shared
+  pack target) so a pack takes one animal, not one each.
   Do not strip `SmartAvoidGoal`/`ProtectChildrenTarget` from herbivore templates.
+
+### The hunt commitment — read before touching any break-off or flight code
+
+Between them, three mechanics made it impossible for a predator to ever land a killing blow. Each was
+individually reasonable and all three had to be fixed together, so **do not "simplify" any one of them
+back**:
+
+1. **`activeHunt` cannot carry the hunt exemption on its own.** It lives for exactly as long as the hunt
+   goal owns the `TARGET` flag, and every break-off goal (`SmartHurtByTargetGoal`, `HurtPackByTargetGoal`,
+   `ProtectChildrenTarget`, …) is registered at a *higher* target priority. The instant prey bites back,
+   the `GoalSelector` stops the hunt goal, `activeHunt` hits 0, and the "spare a foe below 10% health"
+   clause released the prey. `ComplexMob.huntCommitTicks`/`huntVictim` is a timer on the *animal*, so it
+   survives being preempted; `ComplexMob.tryBreakOff()` is now the **single** implementation of the
+   break-off rule and the only place that knows about the exception. Six goals had copies of it.
+2. **The cooldown is paid on the kill, not on the attempt.** `huntingCooldown = 6000` at hunt *start* meant
+   one interruption locked a predator out for five minutes while the animal it had nearly killed healed.
+   `start()` now charges `predator_failed_hunt_cooldown`; `satiateFromKill` charges
+   `predator_kill_cooldown`. `HuntMobTarget.canUse()` also re-acquires a still-committed victim while
+   ignoring the cooldown, or the handover back from a retaliation goal drops the chase for good.
+3. **Fleeing prey was strictly faster than every predator.** `HerdFleeGoal` runs prey at `2.0×`; a deer at
+   speed 0.25 flees at 0.50 while a dire wolf pursues at 0.24 × 1.6 = 0.384. The gap never closed, so the
+   fix is *not* to slow prey down or speed predators up across the board: prey keeps its full sprint and
+   loses stamina (`ComplexMob.fleeStamina`/`getFleeSpeedFactor()`, applied in `SmartAvoidGoal.fleeSpeed`),
+   and the predator gets `predator_chase_burst` **only** while committed. Prey wins the sprint, loses the
+   marathon, and genuinely fast species (pronghorn) still get away.
+
+Overkill is bounded by, in order: the hunger gate, `predator_kill_cooldown`, the ~10 in-game minutes of
+hunger a kill buys, one 30 s attempt per `predator_failed_hunt_cooldown`, the shared pack target, and
+`predator_herd_floor` (predators will not touch a herd of ≤ 2 unless starving). All eight numbers are
+`ConfigGamerules` entries — tune there, not in the goals.
+
+### Who can be hunted, and what hunting costs (2026-07-29)
+
+Four more rules joined that set. They are also mutually load-bearing — read them together.
+
+1. **`getEcoLevel` weights condition and age.** The herd bonus is now scaled by the animal's health
+   fraction and the whole level is multiplied by `BABY_ECO_FACTOR` (0.3) for a juvenile. Before this,
+   *nothing in the game could kill a megaherbivore*: `updateAttributes()` gives a calf the full adult
+   `MAX_HEALTH`/`ATTACK_DAMAGE`, so a mammoth calf scored 22 exactly like its mother against a dire wolf
+   pack's 14, and the flat `+ herdSize` meant even an adult at 15% health scored 14. A healthy adult
+   still scores 22 and is still untouchable, which is correct — only calves (7) and the dying (6) opened
+   up. **Do not re-flatten the herd term**: it is the piece that was doing the blocking.
+2. **`predator_herd_floor` exempts calves and solitary species.** Every `IPackEntity` gets a herd object
+   even at `groupCount` 1, so `ground_sloth` (1) and `glyptodont` (2) sat permanently at or under the
+   floor and were literally unhuntable by anything. The floor protects breeding stock, not the part of a
+   herd predation is meant to take; it compares against `herd.getMaxSize()`, not current membership, so a
+   thinned real herd keeps its protection.
+3. **`predator_hunger_drain`** scales carnivore hunger decay only (herbivores refill by grazing, so their
+   rate barely matters). Canids had been on the herbivore rate of −10, which had a pack killing about
+   twice an in-game day — faster than any herd breeds back. Now −4 for canids, −2 for big cats/bears, all
+   via `ComplexMob.drainHuntingHunger`. Note this also keeps predators above the hunger ≥ 80 breeding
+   gate longer, so it *raises* predator birth rates; rule 4 is the counterweight.
+4. **`predator_hunt_risk_chance`** is the only way a predator dies of hunting. `tryBreakOff` makes any
+   animal spare a foe below `ROUT_THRESHOLD`, and a hunter is already exempt from being routed itself
+   while committed — so hunting carried no risk at all; a predator could lose every fight it picked and
+   walk away from all of them. `commitToHunt` now rolls `huntIsRisky` once per hunt (doubled vs
+   megafauna) and `tryBreakOff` will not spare a hunter mid-commitment on a risky hunt. Rolling **once,
+   at commit** is deliberate — a per-tick roll makes one fight flicker between mercy and none. The share
+   of hunts that actually kill the hunter is far below this number, since it still has to lose.
+
+### Predator strength and class identity (2026-08-01)
+
+Predators were weak and interchangeable — `EntityDireWolf` was a near-verbatim copy of `EntityHyena`, and
+only the bear had a signature mechanic at all. Every mechanic added here is deliberately built from a
+channel **`getEcoLevel` cannot see**, because health and attack are its inputs and changing either in a
+species JSON re-sorts the entire food web.
+
+1. **`predator_hunt_damage_burst` (2.0)** is the counterpart of `predator_chase_burst`: a damage
+   multiplier applied *only* while committed to a hunt for food, and zero in a brawl, cub defence or
+   retaliation. Delivered by `ComplexMob.applyAttackBonus`/`clearAttackBonus`, a transient ATTACK_DAMAGE
+   modifier under a fixed UUID that **must** be torn down in a `finally` — if it survives the call,
+   `getEcoLevel` reads it and the animal silently changes what it hunts. Bonuses **sum**, because
+   `MULTIPLY_TOTAL` adds its amounts: a committed lion landing an ambush is `x(1 + 1.00 + 0.75)`.
+2. **Four identities, on four axes.** Big cat = burst (`bigcat_ambush_multiplier`, opening strike of a
+   stalk only, once per hunt, and never against quarry already fighting back; plus
+   `bigcat_cornered_reduction` below half health, the mirror of Bearserk). Bear = control
+   (`bear_stagger_ticks`; bears are the slowest predators in the mod, so the fix is to make them
+   inescapable, not faster). Dire wolf = endurance (`canid_stamina_drain`, straight out of the existing
+   `fleeStamina` budget). Hyena = economy (`hyena_pack_damage_step` capped at +50%, plus
+   `shareCarcassWithScavengers`, which lets a clan eat off other predators' kills so it hunts — and so
+   risks — less often).
+   **Kleptoparasitism is driven by the KILLER and tested against the RECIPIENT**, via
+   `ComplexMob.shareCarcassWithScavengers` calling the recipient's `canScavengeCarcass()`. Overriding the
+   sharing method on `EntityHyena` looks natural and is wrong: it would only ever fire when a hyena had
+   already made the kill itself, which is the exact opposite of stealing a lion's.
+3. **Durability is damage reduction, never health.** `ComplexMob.getIncomingDamageFactor` +
+   `ComplexMob.hurt`. Pack hunters were dying to the animals their pack eco level said they could take: a
+   dire wolf is 34 HP against a wooly rhino's 10 attack, so four bites. Raising it to 55 HP instead would
+   lift the pack from eco 15.0 to 16.9 and bring **seven** prey species into range past the diet filter
+   (mixotoxodon, vicuna, giraffe, pronghorn, cuvieronius, grevy's zebra, titanotylopus). Measured, not
+   guessed — re-run the check before changing any predator's health.
+4. **`predator_gestation_multiplier` / `predator_maturity_multiplier` / `predator_litter_bonus`** stack on
+   top of the global breeding scalars for carnivores only, gated on the `carnivore` ecology **tag** —
+   *not* `EcologyTags.isPredator()`, which also returns true for anything declaring a diet and so catches
+   herbivores. Eight types carry the tag and are therefore affected: `bear`, `big_cat`, `dire_wolf`,
+   `hyena`, plus `football_fish`, `large_snake`, `monitor` and `shark`. The last four are egg-layers, so
+   `predator_litter_bonus` widens their clutches through `getOffspring()` → `EntityUtils.dropEggs` as
+   well — intended, but check `monitor` (offspring 5 → 7) if lizards start piling up.
+   This is the only part of the set that can destabilise a world: nothing else raises the kill *rate*, but
+   more predators reaching adulthood means more hunger clocks. If herds shrink, pull
+   `predator_hunger_drain` down first, then raise `predator_herd_floor`.
+
+**`EntityBigCat` was wired wrong and is now fixed.** It registered the *pack* attack goal
+`MeleeAttackCircleHerd` — with a comment claiming `HuntPackMobTarget` accompanied it — while its target
+goals were the *solitary* `HuntMobTarget`/`SmartHurtByTargetGoal`. A pride of eight therefore acquired
+eight separate targets, each lion committed alone, seven orbited at six blocks contributing nothing, and
+nothing came when one was attacked. Both are now the pack versions, matching `EntityHyena`. Note this
+*lowers* predation pressure: a pride now takes one animal instead of up to eight.
+
+**Two levers that look obvious and are not — do not re-attempt either:**
+- **ARMOR.** MC's `CombatRules.getDamageAfterAbsorb` reduces by `max(armor/5, armor - damage/2)/25`, so
+  the bear's 4 armor against an 8-damage bite is worth **3.2%**. The big cat's 0 versus the bear's 4 is
+  almost entirely illusory; closing it fixes nothing.
+- **Attack cooldown.** `SmartMeleeAttackGoal` has an extra fast-swing clause that
+  `MeleeAttackCircleHerd` lacks, but it only fires once the mob's animation has ended, and every bear
+  attack animation except BITE (18) is longer than the 20-tick cooldown. Worth ~10%, one time in four.
+
+`mate_search_radius` (24) is in the same family: `SmartMateGoal` searched an 8-block box and nothing made
+a lone animal in season go looking, so sparse species — predators especially — could only shrink. Widening
+it alone would **not** have worked: `spawnBabyDelay` counted from the moment the goal started and
+`canContinueToUse` gave up at 200 ticks, so a distant pair always abandoned the approach part-way. Travel
+time now burns a separate `TRAVEL_BUDGET` and only time spent within mating range counts toward breeding.
+
+### Ecosystem simulation: bounded mobbing, group morale, and range shifting (2026-08-02)
+
+Predators were still dying out even after the strength pass. They were not losing to other predators —
+they were being **killed by prey**. Three structural faults, all of which had to be fixed together.
+
+**1. Group defence was unbounded.** `ProtectChildrenTarget` runs independently on *every* adult: each
+one looks for a same-variant calf within 8 blocks of itself and a threat within `DEFEND_RADIUS` of that
+calf. In a `groupCount:20` bison herd with calves scattered through it, a dozen adults satisfy that at
+once. Bison are attack 7; a dire wolf is 34 HP × 0.30 reduction = 48.6 effective, so ten defenders land
+~49 damage per round and kill it in about two seconds *regardless of how strong it is*. `HerdEntity`
+now hands out **defender slots** (`tryClaimDefenderSlot`/`releaseDefenderSlot`, cap
+`herd_defender_cap` = 3, plus a per-animal `defendCooldown` so one fight cannot cycle a fresh trio
+through the cap). Nothing extra was needed to make the rest back off: the HEAVY herbivores already
+carry a `SmartAvoidGoal` keyed on predators that is suppressed only while they hold a target, so
+**refusing the target is the backing away**.
+
+**2. Being defended against ESCALATED the fight.** `HurtPackByTargetGoal.alertOthers()` set the target
+on every pack member, so one bison goring one wolf handed the entire pack that bison — the hunt was
+dropped and a pack-vs-herd brawl started in its place, which the pack always lost. That is now
+inverted: a **hunting** predator hit by anything that is not its `huntVictim` declines the retaliation
+and credits `reportDefenderPressure` instead, and the alert never overrides a live hunt and carries
+only 12 blocks. Same clause added to `SmartHurtByTargetGoal`.
+Group morale is new: `HerdEntity.recentLosses` (from `ComplexMob.die`) and accumulated pressure both
+decay over `pack_rout_window`; past `pack_rout_loss_threshold` (2) or `pack_rout_pressure` the whole
+group calls `endHuntCommitment` + `routFromCombat`. **`ComplexMob.rememberDefeat`/`isAvoiding` is
+load-bearing** — without a rout *memory* (`predator_rout_avoid_ticks`) `HuntMobTarget` re-acquires the
+same herd within seconds and routing is cosmetic. Same lesson as `activeHunt`: a decision that lives on
+a goal does not survive the goal being stopped. `ComplexMob.oddsAreAcceptable()` also refuses to *start*
+a hunt at worse than `predator_odds_ratio` defenders per hunter — checked at start only, or a predator
+would abandon every hunt the moment the first defender arrived.
+
+**3. Prey had no way to resolve its own density — and the fix is NOT a birth cap.** Herds bred in place
+and never moved (`SmartWanderGoal` picks positions within 10–15 blocks, or 7 of the leader), so an
+eaten-out range stayed occupied and local prey only ever climbed. Capping births would stop the
+population growing at all; what real ungulates do is **leave**. So:
+- `ComplexMob.forageStress`, driven by `GrazeGoal` (up when its 16-block search finds nothing, down on
+  every mouthful) is the habitat-quality signal, and it finally gives `grazer_griefing` a purpose —
+  a herd eats a patch to dirt, moves on, and the range regrows behind it.
+- `HerdMigrationGoal` (new) runs on the **herd leader only**, because `SmartWanderGoal.getPosition()`
+  already paths every other member to within 7 blocks of the leader — *move the leader and the herd
+  follows*. It scores candidate ranges 64–128 blocks out on food minus conspecifics.
+- **`HerdEntity.effectiveSplitOffDistance()` is not optional.** `splitOffDistance` is 32 blocks and
+  `tick()` drops anyone past it; a migrating herd would shed every straggler mid-journey, each founding
+  its own herd where it was dropped. Followers are also pathed at the leader actively during a
+  migration, since `SmartWanderGoal`'s 1-in-120 re-path cannot keep up.
+- Arrival moves `setHome()` for every member, or `GotoSleepGoal` walks them all the way back overnight.
+- Natal **dispersal** (`pickDisperser`/`detachDisperser`) sends one young adult out of a full, crowded
+  herd to found its own. This is the growth valve: births are never blocked by crowding, the surplus
+  leaves. It is also the only mechanism in the mod for colonising new ground after initial spawning.
+- `ComplexMob.isRangeExhausted()` — starving **and** `herd.migrationFailed` — is the *only* thing that
+  suppresses breeding, and it is the last resort. Ordinary crowding deliberately does not.
+- `PredatorRelocateGoal` is the counterweight and is equally load-bearing: if herds move and packs do
+  not, packs starve on empty ground and predator extinction returns by another route.
+
+**Engine constraint, stated in the config comments too:** MC only ticks loaded chunks, so this is range
+*shifting* bounded by simulation distance (~160 blocks), not continental migration.
+
+**Four species interactions**, all of which stop the food web collapsing to one predator and one prey:
+- **Prey switching** (`EcologyTags.preference` × `ComplexMob.censusOf`, cached per tick): a predator
+  prefers whichever prey is locally *common*. Without it, "nearest thing I can eat" removes prey
+  species one at a time. This is the single most important stabiliser in the set.
+- **Straggler bias + dilution** (`HuntMobTarget.Sorter.conditionBias`, `SmartAvoidGoal.detectDistance`
+  overridden in `HerdFleeGoal`): wounded, blown and herd-separated animals are taken first, and bigger
+  herds spot predators sooner. Together these are what make herd size protective **without** the herd
+  having to mob the predator — the ecological answer to fault 1.
+- **Carrion + kleptoparasitism**: `ComplexMob.die` pays `carrion_hunger` to scavengers for *any* death,
+  and `findCarcassThief`/`loseCarcassTo` (resolved at the kill, since a carcass is not an entity here)
+  lets a hyena clan of `kleptoparasitism_clan_size` or a single bear take a kill outright. Bears now
+  scavenge too. `displacementGroupSize()` is on the **displacer**, `yieldsCarcassTo()` on the loser.
+- **Mixed-species alarm network**: `HerdFleeGoal.alertNeighbours` panics other herbivore species within
+  `alarm_network_radius`; giraffids carry `sentinel_detect_bonus` and are the early-warning system.
+  Predators are deliberately excluded, or prey would get a free escape from anything hunting it.
+
+**Ecosystem vs Zoo** is a real vanilla gamerule, `/gamerule untamedwildsEcosystemMode <true|false>` —
+per-world, saved in `level.dat`, flippable mid-game, which a config entry cannot be. Registered in the
+`UntamedWilds` **constructor** (vanilla builds each world's `GameRules` from the static type map, so a
+rule added after the first world loads is absent from it) and it needs two lines in
+`META-INF/accesstransformer.cfg`: `GameRules.register` (`m_46189_`) and `GameRules$BooleanValue.create`
+(`m_46250_`) are private/package-private in vanilla. `config/EcologyMode.java` is the single read point.
+Zoo: gestation ×2.5, maturity ×2.0, no litter bonus, hunger drain ×0.4, hunt threshold 30→8 (starving
+only), hunt risk 0, defender cap 1, no migration or dispersal, and **no brawls** — retaliation, pack
+call-for-help, `BisonTerritorialityFight` and `AngrySleeperTarget` all decline unless a *player* started
+it. Defence of young still runs; a mother should still see off a wolf in a zoo.
+**Deliberately not a rewrite of every config call site** — only the ~15 numbers the modes disagree about
+route through `EcologyMode`, so existing tuning stays valid.
+
+Twenty-one new `ConfigGamerules` entries carry every number; tune there, never in the goals.
+`./gradlew build` **SUCCESSFUL**; **runClient not yet run**.
+
+### Demography: starvation, senescence and carrying capacity (2026-08-10)
+
+Predators — wolves, dire wolves, american lions especially — still overpopulated and drove prey
+locally extinct, pack hunters almost never died, and prey-rich areas were grazed to bare dirt.
+Everything above this section models **behaviour**; none of it could ever bound a population,
+because the mod had **no demography at all**. Four structural gaps, and the fixes are mutually
+load-bearing in the same way the ecosystem set above is.
+
+**1. There was no density-dependent mortality.** `isStarving()` was read in ~25 places and its only
+consequence anywhere was skipping a `heal()` call. Hunger floored at 0 and the animal lived forever;
+a starving predator even *bypassed* `predator_herd_floor`, so an over-dense pack hunted a herd past
+the point it should have been left alone. With `removeWhenFarAway()` false and no despawn, nothing in
+the world removed a wild adult except a player — which is the entire reason pack hunters accumulated.
+`ComplexMob.tickStarvation` now applies real damage after `starvation_grace_ticks`.
+**Babies and tamed animals are exempt and must stay exempt**: `GrazeGoal.canUse()` refuses to run for
+`isBaby()`, so a calf physically cannot feed itself and without the exemption every calf in the world
+starves. The resulting health loss lowers `getEcoLevel` and feeds `Sorter.conditionBias`, so animals
+in poor condition get taken first through machinery that already existed — intended, not incidental.
+
+**2. Predator breeding had no prey term.** It was a bare `getHunger() >= 80`, and `satiateFromKill`
+pays +120 to the killer plus +90 to every pack-mate within 16 blocks, so **one carcass flipped an
+entire eight-wolf pack into breeding simultaneously** — with gestation ×0.33, maturity ×0.33 and
+litter +2 stacked on top. Births tracked kill *events* instead of prey *density*: exponential growth
+by construction. `ComplexMob.condition` is a slow exponential average of hunger
+(`condition_halflife_ticks`), and `wantsToBreedAsPredator()` gates on **sustained** condition plus
+`isLocallyOvercrowded()`. **The lag is the mechanism, not a side effect** — it is what turns runaway
+growth into a bounded oscillation, so do not shorten the halflife to make predators "responsive".
+Note the deliberate asymmetry: for herbivores crowding means *move* (`HerdMigrationGoal`), for
+carnivores it means *do not breed*, because territoriality is the real brake on carnivore density.
+
+**3. Forage was infinite.** Grazing paid a flat +16 on any ground at all against a −10/1000-tick
+drain, so one mouthful per ~1600 ticks sustained an animal no matter how bare its range was.
+`GrazeGoal.sampleForageDensity()` now probes 16 **heightmap columns** — a naive 3D probe lands in open
+air or inside the ground and reads intact grassland as barren — and `ComplexMob.getForageYield` scales
+the mouthful from `forage_yield_max` to `forage_yield_min`. `world/ForageRegrowthHandler` is the other
+half and is **not optional**: `GrazeGoal` destroys plants and converts grass_block to dirt, vanilla
+only restores either through `SpreadingSnowyDirtBlock`'s random tick, so without regrowth the map is a
+one-way ratchet to bare dirt and carrying capacity only ever falls. It samples around **players**,
+because MC only ticks loaded chunks, and it requires a living neighbour to spread from so an isolated
+dirt patch in a desert cannot spontaneously turn green.
+Herbivore breeding moved from `!isRangeExhausted()` (starving **and** `migrationFailed`, a conjunction
+that almost never became true) to `!isForageStressed()`. **This is not a birth cap** and does not
+contradict the migration design — herds still migrate first, they simply do not calve on ground that
+cannot feed a calf. This also fixed `EntityRhino` and `EntityHippo`, which had no guard at all.
+
+**4. Nothing aged.** Any cohort that reached adulthood was immortal. `ComplexMob.lifeTicks` is
+persisted and `getLifespan()` is **derived as `getAdulthoodTime() × lifespan_multiplier`**, not
+authored per species — so it inherits `cycle_length`, `maturity_multiplier` and
+`predator_maturity_multiplier` for free, keeps the maturity:lifespan ratio identical across the
+roster, and needed **zero edits to the ~40 entity JSONs**. `isSenescent()` stops breeding (checked on
+the *base* `wantsToBreed()`, so all seven `super.wantsToBreed()` callers inherit it) and adds a
+straggler-bias term so predators take the old. Old-age death ramps from 0 at the lifespan to
+`old_age_mortality_chance` at 1.5×, and kills by **damage rather than `discard()`** so `die()` runs and
+the carcass feeds scavengers — exactly the case `feedScavengers`' comment anticipated and nothing
+could previously produce. `finalizeSpawn` randomises `lifeTicks` below the senescence threshold, or
+every animal a chunk generates is newborn and a whole region dies off on the same day.
+
+**Two traps this pass had to work around, both worth re-reading before touching it:**
+- **Weakness is expressed as MOVEMENT_SPEED and nothing else.** `MAX_HEALTH` and `ATTACK_DAMAGE` are
+  the two inputs to `getEcoLevel`, so a "sickly" or "elderly" penalty on either would silently re-sort
+  every targeting predicate in the mod. Same rule as the predator-strength pass; same fixed-UUID
+  transient-modifier pattern (`CONDITION_PENALTY_UUID`).
+- **Zoo mode gates CONSEQUENCES, not bookkeeping.** `condition` and `lifeTicks` accrue and persist in
+  both modes. If they did not, flipping `untamedwildsEcosystemMode` to true mid-world would hand every
+  existing animal a condition of 0 (instantly starving-weak) and a lifeTicks of 0 (a fresh lifespan).
+  Equally, the five new `EcologyMode` gates make the breeding predicates **fall back to the original
+  ones** rather than skipping the check — a gate returning `true` would leave zoo animals breeding
+  *more* freely than before any of this existed.
+
+Everything here is Ecosystem-mode only: `allowsStarvationDeath`, `allowsConditionPenalty`,
+`allowsSenescence`, `allowsForageDepletion`, `usesConditionForBreeding`. Fifteen new
+`ConfigGamerules` entries; tune there, never in the goals. The `AnalyzerItem` now prints condition,
+age against lifespan, and starvation state — tuning these gamerules is guesswork without it.
+`./gradlew build` **SUCCESSFUL** and the new class is jar-verified; **runClient not yet run**, and for
+this pass in particular the acceptance test is a long session watching predator and prey counts
+oscillate within bounds rather than one going to zero.
+
+### Pack burst sharing and the herd's answer to it (2026-08-11)
+
+Pack hunters were still overpowering herbivores. Not tuning drift — a **collision between the two
+passes above**, which were designed independently and pull in opposite directions. The 2026-08-01 pass
+gave each predator a ×2 damage burst; the 2026-08-02 pass capped herd defence at 3 and made a hunting
+predator decline retaliation. Together they doubled the pack's output and capped the herd's answer.
+
+**The arithmetic that made the case.** A dire wolf pack of 8 against a steppe bison (70 HP, attack 7):
+each wolf lands 9 × 2.0 = **18**, all eight share one victim via `HuntPackMobTarget`, and every one of
+them swings each 20 ticks — `MeleeAttackCircleHerd` has no fast-swing clause and its
+`CLOSE_IN_THRESHOLD` (0.35) makes the whole pack stop circling and close at once. **144 damage per
+second.** The herd answers with at most `herd_defender_cap` 3 × 7 = **21**, against wolves at 34 / 0.7
+= 48.6 effective. Bison dies in half a second; the pack takes nineteen. **And 21 is the best case** —
+see the second fault.
+
+**1. The burst was per-animal, so pack damage multiplied while herd defence was capped.**
+`ComplexMob.getHuntDamageBonus` handed the full `+1.00` to every member independently.
+`pack_burst_sharing` (**0.5**) now divides it by `pow(engaged, sharing)`, counted by
+`countPackCommittedTo(victim)` — pack-mates committed to **the same victim** and within
+`ENGAGEMENT_RADIUS` of **it**, not of the hunter, because what is being divided is the number of mouths
+on one carcass. A **lone hunter is untouched at ×2.0**: a solitary cat or bear was never the problem,
+and the 2.0 was a deliberate choice (see the memory note) that this preserves. Eight wolves get ×1.35
+each, so pack DPS falls 144 → 97. Set to 0 to restore the old behaviour exactly.
+Both per-class bonuses are added *after* `super` and stay unshared, correctly: the **big cat ambush**
+is by definition one cat's opening pounce, and the **hyena clan step** is an explicit pro-pack bonus —
+a clan of 8 now runs ×1.85 against a lone hyena's ×2.00, so the clan identity finally registers instead
+of being swamped by an unshared burst.
+
+**2. Herbivores had no way to help each other at all.** Predators call for help
+(`EntityDireWolf` registers `HurtPackByTargetGoal.setAlertOthers(...)`); every herbivore registered a
+bare `SmartHurtByTargetGoal`, which **never enables vanilla `alertSameType`**, so an attacked adult
+never told its herd. The only group-defence goal in the mod was `ProtectChildrenTarget`, which needs a
+**same-variant baby within 8 blocks** — a herd with no calf nearby had **zero** group defence, and the
+seven light herbivores (deer, antelope, equid, tapir, macrauchenia, giraffid, camel) had no defence
+goal and no charge whatsoever. New `entity/ai/target/DefendHerdMateTarget.java` answers an attack on
+any herd-mate within `herd_defend_radius` (12), triggered off vanilla's
+`getLastHurtByMob`/`getLastHurtByMobTimestamp` so it needs no new bookkeeping. Registered on all
+thirteen herd herbivores at targetSelector 3, below `ProtectChildrenTarget` so calf defence keeps first
+call on the slots. **It claims from `HerdEntity`'s existing defender pool**, inheriting the cap, the
+re-engage cooldown, `pruneDefenders` and group rout unchanged — it changes *what* brings defenders out,
+never *how many*, so it cannot recreate the unbounded mobbing the defender cap exists to stop. Gated by
+`EcologyMode.allowsBrawls` (a call-for-help, unlike defence of young), so zoo herds do not rally.
+
+**3. The panic was disarming the defenders — this fix is not optional.** `HerdFleeGoal.panic()` clears
+every member's target and `canUse()` re-clears it for the whole 200-tick window, rescanned every ten
+ticks. A predator is *seen* before it bites, so the panic always came first and a defender's target was
+wiped within ten ticks of it claiming a slot. `HerdEntity.isDefender` now exempts slot-holders from
+`panic()`, from `canUse()`'s clear, from `shouldAbandonTarget()`, and from `canContinueToUse()` (which
+`canUse` cannot reach once the goal has started). **Without this the new goal is inert.** Non-defenders
+still panic and run exactly as before — that flight *is* the "the rest back away" half of the cap.
+
+**4. The herbivore's weapon was strictly worse than a bite.** `MeleeAttackCharger` telegraphed for 50
+ticks, rolled 1-in-3, and then dealt a bare `doHurtTarget` — **no multiplier at all**. A bison charge
+was 7 after a 2.5 s wind-up against a wolf's 18 with no tell. `herbivore_charge_multiplier` (**2.0**)
+is the counterpart of `predator_hunt_damage_burst`, delivered by new `ComplexMob.doChargeHurtTarget`.
+That lives on `ComplexMob` **so `applyAttackBonus`/`clearAttackBonus` stay package-private** to the
+entity classes — the `finally` pairing is the one thing here that must never be got wrong. Also:
+`start()` picked the wind-up with two hardcoded `instanceof` checks for bison and rhino, so the
+**mammoth charged with no telegraph at all**; replaced by a `getChargeAnimation()` hook on
+`ComplexMobTerrestrial`. The charger was extended to `EntityToxodon` and **deliberately not** to
+glyptodont or ground sloth, whose motion is a club swing and a rearing swipe, not an overshoot run.
+
+**Diagnosed and deliberately left for later** — each is a real cause of prey decline:
+- **Herd protection is a cliff with positive feedback.** `getEcoLevel` uses the *current* member count,
+  so a bison herd scores 28 at 20 members, 14 at 6, and **13 at 5 — huntable**. Every kill lowers the
+  next animal's score and `predator_herd_floor` only catches the last two. Fix is
+  `max(living, maxSize × memory)`, the same idea `isHerdTooSmallToHunt` already uses.
+- **Calves are unprotected by construction — the quiet extinction mechanism.** `BABY_ECO_FACTOR` 0.3
+  plus the explicit baby exemption in `isHerdTooSmallToHunt` means recruitment collapses and a herd
+  ages out under senescence **without a single adult being taken**.
+- **Solitary megafauna have nothing**: rhino, ground sloth and moose have `herd == null`, so no herd eco
+  term, no defender slot, no alert. A wooly rhino scores 9 against a wolf pack's 14.
+- **Flight manufactures its own stragglers** — `panic()` disperses each animal individually, creating
+  exactly what `straggler_bias` 2.0 then prefers.
+- **Dead code**: `ComplexMob.performRetaliation` only fires on thorns damage, which nothing deals;
+  `EntityBison.CHARGING` is read but `setCharging` has no caller.
+
+Three new `ConfigGamerules` entries; tune there, never in the goals. `./gradlew build` **SUCCESSFUL**
+and `DefendHerdMateTarget` is jar-verified; **runClient not yet run**. Highest-priority in-game checks:
+a wolf's eco level immediately after a hunting blow must equal its value at rest, **and the same for a
+bison immediately after a connected charge** — that is a brand-new `applyAttackBonus` call site with
+the identical leak risk.
 
 ## Models & skins (Claude Design)
 
