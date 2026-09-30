@@ -55,7 +55,11 @@ public class ProtectChildrenTarget<T extends LivingEntity> extends HuntMobTarget
         /* Nor is any other herbivore. Callers used to pass `getEcoLevel(input) > getEcoLevel(this)`,
          * and because eco level adds herd size, a neighbouring grazing herd always out-scored a lone
          * cow and was attacked on sight. Defence of young is now strictly about actual threats. */
-        if (!EcologyTags.isThreatTo(this.mob, entity)) {
+        /* Anything actually going for the young is a threat whatever it is -- this is what still lets a
+         * lioness see off a wolf that is after her cub, now that predators no longer count as threats to
+         * each other merely for standing nearby. */
+        boolean huntingTheYoung = entity instanceof Mob attacker && this.protectTarget != null && attacker.getTarget() == this.protectTarget;
+        if (!huntingTheYoung && !EcologyTags.isThreatTo(this.mob, entity)) {
             return false;
         }
         return canAttack(entity, TargetingConditions.forCombat().range(getFollowDistance()));

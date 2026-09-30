@@ -46,6 +46,9 @@ public class ConfigGamerules {
     public static ForgeConfigSpec.DoubleValue bigCatAmbushMultiplier;
     public static ForgeConfigSpec.DoubleValue bigCatCorneredReduction;
     public static ForgeConfigSpec.DoubleValue packHunterDamageReduction;
+    public static ForgeConfigSpec.DoubleValue loneHunterDamageReduction;
+    public static ForgeConfigSpec.IntValue carcassFoodPerHealth;
+    public static ForgeConfigSpec.IntValue solitaryMateSearchRadius;
     public static ForgeConfigSpec.IntValue bearStaggerTicks;
     public static ForgeConfigSpec.IntValue canidStaminaDrain;
     public static ForgeConfigSpec.DoubleValue hyenaPackDamageStep;
@@ -151,6 +154,8 @@ public class ConfigGamerules {
 
         mateSearchRadius = builder.comment("How far, in blocks, an animal in season will look for a mate and then walk to reach one. The old 8-block search meant scattered species -- predators especially -- could almost never find a partner.",
                 "Costs a periodic entity scan of this radius per animal in season, so raising it a long way has a performance price.").defineInRange("gamerules.mate_search_radius", 24, 8, 64);
+        solitaryMateSearchRadius = builder.comment("Second, wider mate search for SOLITARY animals (no herd, or a herd of one) when the normal search finds nobody. Pack animals always have mates at hand; a lone tiger or bear 60 blocks from the nearest partner never bred, which is a large part of why solitary predators died out.",
+                "Only runs occasionally, while in season and after the normal search failed. Set to 0 to disable.").defineInRange("gamerules.solitary_mate_search_radius", 96, 0, 160);
 
         /* Predator strength and class identity. Every one of these is deliberately a channel that
          * ComplexMob.getEcoLevel() cannot see -- it reads MAX_HEALTH and the ATTACK_DAMAGE attribute, and
@@ -183,7 +188,12 @@ public class ConfigGamerules {
         bigCatCorneredReduction = builder.comment("Fraction of incoming damage a big cat below half health ignores. The mirror of the bear's Bearserk: a wounded bear gets more dangerous, a wounded cat gets harder to finish.",
                 "Deliberately damage reduction and not a Strength-style buff. MobEffects.DAMAGE_BOOST is attribute-backed, so it raises ATTACK_DAMAGE and therefore the animal's eco level mid-fight, changing what it hunts and what flees it. Set to 0 to disable.").defineInRange("gamerules.bigcat_cornered_reduction", 0.20, 0.0, 0.75);
         packHunterDamageReduction = builder.comment("Fraction of incoming damage hyenas and dire wolves ignore. They are the thinnest-skinned predators in the mod -- a dire wolf is 34 HP and a spotted hyena 20 -- and a wooly rhino hits for 10, so they died in four bites and two respectively while hunting animals their pack eco level said they could take.",
-                "Expressed as reduction rather than as extra health on purpose; see the note above this block. At 0.3 a dire wolf's effective health is 48.6 and a rhino needs six hits instead of four. Set to 0 to disable.").defineInRange("gamerules.pack_hunter_damage_reduction", 0.30, 0.0, 0.75);
+                "Expressed as reduction rather than as extra health on purpose; see the note above this block. At 0.3 a dire wolf's effective health is 48.6 and a rhino needs six hits instead of four.",
+                "Applies only against prey, defenders and players -- not in fights with other predators and not to starvation or other damage with no attacker, which is where it used to make packs win every predator brawl and outlast every famine. Set to 0 to disable.").defineInRange("gamerules.pack_hunter_damage_reduction", 0.30, 0.0, 0.75);
+        loneHunterDamageReduction = builder.comment("Fraction of prey/defender damage a SOLITARY carnivore ignores while committed to a hunt. A pack spreads the herd's three defender slots across eight attackers; a lone cat or bear takes all three itself, and was the predator that kept dying. Never stacks past the best single reduction.",
+                "Set to 0 to disable.").defineInRange("gamerules.lone_hunter_damage_reduction", 0.30, 0.0, 0.75);
+        carcassFoodPerHealth = builder.comment("Hunger a kill provides per point of the prey's max health, split between everyone who eats from it (the killer, plus pack-mates within 16 blocks). The killer still caps at +120 and each pack-mate at +90, so a lone hunter or small pack on decent prey eats exactly as before.",
+                "What changes is big packs: one carcass used to feed ANY number of wolves in full, so pack size never cost anything and packs grew without limit. Now food per wolf falls as the pack grows, the condition gate stops breeding and starvation trims the surplus. Set to 0 for the old unlimited sharing.").defineInRange("gamerules.carcass_food_per_health", 8, 0, 100);
         bearStaggerTicks = builder.comment("Ticks of Slowness a bear's blow inflicts. Bears are the slowest predators in the mod (0.15-0.24) so anything they pick a fight with simply walks away; this is what makes them inescapable at close range rather than making them faster.",
                 "Pairs with the ATTACK_KNOCKBACK of 1.0 they already carry, the highest of any mob here. Set to 0 to disable.").defineInRange("gamerules.bear_stagger_ticks", 40, 0, 200);
         canidStaminaDrain = builder.comment("Flight stamina a dire wolf's bite takes out of its quarry. The canid signature: a wolf pack does not win the sprint, it wins the marathon, and prey_flee_stamina_ticks already models the marathon.",
@@ -258,7 +268,7 @@ public class ConfigGamerules {
         carrionHunger = builder.comment("Hunger a scavenger gains from a carcass it did not bring down and that nobody hunted -- an animal that died of anything at all. Deliberately less than the 60 a stolen kill gives.",
                 "Real scavengers live mostly off animals that simply died. Set to 0 to restrict scavenging to predator kills.").defineInRange("gamerules.carrion_hunger", 40, 0, 200);
         kleptoparasitismClanSize = builder.comment("Hyenas that must be present within 12 blocks to drive a big cat off its kill. Bears displace canids at any number.",
-                "Set to 0 to disable displacement between predators.").defineInRange("gamerules.kleptoparasitism_clan_size", 4, 0, 32);
+                "Set to 0 to disable displacement between predators. Default lowered from 4 to 3 (2026-09-30): hyenas are meant to live off stolen kills, and at 4 most clans rarely qualified.").defineInRange("gamerules.kleptoparasitism_clan_size", 3, 0, 32);
         alarmNetworkRadius = builder.comment("Radius over which a fleeing herbivore alarms OTHER species, not just its own herd. Mixed-species alarm networks are real and they are most of why a plains full of animals feels alive.").defineInRange("gamerules.alarm_network_radius", 24, 0, 64);
         sentinelDetectBonus = builder.comment("Multiplier on a giraffid's predator-detection distance. Tall browsers see furthest and are what the rest of the plains listens to.").defineInRange("gamerules.sentinel_detect_bonus", 1.5, 1.0, 3.0);
         stragglerBias = builder.comment("How strongly predators prefer prey that is wounded, blown, or separated from its herd. This is what makes a big herd protective WITHOUT the herd having to fight, which is the ecological answer to predators being mobbed to death.",

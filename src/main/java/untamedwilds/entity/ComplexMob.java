@@ -297,7 +297,22 @@ public abstract class ComplexMob extends TamableAnimal {
                 this.loseCarcassTo(thief, target);
                 return;
             }
-            this.addHunger(120);
+            /* The carcass is a fixed amount of food, split between everyone eating from it. It used to
+             * pay +120 to the killer and +90 to EVERY pack-mate within 16 blocks however many there were,
+             * so pack size cost nothing: one kill fed a pack of twelve as fully as a pack of three, the
+             * whole pack stayed in breeding condition, and packs grew without limit. The caps keep a lone
+             * hunter or a small pack on decent prey exactly where it was. */
+            List<ComplexMob> eaters = new ArrayList<>();
+            if (this.herd != null) {
+                for (ComplexMob member : this.herd.creatureList) {
+                    if (member != this && member.isAlive() && member.distanceToSqr(target) < 256D) {
+                        eaters.add(member);
+                    }
+                }
+            }
+            int perHealth = ConfigGamerules.carcassFoodPerHealth.get();
+            float share = perHealth <= 0 ? Float.MAX_VALUE : le.getMaxHealth() * perHealth / (1 + eaters.size());
+            this.addHunger((int) Math.min(120F, share));
             /* The full lockout is paid HERE, on the kill, and no longer when the hunt starts. Charging it
              * at the start meant any interruption -- prey breaking line of sight, a pack-mate's fight
              * stealing the target slot -- locked the predator out for five minutes while the animal it
@@ -310,16 +325,12 @@ public abstract class ComplexMob extends TamableAnimal {
              * they stayed permanently below the hunger>=80 breeding threshold while the herds they
              * hunted grazed back to full in seconds. Pack-mates near the kill now eat too, which is
              * both how real pack predators work and what makes their populations sustainable. */
-            if (this.herd != null) {
-                for (ComplexMob member : this.herd.creatureList) {
-                    if (member != this && member.isAlive() && member.distanceToSqr(target) < 256D) {
-                        member.addHunger(90);
-                        // Fed off this carcass, so the hunt is over for them too -- otherwise a pack-mate
-                        // that ate but never committed rolls straight into a second animal.
-                        member.huntingCooldown = ConfigGamerules.predatorKillCooldown.get();
-                        member.endHuntCommitment();
-                    }
-                }
+            for (ComplexMob member : eaters) {
+                member.addHunger((int) Math.min(90F, share));
+                // Fed off this carcass, so the hunt is over for them too -- otherwise a pack-mate
+                // that ate but never committed rolls straight into a second animal.
+                member.huntingCooldown = ConfigGamerules.predatorKillCooldown.get();
+                member.endHuntCommitment();
             }
             this.shareCarcassWithScavengers(target);
             if (UntamedWilds.DEBUG) {
@@ -460,7 +471,32 @@ public abstract class ComplexMob extends TamableAnimal {
     @Override
     public boolean hurt(DamageSource source, float amount) {
         float factor = this.getIncomingDamageFactor(source);
+        /* A solitary hunter faces the herd's whole defender allowance alone -- three bison, not three
+         * split across eight wolves -- which is why the predators that kept dying were the lone cats and
+         * bears. It gets the pack's protection while it is actually hunting, and never more than the best
+         * single reduction on offer. */
+        if (this.isCarnivore() && this.huntCommitTicks > 0 && isPreyOrDefenderDamage(source) && this.countNearbyPack() <= 1) {
+            factor = Math.min(factor, 1F - ConfigGamerules.loneHunterDamageReduction.get().floatValue());
+        }
         return super.hurt(source, factor >= 1F ? amount : amount * factor);
+    }
+
+    /**
+     * Damage from something a hunter is up against: an animal that is not itself a carnivore. Excludes
+     * players, other predators, and everything with no attacker at all (starvation, falls, fire).
+     */
+    protected static boolean isPreyOrDefenderDamage(DamageSource source) {
+        return source.getEntity() instanceof LivingEntity attacker && !(attacker instanceof Player)
+                && !(attacker instanceof ComplexMob animal && animal.isCarnivore());
+    }
+
+    /**
+     * Where a pack hunter's thick-skin reduction applies: against prey and defenders, and against players
+     * as before. Not in fights with other predators -- the flat reduction made packs win every predator
+     * brawl -- and not against damage with no attacker, where it let packs outlast every famine.
+     */
+    protected static boolean appliesPackHunterReduction(DamageSource source) {
+        return source.getEntity() instanceof LivingEntity attacker && !(attacker instanceof ComplexMob animal && animal.isCarnivore());
     }
 
     /**
@@ -825,8 +861,12 @@ public abstract class ComplexMob extends TamableAnimal {
         double radius = ConfigGamerules.crowdingRadius.get();
         int capacity = (int) Math.ceil(this.herd.getMaxSize() * ConfigGamerules.localCapacityFactor.get());
         int neighbours = 0;
+        /* Carnivore young count against capacity: a cub eats as much of the range's prey as the adult it is
+         * about to become, and counting adults only let a pack sit at capacity with a dozen pups on the way.
+         * Herbivore calves still do not, because for herds crowding means MOVE, not stop breeding. */
+        boolean countYoung = this.isCarnivore();
         for (ComplexMob other : this.level.getEntitiesOfClass(ComplexMob.class, this.getBoundingBox().inflate(radius, 16D, radius))) {
-            if (other.getType() == this.getType() && other.getVariant() == this.getVariant() && !other.isBaby() && other.isAlive()) {
+            if (other.getType() == this.getType() && other.getVariant() == this.getVariant() && (countYoung || !other.isBaby()) && other.isAlive()) {
                 neighbours++;
                 if (neighbours > capacity) {
                     return true;
@@ -1161,6 +1201,23 @@ public abstract class ComplexMob extends TamableAnimal {
     }
 
     public boolean wantsToBreed() {
+        return this.isBreedingAge();
+    }
+
+    /**
+     * The single breeding rule for the four land predator classes (big cat, bear, dire wolf, hyena).
+     * <p>
+     * They used to differ: cats and bears needed the season, to be awake and to be at 60% health, while
+     * wolves and hyenas needed only body condition. The awake check alone failed about half the time for
+     * anything that sleeps through the day, since the breeding check only runs every 600 ticks -- and with
+     * pack mates always at hand besides, canids out-bred everything else.
+     */
+    public boolean wantsToBreedAsLandPredator() {
+        return this.isBreedingAge() && EntityUtils.hasHealthFraction(this, 0.6F) && this.wantsToBreedAsPredator();
+    }
+
+    /* The body of the base wantsToBreed(), callable where a subclass has overridden it. */
+    protected final boolean isBreedingAge() {
         /* Sits on the base predicate so every species that chains through super.wantsToBreed() --
          * bear, big cat, boar, aardvark, opossum, spitter, baleen whale -- inherits it without a
          * per-species edit. Returns false outright in Zoo mode and for tamed animals. */
@@ -1323,17 +1380,51 @@ public abstract class ComplexMob extends TamableAnimal {
 
     // Returns the ecological level of an entity. Values are dynamically calculated based on current HP, Attack and Herd size (if any)
     public static int getEcoLevel(LivingEntity entity) {
+        return computeEcoLevel(entity, true);
+    }
+
+    /**
+     * The eco level a predator should weigh this animal at when deciding whether it can take it. Identical
+     * to {@link #getEcoLevel} except for a herd animal that has strayed well away from its herd, which is
+     * scored without the herd term: the herd is not there to protect it. Without this a lone predator could
+     * almost never hunt anything -- a lone jaguar could take no adult grazer in the mod -- because every
+     * herd animal carried its whole herd's weight wherever it wandered. Ambushing the straggler is how
+     * solitary predators actually hunt herd prey.
+     */
+    public static int getEcoLevelAsPrey(LivingEntity entity) {
+        if (entity instanceof ComplexMob mob && mob.herd != null && mob.herd.creatureList.size() > 1) {
+            ComplexMob leader = mob.herd.getLeader();
+            double stray = mob.herd.getRadius() * STRAY_RADIUS_FACTOR;
+            if (leader != null && leader != mob && mob.distanceToSqr(leader) > stray * stray) {
+                return computeEcoLevel(entity, false);
+            }
+        }
+        return computeEcoLevel(entity, true);
+    }
+
+    /** How many herd radii from its leader an animal must be before it counts as a straggler to a hunter. */
+    private static final double STRAY_RADIUS_FACTOR = 2.0D;
+
+    private static int computeEcoLevel(LivingEntity entity, boolean includeHerd) {
         if (entity instanceof Player) {
             return (int) (4 + (entity.getHealth() / 6));
         }
         int attack = (int) Math.max(entity.getAttributes().hasAttribute(Attributes.ATTACK_DAMAGE) ? entity.getAttribute(Attributes.ATTACK_DAMAGE).getValue() : 1, 4);
         int level = (int) (Math.sqrt(entity.getHealth() * attack) / 2.5F);
-        if (entity instanceof ComplexMob mob && mob.herd != null) {
+        if (includeHerd && entity instanceof ComplexMob mob && mob.herd != null) {
             /* Herd support fades with the animal's own condition. As a flat bonus it was what made every
              * megaherbivore permanently unkillable: a mammoth at 15% health still carried its full +10 for
              * a herd of ten, so it out-scored a dire wolf pack no matter how close to death it was. Ten
              * mammoths do not shield one of their own that is already down. */
-            level += Math.round(mob.herd.creatureList.size() * healthFraction(entity));
+            int members = mob.herd.creatureList.size();
+            /* A predator pack is only as strong as its hunters. Pups counted here too, so every litter
+             * made the whole pack more dangerous -- a pack of eight with its young scored like twenty,
+             * reached bison and mammoth herds, and pushed every other predator off the map. Capped at
+             * the species' pack size, so an overgrown pack does not keep climbing either. */
+            if (mob.isCarnivore()) {
+                members = Math.min(mob.herd.getAdultCount(), mob.herd.getMaxSize());
+            }
+            level += Math.round(members * healthFraction(entity));
         }
         if (entity.isBaby()) {
             /* A calf is not a scaled-down adult in this mod -- updateAttributes() sets MAX_HEALTH and

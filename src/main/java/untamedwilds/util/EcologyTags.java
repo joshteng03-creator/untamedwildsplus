@@ -120,7 +120,14 @@ public class EcologyTags {
         if (diet.isEmpty()) {
             return true;
         }
-        for (String tag : getTags(prey)) {
+        List<String> preyTags = getTags(prey);
+        /* Predators are not food unless a diet says so explicitly. Bears carry `megafauna` alongside
+         * `carnivore`, so every megafauna-diet predator -- dire wolves, the big lions, sabretooths --
+         * treated bears as prey, and a wolf pack's eco level beats every bear in the mod. */
+        if (preyTags.contains(CARNIVORE) && !diet.contains(CARNIVORE)) {
+            return false;
+        }
+        for (String tag : preyTags) {
             if (diet.contains(tag)) {
                 return true;
             }
@@ -186,18 +193,13 @@ public class EcologyTags {
         if (candidate instanceof Mob mob && mob.getTarget() == self) {
             return true;
         }
-        if (getTags(candidate).contains(CARNIVORE)) {
+        /* Any carnivore is a threat to a HERBIVORE. Between predators it is not: a wolf pack guarding
+         * pups used to set on every cat or bear that walked within 8 blocks, and with the pack's eco
+         * level and damage reduction it won every one of those fights. Between predators, only one that
+         * is actually coming for you, or that could eat you, is a threat. */
+        if (getTags(candidate).contains(CARNIVORE) && !getTags(self).contains(CARNIVORE)) {
             return true;
         }
-        List<String> diet = getDiet(candidate);
-        if (diet.isEmpty()) {
-            return false;
-        }
-        for (String tag : getTags(self)) {
-            if (diet.contains(tag)) {
-                return true;
-            }
-        }
-        return false;
+        return hasDiet(candidate) && isPreferredPrey(candidate, self);
     }
 }

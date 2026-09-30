@@ -150,9 +150,14 @@ public class PredatorRelocateGoal extends Goal {
     }
 
     private List<LivingEntity> nearbyPrey(BlockPos around, double radius) {
+        /* Prey this predator could actually take, by the same eco test the hunt goals use. Checking the
+         * diet alone meant a starving tiger standing beside a deer herd it was not allowed to hunt saw
+         * "prey nearby", never relocated, and starved where it stood. */
+        int ownLevel = ComplexMob.getEcoLevel(this.taskOwner);
         return this.taskOwner.level.getEntitiesOfClass(LivingEntity.class, new AABB(around).inflate(radius, 16D, radius),
                 candidate -> candidate != this.taskOwner && candidate.isAlive() && !EcologyTags.isPredator(candidate)
-                        && EcologyTags.isPreferredPrey(this.taskOwner, candidate));
+                        && EcologyTags.isPreferredPrey(this.taskOwner, candidate)
+                        && ComplexMob.getEcoLevelAsPrey(candidate) < ownLevel);
     }
 
     /**

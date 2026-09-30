@@ -2,7 +2,7 @@
   "name": "dire_wolf",
   "breeding": "MID_WINTER",
   "growing_time": 5,
-  "offspring": 5,
+  "offspring": 3,
   "activityType": "cathemeral",
   "favourite_food": "minecraft:beef",
   "sounds": {

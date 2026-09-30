@@ -94,6 +94,7 @@ public class FaunaSpawn {
             if (random.nextFloat() < UntamedWildsGenerator.getBioDiversityLevel(Objects.requireNonNull(worldIn.getBiome(pos).value().getRegistryName()))) {
                 int k = 1; // This variable will be changed after the mob spawns
                 int species = -1;
+                int firstGender = -1;
 
                 for(int packSize = 0; packSize < k; ++packSize) {
                     int x = pos.getX();
@@ -142,10 +143,24 @@ public class FaunaSpawn {
                                         if (mobEntity instanceof ISpecies) {
                                             if (species == -1) {
                                                 species = ((ComplexMob)mobEntity).getVariant();
-                                                if (species != 99)
+                                                firstGender = ((ComplexMob)mobEntity).getGender();
+                                                if (species != 99) {
                                                     k = EntityUtils.getPackSize(entityType, species);
+                                                    /* A solitary species (groupCount 1) spawned as one animal, alone in its chunk,
+                                                     * with the nearest partner usually far out of reach -- so solitary predators
+                                                     * rarely bred and died out. Where the spawn table allows a group of two or
+                                                     * more, a solitary species now spawns as a pair. It stays a pair, not a group:
+                                                     * groupSize is the spawn table's size for the whole TYPE. */
+                                                    if (k == 1 && groupSize >= 2) {
+                                                        k = 2;
+                                                    }
+                                                }
                                             } else {
                                                 ((ComplexMob)mobEntity).setVariant(species);
+                                                // The second of a solitary pair is always the opposite sex, or it is not a pair.
+                                                if (packSize == 1 && k == 2 && firstGender >= 0 && EntityUtils.getPackSize(entityType, species) == 1) {
+                                                    ((ComplexMob)mobEntity).setGender(1 - firstGender);
+                                                }
                                                 ((ComplexMob)mobEntity).chooseSkinForSpecies((ComplexMob)mobEntity, false);
                                                 if (mobEntity instanceof INeedsPostUpdate) {
                                                     ((INeedsPostUpdate)mobEntity).updateAttributes();

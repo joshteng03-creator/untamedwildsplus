@@ -97,7 +97,7 @@ public class EntityBigCat extends ComplexMobTerrestrial implements ISpecies, INe
         this.targetSelector.addGoal(1, new HurtPackByTargetGoal(this).setAlertOthers(EntityBigCat.class));
         this.targetSelector.addGoal(2, new AngrySleeperTarget<>(this, LivingEntity.class, true));
         this.targetSelector.addGoal(3, new ProtectChildrenTarget<>(this, LivingEntity.class, true, input -> !(input instanceof EntityBigCat)));
-        this.targetSelector.addGoal(4, new HuntPackMobTarget<>(this, LivingEntity.class, true, 30, false, input -> getEcoLevel(input) < getEcoLevel(this)));
+        this.targetSelector.addGoal(4, new HuntPackMobTarget<>(this, LivingEntity.class, true, 30, false, input -> getEcoLevelAsPrey(input) < getEcoLevel(this)));
     }
 
     public static AttributeSupplier.Builder registerAttributes() {
@@ -124,12 +124,8 @@ public class EntityBigCat extends ComplexMobTerrestrial implements ISpecies, INe
     }
 
     public boolean wantsToBreed() {
-        if (super.wantsToBreed()) {
-            // wantsToBreedAsPredator carries the hunger >= 80 check, plus the sustained-condition and
-            // territoriality terms that stop a single carcass triggering a birth pulse.
-            return !this.isSleeping() && this.getAge() == 0 && EntityUtils.hasHealthFraction(this, 0.6F) && this.wantsToBreedAsPredator();
-        }
-        return false;
+        // Same rule as every land predator; see ComplexMob.wantsToBreedAsLandPredator.
+        return this.wantsToBreedAsLandPredator();
     }
 
     @Nullable

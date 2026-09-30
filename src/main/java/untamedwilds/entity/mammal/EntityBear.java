@@ -80,7 +80,7 @@ public class EntityBear extends ComplexMobTerrestrial implements ISpecies, INewS
         this.goalSelector.addGoal(7, new SmartLookAtGoal(this, LivingEntity.class, 10.0F));
         this.targetSelector.addGoal(1, new SmartHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new ProtectChildrenTarget<>(this, LivingEntity.class, true, input -> !(input instanceof EntityBear)));
-        this.targetSelector.addGoal(3, new HuntMobTarget<>(this, LivingEntity.class, true, 30, false, input -> getEcoLevel(input) < getEcoLevel(this)));
+        this.targetSelector.addGoal(3, new HuntMobTarget<>(this, LivingEntity.class, true, 30, false, input -> getEcoLevelAsPrey(input) < getEcoLevel(this)));
         this.targetSelector.addGoal(4, new AngrySleeperTarget<>(this, LivingEntity.class, true));
     }
 
@@ -116,12 +116,8 @@ public class EntityBear extends ComplexMobTerrestrial implements ISpecies, INewS
     }
 
     public boolean wantsToBreed() {
-        if (super.wantsToBreed()) {
-            // wantsToBreedAsPredator carries the hunger >= 80 check, plus the sustained-condition and
-            // territoriality terms that stop a single carcass triggering a birth pulse.
-            return !this.isSleeping() && this.getAge() == 0 && EntityUtils.hasHealthFraction(this, 0.6F) && this.wantsToBreedAsPredator();
-        }
-        return false;
+        // Same rule as every land predator; see ComplexMob.wantsToBreedAsLandPredator.
+        return this.wantsToBreedAsLandPredator();
     }
 
     @Nullable

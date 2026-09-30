@@ -105,7 +105,8 @@ public abstract class FaunaHandler {
         public Integer getGroupCount() {
             if (this.minGroupCount >= this.maxGroupCount)
                 return this.minGroupCount;
-            return new Random().nextInt(this.minGroupCount, this.maxGroupCount);
+            // Inclusive of size_max: nextInt(min, max) excludes it, so a "1-2" entry could never roll 2.
+            return new Random().nextInt(this.minGroupCount, this.maxGroupCount + 1);
         }
     }
 

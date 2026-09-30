@@ -64,7 +64,7 @@ public class EntityHyena extends ComplexMobTerrestrial implements INewSkins, ISp
         this.goalSelector.addGoal(6, new SmartLookAtGoal(this, LivingEntity.class, 10.0F));
         this.targetSelector.addGoal(1, new HurtPackByTargetGoal(this).setAlertOthers(EntityHyena.class));
         this.targetSelector.addGoal(2, new ProtectChildrenTarget<>(this, LivingEntity.class, true, input -> !(input instanceof EntityHyena)));
-        this.targetSelector.addGoal(3, new HuntPackMobTarget<>(this, LivingEntity.class, true, 30, false, input -> getEcoLevel(input) < getEcoLevel(this)));
+        this.targetSelector.addGoal(3, new HuntPackMobTarget<>(this, LivingEntity.class, true, 30, false, input -> getEcoLevelAsPrey(input) < getEcoLevel(this)));
         this.targetSelector.addGoal(4, new AngrySleeperTarget<>(this, LivingEntity.class, true));
     }
 
@@ -91,9 +91,8 @@ public class EntityHyena extends ComplexMobTerrestrial implements INewSkins, ISp
     }
 
     public boolean wantsToBreed() {
-        /* Sustained body condition, not a momentary full belly. One carcass pays the whole pack, so
-         * the old bare hunger check flipped every wolf into breeding at the same instant. */
-        return this.wantsToBreedAsPredator();
+        // Same rule as every land predator; see ComplexMob.wantsToBreedAsLandPredator.
+        return this.wantsToBreedAsLandPredator();
     }
 
     @Override
@@ -235,7 +234,7 @@ public class EntityHyena extends ComplexMobTerrestrial implements INewSkins, ISp
      */
     @Override
     protected float getIncomingDamageFactor(DamageSource source) {
-        return 1F - ConfigGamerules.packHunterDamageReduction.get().floatValue();
+        return appliesPackHunterReduction(source) ? 1F - ConfigGamerules.packHunterDamageReduction.get().floatValue() : 1F;
     }
 
     protected void playStepSound(BlockPos pos, BlockState blockIn) {

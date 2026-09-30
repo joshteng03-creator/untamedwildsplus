@@ -42,6 +42,12 @@ public class AngrySleeperTarget<T extends LivingEntity> extends TargetGoal {
             if (entity instanceof Creeper || ComplexMob.getEcoLevel(this.taskOwner) > ComplexMob.getEcoLevel(entity) * 2) {
                 return false;
             }
+            /* A sleeping predator does not wake up and pick a fight with another predator just for walking
+             * past -- only with one that is coming for it. This was a main route by which wolf packs
+             * (eco 13-16) killed passing big cats and bears. */
+            if (this.taskOwner.isCarnivore() && entity instanceof ComplexMob other && other.isCarnivore() && other.getTarget() != this.taskOwner) {
+                return false;
+            }
             if (this.taskOwner.getClass() == entity.getClass()) {
                 if (this.taskOwner instanceof ISpecies && entity instanceof ISpecies) {
                     ComplexMob attacker = this.taskOwner;
@@ -65,16 +71,23 @@ public class AngrySleeperTarget<T extends LivingEntity> extends TargetGoal {
                 || this.taskOwner.isBaby() || !this.taskOwner.isSleeping() || this.taskOwner.isTame() || this.taskOwner.forceSleep != 0) {
             return false;
         }
+        /* Used to return true for as long as the animal slept, whether or not anything was nearby, and to
+         * keep whatever it had found on some earlier night -- so start() could aim a freshly woken animal
+         * at a stale entity, and a sleeper held the target slot all night regardless. */
+        this.target = null;
         List<LivingEntity> list = this.mob.level.getEntitiesOfClass(LivingEntity.class, this.mob.getBoundingBox().inflate(6.0D, 4.0D, 6.0D), (input) -> this.targetEntitySelector.test((T) input));
-        if (!list.isEmpty()) {
-            LivingEntity player = list.get(0);
-            this.taskOwner.setSleeping(false);
-            this.target = player;
+        if (list.isEmpty()) {
+            return false;
         }
+        this.taskOwner.setSleeping(false);
+        this.target = list.get(0);
         return true;
     }
 
     public void start() {
+        // Per fight: this was only ever set in the constructor, so after an animal had spent 1000 ticks
+        // in angry-sleeper fights over its whole life, every later one ended the tick it began.
+        this.runningTicks = 1000;
         this.taskOwner.setTarget(this.target);
         this.taskOwner.forceSleep = -300;
         super.start();

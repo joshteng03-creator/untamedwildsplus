@@ -135,6 +135,10 @@ public class HerdEntity {
      * permanently, wandering alone, and since getEcoLevel() scales with herd size that also made it
      * the easiest target on the map. Excluding babies means breeding still works at a maxed herd,
      * which is the whole point of raising the sizes. */
+    public int getAdultCount() {
+        return this.adultCount();
+    }
+
     private int adultCount() {
         int adults = 0;
         for (ComplexMob creature : this.creatureList) {
@@ -331,6 +335,31 @@ public class HerdEntity {
         return null;
     }
 
+    /** Sends one surplus adult out of an oversized predator pack, 48-96 blocks away in a random direction. */
+    private void dispersePredatorSurplus() {
+        ComplexMob disperser = null;
+        for (ComplexMob member : this.creatureList) {
+            if (member != this.leader && member.isAlive() && !member.isBaby() && !member.isTame()
+                    && member.getTarget() == null && member.dispersalLockout == 0) {
+                disperser = member;
+                break;
+            }
+        }
+        if (disperser == null) {
+            return;
+        }
+        this.detachDisperser(disperser);
+        double angle = this.rand.nextDouble() * Math.PI * 2D;
+        double distance = 48D + this.rand.nextDouble() * 48D;
+        BlockPos goal = new BlockPos(disperser.getX() + Math.cos(angle) * distance, disperser.getY(), disperser.getZ() + Math.sin(angle) * distance);
+        // Only where the chunk is loaded: a heightmap read in an unloaded chunk would load it.
+        if (disperser.level.isLoaded(goal)) {
+            goal = disperser.level.getHeightmapPos(net.minecraft.world.level.levelgen.Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, goal);
+            disperser.setHome(goal);
+            disperser.getNavigation().moveTo(goal.getX() + 0.5D, goal.getY(), goal.getZ() + 0.5D, 1.0D);
+        }
+    }
+
     /** Detaches a disperser into a herd of its own, closed to re-merging until its lockout expires. */
     public void detachDisperser(ComplexMob disperser) {
         this.creatureList.remove(disperser);
@@ -365,6 +394,14 @@ public class HerdEntity {
                 this.migrationCooldown = Math.max(0, this.migrationCooldown - HERD_TICK);
             }
             this.pruneDefenders();
+            /* Predator packs had no way to shed numbers: dispersal only ever ran from HerdMigrationGoal,
+             * which is a herbivore goal, and pups grow up inside the pack, so a pack sailed past its
+             * species size and kept growing. Real packs push surplus young adults out to find their own
+             * range. Rolled so it does not strip a pack in one burst the moment a litter matures. */
+            if (this.leader != null && this.leader.isCarnivore() && EcologyMode.allowsMigration(this.leader)
+                    && this.adultCount() > this.getMaxSize() && this.rand.nextInt(6) == 0) {
+                this.dispersePredatorSurplus();
+            }
             /* Losses and combat pressure fade over pack_rout_window, so a group is routed by a fight it
              * is losing NOW rather than by an accumulated tally of everything that ever happened to it. */
             int window = Math.max(HERD_TICK, ConfigGamerules.packRoutWindow.get());

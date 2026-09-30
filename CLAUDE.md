@@ -994,6 +994,45 @@ countdown or `getRandom().nextInt(reducedTickDelay(N))`; `% N` staggers are only
 - Deliberately not done yet: leader-shared predator scans for herbivores (changes the "many eyes"
   detection design — only if a Spark profile says it matters).
 
+### Phase 4 — predator balance: wolves dominate, other predators die out (2026-09-30)
+
+Reported from real play. Build SUCCESSFUL, **not yet soak-tested** — the acceptance test is a census
+run (`/untamedwilds census auto 5`) where every predator type persists and no herd goes to zero.
+Nothing here touches JSON `health`/`attack`. Five structural causes, all fixed together:
+1. **Packs grew without limit and got stronger as they grew.** One carcass paid +120/+90 to *every*
+   pack-mate within 16 blocks however many there were, so pack size cost nothing. Now a kill is a food
+   budget of `carcass_food_per_health` (8) × prey max HP, split among the eaters, with the old
+   120/90 as caps — lone hunters and small packs on decent prey eat exactly as before. Pups counted in
+   the eco herd term (each litter made the pack more dangerous): carnivores now count
+   `min(adults, maxSize)`. Pups count toward predator crowding (`countOvercrowded`). Oversized packs
+   shed surplus adults 48–96 blocks away (`HerdEntity.dispersePredatorSurplus`; dispersal previously
+   only ran from the herbivore migration goal). `dire_wolf` litter `offspring` 5 → 3.
+2. **Solitary cats and bears rarely bred.** They spawned alone, mates had to be within 24 blocks,
+   and they carried breed gates (season, awake, 60% HP) canids did not. Now: solitary species spawn
+   as an opposite-sex pair where the spawn table allows ≥2 (and `getGroupCount` is inclusive — "1–2"
+   could never roll 2); a solitary animal whose near search fails searches
+   `solitary_mate_search_radius` (96) with a longer travel budget; all four land predators share
+   `ComplexMob.wantsToBreedAsLandPredator()` (season + 60% HP + condition, no awake check).
+3. **Lone predators had almost nothing they could hunt** (every herd animal carried its whole herd's
+   eco weight wherever it wandered). `ComplexMob.getEcoLevelAsPrey` scores an animal more than 2×
+   herd radius from its leader without the herd term; the four big-predator hunt filters and
+   `PredatorRelocateGoal` use it. Relocation also checks eco now — a starving tiger beside a herd it
+   was not allowed to hunt never moved.
+4. **Wolves hunted bears and won every predator brawl.** Bears carry `megafauna` + `carnivore`, so
+   every megafauna diet included them. `EcologyTags.isPreferredPrey` now rejects carnivore-tagged
+   prey unless the diet lists `carnivore` (none do). `isThreatTo` no longer treats a passing predator
+   as a threat to another predator — only one targeting it (or, in `ProtectChildrenTarget`, its young).
+   `pack_hunter_damage_reduction` applies only vs prey/defenders/players, not other predators and not
+   attacker-less damage (starvation). New `lone_hunter_damage_reduction` (0.3) for a solitary
+   carnivore committed to a hunt, vs prey/defenders only, never stacking past the best single value.
+   `AngrySleeperTarget`: returned true all night even with no one near, kept a stale target, never
+   reset its 1000-tick fight timer (so it broke permanently after its first long fight), and attacked
+   any predator walking past — all fixed.
+5. **Packs never routed** — the Phase 1 herd-tick fix.
+Plus hyenas: `kleptoparasitism_clan_size` default 4 → 3; brown/striped hyena +desert,
+shortface/cave hyena +plains. **Changed DEFAULTS do not reach existing worlds** — Forge keeps the
+old value in each world's `serverconfig`; new gamerules are added with their defaults.
+
 ## Models & skins (Claude Design)
 
 Models are hand-written Citadel `AdvancedEntityModel<EntityXxx>` from `AdvancedModelBox` cubes
