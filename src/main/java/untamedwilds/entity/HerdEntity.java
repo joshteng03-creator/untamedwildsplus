@@ -135,6 +135,16 @@ public class HerdEntity {
      * permanently, wandering alone, and since getEcoLevel() scales with herd size that also made it
      * the easiest target on the map. Excluding babies means breeding still works at a maxed herd,
      * which is the whole point of raising the sizes. */
+    /* The herd's remembered size. It follows the headcount straight up, but on the way down it only falls
+     * by one member per herd_memory_ticks, so a herd that has just lost animals is still protected as the
+     * herd it was a moment ago. Not persisted: a reloaded herd starts from its current size. */
+    private float rememberedSize = 1F;
+
+    /** The herd size a herbivore's eco level is weighted by: its current headcount or its fading memory of a larger one. */
+    public int getProtectiveSize() {
+        return Math.max(this.creatureList.size(), Math.round(this.rememberedSize));
+    }
+
     public int getAdultCount() {
         return this.adultCount();
     }
@@ -394,6 +404,9 @@ public class HerdEntity {
                 this.migrationCooldown = Math.max(0, this.migrationCooldown - HERD_TICK);
             }
             this.pruneDefenders();
+            int memoryTicks = ConfigGamerules.herdMemoryTicks.get();
+            this.rememberedSize = memoryTicks <= 0 ? this.creatureList.size()
+                    : Math.max(this.creatureList.size(), this.rememberedSize - (float) HERD_TICK / memoryTicks);
             /* Predator packs had no way to shed numbers: dispersal only ever ran from HerdMigrationGoal,
              * which is a herbivore goal, and pups grow up inside the pack, so a pack sailed past its
              * species size and kept growing. Real packs push surplus young adults out to find their own

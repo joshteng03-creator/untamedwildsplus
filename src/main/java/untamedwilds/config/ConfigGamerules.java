@@ -49,6 +49,9 @@ public class ConfigGamerules {
     public static ForgeConfigSpec.DoubleValue loneHunterDamageReduction;
     public static ForgeConfigSpec.IntValue carcassFoodPerHealth;
     public static ForgeConfigSpec.IntValue solitaryMateSearchRadius;
+    public static ForgeConfigSpec.IntValue herdMemoryTicks;
+    public static ForgeConfigSpec.DoubleValue calfHerdProtection;
+    public static ForgeConfigSpec.DoubleValue solitaryMegafaunaDamageReduction;
     public static ForgeConfigSpec.IntValue bearStaggerTicks;
     public static ForgeConfigSpec.IntValue canidStaminaDrain;
     public static ForgeConfigSpec.DoubleValue hyenaPackDamageStep;
@@ -192,6 +195,12 @@ public class ConfigGamerules {
                 "Applies only against prey, defenders and players -- not in fights with other predators and not to starvation or other damage with no attacker, which is where it used to make packs win every predator brawl and outlast every famine. Set to 0 to disable.").defineInRange("gamerules.pack_hunter_damage_reduction", 0.30, 0.0, 0.75);
         loneHunterDamageReduction = builder.comment("Fraction of prey/defender damage a SOLITARY carnivore ignores while committed to a hunt. A pack spreads the herd's three defender slots across eight attackers; a lone cat or bear takes all three itself, and was the predator that kept dying. Never stacks past the best single reduction.",
                 "Set to 0 to disable.").defineInRange("gamerules.lone_hunter_damage_reduction", 0.30, 0.0, 0.75);
+        herdMemoryTicks = builder.comment("Ticks for a herd's protective size to fall by one member after it loses an animal. A herd's weight in getEcoLevel used to be its CURRENT headcount, so every kill made the next animal easier: a bison herd scored 28 at twenty members and 13 at five, and a pack worked its way down the whole herd, each kill opening the next.",
+                "With this the herd's protection fades over minutes instead of vanishing the moment an animal falls. Set to 0 for the old instant headcount.").defineInRange("gamerules.herd_memory_ticks", 1200, 0, 24000);
+        calfHerdProtection = builder.comment("Share of its herd's protection a herbivore calf gets. Calves used to be scaled down as a whole (0.3 of an adult's level, herd included), so any calf was prey to almost anything and herds aged out under senescence without a single adult being taken. A calf in the middle of its herd is now covered by it; a calf that strays is still easy prey.",
+                "1.0 = full herd cover, 0.3 = roughly the old behaviour.").defineInRange("gamerules.calf_herd_protection", 0.6, 0.0, 1.0);
+        solitaryMegafaunaDamageReduction = builder.comment("Fraction of predator damage a large herbivore (40+ max health) with no herd-mates ignores. Rhinos, solitary ground sloths and moose have no herd term, no defender slots and no one to call, so a wooly rhino scored 9 against a wolf pack's 14 and was simply eaten.",
+                "Damage reduction rather than health on purpose -- health feeds getEcoLevel and would re-sort what hunts them. Set to 0 to disable.").defineInRange("gamerules.solitary_megafauna_damage_reduction", 0.25, 0.0, 0.75);
         carcassFoodPerHealth = builder.comment("Hunger a kill provides per point of the prey's max health, split between everyone who eats from it (the killer, plus pack-mates within 16 blocks). The killer still caps at +120 and each pack-mate at +90, so a lone hunter or small pack on decent prey eats exactly as before.",
                 "What changes is big packs: one carcass used to feed ANY number of wolves in full, so pack size never cost anything and packs grew without limit. Now food per wolf falls as the pack grows, the condition gate stops breeding and starvation trims the surplus. Set to 0 for the old unlimited sharing.").defineInRange("gamerules.carcass_food_per_health", 8, 0, 100);
         bearStaggerTicks = builder.comment("Ticks of Slowness a bear's blow inflicts. Bears are the slowest predators in the mod (0.15-0.24) so anything they pick a fight with simply walks away; this is what makes them inescapable at close range rather than making them faster.",

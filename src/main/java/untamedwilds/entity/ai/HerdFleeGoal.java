@@ -115,7 +115,7 @@ public class HerdFleeGoal<T extends LivingEntity> extends SmartAvoidGoal<T> {
     @Override
     public void tick() {
         if (this.taskOwner.getNavigation().isDone() && this.toAvoid != null && this.taskOwner.fleeCooldown > 0) {
-            Vec3 escape = DefaultRandomPos.getPosAway(this.taskOwner, 16, 7, this.toAvoid.position());
+            Vec3 escape = escapeAlong(this.taskOwner, this.taskOwner.fleeHeading, this.toAvoid);
             if (escape != null) {
                 this.taskOwner.getNavigation().moveTo(escape.x, escape.y, escape.z, this.fleeSpeed(PANIC_SPEED));
             }
@@ -137,6 +137,13 @@ public class HerdFleeGoal<T extends LivingEntity> extends SmartAvoidGoal<T> {
             this.alertHerd();
         }
         super.start();
+        /* The spotter runs the herd's way too, not only the way AvoidEntityGoal picked for it alone. */
+        if (this.taskOwner.fleeHeading != null && this.toAvoid != null) {
+            Vec3 escape = escapeAlong(this.taskOwner, this.taskOwner.fleeHeading, this.toAvoid);
+            if (escape != null) {
+                this.taskOwner.getNavigation().moveTo(escape.x, escape.y, escape.z, this.fleeSpeed(PANIC_SPEED));
+            }
+        }
     }
 
     /* The animal that spotted the predator drags the rest of the herd with it. Herd-mates are pathed
@@ -146,12 +153,18 @@ public class HerdFleeGoal<T extends LivingEntity> extends SmartAvoidGoal<T> {
         if (this.toAvoid == null) {
             return;
         }
+        /* One heading for the whole herd: away from the threat, measured from the herd's centre. Every
+         * animal used to run to its own random point away from the predator, which scattered the herd --
+         * and a scattered herd is a row of stragglers, exactly what straggler_bias then picks off. Running
+         * the same way keeps the herd together, which is what real herds do and what makes them safe. */
+        Vec3 heading = this.taskOwner.herd != null ? awayFrom(herdCentre(this.taskOwner), this.toAvoid) : awayFrom(this.taskOwner.position(), this.toAvoid);
+        this.taskOwner.fleeHeading = heading;
         if (this.taskOwner.herd != null) {
             for (ComplexMob member : this.taskOwner.herd.creatureList) {
                 if (member == this.taskOwner) {
                     continue;
                 }
-                this.panic(member);
+                this.panic(member, heading);
             }
         }
         this.alertNeighbours();
@@ -176,11 +189,43 @@ public class HerdFleeGoal<T extends LivingEntity> extends SmartAvoidGoal<T> {
                     || (this.taskOwner.herd != null && this.taskOwner.herd.containsCreature(neighbour))) {
                 continue;
             }
-            this.panic(neighbour);
+            // A neighbour of another species runs away from the threat from where IT stands.
+            this.panic(neighbour, awayFrom(neighbour.position(), this.toAvoid));
         }
     }
 
-    private void panic(ComplexMob animal) {
+    private static Vec3 herdCentre(ComplexMob animal) {
+        double x = 0, y = 0, z = 0;
+        int n = 0;
+        for (ComplexMob member : animal.herd.creatureList) {
+            if (member.isAlive()) {
+                x += member.getX();
+                y += member.getY();
+                z += member.getZ();
+                n++;
+            }
+        }
+        return n == 0 ? animal.position() : new Vec3(x / n, y / n, z / n);
+    }
+
+    /** Horizontal unit vector pointing from the threat through {@code from}. */
+    private static Vec3 awayFrom(Vec3 from, LivingEntity threat) {
+        Vec3 away = new Vec3(from.x - threat.getX(), 0, from.z - threat.getZ());
+        if (away.lengthSqr() < 1.0E-4D) {
+            double angle = threat.getRandom().nextDouble() * Math.PI * 2D;
+            away = new Vec3(Math.cos(angle), 0, Math.sin(angle));
+        }
+        return away.normalize();
+    }
+
+    /** A reachable point about 16 blocks along {@code heading}; falls back to plain "away from the threat" if the heading is blocked. */
+    private static Vec3 escapeAlong(ComplexMob animal, Vec3 heading, LivingEntity threat) {
+        Vec3 escape = heading == null ? null
+                : DefaultRandomPos.getPosTowards(animal, 16, 7, animal.position().add(heading.scale(16D)), Math.PI / 2D);
+        return escape != null ? escape : DefaultRandomPos.getPosAway(animal, 16, 7, threat.position());
+    }
+
+    private void panic(ComplexMob animal, Vec3 heading) {
         // A herd-mate holding the line is not swept up in the stampede; see isDefending.
         if (!animal.isAlive() || animal.isTame() || this.toAvoid == null || isDefending(animal)) {
             return;
@@ -194,7 +239,8 @@ public class HerdFleeGoal<T extends LivingEntity> extends SmartAvoidGoal<T> {
         if (animal.isSleeping()) {
             animal.setSleeping(false);
         }
-        Vec3 escape = DefaultRandomPos.getPosAway(animal, 16, 7, this.toAvoid.position());
+        animal.fleeHeading = heading;
+        Vec3 escape = escapeAlong(animal, heading, this.toAvoid);
         if (escape != null) {
             // Each animal runs at its OWN condition, so the blown and the wounded fall behind -- which
             // is how a pack picks which animal it is going to get.

@@ -89,6 +89,9 @@ public abstract class ComplexMob extends TamableAnimal {
     /* Ticks of blind panic left. Set on every member of a herd when one of them spots a predator, so
      * the whole group stampedes together instead of each animal noticing the wolf independently. */
     public int fleeCooldown;
+    /** Direction this animal's herd is fleeing in, set by HerdFleeGoal so the herd runs together. Not persisted. */
+    @Nullable
+    public Vec3 fleeHeading;
     /* Non-zero only while a hunt-for-food goal is actually running. huntingCooldown cannot be used for
      * this -- it stays at 6000 for five minutes AFTER the hunt ends. The low-health break-off in
      * isRouted() consults this so a predator presses a genuine hunt to the kill, while every other
@@ -478,8 +481,19 @@ public abstract class ComplexMob extends TamableAnimal {
         if (this.isCarnivore() && this.huntCommitTicks > 0 && isPreyOrDefenderDamage(source) && this.countNearbyPack() <= 1) {
             factor = Math.min(factor, 1F - ConfigGamerules.loneHunterDamageReduction.get().floatValue());
         }
+        /* The prey-side mirror: a big herbivore with no herd-mates has no herd term, no defender slots and no
+         * one to call, so a lone rhino or ground sloth was simply eaten by anything that outscored it. Only
+         * against predators, and never stacking past the best single reduction. */
+        if (!this.isCarnivore() && this.getMaxHealth() >= SOLITARY_MEGAFAUNA_MIN_HEALTH
+                && source.getEntity() instanceof ComplexMob attacker && attacker.isCarnivore()
+                && (this.herd == null || this.herd.creatureList.size() <= 1)) {
+            factor = Math.min(factor, 1F - ConfigGamerules.solitaryMegafaunaDamageReduction.get().floatValue());
+        }
         return super.hurt(source, factor >= 1F ? amount : amount * factor);
     }
+
+    /** Max health from which a herd-less herbivore counts as solitary megafauna (rhinos, solitary sloths, moose). */
+    private static final float SOLITARY_MEGAFAUNA_MIN_HEALTH = 40F;
 
     /**
      * Damage from something a hunter is up against: an animal that is not itself a carnivore. Excludes
@@ -1411,12 +1425,16 @@ public abstract class ComplexMob extends TamableAnimal {
         }
         int attack = (int) Math.max(entity.getAttributes().hasAttribute(Attributes.ATTACK_DAMAGE) ? entity.getAttribute(Attributes.ATTACK_DAMAGE).getValue() : 1, 4);
         int level = (int) (Math.sqrt(entity.getHealth() * attack) / 2.5F);
+        int herdTerm = 0;
         if (includeHerd && entity instanceof ComplexMob mob && mob.herd != null) {
             /* Herd support fades with the animal's own condition. As a flat bonus it was what made every
              * megaherbivore permanently unkillable: a mammoth at 15% health still carried its full +10 for
              * a herd of ten, so it out-scored a dire wolf pack no matter how close to death it was. Ten
              * mammoths do not shield one of their own that is already down. */
-            int members = mob.herd.creatureList.size();
+            /* A herbivore herd is weighted by its REMEMBERED size, which fades over herd_memory_ticks, not by
+             * its current headcount. With the headcount every kill made the next one easier -- a bison herd
+             * scored 28 at twenty and 13 at five -- so a pack could work its way through an entire herd. */
+            int members = mob.herd.getProtectiveSize();
             /* A predator pack is only as strong as its hunters. Pups counted here too, so every litter
              * made the whole pack more dangerous -- a pack of eight with its young scored like twenty,
              * reached bison and mammoth herds, and pushed every other predator off the map. Capped at
@@ -1424,8 +1442,16 @@ public abstract class ComplexMob extends TamableAnimal {
             if (mob.isCarnivore()) {
                 members = Math.min(mob.herd.getAdultCount(), mob.herd.getMaxSize());
             }
-            level += Math.round(members * healthFraction(entity));
+            herdTerm = Math.round(members * healthFraction(entity));
         }
+        if (entity.isBaby() && herdTerm > 0 && entity instanceof ComplexMob calf && !calf.isCarnivore()) {
+            /* A herbivore calf's own body is scaled down, but the herd's cover is not scaled with it: a calf
+             * in the middle of its herd is protected by it. Scaling the whole level by 0.3 made every calf
+             * prey to almost anything, and herds aged out under senescence without one adult being taken.
+             * A calf that strays is scored without the herd term (getEcoLevelAsPrey) and is easy prey. */
+            return Math.round(level * BABY_ECO_FACTOR + herdTerm * ConfigGamerules.calfHerdProtection.get().floatValue());
+        }
+        level += herdTerm;
         if (entity.isBaby()) {
             /* A calf is not a scaled-down adult in this mod -- updateAttributes() sets MAX_HEALTH and
              * ATTACK_DAMAGE from the species JSON with no baby branch, so a mammoth calf scored exactly
