@@ -40,6 +40,17 @@ public class AnalyzerItem extends Item {
             if (target instanceof ComplexMobTerrestrial) {
                 playerIn.sendMessage(new TextComponent("Hunger: " + ((ComplexMobTerrestrial)entity).getHunger() + "/100 Hunger"), playerIn.getUUID());
             }
+            /* The demographic state. Condition and lifeTicks are the two numbers that decide whether an
+             * animal breeds and when it dies, and neither is visible from anything else in-game -- so
+             * without this line there is no way to tell a pack that is about to produce cubs from one
+             * that is slowly starving, which makes tuning the ecosystem gamerules guesswork. */
+            playerIn.sendMessage(new TextComponent(String.format("Condition: %.2f (breeds at %.2f) | Age: %s / %s%s%s",
+                    entity.condition,
+                    ConfigGamerules.breedingConditionThreshold.get(),
+                    TimeUtils.convertTicksToDays(world, entity.lifeTicks),
+                    TimeUtils.convertTicksToDays(world, entity.getLifespan()),
+                    entity.isSenescent() ? " (OLD)" : "",
+                    entity.starveTicks > 0 ? " | STARVING for " + entity.starveTicks + " ticks" : "")), playerIn.getUUID());
             if (!entity.isMale() && entity.getAge() > 0 && !ConfigGamerules.easyBreeding.get()) {
                 playerIn.sendMessage(new TextComponent("This female will give birth in " + TimeUtils.convertTicksToDays(world, entity.getAge()) + " (" + entity.getAge() + " ticks)"), playerIn.getUUID());
             }

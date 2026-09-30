@@ -39,7 +39,6 @@ public abstract class ComplexMobTerrestrial extends ComplexMob implements IAnima
     public int forceSleep; // Negative forceSleep keeps the mob awake, Positive forceSleep keeps the mob asleep
     protected int tiredCounter = 0;
     protected int buoyancy = 1;
-    private static final EntityDataAccessor<Integer> HUNGER = SynchedEntityData.defineId(ComplexMobTerrestrial.class, EntityDataSerializers.INT);
     private int animationTick;
     private Animation currentAnimation;
     public float turn_speed = 0.2F;
@@ -50,12 +49,6 @@ public abstract class ComplexMobTerrestrial extends ComplexMob implements IAnima
         this.moveControl = new MoveControl(this);
         this.lookControl = new SmartLandLookControl(this, 30);
         this.ticksToSit = 40;
-    }
-
-    @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(HUNGER, 79); // One point less than the breeding threshold
     }
 
     public void aiStep() {
@@ -190,26 +183,6 @@ public abstract class ComplexMobTerrestrial extends ComplexMob implements IAnima
         }
     }
 
-    private void setHunger(int hunger){
-        this.entityData.set(HUNGER, hunger);
-    }
-    public int getHunger(){
-        return (this.entityData.get(HUNGER));
-    }
-    public boolean isStarving() { return this.getHunger() <= 0; }
-    public void addHunger(int change) {
-        int i = this.getHunger() + change;
-        this.setHunger((i > 200) ? 200 : (Math.max(i, 0)));
-    }
-
-    /* Restores hunger when a predator lands the killing blow, so HuntMobTarget.canUse() then blocks new hunts
-     * until hunger decays again. Prevents predators from thinning entire herds one animal per cooldown. */
-    public void satiateFromKill(Entity target) {
-        if (target instanceof LivingEntity le && (le.isDeadOrDying() || le.getHealth() <= 0)) {
-            this.addHunger(120);
-        }
-    }
-
     public boolean hurt(DamageSource source, float amount) {
         if (this.isSitting()) {
             this.setSitting(false);
@@ -271,12 +244,18 @@ public abstract class ComplexMobTerrestrial extends ComplexMob implements IAnima
 
     public Animation getAnimationEat() { return this.NO_ANIMATION; }
 
+    /**
+     * Wind-up animation played by {@link untamedwilds.entity.ai.MeleeAttackCharger} while an animal
+     * gathers itself for a charge. Overridden to ATTACK_THREATEN by every species that can charge; the
+     * default is a no-op so a type without the goal never needs to care.
+     */
+    public Animation getChargeAnimation() { return this.NO_ANIMATION; }
+
     public void addAdditionalSaveData(CompoundTag compound){
         super.addAdditionalSaveData(compound);
         compound.putBoolean("Sleeping", this.isSleeping());
         compound.putInt("SleepingTicks", this.forceSleep);
         compound.putBoolean("Sitting", this.isSitting());
-        compound.putInt("Hunger", this.getHunger());
     }
 
     public void readAdditionalSaveData(CompoundTag compound){
@@ -284,7 +263,6 @@ public abstract class ComplexMobTerrestrial extends ComplexMob implements IAnima
         this.setSleeping(compound.getBoolean("Sleeping"));
         this.forceSleep = compound.getInt("SleepingTicks");
         this.setSitting(compound.getBoolean("Sitting"));
-        this.setHunger(compound.getInt("Hunger"));
     }
 
     /*static class MoveHelperController extends MoveControl {

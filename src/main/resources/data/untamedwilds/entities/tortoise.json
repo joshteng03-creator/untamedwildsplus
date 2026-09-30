@@ -91,5 +91,10 @@
         ]
       ]
     }
-  ]
+  ],
+  "ecology":{
+    "tags":[
+      "small_game"
+    ]
+  }
 }

@@ -86,7 +86,11 @@ public class ModelGlyptodont extends AdvancedEntityModel<EntityGlyptodont> {
 
         this.head_neck = new AdvancedModelBox(this, 98, 71);
         this.head_neck.setRotationPoint(0.0F, 3.0F, -13.0F);
-        this.head_neck.addBox(-5.5F, -3.5F, -6.0F, 11.0F, 7.5F, 7.0F, 0.0F);
+        // Narrowed +-5.5 -> +-5.1. head_neck and head_main both had side faces at exactly +-5.5, so
+        // the cheek was perfectly coplanar (14.1u2) right behind the eye plane. Narrowing the REAR
+        // box keeps head_main's painted face art at its original UV scale, and leaves the eye plane
+        // (+-5.85) clear of its widest ancestor.
+        this.head_neck.addBox(-5.1F, -3.5F, -6.0F, 10.2F, 7.5F, 7.0F, 0.0F);
         this.setRotateAngle(head_neck, 0.1047F, 0.0F, 0.0F);
 
         this.head_main = new AdvancedModelBox(this, 134, 71);
@@ -96,7 +100,7 @@ public class ModelGlyptodont extends AdvancedEntityModel<EntityGlyptodont> {
 
         this.head_cap = new AdvancedModelBox(this, 208, 90);
         this.head_cap.setRotationPoint(0.0F, -3.0F, -2.0F);
-        this.head_cap.addBox(-5.0F, -1.8F, -3.0F, 10.0F, 2.3F, 5.5F, 0.0F);
+        this.head_cap.addBox(-4.7F, -1.8F, -3.0F, 9.4F, 2.3F, 5.5F, 0.0F);
         this.setRotateAngle(head_cap, 0.0524F, 0.0F, 0.0F);
 
         this.snout = new AdvancedModelBox(this, 186, 90);

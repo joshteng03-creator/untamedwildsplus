@@ -2,7 +2,7 @@
   "name":"big_cat",
   "breeding":"EARLY_SUMMER",
   "growing_time":8,
-  "offspring":2,
+  "offspring":3,
   "sounds":{
     "ambient":"untamedwilds:entity.big_cat.ambient",
     "hurt":"untamedwilds:entity.big_cat.hurt",
@@ -10,9 +10,9 @@
     "threat":"untamedwilds:entity.big_cat.warning"
   },
   "flags":{
-    "fluffyTail": 0,
-    "dimorphism": 0,
-    "hasSabreFangs": 0
+    "fluffyTail":0,
+    "dimorphism":0,
+    "hasSabreFangs":0
   },
   "species":[
     {
@@ -22,14 +22,14 @@
       "rarity":1,
       "breeding":"ALL",
       "growing_time":6,
-      "offspring":2,
+      "offspring":3,
       "activityType":"diurnal",
       "favourite_food":"minecraft:beef",
-      "attack":9,
-      "health":45,
+      "attack":10,
+      "health":52,
       "flags":{
         "dimorphism":1,
-        "groupCount":3
+        "groupCount":5
       },
       "spawnBiomes":[
         [
@@ -38,7 +38,15 @@
         [
           "category|icy"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.29,
+        "diet":[
+          "grazer",
+          "browser",
+          "megafauna"
+        ]
+      }
     },
     {
       "name":"jaguar",
@@ -54,13 +62,20 @@
       "health":40,
       "skins":30,
       "flags":{
-
+        "groupCount":1
       },
       "spawnBiomes":[
         [
           "category|jungle"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.28,
+        "diet":[
+          "small_game",
+          "grazer"
+        ]
+      }
     },
     {
       "name":"leopard",
@@ -76,7 +91,7 @@
       "health":40,
       "skins":30,
       "flags":{
-
+        "groupCount":1
       },
       "spawnBiomes":[
         [
@@ -85,7 +100,15 @@
         [
           "category|savanna"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.29,
+        "diet":[
+          "small_game",
+          "grazer",
+          "browser"
+        ]
+      }
     },
     {
       "name":"lion",
@@ -94,21 +117,28 @@
       "rarity":3,
       "breeding":"ALL",
       "growing_time":6,
-      "offspring":2,
+      "offspring":3,
       "activityType":"diurnal",
       "favourite_food":"minecraft:beef",
       "attack":8,
       "health":40,
-      "skins": 20,
+      "skins":20,
       "flags":{
         "dimorphism":1,
-        "groupCount":4
+        "groupCount":8
       },
       "spawnBiomes":[
         [
           "category|savanna"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.3,
+        "diet":[
+          "grazer",
+          "browser"
+        ]
+      }
     },
     {
       "name":"marsupial_lion",
@@ -117,22 +147,29 @@
       "rarity":1,
       "breeding":"ALL",
       "growing_time":6,
-      "offspring":1,
+      "offspring":2,
       "activityType":"nocturnal",
       "favourite_food":"minecraft:chicken",
       "attack":6,
       "health":25,
       "sounds":{
-        "ambient": "untamedwilds:entity.big_cat.ambient_meow"
+        "ambient":"untamedwilds:entity.big_cat.ambient_meow"
       },
       "flags":{
-
+        "groupCount":1
       },
       "spawnBiomes":[
         [
           "category|jungle"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.24,
+        "diet":[
+          "small_game",
+          "browser"
+        ]
+      }
     },
     {
       "name":"puma",
@@ -147,10 +184,10 @@
       "attack":6,
       "health":30,
       "sounds":{
-        "ambient": "untamedwilds:entity.big_cat.ambient_meow"
+        "ambient":"untamedwilds:entity.big_cat.ambient_meow"
       },
       "flags":{
-
+        "groupCount":1
       },
       "spawnBiomes":[
         [
@@ -162,7 +199,14 @@
         [
           "category|taiga"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.3,
+        "diet":[
+          "small_game",
+          "browser"
+        ]
+      }
     },
     {
       "name":"sabertooth",
@@ -171,19 +215,27 @@
       "rarity":1,
       "breeding":"ALL",
       "growing_time":6,
-      "offspring":2,
+      "offspring":3,
       "activityType":"diurnal",
       "favourite_food":"minecraft:beef",
-      "attack":9,
-      "health":40,
+      "attack":11,
+      "health":52,
       "flags":{
-        "hasSabreFangs":1
+        "hasSabreFangs":1,
+        "groupCount":3
       },
       "spawnBiomes":[
         [
           "category|taiga"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.24,
+        "diet":[
+          "grazer",
+          "megafauna"
+        ]
+      }
     },
     {
       "name":"snow_leopard",
@@ -192,16 +244,17 @@
       "rarity":5,
       "breeding":"ALL",
       "growing_time":5,
-      "offspring":3,
+      "offspring":2,
       "activityType":"nocturnal",
       "favourite_food":"minecraft:beef",
       "attack":8,
       "health":30,
       "sounds":{
-        "ambient": "untamedwilds:entity.big_cat.ambient_meow"
+        "ambient":"untamedwilds:entity.big_cat.ambient_meow"
       },
       "flags":{
-        "fluffyTail":1
+        "fluffyTail":1,
+        "groupCount":1
       },
       "spawnBiomes":[
         [
@@ -213,7 +266,14 @@
         [
           "category|extreme_hills"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.27,
+        "diet":[
+          "small_game",
+          "browser"
+        ]
+      }
     },
     {
       "name":"tiger",
@@ -222,13 +282,13 @@
       "rarity":3,
       "breeding":"ALL",
       "growing_time":6,
-      "offspring":2,
+      "offspring":3,
       "activityType":"diurnal",
       "favourite_food":"minecraft:porkchop",
       "attack":9,
       "health":40,
       "flags":{
-
+        "groupCount":1
       },
       "spawnBiomes":[
         [
@@ -237,7 +297,14 @@
         [
           "category|taiga"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.28,
+        "diet":[
+          "grazer",
+          "browser"
+        ]
+      }
     },
     {
       "name":"american_lion",
@@ -246,14 +313,14 @@
       "rarity":1,
       "breeding":"ALL",
       "growing_time":6,
-      "offspring":2,
+      "offspring":3,
       "activityType":"diurnal",
       "favourite_food":"minecraft:beef",
-      "attack":10,
-      "health":50,
+      "attack":11,
+      "health":58,
       "flags":{
         "dimorphism":1,
-        "groupCount":3
+        "groupCount":5
       },
       "spawnBiomes":[
         [
@@ -262,7 +329,15 @@
         [
           "category|taiga"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.29,
+        "diet":[
+          "grazer",
+          "browser",
+          "megafauna"
+        ]
+      }
     },
     {
       "name":"homotherium",
@@ -271,14 +346,15 @@
       "rarity":1,
       "breeding":"ALL",
       "growing_time":6,
-      "offspring":2,
+      "offspring":3,
       "activityType":"cathemeral",
       "favourite_food":"minecraft:beef",
-      "attack":9,
-      "health":42,
+      "attack":10,
+      "health":48,
       "flags":{
         "hasSabreFangs":1,
-        "shortSabres":1
+        "shortSabres":1,
+        "groupCount":4
       },
       "spawnBiomes":[
         [
@@ -287,7 +363,184 @@
         [
           "category|icy"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.28,
+        "diet":[
+          "grazer",
+          "browser",
+          "megafauna"
+        ]
+      }
+    },
+    {
+      "name":"cheetah",
+      "variant":11,
+      "scale":0.85,
+      "rarity":3,
+      "breeding":"ALL",
+      "growing_time":6,
+      "offspring":3,
+      "activityType":"diurnal",
+      "favourite_food":"minecraft:beef",
+      "attack":6,
+      "health":26,
+      "flags":{
+        "groupCount":3
+      },
+      "spawnBiomes":[
+        [
+          "category|savanna"
+        ],
+        [
+          "category|desert"
+        ]
+      ],
+      "ecology":{
+        "speed":0.42,
+        "diet":[
+          "grazer",
+          "browser"
+        ]
+      }
+    },
+    {
+      "name":"american_cheetah",
+      "variant":12,
+      "scale":0.9,
+      "rarity":2,
+      "breeding":"ALL",
+      "growing_time":6,
+      "offspring":3,
+      "activityType":"diurnal",
+      "favourite_food":"minecraft:beef",
+      "attack":7,
+      "health":30,
+      "flags":{
+        "groupCount":2
+      },
+      "spawnBiomes":[
+        [
+          "category|plains"
+        ],
+        [
+          "category|extreme_hills"
+        ]
+      ],
+      "ecology":{
+        "speed":0.40,
+        "diet":[
+          "grazer",
+          "browser"
+        ]
+      }
+    },
+    {
+      "name":"barbary_lion",
+      "variant":13,
+      "scale":1.05,
+      "rarity":2,
+      "breeding":"ALL",
+      "growing_time":6,
+      "offspring":3,
+      "activityType":"cathemeral",
+      "favourite_food":"minecraft:beef",
+      "attack":10,
+      "health":46,
+      "flags":{
+        "dimorphism":1,
+        "groupCount":7
+      },
+      "spawnBiomes":[
+        [
+          "category|desert"
+        ],
+        [
+          "category|extreme_hills"
+        ]
+      ],
+      "ecology":{
+        "speed":0.26,
+        "diet":[
+          "grazer",
+          "browser",
+          "megafauna"
+        ]
+      }
+    },
+    {
+      "name":"caspian_tiger",
+      "variant":14,
+      "scale":1.1,
+      "rarity":2,
+      "breeding":"ALL",
+      "growing_time":6,
+      "offspring":3,
+      "activityType":"nocturnal",
+      "favourite_food":"minecraft:beef",
+      "attack":11,
+      "health":50,
+      "flags":{
+        "groupCount":1
+      },
+      "spawnBiomes":[
+        [
+          "category|extreme_hills"
+        ],
+        [
+          "category|forest"
+        ]
+      ],
+      "ecology":{
+        "speed":0.28,
+        "diet":[
+          "grazer",
+          "browser",
+          "megafauna"
+        ]
+      }
+    },
+    {
+      "name":"thylacosmilus",
+      "variant":15,
+      "scale":0.8,
+      "rarity":1,
+      "breeding":"ALL",
+      "growing_time":6,
+      "offspring":2,
+      "activityType":"nocturnal",
+      "favourite_food":"minecraft:beef",
+      "attack":9,
+      "health":36,
+      "flags":{
+        "hasSabreFangs":1,
+        "groupCount":1
+      },
+      "spawnBiomes":[
+        [
+          "category|plains"
+        ],
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology":{
+        "speed":0.24,
+        "diet":[
+          "grazer",
+          "browser",
+          "megafauna"
+        ]
+      }
     }
-  ]
+  ],
+  "ecology":{
+    "tags":[
+      "carnivore"
+    ],
+    "diet":[
+      "grazer",
+      "browser"
+    ]
+  }
 }

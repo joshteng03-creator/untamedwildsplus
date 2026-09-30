@@ -3,6 +3,7 @@ package untamedwilds.entity.mammal;
 import com.github.alexthe666.citadel.animation.Animation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -25,6 +26,8 @@ import untamedwilds.init.ModSounds;
 import untamedwilds.util.EntityUtils;
 
 import javax.annotation.Nullable;
+import untamedwilds.entity.ai.RetreatWhenRoutedGoal;
+import untamedwilds.entity.ai.MeleeAttackCircleHerd;
 
 public class EntityDireWolf extends ComplexMobTerrestrial implements INewSkins, ISpecies, IPackEntity, INeedsPostUpdate {
 
@@ -43,13 +46,24 @@ public class EntityDireWolf extends ComplexMobTerrestrial implements INewSkins, 
 
     public void registerGoals() {
         this.goalSelector.addGoal(1, new SmartSwimGoal_Land(this));
+        this.goalSelector.addGoal(1, new RetreatWhenRoutedGoal(this, 1.5D));
         this.goalSelector.addGoal(2, new FindItemsGoal(this, 12, true));
-        this.goalSelector.addGoal(2, new SmartMeleeAttackGoal(this, 1.8D, false, 1, false, false));
+        /* Pack predators surround their prey instead of queueing up single-file behind it.
+         * MeleeAttackCircleHerd has been in the repo unused since the "// TODO: Have Lions use
+         * the MeleeAttackCircleHerd goal" note; combined with HuntPackMobTarget, which already
+         * gives the whole pack one shared target, this is what lets a pack actually bring down
+         * an animal much larger than any individual member. Solitary variants fall through to
+         * the goal's direct-pursuit branch, so no pack-size gate is needed here. */
+        this.goalSelector.addGoal(2, new MeleeAttackCircleHerd(this, 1.6D, false, 1, false));
         this.goalSelector.addGoal(3, new SmartAvoidGoal<>(this, LivingEntity.class, 16, 1.2D, 1.6D, input -> getEcoLevel(input) > getEcoLevel(this)));
         this.goalSelector.addGoal(4, new SmartMateGoal(this, 1D));
         this.goalSelector.addGoal(4, new GotoSleepGoal(this, 1D));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.25D));
         this.goalSelector.addGoal(5, new SmartWanderGoal(this, 1D, true));
+        /* Follows the herds. Once prey starts shifting range (HerdMigrationGoal), a pack that
+         * stays put simply starves on empty ground -- so this is not a flourish, it is what keeps
+         * predator and prey coupled. Runs on the pack leader only; the rest follow it. */
+        this.goalSelector.addGoal(5, new PredatorRelocateGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new SmartLookAtGoal(this, LivingEntity.class, 10.0F));
         this.targetSelector.addGoal(1, new HurtPackByTargetGoal(this).setAlertOthers(EntityDireWolf.class));
         this.targetSelector.addGoal(2, new ProtectChildrenTarget<>(this, LivingEntity.class, true, input -> !(input instanceof EntityDireWolf)));
@@ -79,11 +93,16 @@ public class EntityDireWolf extends ComplexMobTerrestrial implements INewSkins, 
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.2);
     }
 
+    /** A wolf pack gives ground to a bear or to a hyena clan; both routinely take wolf kills. */
+    @Override
+    public boolean yieldsCarcassTo(ComplexMob rival) {
+        return rival instanceof EntityBear || rival instanceof EntityHyena;
+    }
+
     public boolean wantsToBreed() {
-        if (ConfigGamerules.naturalBreeding.get() && this.age == 0) {
-            return this.getHunger() >= 80;
-        }
-        return false;
+        /* Sustained body condition, not a momentary full belly. One carcass pays the whole pack, so
+         * the old bare hunger check flipped every wolf into breeding at the same instant. */
+        return this.wantsToBreedAsPredator();
     }
 
     @Override
@@ -96,9 +115,10 @@ public class EntityDireWolf extends ComplexMobTerrestrial implements INewSkins, 
                 this.herd.tick();
             }
             if (this.level.getGameTime() % 1000 == 0) {
-                this.addHunger(-10);
+                this.drainHuntingHunger(4);
                 if (!this.isStarving()) {
-                    this.heal(1.0F);
+                    // See EntityBear: canids healed 1 HP per 1000 ticks, slower than anything they hunt.
+                    this.heal(this.getHunger() >= 120 ? 5.0F : 2.0F);
                 }
             }
             // Random idle animations
@@ -138,8 +158,23 @@ public class EntityDireWolf extends ComplexMobTerrestrial implements INewSkins, 
     }
 
     public boolean doHurtTarget(Entity entityIn) {
-        boolean flag = super.doHurtTarget(entityIn);
+        this.applyAttackBonus(this.getHuntDamageBonus(entityIn));
+        boolean flag;
+        try {
+            flag = super.doHurtTarget(entityIn);
+        } finally {
+            this.clearAttackBonus();
+        }
         if (flag) {
+            /* Hamstring, the canid signature. A wolf pack does not win the sprint -- prey is faster than
+             * every predator in the mod at rest, which is why predator_chase_burst exists -- it wins the
+             * marathon, and ComplexMob.fleeStamina already models the marathon. Taking stamina straight out
+             * of the quarry is what makes a canid's damage matter even when the individual bite is shallow:
+             * bitten prey tires early, drops to prey_exhausted_flee_factor, and the pack closes.
+             * Measured against prey_flee_stamina_ticks (200), so five landed bites blow it outright. */
+            if (entityIn instanceof ComplexMob quarry) {
+                quarry.fleeStamina = Math.max(0, quarry.fleeStamina - ConfigGamerules.canidStaminaDrain.get());
+            }
             this.satiateFromKill(entityIn);
             if (this.getAnimation() == NO_ANIMATION && !this.isBaby()) {
                 Animation anim = chooseAttackAnimation();
@@ -147,6 +182,21 @@ public class EntityDireWolf extends ComplexMobTerrestrial implements INewSkins, 
             }
         }
         return flag;
+    }
+
+    /**
+     * Pack hunters are the thinnest-skinned predators in the mod and were dying to the animals their pack
+     * eco level told them they could take: a dire wolf is 34 HP against a wooly rhino's 10 attack, so it
+     * lost in four bites.
+     * <p>
+     * Reduction rather than extra health, because MAX_HEALTH is an input to {@code getEcoLevel} and this is
+     * not -- raising a dire wolf to 55 HP lifts the pack from 15.0 to 16.9 and opens seven new prey species
+     * past the diet filter, giraffe and cuvieronius among them. This buys the same survivability and
+     * changes nothing about what the pack hunts.
+     */
+    @Override
+    protected float getIncomingDamageFactor(DamageSource source) {
+        return 1F - ConfigGamerules.packHunterDamageReduction.get().floatValue();
     }
 
     protected void playStepSound(BlockPos pos, BlockState blockIn) {
@@ -193,6 +243,7 @@ public class EntityDireWolf extends ComplexMobTerrestrial implements INewSkins, 
 
     @Override
     public void updateAttributes() {
+        this.applySpeciesSpeed();
         this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getAttack());
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getHealth());
         this.setHealth(this.getMaxHealth());

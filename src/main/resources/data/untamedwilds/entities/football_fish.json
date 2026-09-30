@@ -4,9 +4,7 @@
   "growing_time":12,
   "offspring":3,
   "favourite_food":"untamedwilds:chum",
-  "sounds":{
-
-  },
+  "sounds":{},
   "species":[
     {
       "name":"atlantic",
@@ -26,5 +24,14 @@
         ]
       ]
     }
-  ]
+  ],
+  "ecology":{
+    "tags":[
+      "carnivore",
+      "aquatic"
+    ],
+    "diet":[
+      "aquatic"
+    ]
+  }
 }

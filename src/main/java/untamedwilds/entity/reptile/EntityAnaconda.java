@@ -264,6 +264,10 @@ public class EntityAnaconda extends ComplexMobAmphibious implements ISpecies, IN
                 this.setDeltaMovement(new Vec3(entityIn.getX() - this.getX(), entityIn.getY() - this.getY(), entityIn.getZ() - this.getZ()).scale(0.15F));
                 this.huntingCooldown = 144000; // Large Snakes will spend the next 6 days idling after eating prey
                 entityIn.remove(RemovalReason.KILLED);
+                this.addHunger(120); // Swallowed whole, so the prey never "dies" and satiateFromKill would miss it
+            }
+            else {
+                this.satiateFromKill(entityIn);
             }
             return true;
         }
@@ -315,6 +319,7 @@ public class EntityAnaconda extends ComplexMobAmphibious implements ISpecies, IN
 
     @Override
     public void updateAttributes() {
+        this.applySpeciesSpeed();
         this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getAttack());
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getHealth());
         this.setHealth(this.getMaxHealth());

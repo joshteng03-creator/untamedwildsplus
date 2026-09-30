@@ -6,17 +6,17 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import untamedwilds.config.ConfigGamerules;
+import untamedwilds.entity.ComplexMob;
 import untamedwilds.entity.ComplexMobTerrestrial;
 import untamedwilds.util.EntityUtils;
 
 import java.util.EnumSet;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 
@@ -88,19 +88,12 @@ public class SmartMeleeAttackGoal extends Goal {
 
     @Override
     public boolean canContinueToUse() {
-        // TODO: DEBUG: Skirmish option, where a mob low on health will retreat if targeted, disabled
-        if (false && this.doSkirmish && !EntityUtils.hasFullHealth(this.attacker)) {
-            if (this.attacker.getTarget() instanceof PathfinderMob targetEntity) {
-                if (Objects.equals(targetEntity.getTarget(), this.attacker)) {
-                    Vec3 vec3d = DefaultRandomPos.getPosAway(targetEntity, 12, 4, new Vec3(targetEntity.getX(), targetEntity.getY(), targetEntity.getZ()));
-                    if (vec3d != null) {
-                        this.attacker.setTarget(null);
-                        this.attacker.getNavigation().moveTo(vec3d.x, vec3d.y, vec3d.z, this.speedTowardsTarget);
-                        return false;
-                    }
-                }
-            }
-        }
+        /* The old skirmish retreat lived here behind an `if (false && ...)`. It was disabled for good
+         * reason -- it triggered below FULL health, so a mob that had taken one point of damage spent
+         * the rest of the fight backing off -- and it sat in the attack goal, which the target goals
+         * simply overrode by re-acquiring the same enemy on the next tick. RetreatWhenRoutedGoal
+         * replaces it: a proper 10%-health threshold, on the goal selector, with matching break-offs
+         * in every non-hunting target goal. */
         LivingEntity livingentity = this.attacker.getTarget();
         if (livingentity == null || (this.attacker.getAirSupply() < 40 && !this.attacker.canBreatheUnderwater()) || !livingentity.isAlive()) {
             return false;
@@ -115,9 +108,18 @@ public class SmartMeleeAttackGoal extends Goal {
     }
 
     public void start() {
-        this.attacker.getNavigation().moveTo(this.path, this.speedTowardsTarget);
+        this.attacker.getNavigation().moveTo(this.path, this.chaseSpeed());
         this.attacker.setAggressive(true);
         this.delayCounter = 0;
+    }
+
+    /* Pursuit speed, with a burst while this is a committed hunt -- see MeleeAttackCircleHerd.chaseSpeed.
+     * Solitary hunters (monitor, snake, bear, tarantula) use this goal rather than the pack one, so the
+     * burst has to live in both or half the predators still cannot close a chase. */
+    protected double chaseSpeed() {
+        return this.attacker instanceof ComplexMob hunter && hunter.isCommittedTo(hunter.getTarget())
+                ? this.speedTowardsTarget * ConfigGamerules.predatorChaseBurst.get()
+                : this.speedTowardsTarget;
     }
 
     public void stop() {
@@ -167,7 +169,7 @@ public class SmartMeleeAttackGoal extends Goal {
                 this.delayCounter += 5;
             }
 
-            if (!this.attacker.getNavigation().moveTo(livingentity, this.speedTowardsTarget)) {
+            if (!this.attacker.getNavigation().moveTo(livingentity, this.chaseSpeed())) {
                 this.delayCounter += 15;
             }
         }

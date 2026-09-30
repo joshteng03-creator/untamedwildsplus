@@ -29,6 +29,9 @@ public class EntityDataHolder {
             //Codec.unboundedMap(Codec.STRING, SoundEvent.CODEC).fieldOf("sounds").orElse(Collections.emptyMap()).forGetter((p_237052_0_) -> p_237052_0_.sounds),
             Codec.unboundedMap(Codec.STRING, SoundEvent.CODEC).fieldOf("sounds").orElse(Collections.emptyMap()).forGetter((p_237052_0_) -> p_237052_0_.sounds),
             Codec.unboundedMap(Codec.STRING, Codec.INT).fieldOf("flags").orElse(Collections.emptyMap()).forGetter((p_237054_0_) -> p_237054_0_.flags),
+            // speed / what-this-animal-is / what-it-eats, nested so both holders stay under the
+            // 16-field cap on RecordCodecBuilder.group(). Defaults to EMPTY so pre-existing JSONs parse.
+            EcologyDataHolder.CODEC.fieldOf("ecology").orElse(EcologyDataHolder.EMPTY).forGetter((p_237054_0_) -> p_237054_0_.ecology),
             SpeciesDataHolder.CODEC.listOf().fieldOf("species").orElse(new ArrayList<>()).forGetter((p_237052_0_) -> p_237052_0_.speciesData))
             .apply(p_237051_0_, EntityDataHolder::new));
     private final String name;
@@ -44,9 +47,10 @@ public class EntityDataHolder {
     private final String breeding_season;
     public final Map<String, SoundEvent> sounds;
     private final Map<String, Integer> flags;
+    private final EcologyDataHolder ecology;
     private final List<SpeciesDataHolder> speciesData;
 
-    public EntityDataHolder(String p_i232114_1_, float p_i232114_2_, int p_i232114_3_, float attack, float health, ComplexMobTerrestrial.ActivityType activityType, String favouriteFood, int growing_time, int offspring, String breeding, Map<String, SoundEvent> sounds, Map<String, Integer> flags, List<SpeciesDataHolder> speciesData) {
+    public EntityDataHolder(String p_i232114_1_, float p_i232114_2_, int p_i232114_3_, float attack, float health, ComplexMobTerrestrial.ActivityType activityType, String favouriteFood, int growing_time, int offspring, String breeding, Map<String, SoundEvent> sounds, Map<String, Integer> flags, EcologyDataHolder ecology, List<SpeciesDataHolder> speciesData) {
         this.name = p_i232114_1_;
         this.modelScale = p_i232114_2_;
         this.rarity = p_i232114_3_;
@@ -66,6 +70,7 @@ public class EntityDataHolder {
 
         // Additional data I can't be arsed to properly define, due to it being specific for each class
         this.flags = flags;
+        this.ecology = ecology;
         this.speciesData = speciesData;
     }
 
@@ -112,6 +117,17 @@ public class EntityDataHolder {
             return this.modelScale;
         }
         return this.speciesData.get(i).getHealth();
+    }
+
+    /* Returns -1 when neither the species nor the type sets a speed, which callers treat as "leave the
+     * registerAttributes() value alone". NB: getAttack/getHealth above fall back to this.modelScale
+     * rather than this.attack/this.health -- that looks like a copy-paste slip, but it is masked
+     * because every species in every JSON defines both explicitly. Not touched here. */
+    public float getSpeed(int i) {
+        if (this.speciesData.get(i).getSpeed() < 0) {
+            return this.ecology.getSpeed();
+        }
+        return this.speciesData.get(i).getSpeed();
     }
 
     public ComplexMobTerrestrial.ActivityType getActivityType(int i) {
@@ -173,9 +189,18 @@ public class EntityDataHolder {
         return this.sounds;
     }
 
+    /* Falls back to the TYPE-level flag before defaulting to 1. Previously this only ever read the
+     * species-level flags map, so a "groupCount" declared once at the top of a JSON was silently
+     * ignored and every species of that type herded alone -- which is what deer, equid, giraffid,
+     * macrauchenia, toxodon, ground_sloth and glyptodont were all doing. Note this cannot delegate to
+     * getFlags(), which logs an error when a flag is absent everywhere; a missing groupCount is the
+     * normal case for the ~28 solitary types and must stay quiet. */
     public Integer getGroupCount(int i) {
         if (!this.speciesData.get(i).getFlags().isEmpty() && this.speciesData.get(i).getFlags().get("groupCount") != null) {
             return this.speciesData.get(i).getFlags().get("groupCount");
+        }
+        if (this.flags.containsKey("groupCount")) {
+            return this.flags.get("groupCount");
         }
         return 1;
     }
@@ -190,6 +215,24 @@ public class EntityDataHolder {
             return 0;
         }
         return this.flags.get(flag);
+    }
+
+    /* Species-level tags REPLACE the type-level list rather than adding to it, so a mostly-solitary
+     * genus can carry one entry for the whole type and still let an outlier override it outright --
+     * e.g. big_cat is "carnivore" everywhere, but only cave_lion/american_lion add "megafauna" to
+     * their diet. An empty species list means "inherit the type's". */
+    public List<String> getEcologyTags(int i) {
+        if (i < this.speciesData.size() && !this.speciesData.get(i).getEcologyTags().isEmpty()) {
+            return this.speciesData.get(i).getEcologyTags();
+        }
+        return this.ecology.getTags();
+    }
+
+    public List<String> getDiet(int i) {
+        if (i < this.speciesData.size() && !this.speciesData.get(i).getDiet().isEmpty()) {
+            return this.speciesData.get(i).getDiet();
+        }
+        return this.ecology.getDiet();
     }
 
     public List<SpeciesDataHolder> getSpeciesData() {

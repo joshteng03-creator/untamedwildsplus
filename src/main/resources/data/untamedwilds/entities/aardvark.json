@@ -20,14 +20,20 @@
       "growing_time":6,
       "offspring":1,
       "skins":30,
-      "flags":{
-
-      },
+      "flags":{},
       "spawnBiomes":[
         [
           "category|savanna"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.15
+      }
     }
-  ]
+  ],
+  "ecology":{
+    "tags":[
+      "small_game"
+    ]
+  }
 }

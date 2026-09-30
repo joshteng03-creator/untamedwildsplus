@@ -23,6 +23,9 @@ import javax.annotation.Nullable;
 public class ProjectileSpit extends Projectile {
 
     private MobEffectInstance mobEffect;
+    /* Damage dealt on impact. Zero means the projectile lands its effect WITHOUT calling hurt() at all --
+     * see onHitEntity. The spitter keeps the original value of 1; only the camel spits for nothing. */
+    private float damage = 1F;
 
     public <T extends Mob> ProjectileSpit(EntityType<? extends ProjectileSpit> p_37224_, Level p_37225_) {
         super(p_37224_, p_37225_);
@@ -33,9 +36,14 @@ public class ProjectileSpit extends Projectile {
     }
 
     public ProjectileSpit(Level p_37235_, ComplexMob p_37236_, @Nullable MobEffectInstance effect) {
+        this(p_37235_, p_37236_, effect, 1F);
+    }
+
+    public ProjectileSpit(Level p_37235_, ComplexMob p_37236_, @Nullable MobEffectInstance effect, float damage) {
         this(ModEntity.SPIT.get(), p_37235_);
         this.setOwner(p_37236_);
         this.mobEffect = effect;
+        this.damage = damage;
         this.setPos(p_37236_.getX() - (double)(p_37236_.getBbWidth() + 1.0F) * 0.5D * (double) Mth.sin(p_37236_.yBodyRot * ((float)Math.PI / 180F)), p_37236_.getEyeY() - (double)0.1F, p_37236_.getZ() + (double)(p_37236_.getBbWidth() + 1.0F) * 0.5D * (double)Mth.cos(p_37236_.yBodyRot * ((float)Math.PI / 180F)));
     }
 
@@ -65,8 +73,12 @@ public class ProjectileSpit extends Projectile {
 
     protected void onHitEntity(EntityHitResult p_37241_) {
         super.onHitEntity(p_37241_);
-        if (this.getOwner() == null || !this.getOwner().getClass().equals(p_37241_.getEntity().getClass()))
-            p_37241_.getEntity().hurt(DamageSource.indirectMobAttack(this, (LivingEntity)this.getOwner()).setProjectile(), 1);
+        /* A zero-damage spit must skip hurt() ENTIRELY rather than call it with 0. Any hurt() call sets
+         * setLastHurtByMob on the victim, and its SmartHurtByTargetGoal then picks a fight -- so a spit
+         * meant to warn a predator off would instead be the thing that started the fight. Dealing no
+         * damage is not enough; the damage event itself is what provokes. */
+        if (this.damage > 0 && (this.getOwner() == null || !this.getOwner().getClass().equals(p_37241_.getEntity().getClass())))
+            p_37241_.getEntity().hurt(DamageSource.indirectMobAttack(this, (LivingEntity)this.getOwner()).setProjectile(), this.damage);
         if (this.mobEffect != null && p_37241_.getEntity() instanceof LivingEntity living)
             living.addEffect(this.mobEffect);
     }

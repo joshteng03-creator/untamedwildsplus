@@ -17,11 +17,13 @@
     {
       "name": "toxodon",
       "variant": 0,
-      "scale": 1.5,
+      "scale": 0.87,
       "rarity": 2,
       "attack": 8,
       "health": 75,
-      "flags": {},
+      "flags": {
+        "groupCount": 5
+      },
       "spawnBiomes": [
         [
           "category|swamp"
@@ -29,7 +31,38 @@
         [
           "category|jungle"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.16
+      }
+    },
+    {
+      "name": "mixotoxodon",
+      "variant": 1,
+      "scale": 1.014,
+      "rarity": 1,
+      "attack": 9,
+      "health": 85,
+      "flags": {
+        "groupCount": 4
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.15
+      }
     }
-  ]
+  ],
+  "ecology": {
+    "tags": [
+      "grazer",
+      "megafauna"
+    ]
+  }
 }

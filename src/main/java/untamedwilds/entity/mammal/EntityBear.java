@@ -38,6 +38,7 @@ import untamedwilds.util.EntityUtils;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import untamedwilds.entity.ai.RetreatWhenRoutedGoal;
 
 public class EntityBear extends ComplexMobTerrestrial implements ISpecies, INewSkins, INeedsPostUpdate {
 
@@ -71,14 +72,19 @@ public class EntityBear extends ComplexMobTerrestrial implements ISpecies, INewS
 
     public void registerGoals() {
         this.goalSelector.addGoal(1, new SmartSwimGoal_Land(this));
+        this.goalSelector.addGoal(1, new RetreatWhenRoutedGoal(this, 1.5D));
         this.goalSelector.addGoal(2, new FindItemsGoal(this, 12));
-        this.goalSelector.addGoal(2, new SmartMeleeAttackGoal(this, 2.3D, false, 1));
+        this.goalSelector.addGoal(2, new SmartMeleeAttackGoal(this, 1.6D, false, 1));
         this.goalSelector.addGoal(3, new SmartAvoidGoal<>(this, LivingEntity.class, 16, 1.2D, 1.6D, input -> getEcoLevel(input) > getEcoLevel(this)));
         this.goalSelector.addGoal(4, new SmartMateGoal(this, 1D));
         this.goalSelector.addGoal(4, new GotoSleepGoal(this, 1D));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.25D));
         //this.goalSelector.addGoal(5, new BearRaidChestsGoal(this, 120));
         this.goalSelector.addGoal(6, new SmartWanderGoal(this, 1D, true));
+        /* Follows the herds. Once prey starts shifting range (HerdMigrationGoal), a pack that
+         * stays put simply starves on empty ground -- so this is not a flourish, it is what keeps
+         * predator and prey coupled. Runs on the pack leader only; the rest follow it. */
+        this.goalSelector.addGoal(5, new PredatorRelocateGoal(this, 1.0D));
         this.goalSelector.addGoal(7, new SmartLookAtGoal(this, LivingEntity.class, 10.0F));
         this.targetSelector.addGoal(1, new SmartHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new ProtectChildrenTarget<>(this, LivingEntity.class, true, input -> !(input instanceof EntityBear)));
@@ -97,15 +103,31 @@ public class EntityBear extends ComplexMobTerrestrial implements ISpecies, INewS
                 .add(Attributes.ARMOR, 4D);
     }
 
+    /* The hardcoreBreeding overcrowding clause was removed. It counted EVERY LivingEntity within 6
+     * blocks -- the animal's own mate, its own cubs, and any passing chicken -- and refused to breed
+     * at 3 or more. With herd/pack sizes now raised to realistic numbers a social animal is
+     * permanently over that limit and could never breed again, which is the opposite of the intent.
+     * Population pressure is handled by gestation and maturity timers instead (see
+     * ComplexMob.getPregnancyTime / getAdulthoodTime). */
+    /**
+     * A bear takes a carcass off anything, on its own. Brown bears displace wolf packs from kills as a
+     * matter of routine, and it is a large part of how an omnivore that hunts badly eats well.
+     */
+    @Override
+    public int displacementGroupSize() {
+        return ConfigGamerules.kleptoparasitismClanSize.get() > 0 ? 1 : 0;
+    }
+
+    @Override
+    public boolean canScavengeCarcass() {
+        return true;
+    }
+
     public boolean wantsToBreed() {
         if (super.wantsToBreed()) {
-            if (!this.isSleeping() && this.getAge() == 0 && EntityUtils.hasFullHealth(this) && this.getHunger() >= 80) {
-                if (ConfigGamerules.hardcoreBreeding.get()) {
-                    List<LivingEntity> list = this.level.getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(6.0D, 4.0D, 6.0D));
-                    return list.size() < 3;
-                }
-                return true;
-            }
+            // wantsToBreedAsPredator carries the hunger >= 80 check, plus the sustained-condition and
+            // territoriality terms that stop a single carcass triggering a birth pulse.
+            return !this.isSleeping() && this.getAge() == 0 && EntityUtils.hasHealthFraction(this, 0.6F) && this.wantsToBreedAsPredator();
         }
         return false;
     }
@@ -122,9 +144,11 @@ public class EntityBear extends ComplexMobTerrestrial implements ISpecies, INewS
     public void aiStep() {
         if (!this.level.isClientSide) {
             if (this.tickCount % 1000 == 0) {
-                this.addHunger(-2);
+                this.drainHuntingHunger(2);
                 if (!this.isStarving()) {
-                    this.heal(2.0F);
+                    // A fed predator recovers between hunts; a hungry one does not. Regeneration used to be a flat
+                    // trickle, which combined with the old full-health breeding gate to lock predators out of breeding.
+                    this.heal(this.getHunger() >= 120 ? 6.0F : 2.0F);
                 }
             }
             // Bearserk
@@ -225,8 +249,27 @@ public class EntityBear extends ComplexMobTerrestrial implements ISpecies, INewS
     }
 
     public boolean doHurtTarget(Entity entityIn) {
-        boolean flag = super.doHurtTarget(entityIn);
+        this.applyAttackBonus(this.getHuntDamageBonus(entityIn));
+        boolean flag;
+        try {
+            flag = super.doHurtTarget(entityIn);
+        } finally {
+            this.clearAttackBonus();
+        }
         if (flag) {
+            /* Stagger. Bears are the slowest predators in the mod -- 0.15 to 0.24 -- so everything they
+             * pick a fight with simply walks away from them, and Bearserk only helps in the fights they
+             * manage to hold. The answer is not to make them faster, which would make them something other
+             * than a bear; it is to make them impossible to disengage from, alongside the ATTACK_KNOCKBACK
+             * of 1.0 they already carry. Deliberately NOT gated on which attack animation came up:
+             * chooseAttackAnimation() is rolled below, after the hit, and only when the bear is not already
+             * mid-animation, so gating on it would drop the stagger from most blows at random. */
+            if (entityIn instanceof LivingEntity victim && !this.isBaby()) {
+                int stagger = ConfigGamerules.bearStaggerTicks.get();
+                if (stagger > 0) {
+                    victim.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, stagger, 0, true, true));
+                }
+            }
             this.satiateFromKill(entityIn);
             if (this.getAnimation() == NO_ANIMATION && !this.isBaby()) {
                 Animation anim = chooseAttackAnimation();
@@ -291,6 +334,7 @@ public class EntityBear extends ComplexMobTerrestrial implements ISpecies, INewS
 
     @Override
     public void updateAttributes() {
+        this.applySpeciesSpeed();
         this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getAttack());
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getHealth());
         this.setHealth(this.getMaxHealth());

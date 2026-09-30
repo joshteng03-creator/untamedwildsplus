@@ -106,5 +106,15 @@
         ]
       ]
     }
-  ]
+  ],
+  "ecology":{
+    "tags":[
+      "small_game",
+      "aquatic"
+    ],
+    "diet":[
+      "small_game",
+      "aquatic"
+    ]
+  }
 }

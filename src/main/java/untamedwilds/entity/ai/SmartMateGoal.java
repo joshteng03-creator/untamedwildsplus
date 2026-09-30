@@ -12,12 +12,22 @@ import java.util.EnumSet;
 import java.util.List;
 
 public class SmartMateGoal extends Goal {
+    /** Distance at which a pair is close enough to court, squared. */
+    private static final double MATING_DIST_SQR = 9.0D;
+    /** Ticks allowed to REACH a mate, separate from the time spent courting one. */
+    private static final int TRAVEL_BUDGET = 600;
+
     private final ComplexMob taskOwner;
     private final Level world;
     private final int executionChance;
     private final Class<? extends ComplexMob> mateClass;
     private ComplexMob targetMate;
     private int spawnBabyDelay;
+    /* Travel is timed separately from courtship. spawnBabyDelay used to start counting the moment the
+     * goal began and canContinueToUse gave up at 200 ticks, so a pair more than a few blocks apart
+     * always abandoned the approach part-way -- which is why simply widening the search below would not
+     * have been enough on its own. */
+    private int travelTicks;
     private final double moveSpeed;
 
     public SmartMateGoal(ComplexMob entityIn, double speedIn) {
@@ -44,22 +54,33 @@ public class SmartMateGoal extends Goal {
 
     @Override
     public boolean canContinueToUse() {
-        return this.targetMate.isAlive() && this.taskOwner.getAge() == 0 && this.spawnBabyDelay < 200;
+        return this.targetMate.isAlive() && this.taskOwner.getAge() == 0 && this.spawnBabyDelay < 200 && this.travelTicks < TRAVEL_BUDGET;
     }
 
     @Override
     public void stop() {
         this.targetMate = null;
         this.spawnBabyDelay = 0;
+        this.travelTicks = 0;
     }
 
     @Override
     public void tick() {
         this.taskOwner.getLookControl().setLookAt(this.targetMate, 10.0F, (float) this.taskOwner.getHeadRotSpeed());
         this.taskOwner.getNavigation().moveTo(this.targetMate.getX(), this.targetMate.getY(), this.targetMate.getZ(), this.moveSpeed);
-        ++this.spawnBabyDelay;
 
-        if (this.spawnBabyDelay >= 100 && this.taskOwner.distanceToSqr(this.targetMate) < 9.0D) {
+        /* Only the time spent actually together counts toward breeding; walking there burns the travel
+         * budget instead. Both partners run this goal, so each closes half the gap, and the budget is
+         * what releases the pair when a mate turns out to be across a ravine. */
+        if (this.taskOwner.distanceToSqr(this.targetMate) < MATING_DIST_SQR) {
+            ++this.spawnBabyDelay;
+        }
+        else {
+            ++this.travelTicks;
+            return;
+        }
+
+        if (this.spawnBabyDelay >= 100) {
             this.taskOwner.resetLove();
             this.targetMate.resetLove();
             if (this.world.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
@@ -84,7 +105,10 @@ public class SmartMateGoal extends Goal {
     }
 
     private ComplexMob getNearbyMate() {
-        List<? extends ComplexMob> list = this.world.getEntitiesOfClass(mateClass, this.taskOwner.getBoundingBox().inflate(8.0D));
+        /* The old 8-block box meant a species had to be crowded to breed at all. Predators are sparse and
+         * wander widely, so two lone dire wolves thirty blocks apart never saw each other and the
+         * population could only ever shrink -- and nothing anywhere made an animal in season go looking. */
+        List<? extends ComplexMob> list = this.world.getEntitiesOfClass(mateClass, this.taskOwner.getBoundingBox().inflate(ConfigGamerules.mateSearchRadius.get().doubleValue()));
         list.remove(this.taskOwner);
         double d0 = Double.MAX_VALUE;
         ComplexMob entityanimal = null;

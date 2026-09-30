@@ -165,6 +165,9 @@ public class EntitySnake extends ComplexMobTerrestrial implements ISpecies, INew
     public boolean doHurtTarget(Entity entityIn) {
         float f = (float)this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
         boolean flag = entityIn.hurt(DamageSource.mobAttack(this), f);
+        if (flag) {
+            this.satiateFromKill(entityIn);
+        }
         if (flag && this.getVenomStrength() > 0) {
             if (entityIn instanceof LivingEntity) {
                 ((LivingEntity)entityIn).addEffect(new MobEffectInstance(MobEffects.POISON, 140, this.getVenomStrength() - 1));
@@ -191,6 +194,7 @@ public class EntitySnake extends ComplexMobTerrestrial implements ISpecies, INew
 
     @Override
     public void updateAttributes() {
+        this.applySpeciesSpeed();
         this.setRattler(getEntityData(this.getType()).getFlags(this.getVariant(), "rattler") == 1);
     }
 

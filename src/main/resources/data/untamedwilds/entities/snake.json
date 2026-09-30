@@ -273,5 +273,13 @@
         ]
       ]
     }
-  ]
+  ],
+  "ecology":{
+    "tags":[
+      "small_game"
+    ],
+    "diet":[
+      "small_game"
+    ]
+  }
 }

@@ -11,7 +11,9 @@ import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import untamedwilds.config.ConfigGamerules;
 import untamedwilds.entity.ComplexMob;
+import untamedwilds.entity.ComplexMobTerrestrial;
 import untamedwilds.util.EntityUtils;
 
 import java.util.EnumSet;
@@ -19,6 +21,8 @@ import java.util.Optional;
 import java.util.Random;
 
 public class MeleeAttackCircleHerd extends Goal {
+    /** Fraction of max health below which the pack stops circling its victim and closes in. */
+    private static final float CLOSE_IN_THRESHOLD = 0.35F;
     protected final ComplexMob attacker;
     protected int attackTick;
     private final double speedTowardsTarget;
@@ -56,7 +60,9 @@ public class MeleeAttackCircleHerd extends Goal {
 
     @Override
     public boolean canUse() {
-        if (this.attacker.isBaby()) {
+        // Parity with SmartMeleeAttackGoal, which this goal replaces on the pack predators: a mob that
+        // is being held asleep must not wake up swinging.
+        if (this.attacker.isBaby() || (this.attacker instanceof ComplexMobTerrestrial complex && complex.forceSleep > 0)) {
             return false;
         }
         long i = this.attacker.level.getGameTime();
@@ -101,14 +107,24 @@ public class MeleeAttackCircleHerd extends Goal {
     }
 
     public void start() {
-        this.attacker.getNavigation().moveTo(this.path, this.speedTowardsTarget);
+        this.attacker.getNavigation().moveTo(this.path, this.chaseSpeed());
         this.attacker.setAggressive(true);
         this.delayCounter = 0;
     }
 
+    /* Pursuit speed, with a burst while this is a committed hunt. Fleeing prey is faster than every
+     * predator in the mod at rest -- a deer runs 0.25*2.0 while a dire wolf chases at 0.24*1.6 -- so
+     * without a burst the gap never closes and a hunt cannot be won at all. The burst is bounded by the
+     * commitment window, so it is not a permanent speed buff. */
+    protected double chaseSpeed() {
+        return this.attacker.isCommittedTo(this.attacker.getTarget())
+                ? this.speedTowardsTarget * ConfigGamerules.predatorChaseBurst.get()
+                : this.speedTowardsTarget;
+    }
+
     public void stop() {
         LivingEntity livingentity = this.attacker.getTarget();
-        if (!TargetingConditions.forCombat().test(this.attacker, livingentity)) {
+        if (livingentity == null || !TargetingConditions.forCombat().test(this.attacker, livingentity)) {
             this.attacker.setTarget(null);
         }
         this.attacker.setAggressive(false);
@@ -120,7 +136,15 @@ public class MeleeAttackCircleHerd extends Goal {
         if (this.attacker.tickCount % 200 == 0) {
             this.offset = this.attacker.getRandom().nextInt(10);
         }
-        if (this.attacker.herd.creatureList.size() == 1 || (this.attacker.tickCount % 200 < 61 && this.attacker.getTarget().getLastHurtByMob() != this.attacker)) {
+        /* `herd` is null until the entity's aiStep gets around to calling IPackEntity.initPack, and it
+         * stays null for species whose groupCount is 1, so this cannot be dereferenced blind -- a
+         * solitary individual would NPE the moment it acquired a target. A packless animal simply
+         * takes the direct-pursuit branch, which is the correct behaviour for it anyway. */
+        /* Circling is posturing; at some point the pack has to come in. A victim this badly hurt is
+         * finishable, and orbiting it at six blocks while it bleeds and recovers is exactly the "hunts
+         * forever, never kills" behaviour this is meant to end. */
+        boolean closeIn = livingentity.getHealth() < livingentity.getMaxHealth() * CLOSE_IN_THRESHOLD;
+        if (closeIn || this.attacker.herd == null || this.attacker.herd.creatureList.size() == 1 || (this.attacker.tickCount % 200 < 61 && livingentity.getLastHurtByMob() != this.attacker)) {
             this.attacker.getLookControl().setLookAt(livingentity, 30.0F, 30.0F);
             double d0 = this.attacker.distanceToSqr(livingentity.getX(), livingentity.getBoundingBox().minY, livingentity.getZ());
             --this.delayCounter;
@@ -148,7 +172,7 @@ public class MeleeAttackCircleHerd extends Goal {
                     this.delayCounter += 5;
                 }
 
-                if (!this.attacker.getNavigation().moveTo(livingentity, this.speedTowardsTarget)) {
+                if (!this.attacker.getNavigation().moveTo(livingentity, this.chaseSpeed())) {
                     this.delayCounter += 15;
                 }
             }
@@ -184,7 +208,10 @@ public class MeleeAttackCircleHerd extends Goal {
         }
 
         this.attackTick = Math.max(this.attackTick - 1, 0);
-        this.checkAndPerformAttack(livingentity, this.attacker.distanceToSqr(this.targetX, this.targetY, this.targetZ));
+        /* Measured against the LIVE target, not the cached targetX/Y/Z. That cache is only refreshed in
+         * the direct-pursuit branch, so a circling pack member compared its own position against a
+         * position the prey had left long ago -- it could stand in biting range and never bite. */
+        this.checkAndPerformAttack(livingentity, this.attacker.distanceToSqr(livingentity.getX(), livingentity.getBoundingBox().minY, livingentity.getZ()));
     }
 
     protected void checkAndPerformAttack(LivingEntity enemy, double distToEnemySqr) {

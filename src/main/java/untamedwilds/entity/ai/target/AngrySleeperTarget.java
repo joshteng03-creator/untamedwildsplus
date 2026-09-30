@@ -6,6 +6,7 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import untamedwilds.config.ConfigGamerules;
+import untamedwilds.config.EcologyMode;
 import untamedwilds.entity.ComplexMob;
 import untamedwilds.entity.ComplexMobTerrestrial;
 import untamedwilds.entity.ISpecies;
@@ -59,7 +60,9 @@ public class AngrySleeperTarget<T extends LivingEntity> extends TargetGoal {
     }
 
     public boolean canUse() {
-        if (!ConfigGamerules.angrySleepers.get() || this.taskOwner.isBaby() || !this.taskOwner.isSleeping() || this.taskOwner.isTame() || this.taskOwner.forceSleep != 0) {
+        // Zoo mode forces angry_sleepers off: an exhibit animal woken up does not attack the visitor.
+        if (!ConfigGamerules.angrySleepers.get() || !EcologyMode.allowsBrawls(this.taskOwner)
+                || this.taskOwner.isBaby() || !this.taskOwner.isSleeping() || this.taskOwner.isTame() || this.taskOwner.forceSleep != 0) {
             return false;
         }
         List<LivingEntity> list = this.mob.level.getEntitiesOfClass(LivingEntity.class, this.mob.getBoundingBox().inflate(6.0D, 4.0D, 6.0D), (input) -> this.targetEntitySelector.test((T) input));
@@ -78,6 +81,10 @@ public class AngrySleeperTarget<T extends LivingEntity> extends TargetGoal {
     }
 
     public boolean canContinueToUse() {
+        // Break off once either side is nearly dead -- see ComplexMob.tryBreakOff().
+        if (this.mob instanceof ComplexMob fighter && ComplexMob.tryBreakOff(fighter, fighter.getTarget())) {
+            return false;
+        }
         this.runningTicks--;
         if (this.runningTicks < 1)
             return false;

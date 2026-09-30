@@ -8,9 +8,7 @@
     "hurt":"minecraft:entity.cow.hurt",
     "death":"minecraft:entity.cow.death"
   },
-  "flags":{
-
-  },
+  "flags":{},
   "species":[
     {
       "name":"african",
@@ -22,9 +20,15 @@
       "activityType":"diurnal",
       "favourite_food":"minecraft:sea_grass",
       "spawnBiomes":[
-        [ "resource|minecraft:warm_ocean" ],
-        [ "resource|minecraft:lukewarm_ocean" ],
-        [ "resource|minecraft:mangrove_swamp" ]
+        [
+          "resource|minecraft:warm_ocean"
+        ],
+        [
+          "resource|minecraft:lukewarm_ocean"
+        ],
+        [
+          "resource|minecraft:mangrove_swamp"
+        ]
       ]
     },
     {
@@ -37,7 +41,9 @@
       "activityType":"diurnal",
       "favourite_food":"minecraft:sea_grass",
       "spawnBiomes":[
-        [ "category|jungle" ]
+        [
+          "category|jungle"
+        ]
       ]
     },
     {
@@ -50,9 +56,15 @@
       "activityType":"diurnal",
       "favourite_food":"minecraft:sea_grass",
       "spawnBiomes":[
-        [ "resource|minecraft:warm_ocean" ],
-        [ "resource|minecraft:lukewarm_ocean" ],
-        [ "resource|minecraft:mangrove_swamp" ]
+        [
+          "resource|minecraft:warm_ocean"
+        ],
+        [
+          "resource|minecraft:lukewarm_ocean"
+        ],
+        [
+          "resource|minecraft:mangrove_swamp"
+        ]
       ]
     },
     {
@@ -65,7 +77,9 @@
       "activityType":"diurnal",
       "favourite_food":"minecraft:kelp",
       "spawnBiomes":[
-        [ "resource|minecraft:cold_ocean" ]
+        [
+          "resource|minecraft:cold_ocean"
+        ]
       ]
     },
     {
@@ -78,10 +92,22 @@
       "activityType":"diurnal",
       "favourite_food":"minecraft:sea_grass",
       "spawnBiomes":[
-        [ "resource|minecraft:warm_ocean" ],
-        [ "resource|minecraft:lukewarm_ocean" ],
-        [ "resource|minecraft:mangrove_swamp" ]
+        [
+          "resource|minecraft:warm_ocean"
+        ],
+        [
+          "resource|minecraft:lukewarm_ocean"
+        ],
+        [
+          "resource|minecraft:mangrove_swamp"
+        ]
       ]
     }
-  ]
+  ],
+  "ecology":{
+    "tags":[
+      "aquatic",
+      "megafauna"
+    ]
+  }
 }

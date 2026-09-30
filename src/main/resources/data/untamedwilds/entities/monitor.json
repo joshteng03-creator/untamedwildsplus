@@ -90,5 +90,13 @@
         ]
       ]
     }
-  ]
+  ],
+  "ecology":{
+    "tags":[
+      "carnivore"
+    ],
+    "diet":[
+      "small_game"
+    ]
+  }
 }

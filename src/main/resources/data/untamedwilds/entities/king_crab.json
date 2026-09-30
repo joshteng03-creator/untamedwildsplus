@@ -64,5 +64,11 @@
         ]
       ]
     }
-  ]
+  ],
+  "ecology":{
+    "tags":[
+      "aquatic",
+      "small_game"
+    ]
+  }
 }

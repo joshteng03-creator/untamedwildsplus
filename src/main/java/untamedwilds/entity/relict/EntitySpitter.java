@@ -78,8 +78,10 @@ public class EntitySpitter extends ComplexMobTerrestrial implements ISpecies, IN
         this.goalSelector.addGoal(3, new SmartAvoidGoal<>(this, LivingEntity.class, 16, 1.2D, 1.6D, input -> getEcoLevel(input) > getEcoLevel(this)));
         this.goalSelector.addGoal(4, new SmartMateGoal(this, 1D));
         this.goalSelector.addGoal(4, new GrazeGoal(this, 300) {
-            public boolean isGrazeable() {
-                return (this.entityWorld.getBlockState(this.testpos).is(Blocks.SMALL_DRIPLEAF) || this.entityWorld.getBlockState(this.testpos.below()).getBlock() == Blocks.CLAY);
+            // Overrides the position-taking form so the "walk to food" search uses the spitter's diet
+            // too, rather than sending it off toward grass it does not eat.
+            public boolean isGrazeable(BlockPos pos) {
+                return (this.entityWorld.getBlockState(pos).is(Blocks.SMALL_DRIPLEAF) || this.entityWorld.getBlockState(pos.below()).getBlock() == Blocks.CLAY);
             }
         });
         this.goalSelector.addGoal(4, new GotoSleepGoal(this, 1D));
@@ -172,7 +174,7 @@ public class EntitySpitter extends ComplexMobTerrestrial implements ISpecies, IN
 
             // Boosted Regeneration
             if (this.level.getGameTime() % 500 == 0) {
-                this.addHunger(-3);
+                this.drainHuntingHunger(3);
                 if (!this.isStarving()) {
                     this.heal(2.0F);
                 }
@@ -348,6 +350,7 @@ public class EntitySpitter extends ComplexMobTerrestrial implements ISpecies, IN
 
     @Override
     public void updateAttributes() {
+        this.applySpeciesSpeed();
         int rand = this.getRandom().nextInt(5);
         if (rand > 3 && !this.isMale()) {
             this.breed();

@@ -1,0 +1,156 @@
+{
+  "name": "tapir",
+  "breeding": "EARLY_SUMMER",
+  "growing_time": 10,
+  "offspring": 1,
+  "activityType": "nocturnal",
+  "favourite_food": "minecraft:apple",
+  "sounds": {
+    "ambient": "minecraft:entity.horse.breathe",
+    "hurt": "minecraft:entity.horse.hurt",
+    "death": "minecraft:entity.horse.death"
+  },
+  "flags": {
+    "groupCount": 2
+  },
+  "species": [
+    {
+      "name": "lowland",
+      "variant": 0,
+      "scale": 0.836,
+      "rarity": 4,
+      "attack": 5,
+      "health": 34,
+      "spawnBiomes": [
+        [
+          "category|jungle"
+        ],
+        [
+          "category|swamp"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.22
+      }
+    },
+    {
+      "name": "malayan",
+      "variant": 1,
+      "scale": 0.866,
+      "rarity": 3,
+      "attack": 5,
+      "health": 38,
+      "spawnBiomes": [
+        [
+          "category|jungle"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.22
+      }
+    },
+    {
+      "name": "bairds",
+      "variant": 2,
+      "scale": 0.882,
+      "rarity": 3,
+      "attack": 5,
+      "health": 38,
+      "spawnBiomes": [
+        [
+          "category|jungle"
+        ],
+        [
+          "category|forest"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.22
+      }
+    },
+    {
+      "name": "mountain",
+      "variant": 3,
+      "scale": 0.641,
+      "rarity": 2,
+      "attack": 4,
+      "health": 26,
+      "spawnBiomes": [
+        [
+          "category|extreme_hills"
+        ],
+        [
+          "category|forest"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.24
+      }
+    },
+    {
+      "name": "megatapirus",
+      "variant": 4,
+      "scale": 1.036,
+      "rarity": 2,
+      "attack": 7,
+      "health": 50,
+      "spawnBiomes": [
+        [
+          "category|jungle"
+        ],
+        [
+          "category|forest"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.2
+      }
+    },
+    {
+      "name": "vero_tapir",
+      "variant": 5,
+      "scale": 0.801,
+      "rarity": 2,
+      "attack": 5,
+      "health": 32,
+      "spawnBiomes": [
+        [
+          "category|forest"
+        ],
+        [
+          "category|swamp"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.22
+      }
+    },
+    {
+      "name": "palorchestes",
+      "variant": 6,
+      "scale": 1.075,
+      "rarity": 1,
+      "attack": 8,
+      "health": 54,
+      "flags": {
+        "groupCount": 1
+      },
+      "spawnBiomes": [
+        [
+          "category|forest"
+        ],
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.18
+      }
+    }
+  ],
+  "ecology": {
+    "tags": [
+      "browser"
+    ]
+  }
+}

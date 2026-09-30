@@ -14,7 +14,8 @@
     "groupCount":4,
     "hasWoollyCoat":0,
     "hasLargeTusks":0,
-    "flatBack":0
+    "flatBack":0,
+    "earSize":0
   },
   "species":[
     {
@@ -25,7 +26,7 @@
       "attack":10,
       "health":90,
       "flags":{
-        "groupCount":4,
+        "groupCount":10,
         "hasWoollyCoat":1,
         "hasLargeTusks":1
       },
@@ -36,7 +37,10 @@
         [
           "category|taiga"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.14
+      }
     },
     {
       "name":"columbian",
@@ -46,14 +50,17 @@
       "attack":11,
       "health":110,
       "flags":{
-        "groupCount":4,
+        "groupCount":10,
         "hasLargeTusks":1
       },
       "spawnBiomes":[
         [
           "category|plains"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.14
+      }
     },
     {
       "name":"steppe_mammoth",
@@ -63,7 +70,7 @@
       "attack":12,
       "health":120,
       "flags":{
-        "groupCount":3,
+        "groupCount":9,
         "hasWoollyCoat":1,
         "hasLargeTusks":1
       },
@@ -74,7 +81,10 @@
         [
           "category|extreme_hills"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.14
+      }
     },
     {
       "name":"mastodon",
@@ -84,7 +94,7 @@
       "attack":10,
       "health":95,
       "flags":{
-        "groupCount":3,
+        "groupCount":6,
         "hasLargeTusks":1,
         "flatBack":1
       },
@@ -95,7 +105,10 @@
         [
           "category|swamp"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.14
+      }
     },
     {
       "name":"straight_tusked",
@@ -105,14 +118,17 @@
       "attack":11,
       "health":105,
       "flags":{
-        "groupCount":3,
+        "groupCount":8,
         "hasLargeTusks":1
       },
       "spawnBiomes":[
         [
           "category|forest"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.14
+      }
     },
     {
       "name":"cuvieronius",
@@ -122,14 +138,17 @@
       "attack":8,
       "health":70,
       "flags":{
-        "groupCount":3,
+        "groupCount":6,
         "flatBack":1
       },
       "spawnBiomes":[
         [
           "category|jungle"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.15
+      }
     },
     {
       "name":"african_elephant",
@@ -139,13 +158,17 @@
       "attack":10,
       "health":100,
       "flags":{
-        "groupCount":4
+        "earSize":2,
+        "groupCount":10
       },
       "spawnBiomes":[
         [
           "category|savanna"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.15
+      }
     },
     {
       "name":"asian_elephant",
@@ -155,13 +178,114 @@
       "attack":9,
       "health":90,
       "flags":{
-        "groupCount":4
+        "earSize":1,
+        "groupCount":9
       },
       "spawnBiomes":[
         [
           "category|jungle"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.14
+      }
+    },
+    {
+      "name":"notiomastodon",
+      "variant":8,
+      "scale":0.95,
+      "rarity":2,
+      "attack":10,
+      "health":88,
+      "flags":{
+        "groupCount":6,
+        "hasLargeTusks":1,
+        "flatBack":1
+      },
+      "spawnBiomes":[
+        [
+          "category|savanna"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology":{
+        "speed":0.14
+      }
+    },
+    {
+      "name":"paleoloxodon_namadicus",
+      "variant":9,
+      "scale":1.45,
+      "rarity":1,
+      "attack":14,
+      "health":150,
+      "flags":{
+        "groupCount":6,
+        "hasLargeTusks":1,
+        "earSize":1
+      },
+      "spawnBiomes":[
+        [
+          "category|jungle"
+        ],
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology":{
+        "speed":0.13
+      }
+    },
+    {
+      "name":"pygmy_mammoth",
+      "variant":10,
+      "scale":0.55,
+      "rarity":2,
+      "attack":5,
+      "health":40,
+      "flags":{
+        "groupCount":8
+      },
+      "spawnBiomes":[
+        [
+          "category|forest"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology":{
+        "speed":0.18
+      }
+    },
+    {
+      "name":"cretan_dwarf",
+      "variant":11,
+      "scale":0.45,
+      "rarity":1,
+      "attack":4,
+      "health":30,
+      "flags":{
+        "groupCount":8
+      },
+      "spawnBiomes":[
+        [
+          "category|extreme_hills"
+        ],
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology":{
+        "speed":0.19
+      }
     }
-  ]
+  ],
+  "ecology":{
+    "tags":[
+      "megafauna"
+    ]
+  }
 }

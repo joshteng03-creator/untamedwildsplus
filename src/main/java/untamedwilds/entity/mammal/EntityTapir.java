@@ -1,0 +1,207 @@
+package untamedwilds.entity.mammal;
+
+import com.github.alexthe666.citadel.animation.Animation;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
+import net.minecraft.world.entity.monster.hoglin.HoglinBase;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import untamedwilds.UntamedWilds;
+import untamedwilds.config.ConfigGamerules;
+import untamedwilds.entity.*;
+import untamedwilds.entity.ai.*;
+import untamedwilds.entity.ai.target.SmartOwnerHurtTargetGoal;
+import untamedwilds.init.ModEntity;
+import untamedwilds.util.EntityUtils;
+
+import javax.annotation.Nullable;
+import untamedwilds.entity.ai.HerdFleeGoal;
+import untamedwilds.util.EcologyTags;
+import untamedwilds.entity.ai.target.DefendHerdMateTarget;
+import untamedwilds.entity.ai.target.SmartHurtByTargetGoal;
+import untamedwilds.entity.ai.RetreatWhenRoutedGoal;
+
+/**
+ * Tapir -- a forest browser, adapted from EntityMacrauchenia (the closest lean
+ * ComplexMobTerrestrial herbivore) rather than from EntityBison.
+ *
+ * Two deliberate differences from the herd herbivores it is forked from:
+ *  * Tapirs are effectively SOLITARY. tapir.json sets groupCount 1-2, which is what
+ *    ground_sloth and glyptodont already do. Note the consequence, because it is not
+ *    obvious: every IPackEntity gets a herd object even at groupCount 1, and
+ *    `predator_herd_floor` compares against herd.getMaxSize(), so a solitary species sits
+ *    at or under the floor and is protected from predation unless a predator is starving.
+ *    That is the same trade the sloth and glyptodont already make.
+ *  * Tapirs are strong swimmers that dive to feed, so SmartSwimGoal_Land is registered at
+ *    the same priority as the other terrestrial herbivores but ModelTapir's isInWater()
+ *    branch actually matters here.
+ *
+ * No synced flag is declared. ModelTapir's crest and claw toggles both read getVariant()
+ * directly -- the ModelDeer:509-524 pattern -- so nothing here needs to change to support
+ * them.
+ */
+public class EntityTapir extends ComplexMobTerrestrial implements INewSkins, ISpecies, IPackEntity, INeedsPostUpdate {
+
+    public static Animation ATTACK_THREATEN;
+    public static Animation ATTACK_GORE;
+
+    public EntityTapir(EntityType<? extends ComplexMob> type, Level worldIn) {
+        super(type, worldIn);
+        ATTACK_THREATEN = Animation.create(50);
+        ATTACK_GORE = Animation.create(14);
+        this.maxUpStep = 1F;
+        this.turn_speed = 0.2F;
+    }
+
+    public void registerGoals() {
+        this.goalSelector.addGoal(1, new SmartSwimGoal_Land(this));
+        this.goalSelector.addGoal(1, new RetreatWhenRoutedGoal(this, 1.5D));
+        // Flight before the attack goal, so a bitten animal runs rather than turning to
+        // fight -- unless it is cornered and no escape path exists.
+        this.goalSelector.addGoal(2, new HerdFleeGoal<>(this, LivingEntity.class, 20, 1.6D, 2.0D, EcologyTags::isPredator));
+        this.goalSelector.addGoal(2, new SmartMeleeAttackGoal(this, 1.6D, false));
+        this.goalSelector.addGoal(3, new SmartMateGoal(this, 0.8D));
+        this.goalSelector.addGoal(3, new GrazeGoal(this, 10));
+        /* Density dependence, expressed as MOVEMENT rather than as a cap on births: a herd that
+         * has eaten its range out, or that is standing in an overcrowded neighbourhood, shifts
+         * ground, and surplus young adults disperse to found herds elsewhere. Runs on the herd
+         * LEADER only -- SmartWanderGoal already paths every other member to within 7 blocks of
+         * it, so moving the leader moves the herd. */
+        this.goalSelector.addGoal(3, new HerdMigrationGoal(this, 1.0D));
+        this.goalSelector.addGoal(4, new GotoSleepGoal(this, 1D));
+        this.goalSelector.addGoal(5, new SmartWanderGoal(this, 1D, 120, 0, true));
+        this.goalSelector.addGoal(6, new SmartLookAtGoal(this, LivingEntity.class, 10.0F));
+        this.targetSelector.addGoal(1, new SmartHurtByTargetGoal(this));
+        this.targetSelector.addGoal(3, new DefendHerdMateTarget(this));
+    }
+
+    @Override
+    protected void reassessTameGoals() {
+        if (this.isTame()) {
+            if (UntamedWilds.DEBUG) {
+                UntamedWilds.LOGGER.info("Updating AI tasks for tamed mob");
+            }
+            this.goalSelector.addGoal(3, new SmartFollowOwnerGoal(this, 1.3D, 12.0F, 3.0F));
+            this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
+            this.targetSelector.addGoal(2, new SmartOwnerHurtTargetGoal(this));
+        }
+    }
+
+    public static AttributeSupplier.Builder registerAttributes() {
+        return LivingEntity.createLivingAttributes()
+                .add(Attributes.ATTACK_DAMAGE, 5.0D)
+                .add(Attributes.ATTACK_KNOCKBACK, 1.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.22D)
+                .add(Attributes.FOLLOW_RANGE, 14.0D)
+                .add(Attributes.MAX_HEALTH, 34.0D)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 0.5D)
+                .add(Attributes.ARMOR, 2D);
+    }
+
+    public boolean wantsToBreed() {
+        /* Forage stress -- hungry with nothing edible within reach -- is the carrying capacity signal,
+         * and it now suppresses births on its own. Animals still migrate first; they simply do not
+         * calve on ground that cannot feed a calf. Falls back to the old predicate in Zoo mode. */
+        return this.wantsToBreedAsHerbivore();
+    }
+
+    @Override
+    public void aiStep() {
+        if (!this.level.isClientSide) {
+            if (this.herd == null) {
+                IPackEntity.initPack(this);
+            }
+            else {
+                this.herd.tick();
+            }
+            if (this.level.getGameTime() % 1000 == 0) {
+                this.addHunger(-10);
+                if (!this.isStarving()) {
+                    this.heal(1.0F);
+                }
+            }
+            int i = this.random.nextInt(3000);
+            if (i == 13 && !this.isInWater() && this.getTarget() == null && this.isNotMoving() && this.canMove() && this.getAnimation() == NO_ANIMATION) {
+                this.setSitting(true);
+            }
+            if (i == 14 && this.isSitting()) {
+                this.setSitting(false);
+            }
+            this.setAngry(this.getTarget() != null);
+        }
+        else {
+            if (this.getAnimation() == ATTACK_THREATEN) {
+                this.setSprinting(this.getAnimationTick() % 18 < 6);
+            }
+        }
+        super.aiStep();
+    }
+
+    public boolean doHurtTarget(Entity entityIn) {
+        boolean flag = super.doHurtTarget(entityIn);
+        if (flag && this.getAnimation() == NO_ANIMATION && !this.isBaby()) {
+            this.setAnimation(ATTACK_GORE);
+            HoglinBase.hurtAndThrowTarget(this, (LivingEntity) entityIn);
+        }
+        return flag;
+    }
+
+    public boolean hurt(DamageSource damageSource, float amount) {
+        performRetaliation(damageSource, this.getHealth(), amount, true);
+        return super.hurt(damageSource, amount);
+    }
+
+    protected void playStepSound(BlockPos pos, BlockState blockIn) {
+        this.playSound(SoundEvents.HORSE_STEP, 0.15F, 1.0F);
+    }
+
+    @Nullable
+    public EntityTapir getBreedOffspring(ServerLevel serverWorld, AgeableMob ageable) {
+        return create_offspring(new EntityTapir(ModEntity.TAPIR.get(), this.level));
+    }
+
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
+        ItemStack itemstack = player.getItemInHand(InteractionHand.MAIN_HAND);
+        if (hand == InteractionHand.MAIN_HAND && !this.level.isClientSide()) {
+            if (!this.isTame() && this.isBaby() && EntityUtils.hasFullHealth(this) && this.isFood(itemstack)) {
+                this.playSound(SoundEvents.HORSE_EAT, 1.5F, 0.8F);
+                if (this.getRandom().nextInt(3) == 0) {
+                    this.tame(player);
+                    EntityUtils.spawnParticlesOnEntity(this.level, this, ParticleTypes.HEART, 3, 6);
+                } else {
+                    EntityUtils.spawnParticlesOnEntity(this.level, this, ParticleTypes.SMOKE, 3, 3);
+                }
+            }
+        }
+        return super.mobInteract(player, hand);
+    }
+
+    @Override
+    public Animation[] getAnimations() {
+        return new Animation[]{NO_ANIMATION, ATTACK_THREATEN, ATTACK_GORE};
+    }
+
+    public Animation getAnimationEat() { return NO_ANIMATION; }
+
+    @Override
+    public void updateAttributes() {
+        this.applySpeciesSpeed();
+        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getAttack());
+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getHealth());
+        this.setHealth(this.getMaxHealth());
+    }
+}

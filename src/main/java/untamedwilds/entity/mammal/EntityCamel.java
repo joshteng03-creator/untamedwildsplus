@@ -26,13 +26,20 @@ import untamedwilds.UntamedWilds;
 import untamedwilds.config.ConfigGamerules;
 import untamedwilds.entity.*;
 import untamedwilds.entity.ai.*;
-import untamedwilds.entity.ai.target.BeAnAssTarget;
+import untamedwilds.entity.ai.target.SpitAtPredatorTarget;
 import untamedwilds.entity.ai.target.ProtectChildrenTarget;
 import untamedwilds.entity.ai.target.SmartOwnerHurtTargetGoal;
 import untamedwilds.init.ModEntity;
 import untamedwilds.util.EntityUtils;
 
 import javax.annotation.Nullable;
+import untamedwilds.entity.ai.HerdFleeGoal;
+import untamedwilds.entity.ai.SmartAvoidGoal;
+import untamedwilds.entity.ai.MeleeAttackCircleHerd;
+import untamedwilds.util.EcologyTags;
+import untamedwilds.entity.ai.target.DefendHerdMateTarget;
+import untamedwilds.entity.ai.target.SmartHurtByTargetGoal;
+import untamedwilds.entity.ai.RetreatWhenRoutedGoal;
 
 public class EntityCamel extends ComplexMobTerrestrial implements INewSkins, ISpecies, IPackEntity {
 
@@ -53,16 +60,32 @@ public class EntityCamel extends ComplexMobTerrestrial implements INewSkins, ISp
 
     public void registerGoals() {
         this.goalSelector.addGoal(1, new SmartSwimGoal_Land(this));
+        this.goalSelector.addGoal(1, new RetreatWhenRoutedGoal(this, 1.5D));
+        // Whole-herd flight. Fires before the attack goal, so a bitten animal runs with the
+        // herd instead of turning to fight -- unless it is cornered and no escape path exists.
+        this.goalSelector.addGoal(2, new HerdFleeGoal<>(this, LivingEntity.class, 20, 1.6D, 2.0D, EcologyTags::isPredator));
         this.goalSelector.addGoal(2, new SmartMeleeAttackGoal(this, 1.6D, false));
         //this.goalSelector.addGoal(2, new RangedAttackGoal(this, 1.25D, 40, 20.0F));
         this.goalSelector.addGoal(3, new SmartMateGoal(this, 0.8D));
         this.goalSelector.addGoal(3, new GrazeGoal(this, 10));
+        /* Density dependence, expressed as MOVEMENT rather than as a cap on births: a herd that
+         * has eaten its range out, or that is standing in an overcrowded neighbourhood, shifts
+         * ground, and surplus young adults disperse to found herds elsewhere. Runs on the herd
+         * LEADER only -- SmartWanderGoal already paths every other member to within 7 blocks of
+         * it, so moving the leader moves the herd. */
+        this.goalSelector.addGoal(3, new HerdMigrationGoal(this, 1.0D));
         this.goalSelector.addGoal(4, new GotoSleepGoal(this, 1D));
         this.goalSelector.addGoal(5, new SmartWanderGoal(this, 1D, 120, 0, true));
         this.goalSelector.addGoal(6, new SmartLookAtGoal(this, LivingEntity.class, 10.0F));
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(2, new ProtectChildrenTarget<>(this, LivingEntity.class, true, input -> !(input instanceof EntityCamel) && getEcoLevel(input) > getEcoLevel(this)));
-        this.targetSelector.addGoal(3, new BeAnAssTarget<>(this, LivingEntity.class, true, input -> !(input instanceof EntityCamel) && (getEcoLevel(input) < getEcoLevel(this)/2 || input instanceof Player)));
+        this.targetSelector.addGoal(1, new SmartHurtByTargetGoal(this));
+        // Below SpitAtPredatorTarget (3), which is the camel's own signature answer to a predator.
+        this.targetSelector.addGoal(4, new DefendHerdMateTarget(this));
+        /* Spitting is DEFENCE AGAINST CARNIVORES and nothing else. The old predicate was
+         * "anything under half my eco level, plus players", which swept in every chicken, rabbit and
+         * fellow herbivore in range. EcologyTags.isPredator is Monster || carnivore tag || declares a
+         * diet -- camels carry the browser tag and declare no diet, so no herbivore, camel or
+         * otherwise, can ever be a spit target. */
+        this.targetSelector.addGoal(3, new SpitAtPredatorTarget<>(this, LivingEntity.class, true, EcologyTags::isPredator));
     }
 
     @Override
@@ -89,10 +112,10 @@ public class EntityCamel extends ComplexMobTerrestrial implements INewSkins, ISp
     }
 
     public boolean wantsToBreed() {
-        if (ConfigGamerules.naturalBreeding.get() && this.age == 0) {
-            return this.getHunger() >= 80;
-        }
-        return false;
+        /* Forage stress -- hungry with nothing edible within reach -- is the carrying capacity signal,
+         * and it now suppresses births on its own. Animals still migrate first; they simply do not
+         * calve on ground that cannot feed a calf. Falls back to the old predicate in Zoo mode. */
+        return this.wantsToBreedAsHerbivore();
     }
 
     @Override
@@ -183,7 +206,10 @@ public class EntityCamel extends ComplexMobTerrestrial implements INewSkins, ISp
     public Animation getAnimationEat() { return NO_ANIMATION; }
 
     public void performRangedAttack(LivingEntity entityIn, float p_33318_) {
-        ProjectileSpit camel_spit = new ProjectileSpit(this.level, this, new MobEffectInstance(MobEffects.CONFUSION, 200, 0));
+        /* Zero damage, deliberately. A camel spit is a warning, not an attack: it must not be able to
+         * kill anything by attrition, and -- more importantly -- it must not register as a hit at all,
+         * or the predator it was aimed at turns and fights the camel over it. See ProjectileSpit. */
+        ProjectileSpit camel_spit = new ProjectileSpit(this.level, this, new MobEffectInstance(MobEffects.CONFUSION, 200, 0), 0F);
         if (this.getAnimation() == NO_ANIMATION)
             this.setAnimation(ATTACK_SPIT);
         double d0 = entityIn.getX() - this.getX();

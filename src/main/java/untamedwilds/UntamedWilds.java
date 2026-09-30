@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import untamedwilds.block.CageBlock;
 import untamedwilds.compat.CompatBridge;
 import untamedwilds.config.ConfigBase;
+import untamedwilds.config.EcologyMode;
 import untamedwilds.init.*;
 import untamedwilds.network.UntamedInstance;
 import untamedwilds.world.UntamedWildsGenerator;
@@ -35,6 +36,10 @@ public class UntamedWilds {
         final IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, ConfigBase.common_config);
         ConfigBase.loadConfig(ConfigBase.common_config, FMLPaths.CONFIGDIR.get().resolve("untamedwilds-common.toml").toString());
+        /* Registered HERE and not in setupCommon: vanilla builds each world's GameRules instance from
+         * the static type map, so a rule added after the first world has loaded is simply absent from
+         * it. The config load above has to come first, since the rule's default is read from it. */
+        EcologyMode.register();
         eventBus.addListener(this::setupCommon);
         eventBus.addListener(this::setupClient);
         ModBlock.BLOCKS.register(eventBus);

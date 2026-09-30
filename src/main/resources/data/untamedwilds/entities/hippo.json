@@ -17,9 +17,7 @@
       "scale":1.2,
       "rarity":1,
       "skins":30,
-      "flags":{
-
-      },
+      "flags":{},
       "spawnBiomes":[
         [
           "category|savanna"
@@ -27,7 +25,15 @@
         [
           "category|swamp"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.16
+      }
     }
-  ]
+  ],
+  "ecology":{
+    "tags":[
+      "megafauna"
+    ]
+  }
 }

@@ -165,6 +165,7 @@ public class EntityTarantula extends ComplexMob implements ISpecies, INewSkins {
         float f = (float)this.getAttribute(Attributes.ATTACK_DAMAGE).getValue();
         boolean flag = entityIn.hurt(DamageSource.mobAttack(this), f);
         if (flag) {
+            this.satiateFromKill(entityIn);
             if (entityIn instanceof LivingEntity) {
                 ((LivingEntity)entityIn).addEffect(new MobEffectInstance(MobEffects.POISON, 80, 0));
             }

@@ -39,6 +39,7 @@ public class SpeciesDataHolder {
             Codec.STRING.fieldOf("breeding_season").orElse("NONE").forGetter((p_237054_0_) -> p_237054_0_.breeding_season),
             Codec.unboundedMap(Codec.STRING, SoundEvent.CODEC).fieldOf("sounds").orElse(Collections.emptyMap()).forGetter((p_237052_0_) -> p_237052_0_.sounds),
             Codec.unboundedMap(Codec.STRING, Codec.INT).fieldOf("flags").orElse(Collections.emptyMap()).forGetter((p_237054_0_) -> p_237054_0_.flags),
+            EcologyDataHolder.CODEC.fieldOf("ecology").orElse(EcologyDataHolder.EMPTY).forGetter((p_237054_0_) -> p_237054_0_.ecology),
             Codec.STRING.listOf().listOf().fieldOf("spawnBiomes").orElse(new ArrayList<>()).forGetter((p_237052_0_) -> p_237052_0_.spawnBiomes))
             .apply(p_237051_0_, SpeciesDataHolder::new));
 
@@ -57,10 +58,11 @@ public class SpeciesDataHolder {
     private final String breeding_season;
     private final Map<String, SoundEvent> sounds;
     private final Map<String, Integer> flags;
+    private final EcologyDataHolder ecology;
     private final List<List<String>> spawnBiomes;
     private final List<List<BiomeTestHolder>> spawnBiomeData;
 
-    public SpeciesDataHolder(String p_i232114_1_, int variant, float p_i232114_2_, int p_i232114_3_, float attack, float health, ComplexMobTerrestrial.ActivityType activityType, String favourite_food, int growing_time, int offspring, int skins, String breeding_season, Map<String, SoundEvent> sounds, Map<String, Integer> flags, List<List<String>> spawn_biomes) {
+    public SpeciesDataHolder(String p_i232114_1_, int variant, float p_i232114_2_, int p_i232114_3_, float attack, float health, ComplexMobTerrestrial.ActivityType activityType, String favourite_food, int growing_time, int offspring, int skins, String breeding_season, Map<String, SoundEvent> sounds, Map<String, Integer> flags, EcologyDataHolder ecology, List<List<String>> spawn_biomes) {
         this.name = p_i232114_1_;
         this.variant = variant;
         this.modelScale = p_i232114_2_;
@@ -76,6 +78,7 @@ public class SpeciesDataHolder {
         this.breeding_season = breeding_season;
         this.sounds = sounds;
         this.flags = flags;
+        this.ecology = ecology;
         this.spawnBiomes = spawn_biomes;
         this.spawnBiomeData = new ArrayList<>();
         for (List<String> sublist : this.spawnBiomes) {
@@ -124,6 +127,10 @@ public class SpeciesDataHolder {
         return this.health;
     }
 
+    public Float getSpeed() {
+        return this.ecology.getSpeed();
+    }
+
     public ComplexMobTerrestrial.ActivityType getActivityType() {
         return this.activityType;
     }
@@ -155,6 +162,14 @@ public class SpeciesDataHolder {
 
     public Map<String, Integer> getFlags() {
         return this.flags;
+    }
+
+    public List<String> getEcologyTags() {
+        return this.ecology.getTags();
+    }
+
+    public List<String> getDiet() {
+        return this.ecology.getDiet();
     }
 
     public List<List<BiomeTestHolder>> getBiomeCategories() {

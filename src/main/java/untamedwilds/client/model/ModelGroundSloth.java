@@ -93,7 +93,9 @@ public class ModelGroundSloth extends AdvancedEntityModel<EntityGroundSloth> {
 
         this.jaw = new AdvancedModelBox(this, 50, 100);
         this.jaw.setRotationPoint(0.0F, 4.5F, -5.0F);
-        this.jaw.addBox(-4.0F, -0.5F, -4.0F, 8.0F, 4.5F, 5.0F, 0.0F);
+        // Narrowed +-4.0 -> +-3.6. The jaw and the snout both had their side faces at exactly +-4.0,
+        // so the whole cheek was coplanar and shimmered right beside the eye.
+        this.jaw.addBox(-3.6F, -0.5F, -4.0F, 7.2F, 4.5F, 5.0F, 0.0F);
         this.setRotateAngle(jaw, -0.0524F, 0.0F, 0.0F);
 
         this.ear_left = new AdvancedModelBox(this, 76, 100);
@@ -132,7 +134,9 @@ public class ModelGroundSloth extends AdvancedEntityModel<EntityGroundSloth> {
         this.setRotateAngle(hand_left, -0.1222F, 0.0F, 0.0F);
 
         this.claw_left_a = new AdvancedModelBox(this, 114, 83);
-        this.claw_left_a.setRotationPoint(1.7F, -0.8F, -2.0F);
+        // Pivot stepped in/down: claw_a, _b and _c all shared a top face plane, and _a/_c shared
+        // their outer face with arm_2. Dimensions unchanged so the UV layout is untouched.
+        this.claw_left_a.setRotationPoint(1.3F, -1.2F, -1.6F);
         this.claw_left_a.addBox(-1.3F, -0.5F, -8.0F, 2.6F, 2.7F, 8.5F, 0.0F);
         this.setRotateAngle(claw_left_a, 0.2443F, 0.0F, -0.1222F);
 
@@ -142,7 +146,7 @@ public class ModelGroundSloth extends AdvancedEntityModel<EntityGroundSloth> {
         this.setRotateAngle(claw_left_b, 0.2967F, 0.0F, 0.0F);
 
         this.claw_left_c = new AdvancedModelBox(this, 162, 83);
-        this.claw_left_c.setRotationPoint(-1.7F, -0.8F, -2.0F);
+        this.claw_left_c.setRotationPoint(-1.3F, -1.2F, -1.6F);
         this.claw_left_c.addBox(-1.3F, -0.5F, -8.0F, 2.6F, 2.7F, 8.5F, 0.0F);
         this.setRotateAngle(claw_left_c, 0.2443F, 0.0F, 0.1222F);
 
@@ -162,7 +166,7 @@ public class ModelGroundSloth extends AdvancedEntityModel<EntityGroundSloth> {
         this.setRotateAngle(hand_right, -0.1222F, 0.0F, 0.0F);
 
         this.claw_right_a = new AdvancedModelBox(this, 186, 83);
-        this.claw_right_a.setRotationPoint(-1.7F, -0.8F, -2.0F);
+        this.claw_right_a.setRotationPoint(-1.3F, -1.2F, -1.6F);
         this.claw_right_a.addBox(-1.3F, -0.5F, -8.0F, 2.6F, 2.7F, 8.5F, 0.0F);
         this.setRotateAngle(claw_right_a, 0.2443F, 0.0F, 0.1222F);
 
@@ -172,7 +176,7 @@ public class ModelGroundSloth extends AdvancedEntityModel<EntityGroundSloth> {
         this.setRotateAngle(claw_right_b, 0.2967F, 0.0F, 0.0F);
 
         this.claw_right_c = new AdvancedModelBox(this, 0, 100);
-        this.claw_right_c.setRotationPoint(1.7F, -0.8F, -2.0F);
+        this.claw_right_c.setRotationPoint(1.3F, -1.2F, -1.6F);
         this.claw_right_c.addBox(-1.3F, -0.5F, -8.0F, 2.6F, 2.7F, 8.5F, 0.0F);
         this.setRotateAngle(claw_right_c, 0.2443F, 0.0F, -0.1222F);
 
@@ -183,7 +187,7 @@ public class ModelGroundSloth extends AdvancedEntityModel<EntityGroundSloth> {
 
         this.leg_left_shank = new AdvancedModelBox(this, 132, 38);
         this.leg_left_shank.setRotationPoint(0.0F, 11.0F, 0.0F);
-        this.leg_left_shank.addBox(-3.5F, -0.5F, -6.0F, 7.0F, 8.0F, 11.0F, 0.0F);
+        this.leg_left_shank.addBox(-3.5F, -1.5F, -6.0F, 7.0F, 9.0F, 11.0F, 0.0F);
         this.setRotateAngle(leg_left_shank, 0.2443F, 0.0F, 0.0F);
 
         this.foot_left = new AdvancedModelBox(this, 210, 64);
@@ -198,7 +202,7 @@ public class ModelGroundSloth extends AdvancedEntityModel<EntityGroundSloth> {
 
         this.leg_right_shank = new AdvancedModelBox(this, 168, 38);
         this.leg_right_shank.setRotationPoint(0.0F, 11.0F, 0.0F);
-        this.leg_right_shank.addBox(-3.5F, -0.5F, -6.0F, 7.0F, 8.0F, 11.0F, 0.0F);
+        this.leg_right_shank.addBox(-3.5F, -1.5F, -6.0F, 7.0F, 9.0F, 11.0F, 0.0F);
         this.setRotateAngle(leg_right_shank, 0.2443F, 0.0F, 0.0F);
 
         this.foot_right = new AdvancedModelBox(this, 0, 83);

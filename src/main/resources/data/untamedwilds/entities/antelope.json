@@ -18,12 +18,12 @@
     {
       "name": "saiga",
       "variant": 0,
-      "scale": 0.8,
+      "scale": 0.454,
       "rarity": 3,
       "attack": 3,
       "health": 18,
       "flags": {
-        "groupCount": 5,
+        "groupCount": 20,
         "hasBulbousNose": 1
       },
       "spawnBiomes": [
@@ -33,16 +33,60 @@
         [
           "category|icy"
         ]
-      ]
+      ],
+      "offspring": 1,
+      "ecology": {
+        "speed": 0.26
+      }
     },
     {
       "name": "pronghorn",
       "variant": 1,
-      "scale": 0.85,
+      "scale": 0.526,
       "rarity": 3,
       "attack": 3,
       "health": 18,
-      "flags": {},
+      "flags": {
+        "groupCount": 12
+      },
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ]
+      ],
+      "offspring": 1,
+      "ecology": {
+        "speed": 0.32
+      }
+    },
+    {
+      "name": "springbok",
+      "variant": 2,
+      "scale": 0.472,
+      "rarity": 3,
+      "attack": 3,
+      "health": 16,
+      "flags": {
+        "groupCount": 25
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ]
+      ],
+      "offspring": 1,
+      "ecology": {
+        "speed": 0.3
+      }
+    },
+    {
+      "name": "tetrameryx",
+      "variant": 3,
+      "scale": 0.5144,
+      "rarity": 3,
+      "flags": {
+        "groupCount": 10
+      },
       "spawnBiomes": [
         [
           "category|plains"
@@ -50,18 +94,88 @@
       ]
     },
     {
-      "name": "springbok",
-      "variant": 2,
-      "scale": 0.8,
+      "name": "blackbuck",
+      "variant": 4,
+      "scale": 0.4781,
       "rarity": 3,
-      "attack": 3,
-      "health": 16,
-      "flags": {},
+      "flags": {
+        "groupCount": 15
+      },
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ],
+        [
+          "category|savanna"
+        ]
+      ]
+    },
+    {
+      "name": "giant_eland",
+      "variant": 5,
+      "scale": 0.9682,
+      "rarity": 3,
+      "flags": {
+        "groupCount": 8
+      },
       "spawnBiomes": [
         [
           "category|savanna"
         ]
       ]
+    },
+    {
+      "name": "gemsbok",
+      "variant": 6,
+      "scale": 0.7262,
+      "rarity": 3,
+      "flags": {
+        "groupCount": 10
+      },
+      "spawnBiomes": [
+        [
+          "category|desert"
+        ],
+        [
+          "category|savanna"
+        ]
+      ]
+    },
+    {
+      "name": "sable",
+      "variant": 7,
+      "scale": 0.8169,
+      "rarity": 3,
+      "flags": {
+        "groupCount": 8
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|forest"
+        ]
+      ]
+    },
+    {
+      "name": "bluebuck",
+      "variant": 8,
+      "scale": 0.6354,
+      "rarity": 3,
+      "flags": {
+        "groupCount": 12
+      },
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ]
+      ]
     }
-  ]
+  ],
+  "ecology": {
+    "tags": [
+      "grazer"
+    ]
+  }
 }

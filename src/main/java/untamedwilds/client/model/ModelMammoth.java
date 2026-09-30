@@ -79,13 +79,21 @@ public class ModelMammoth extends AdvancedEntityModel<EntityMammoth> {
         this.body_hips.setRotationPoint(0.0F, -6.0F, 4.0F);
         this.body_hips.addBox(-11.5F, -5.0F, -8.0F, 23.0F, 13.0F, 17.0F, 0.0F);
 
+        // Rump depth cut 10 -> 6. At 10 the rear-bottom corner swung out to world z 22.0 -- 15 units
+        // BEHIND the hip joint (z 7.98 equivalent: leg_back pivot at z 7), i.e. more than a third of
+        // the shoulder height of overhang, which read as a shelf of butt sticking out past the hind
+        // legs. A proboscidean croup falls away steeply and short: the rear now lands at z 18.0
+        // (bottom) / 15.3 (top), ~11 behind the hip. Depth-only change, so the UV footprint SHRINKS
+        // (64x21 -> 56x17) inside its existing slot -- no repack needed, the hide art just resamples.
         this.body_rump = new AdvancedModelBox(this, 168, 116);
         this.body_rump.setRotationPoint(0.0F, -5.0F, 6.0F);
-        this.body_rump.addBox(-11.0F, -1.0F, 0.0F, 22.0F, 11.0F, 10.0F, 0.0F);
+        this.body_rump.addBox(-11.0F, -1.0F, 0.0F, 22.0F, 11.0F, 6.0F, 0.0F);
         this.setRotateAngle(body_rump, -0.2269F, 0.0F, 0.0F);
 
+        // Pivot follows the shortened rump forward (8 -> 4) so the dock still sits 2 units inboard of
+        // the new rear face instead of floating 4 units behind it.
         this.tail = new AdvancedModelBox(this, 212, 162);
-        this.tail.setRotationPoint(0.0F, 3.0F, 8.0F);
+        this.tail.setRotationPoint(0.0F, 3.0F, 4.0F);
         this.tail.addBox(-2.0F, 0.0F, -0.5F, 4.0F, 11.0F, 3.5F, 0.0F);
         this.setRotateAngle(tail, 0.2443F, 0.0F, 0.0F);
 
@@ -93,10 +101,17 @@ public class ModelMammoth extends AdvancedEntityModel<EntityMammoth> {
         this.tail_tuft.setRotationPoint(0.0F, 11.0F, 1.0F);
         this.tail_tuft.addBox(-2.75F, -0.5F, -2.25F, 5.5F, 7.0F, 5.0F, 0.0F);
 
+        // The woolly skirt was the worst offender: 14 units tall stacked at -0.2269 ON TOP of the
+        // rump's own -0.2269 meant a 26 deg total sweep, so its hem drifted 6 units rearward and the
+        // plate ended at world z 26.6 -- a fur shelf hanging 4.5 past the body itself. Pivot follows
+        // the shortened rump (8 -> 4.5, still straddling the new rear face) and the OWN tilt drops to
+        // -0.1222 (20 deg total) so the skirt hangs nearer to plumb. Rear now z 22.2, hem y 4.3 --
+        // the hem barely moves, so it still meets fur_skirt_left/right along the flanks. Height and
+        // depth are untouched, so the UV footprint is unchanged.
         this.fur_rump = new AdvancedModelBox(this, 166, 162);
-        this.fur_rump.setRotationPoint(0.0F, 6.0F, 8.0F);
+        this.fur_rump.setRotationPoint(0.0F, 6.0F, 4.5F);
         this.fur_rump.addBox(-10.0F, -2.0F, -0.5F, 20.0F, 14.0F, 3.0F, 0.0F);
-        this.setRotateAngle(fur_rump, -0.2269F, 0.0F, 0.0F);
+        this.setRotateAngle(fur_rump, -0.1222F, 0.0F, 0.0F);
 
         this.body_chest = new AdvancedModelBox(this, 102, 47);
         this.body_chest.setRotationPoint(0.0F, 0.0F, -8.0F);
@@ -110,7 +125,13 @@ public class ModelMammoth extends AdvancedEntityModel<EntityMammoth> {
 
         this.neck = new AdvancedModelBox(this, 40, 116);
         this.neck.setRotationPoint(0.0F, -3.0F, -18.0F);
-        this.neck.addBox(-9.0F, -4.0F, -7.0F, 18.0F, 14.0F, 10.0F, 0.0F);
+        // Flanks stepped in from +-9.0 to +-8.6. The neck and the head BOTH had their side faces at
+        // exactly +-9.0, so wherever they overlapped in z the two cheeks were perfectly coplanar and
+        // shimmered (22.7u2 of shared patch in scripts/zfight_sweep.py). Narrowing the neck rather
+        // than the head keeps the painted face art on the head at its original UV scale, and it also
+        // restores the eye plane's clearance from its WIDEST ancestor -- the equid bug, where an eye
+        // cleared the skull but sat inside the neck.
+        this.neck.addBox(-8.6F, -4.0F, -7.0F, 17.2F, 14.0F, 10.0F, 0.0F);
         this.setRotateAngle(neck, 0.0698F, 0.0F, 0.0F);
 
         this.head = new AdvancedModelBox(this, 80, 86);
@@ -124,14 +145,22 @@ public class ModelMammoth extends AdvancedEntityModel<EntityMammoth> {
         this.setRotateAngle(head_dome, -0.0873F, 0.0F, 0.0F);
 
         this.ear_left = new AdvancedModelBox(this, 228, 162);
-        this.ear_left.setRotationPoint(9.0F, 0.0F, -1.0F);
+        // Pivot stepped in 9.0 -> 8.25. The ear's outer face sat at world x 10.48, z-fighting both
+        // fur_neck (10.00) and the neck (9.00). Because the ear is tilted on two axes each of its
+        // faces sweeps ~0.57u of x, so the pivot has to CENTRE that sweep in the 0.70u-wide gap
+        // between the head (9.0) and fur_neck (10.0) -- nudging it to either end re-grazes one.
+        // The yaw is now ZERO rather than a token 2 degrees, because x'' = cos(yaw)*x - sin(yaw)*z
+        // means ANY yaw couples the ear's x extent to its z extent -- and z is exactly what the
+        // earSize scaling stretches. At 2 degrees the large ear's inner face swung back onto the
+        // neck's 8.6 plane. Flat, the ear sits at inner 8.29 / outer 9.39 at every ear size.
+        this.ear_left.setRotationPoint(8.49F, 0.0F, -1.0F);
         this.ear_left.addBox(-0.2F, -1.5F, -2.0F, 1.1F, 7.0F, 6.5F, 0.0F);
-        this.setRotateAngle(ear_left, 0.0F, -0.1047F, -0.0698F);
+        this.setRotateAngle(ear_left, 0.0F, 0.0F, 0.0F);
 
         this.ear_right = new AdvancedModelBox(this, 0, 182);
-        this.ear_right.setRotationPoint(-9.0F, 0.0F, -1.0F);
+        this.ear_right.setRotationPoint(-8.49F, 0.0F, -1.0F);
         this.ear_right.addBox(-0.9F, -1.5F, -2.0F, 1.1F, 7.0F, 6.5F, 0.0F);
-        this.setRotateAngle(ear_right, 0.0F, 0.1047F, 0.0698F);
+        this.setRotateAngle(ear_right, 0.0F, 0.0F, 0.0F);
 
         // Eye planes sit 0.35 units clear of the skull face (which is at |x| = 9.0). The previous model
         // left only 0.0075 units of clearance, which is far below depth-buffer precision and made the
@@ -264,7 +293,10 @@ public class ModelMammoth extends AdvancedEntityModel<EntityMammoth> {
 
         this.fur_mane = new AdvancedModelBox(this, 148, 0);
         this.fur_mane.setRotationPoint(0.0F, -8.0F, -18.0F);
-        this.fur_mane.addBox(-11.5F, -7.5F, -1.0F, 23.0F, 9.0F, 30.0F, 0.0F);
+        // Widened +-11.5 -> +-11.75. The mane and body_hips both sat at exactly +-11.5, so the
+        // shoulder cape was perfectly coplanar with the flank over 34u2 -- the single biggest
+        // shimmering patch on the woolly species. Still inboard of body_chest (12.0).
+        this.fur_mane.addBox(-11.75F, -7.5F, -1.0F, 23.5F, 9.0F, 30.0F, 0.0F);
         this.setRotateAngle(fur_mane, -0.1571F, 0.0F, 0.0F);
 
         this.fur_chest = new AdvancedModelBox(this, 132, 141);
@@ -274,7 +306,9 @@ public class ModelMammoth extends AdvancedEntityModel<EntityMammoth> {
 
         this.leg_back_left_1 = new AdvancedModelBox(this, 96, 116);
         this.leg_back_left_1.setRotationPoint(7.5F, 1.0F, 3.0F);
-        this.leg_back_left_1.addBox(-3.5F, -1.0F, -5.0F, 6.6F, 12.5F, 11.0F, 0.0F);
+        // Outer face stepped in 0.4 (world 10.6 -> 10.2) so it clears body_hump's 10.5. Width is
+        // unchanged, so the UV footprint is untouched.
+        this.leg_back_left_1.addBox(-3.9F, -1.0F, -5.0F, 6.6F, 12.5F, 11.0F, 0.0F);
         this.setRotateAngle(leg_back_left_1, -0.2094F, 0.0F, 0.0F);
 
         this.leg_back_left_2 = new AdvancedModelBox(this, 68, 141);
@@ -289,7 +323,7 @@ public class ModelMammoth extends AdvancedEntityModel<EntityMammoth> {
 
         this.leg_back_right_1 = new AdvancedModelBox(this, 132, 116);
         this.leg_back_right_1.setRotationPoint(-7.5F, 1.0F, 3.0F);
-        this.leg_back_right_1.addBox(-3.1F, -1.0F, -5.0F, 6.6F, 12.5F, 11.0F, 0.0F);
+        this.leg_back_right_1.addBox(-2.7F, -1.0F, -5.0F, 6.6F, 12.5F, 11.0F, 0.0F);
         this.setRotateAngle(leg_back_right_1, -0.2094F, 0.0F, 0.0F);
 
         this.leg_back_right_2 = new AdvancedModelBox(this, 100, 141);
@@ -467,6 +501,27 @@ public class ModelMammoth extends AdvancedEntityModel<EntityMammoth> {
         this.tusk_left_1.setScale(tuskScale, tuskScale, tuskScale);
         this.tusk_right_1.setScale(tuskScale, tuskScale, tuskScale);
 
+        // Ear size: 0 small (every extinct proboscidean), 1 medium (Elephas maximus), 2 the big fan
+        // (Loxodonta africana). X is deliberately left at 1.0 -- the ear's lateral position is solved
+        // against the head (9.0), neck (8.6) and fur_neck (10.0) face planes, and scaling it sideways
+        // would walk it straight back into one of them.
+        // The pivot also moves BACKWARD as the ear grows. setScale expands the box about its rotation
+        // point, so a bigger ear grows forward as well as back, and the eye plane's rear edge is only
+        // at head-local z = -4.5. Constraint held here: pivotZ - 2*earZ >= -4.0, i.e. the ear's
+        // leading edge stays at least 0.5u behind the eye at every size.
+        int earSize = mammoth.getEarSize();
+        float earY = earSize == 2 ? 2.2F : earSize == 1 ? 1.5F : 1.0F;
+        float earZ = earSize == 2 ? 1.9F : earSize == 1 ? 1.35F : 1.0F;
+        float earPivotZ = earSize == 2 ? 0.5F : earSize == 1 ? -0.6F : -1.0F;
+        this.ear_left.setScale(1.0F, earY, earZ);
+        this.ear_right.setScale(1.0F, earY, earZ);
+        this.ear_left.setRotationPoint(8.49F, 0.0F, earPivotZ);
+        this.ear_right.setRotationPoint(-8.49F, 0.0F, earPivotZ);
+        // Flap amplitude falls as the ear grows, so the tip travels a similar absolute distance
+        // instead of a 12-unit fan swinging as far as a 7-unit one -- which both looks wrong and
+        // sweeps the ear's outer face through the skull surface.
+        float earFlap = earSize == 2 ? 0.045F : earSize == 1 ? 0.067F : 0.10F;
+
         // Mastodon/Cuvieronius: low flat skull and a much shallower shoulder hump.
         boolean flatBack = mammoth.hasFlatBack();
         this.head_dome.setScale(1.0F, flatBack ? 0.35F : 1.0F, 1.0F);
@@ -483,8 +538,8 @@ public class ModelMammoth extends AdvancedEntityModel<EntityMammoth> {
         this.swing(trunk_2, 0.07F, 0.04F, false, 1.0F, 0F, ageInTicks, 1);
         this.swing(trunk_4, 0.07F, 0.07F, false, 2.0F, 0F, ageInTicks, 1);
         this.swing(trunk_tip, 0.07F, 0.10F, false, 3.0F, 0F, ageInTicks, 1);
-        this.flap(ear_left, 0.09F, 0.10F, true, 0F, 0F, ageInTicks, 1);
-        this.flap(ear_right, 0.09F, 0.10F, false, 0F, 0F, ageInTicks, 1);
+        this.flap(ear_left, 0.09F, earFlap, true, 0F, 0F, ageInTicks, 1);
+        this.flap(ear_right, 0.09F, earFlap, false, 0F, 0F, ageInTicks, 1);
         this.swing(tail, 0.10F, 0.16F, false, 0F, 0F, ageInTicks, 1);
         this.walk(tail_tuft, 0.10F, 0.10F, false, 1F, 0F, ageInTicks, 1);
 

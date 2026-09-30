@@ -17,30 +17,150 @@
     {
       "name": "giraffe",
       "variant": 0,
-      "scale": 1.3,
+      "scale": 1.371,
       "rarity": 4,
       "attack": 4,
       "health": 45,
-      "flags": {},
+      "flags": {
+        "groupCount": 10
+      },
       "spawnBiomes": [
         [
           "category|savanna"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.24
+      }
     },
     {
       "name": "sivatherium",
       "variant": 1,
-      "scale": 1.2,
+      "scale": 0.914,
       "rarity": 2,
       "attack": 6,
       "health": 60,
-      "flags": {},
+      "flags": {
+        "groupCount": 6
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.21
+      }
+    },
+    {
+      "name": "okapi",
+      "variant": 2,
+      "scale": 0.623,
+      "rarity": 3,
+      "attack": 2,
+      "health": 20,
+      "flags": {
+        "groupCount": 2
+      },
+      "spawnBiomes": [
+        [
+          "category|jungle"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.26
+      }
+    },
+    {
+      "name": "samotherium",
+      "variant": 3,
+      "scale": 0.789,
+      "rarity": 2,
+      "attack": 3,
+      "health": 30,
+      "flags": {
+        "groupCount": 6
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.25
+      }
+    },
+    {
+      "name": "bramatherium",
+      "variant": 4,
+      "scale": 0.748,
+      "rarity": 2,
+      "attack": 5,
+      "health": 50,
+      "flags": {
+        "groupCount": 4
+      },
       "spawnBiomes": [
         [
           "category|savanna"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.20
+      }
+    },
+    {
+      "name": "helladotherium",
+      "variant": 5,
+      "scale": 0.955,
+      "rarity": 2,
+      "attack": 4,
+      "health": 42,
+      "flags": {
+        "groupCount": 5
+      },
+      "spawnBiomes": [
+        [
+          "category|forest"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.23
+      }
+    },
+    {
+      "name": "palaeotragus",
+      "variant": 6,
+      "scale": 0.831,
+      "rarity": 2,
+      "attack": 3,
+      "health": 32,
+      "flags": {
+        "groupCount": 6
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|forest"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.25
+      }
     }
-  ]
+  ],
+  "ecology": {
+    "tags": [
+      "browser",
+      "megafauna"
+    ]
+  }
 }

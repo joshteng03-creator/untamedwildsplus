@@ -26,7 +26,14 @@
         [
           "category|savanna"
         ]
-      ]
+      ],
+      "offspring":3,
+      "ecology":{
+        "speed":0.2,
+        "diet":[
+          "small_game"
+        ]
+      }
     },
     {
       "name":"brown",
@@ -36,13 +43,17 @@
       "attack":4,
       "health":14,
       "flags":{
-        "groupCount":4
+        "groupCount":6
       },
       "spawnBiomes":[
         [
           "category|savanna"
         ]
-      ]
+      ],
+      "offspring":2,
+      "ecology":{
+        "speed":0.23
+      }
     },
     {
       "name":"spotted",
@@ -57,7 +68,7 @@
         "threat":"untamedwilds:entity.hyena.laugh"
       },
       "flags":{
-        "groupCount":8
+        "groupCount":20
       },
       "spawnBiomes":[
         [
@@ -66,7 +77,11 @@
         [
           "category|mesa"
         ]
-      ]
+      ],
+      "offspring":1,
+      "ecology":{
+        "speed":0.24
+      }
     },
     {
       "name":"striped",
@@ -76,7 +91,7 @@
       "attack":4,
       "health":16,
       "flags":{
-        "groupCount":1
+        "groupCount":2
       },
       "spawnBiomes":[
         [
@@ -85,33 +100,45 @@
         [
           "category|mesa"
         ]
-      ]
+      ],
+      "offspring":3,
+      "ecology":{
+        "speed":0.23
+      }
     },
     {
       "name":"shortface",
       "variant":4,
       "scale":1.2,
       "rarity":1,
-      "attack":5,
-      "health":24,
+      "attack":7,
+      "health":32,
       "flags":{
-        "groupCount":3
+        "groupCount":5
       },
       "spawnBiomes":[
         [
           "category|savanna"
         ]
-      ]
+      ],
+      "offspring":2,
+      "ecology":{
+        "speed":0.23,
+        "diet":[
+          "grazer",
+          "megafauna"
+        ]
+      }
     },
     {
       "name":"cave_hyena",
       "variant":5,
       "scale":1.05,
       "rarity":1,
-      "attack":5,
-      "health":22,
+      "attack":7,
+      "health":30,
       "flags":{
-        "groupCount":4
+        "groupCount":12
       },
       "spawnBiomes":[
         [
@@ -120,7 +147,24 @@
         [
           "category|extreme_hills"
         ]
-      ]
+      ],
+      "offspring":2,
+      "ecology":{
+        "speed":0.24,
+        "diet":[
+          "grazer",
+          "browser"
+        ]
+      }
     }
-  ]
+  ],
+  "ecology":{
+    "tags":[
+      "carnivore"
+    ],
+    "diet":[
+      "small_game",
+      "grazer"
+    ]
+  }
 }

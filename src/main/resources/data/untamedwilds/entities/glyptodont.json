@@ -22,7 +22,9 @@
       "rarity": 3,
       "attack": 6,
       "health": 65,
-      "flags": {},
+      "flags": {
+        "groupCount": 2
+      },
       "spawnBiomes": [
         [
           "category|savanna"
@@ -30,7 +32,10 @@
         [
           "category|plains"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.12
+      }
     },
     {
       "name": "doedicurus",
@@ -47,7 +52,37 @@
         [
           "category|savanna"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.12
+      }
+    },
+    {
+      "name": "pampatherium",
+      "variant": 2,
+      "scale": 0.85,
+      "rarity": 3,
+      "attack": 4,
+      "health": 45,
+      "flags": {
+        "groupCount": 3
+      },
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ],
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.15
+      }
     }
-  ]
+  ],
+  "ecology": {
+    "tags": [
+      "megafauna"
+    ]
+  }
 }

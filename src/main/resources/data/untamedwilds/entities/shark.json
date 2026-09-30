@@ -4,9 +4,7 @@
   "growing_time":7,
   "offspring":3,
   "favourite_food":"untamedwilds:chum",
-  "sounds":{
-
-  },
+  "sounds":{},
   "species":[
     {
       "name":"bigeye",
@@ -244,5 +242,15 @@
         ]
       ]
     }
-  ]
+  ],
+  "ecology":{
+    "tags":[
+      "carnivore",
+      "aquatic"
+    ],
+    "diet":[
+      "aquatic",
+      "small_game"
+    ]
+  }
 }

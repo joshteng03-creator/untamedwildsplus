@@ -4,11 +4,9 @@
   "growing_time":12,
   "offspring":1,
   "favourite_food":"untamedwilds:chum",
-  "sounds":{
-
-  },
-  "flags": {
-    "hasLongFins": 0
+  "sounds":{},
+  "flags":{
+    "hasLongFins":0
   },
   "species":[
     {
@@ -16,9 +14,7 @@
       "variant":0,
       "scale":1.8,
       "rarity":1,
-      "flags":{
-
-      },
+      "flags":{},
       "spawnBiomes":[
         [
           "resource|minecraft:deep_cold_ocean"
@@ -33,9 +29,7 @@
       "variant":1,
       "scale":1.6,
       "rarity":1,
-      "flags":{
-
-      },
+      "flags":{},
       "spawnBiomes":[
         [
           "resource|minecraft:deep_cold_ocean"
@@ -50,9 +44,7 @@
       "variant":2,
       "scale":1.3,
       "rarity":1,
-      "flags":{
-
-      },
+      "flags":{},
       "spawnBiomes":[
         [
           "resource|minecraft:cold_ocean"
@@ -68,7 +60,7 @@
       "scale":1.3,
       "rarity":1,
       "flags":{
-        "hasLongFins": 1
+        "hasLongFins":1
       },
       "spawnBiomes":[
         [
@@ -84,9 +76,7 @@
       "variant":4,
       "scale":1.0,
       "rarity":3,
-      "flags":{
-
-      },
+      "flags":{},
       "spawnBiomes":[
         [
           "resource|minecraft:cold_ocean"
@@ -116,9 +106,7 @@
       "variant":5,
       "scale":1.35,
       "rarity":1,
-      "flags":{
-
-      },
+      "flags":{},
       "spawnBiomes":[
         [
           "resource|minecraft:deep_cold_ocean"
@@ -128,5 +116,11 @@
         ]
       ]
     }
-  ]
+  ],
+  "ecology":{
+    "tags":[
+      "aquatic",
+      "megafauna"
+    ]
+  }
 }

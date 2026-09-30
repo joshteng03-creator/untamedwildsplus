@@ -34,8 +34,9 @@ import untamedwilds.util.EntityUtils;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import untamedwilds.entity.ai.RetreatWhenRoutedGoal;
+import untamedwilds.entity.ai.MeleeAttackCircleHerd;
 
-// TODO: Have Lions use the MeleeAttackCircleHerd goal
 public class EntityBigCat extends ComplexMobTerrestrial implements ISpecies, INewSkins, INeedsPostUpdate, IPackEntity {
 
     private static final EntityDataAccessor<Boolean> DIMORPHISM = SynchedEntityData.defineId(EntityBigCat.class, EntityDataSerializers.BOOLEAN);
@@ -50,6 +51,12 @@ public class EntityBigCat extends ComplexMobTerrestrial implements ISpecies, INe
     public static Animation IDLE_TALK;
     public static Animation IDLE_STRETCH;
     public int aggroProgress;
+    /* The victim this cat has already spent its ambush on. Deliberately not persisted: the same reasoning
+     * as huntCommitTicks, which is also transient -- a reload ends the hunt anyway, and the worst case is
+     * that one stalk gets its opening strike back. Cleared in aiStep once the hunt is over, so breaking
+     * off and stalking the same animal again re-arms it, which is what an ambush predator actually does. */
+    @Nullable
+    private LivingEntity ambushedVictim;
 
     public EntityBigCat(EntityType<? extends ComplexMob> type, Level worldIn) {
         super(type, worldIn);
@@ -67,18 +74,34 @@ public class EntityBigCat extends ComplexMobTerrestrial implements ISpecies, INe
 
     public void registerGoals() {
         this.goalSelector.addGoal(1, new SmartSwimGoal_Land(this));
+        this.goalSelector.addGoal(1, new RetreatWhenRoutedGoal(this, 1.5D));
         this.goalSelector.addGoal(2, new FindItemsGoal(this, 12, true));
-        this.goalSelector.addGoal(2, new SmartMeleeAttackGoal(this, 2.3D, false, 1, false, true));
+        /* Pack predators surround their prey instead of queueing up single-file behind it.
+         * MeleeAttackCircleHerd has been in the repo unused since the "// TODO: Have Lions use
+         * the MeleeAttackCircleHerd goal" note; combined with HuntPackMobTarget, which already
+         * gives the whole pack one shared target, this is what lets a pack actually bring down
+         * an animal much larger than any individual member. Solitary variants fall through to
+         * the goal's direct-pursuit branch, so no pack-size gate is needed here.
+         * The HuntPackMobTarget half of that pairing was missing until now: this goal was registered
+         * while the target goals below stayed on the SOLITARY HuntMobTarget/SmartHurtByTargetGoal, so a
+         * pride of eight acquired eight separate targets, each lion committed alone, and the other seven
+         * orbited at six blocks contributing nothing to the fight the first one was losing -- and nothing
+         * came when one of them was attacked. Both are now the pack versions, matching EntityHyena. */
+        this.goalSelector.addGoal(2, new MeleeAttackCircleHerd(this, 1.4D, false, 1, true));
         this.goalSelector.addGoal(3, new SmartAvoidGoal<>(this, LivingEntity.class, 16, 1.2D, 1.6D, input -> getEcoLevel(input) > getEcoLevel(this)));
         this.goalSelector.addGoal(4, new SmartMateGoal(this, 1D));
         this.goalSelector.addGoal(4, new GotoSleepGoal(this, 1D));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.25D));
         this.goalSelector.addGoal(5, new SmartWanderGoal(this, 1D, true));
+        /* Follows the herds. Once prey starts shifting range (HerdMigrationGoal), a pack that
+         * stays put simply starves on empty ground -- so this is not a flourish, it is what keeps
+         * predator and prey coupled. Runs on the pack leader only; the rest follow it. */
+        this.goalSelector.addGoal(5, new PredatorRelocateGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new SmartLookAtGoal(this, LivingEntity.class, 10.0F));
-        this.targetSelector.addGoal(1, new SmartHurtByTargetGoal(this));
+        this.targetSelector.addGoal(1, new HurtPackByTargetGoal(this).setAlertOthers(EntityBigCat.class));
         this.targetSelector.addGoal(2, new AngrySleeperTarget<>(this, LivingEntity.class, true));
         this.targetSelector.addGoal(3, new ProtectChildrenTarget<>(this, LivingEntity.class, true, input -> !(input instanceof EntityBigCat)));
-        this.targetSelector.addGoal(4, new HuntMobTarget<>(this, LivingEntity.class, true, 30, false, input -> getEcoLevel(input) < getEcoLevel(this)));
+        this.targetSelector.addGoal(4, new HuntPackMobTarget<>(this, LivingEntity.class, true, 30, false, input -> getEcoLevel(input) < getEcoLevel(this)));
     }
 
     public static AttributeSupplier.Builder registerAttributes() {
@@ -92,18 +115,23 @@ public class EntityBigCat extends ComplexMobTerrestrial implements ISpecies, INe
                 .add(Attributes.ARMOR, 0D);
     }
 
-    /* Breeding conditions for the Snow Leopard are:
-     * Cold Biome (T between -1.0 and 0.4)
-     * No other entities nearby */
+    /* The hardcoreBreeding overcrowding clause was removed -- see the note in EntityBear. It counted
+     * every nearby LivingEntity including pride-mates, so a lion with the new groupCount of 8 could
+     * never have bred. */
+    /**
+     * The classic case: a lion loses its kill to a hyena clan, or to a bear. The cat is the better
+     * hunter and the worse owner of what it has caught, which is precisely why the two coexist.
+     */
+    @Override
+    public boolean yieldsCarcassTo(ComplexMob rival) {
+        return rival instanceof EntityHyena || rival instanceof EntityBear;
+    }
+
     public boolean wantsToBreed() {
         if (super.wantsToBreed()) {
-            if (!this.isSleeping() && this.getAge() == 0 && EntityUtils.hasFullHealth(this) && this.getHunger() >= 80) {
-                if (ConfigGamerules.hardcoreBreeding.get()) {
-                    List<LivingEntity> list = this.level.getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(6.0D, 4.0D, 6.0D));
-                    return list.size() < 3;
-                }
-                return true;
-            }
+            // wantsToBreedAsPredator carries the hunger >= 80 check, plus the sustained-condition and
+            // territoriality terms that stop a single carcass triggering a birth pulse.
+            return !this.isSleeping() && this.getAge() == 0 && EntityUtils.hasHealthFraction(this, 0.6F) && this.wantsToBreedAsPredator();
         }
         return false;
     }
@@ -130,10 +158,16 @@ public class EntityBigCat extends ComplexMobTerrestrial implements ISpecies, INe
                 this.herd.tick();
             }
             if (this.level.getGameTime() % 1000 == 0) {
-                this.addHunger(-3);
+                this.drainHuntingHunger(2);
                 if (!this.isStarving()) {
-                    this.heal(2.0F);
+                    // A fed predator recovers between hunts; a hungry one does not. Regeneration used to be a flat
+                    // trickle, which combined with the old full-health breeding gate to lock predators out of breeding.
+                    this.heal(this.getHunger() >= 120 ? 6.0F : 2.0F);
                 }
+            }
+            // The stalk is over, so the next one gets a fresh opening strike.
+            if (this.ambushedVictim != null && !this.isHunting()) {
+                this.ambushedVictim = null;
             }
 
             // Random idle animations
@@ -228,9 +262,51 @@ public class EntityBigCat extends ComplexMobTerrestrial implements ISpecies, INe
         return super.mobInteract(player, hand);
     }
 
+    /**
+     * True when this blow is the opening strike of a stalk rather than a swing in an ongoing fight.
+     * <p>
+     * All four clauses matter. The commitment restricts it to hunts for food, so a cat gets no burst in a
+     * scrap over cubs. The victim check spends it once per hunt rather than once per bite -- and it cannot
+     * be replaced by {@code getLastHurtByMob}, because in a pride that field is whichever lion bit last,
+     * so every member would read every blow as its own first. The last two are the ambush itself: quarry
+     * that has already been bitten by this cat, or that is already coming for it, has not been ambushed.
+     */
+    private boolean isAmbushStrike(Entity target) {
+        if (!(target instanceof LivingEntity victim) || this.isBaby()) {
+            return false;
+        }
+        return this.isCommittedTo(victim)
+                && this.ambushedVictim != victim
+                && victim.getLastHurtByMob() != this
+                && !(victim instanceof Mob mob && mob.getTarget() == this);
+    }
+
     public boolean doHurtTarget(Entity entityIn) {
-        boolean flag = super.doHurtTarget(entityIn);
+        boolean ambush = this.isAmbushStrike(entityIn);
+        /* Summed, not multiplied: both are amounts on one MULTIPLY_TOTAL modifier, so a committed lion
+         * landing an ambush is x(1 + 1.00 + 0.75). Sabre-toothed species drive their canines into the
+         * throat of an animal they have already pinned, which is worth something only on that first blow. */
+        double bonus = this.getHuntDamageBonus(entityIn);
+        if (ambush) {
+            bonus += ConfigGamerules.bigCatAmbushMultiplier.get() - 1.0D;
+            if (this.hasSabreFangs() || this.hasShortSabres()) {
+                bonus += 0.5D;
+            }
+        }
+        this.applyAttackBonus(bonus);
+        boolean flag;
+        try {
+            flag = super.doHurtTarget(entityIn);
+        } finally {
+            this.clearAttackBonus();
+        }
         if (flag) {
+            // Spent only on a landed blow, so a strike the quarry shrugs off does not waste the stalk.
+            if (ambush && entityIn instanceof LivingEntity victim) {
+                this.ambushedVictim = victim;
+                this.playSound(SoundEvents.PLAYER_ATTACK_CRIT, 1.2F, 0.7F);
+                EntityUtils.spawnParticlesOnEntity(this.level, victim, ParticleTypes.CRIT, 4, 6);
+            }
             this.satiateFromKill(entityIn);
             if (this.getAnimation() == NO_ANIMATION && !this.isBaby()) {
                 Animation anim = chooseAttackAnimation(entityIn);
@@ -239,6 +315,20 @@ public class EntityBigCat extends ComplexMobTerrestrial implements ISpecies, INe
             }
         }
         return flag;
+    }
+
+    /**
+     * A cornered cat is famously hard to finish. The mirror of the bear's Bearserk: a wounded bear becomes
+     * more dangerous, a wounded cat becomes harder to kill.
+     * <p>
+     * Damage reduction rather than a Strength-style buff on purpose. {@code MobEffects.DAMAGE_BOOST} is
+     * attribute-backed, so it raises ATTACK_DAMAGE and with it this animal's eco level mid-fight, changing
+     * what it hunts and what runs from it. (That is a real quirk of Bearserk today, and is left alone.)
+     */
+    @Override
+    protected float getIncomingDamageFactor(DamageSource source) {
+        return this.getHealth() < this.getMaxHealth() / 2
+                ? 1F - ConfigGamerules.bigCatCorneredReduction.get().floatValue() : 1F;
     }
 
     public boolean hurt(DamageSource damageSource, float amount) {
@@ -271,6 +361,7 @@ public class EntityBigCat extends ComplexMobTerrestrial implements ISpecies, INe
 
     @Override
     public void updateAttributes() {
+        this.applySpeciesSpeed();
         this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getAttack());
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getHealth());
         this.setHealth(this.getMaxHealth());

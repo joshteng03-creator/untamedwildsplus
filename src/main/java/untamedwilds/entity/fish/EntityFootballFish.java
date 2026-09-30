@@ -1,5 +1,6 @@
 package untamedwilds.entity.fish;
 
+import net.minecraft.world.entity.Entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -132,6 +133,7 @@ public class EntityFootballFish extends ComplexMobAquatic implements ISpecies, I
 
     @Override
     public void updateAttributes() {
+        this.applySpeciesSpeed();
         // All Football Fish are female, for the purpose of the mod, males do not exist
         this.setGender(1);
         if (this.random.nextInt(3) == 0) {
@@ -151,4 +153,17 @@ public class EntityFootballFish extends ComplexMobAquatic implements ISpecies, I
         super.readAdditionalSaveData(compound);
         this.setAttachedMale(compound.getBoolean("hasMale"));
     }
+
+    /* These predators had no doHurtTarget override at all, so nothing ever restored their hunger and
+     * HuntMobTarget let them re-hunt the moment the cooldown lapsed -- one animal per cooldown,
+     * forever. Satiating on a kill is what makes the hunger gate actually bite. */
+    @Override
+    public boolean doHurtTarget(Entity entityIn) {
+        boolean flag = super.doHurtTarget(entityIn);
+        if (flag) {
+            this.satiateFromKill(entityIn);
+        }
+        return flag;
+    }
+
 }

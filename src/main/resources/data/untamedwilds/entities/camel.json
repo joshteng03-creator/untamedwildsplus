@@ -1,84 +1,287 @@
 {
-  "name":"camel",
-  "breeding":"MID_SUMMER",
-  "growing_time":13,
-  "offspring":1,
-  "sounds":{
-    "ambient":"untamedwilds:entity.camel.ambient",
-    "hurt":"untamedwilds:entity.camel.hurt",
-    "death":"untamedwilds:entity.camel.death"
+  "name": "camel",
+  "breeding": "MID_SUMMER",
+  "growing_time": 13,
+  "offspring": 1,
+  "sounds": {
+    "ambient": "untamedwilds:entity.camel.ambient",
+    "hurt": "untamedwilds:entity.camel.hurt",
+    "death": "untamedwilds:entity.camel.death"
   },
-  "flags":{
-    "groupCount":4
+  "flags": {
+    "groupCount": 4
   },
-  "species":[
+  "species": [
     {
-      "name":"bactrian",
-      "variant":0,
-      "scale":1.1,
-      "rarity":6,
-      "activityType":"diurnal",
-      "favourite_food":"minecraft:cactus",
-      "flags":{
-        "groupCount":4
+      "name": "bactrian",
+      "variant": 0,
+      "scale": 1.1,
+      "rarity": 6,
+      "activityType": "diurnal",
+      "favourite_food": "minecraft:cactus",
+      "flags": {
+        "groupCount": 12
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "dictionary|wasteland"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.18
+      }
     },
     {
-      "name":"dromedary",
-      "variant":1,
-      "scale":1.0,
-      "rarity":6,
-      "activityType":"diurnal",
-      "favourite_food":"minecraft:cactus",
+      "name": "dromedary",
+      "variant": 1,
+      "scale": 1.0,
+      "rarity": 6,
+      "activityType": "diurnal",
+      "favourite_food": "minecraft:cactus",
       "skins": 20,
-      "flags":{
-        "groupCount":4
+      "flags": {
+        "groupCount": 12
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|desert"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.2
+      }
     },
     {
-      "name":"wild_bactrian",
-      "variant":2,
-      "scale":1.0,
-      "rarity":1,
-      "activityType":"diurnal",
-      "favourite_food":"minecraft:cactus",
-      "flags":{
-        "groupCount":4
+      "name": "wild_bactrian",
+      "variant": 2,
+      "scale": 1.0,
+      "rarity": 1,
+      "activityType": "diurnal",
+      "favourite_food": "minecraft:cactus",
+      "flags": {
+        "groupCount": 10
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|desert"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.18
+      }
     },
     {
-      "name":"western",
-      "variant":3,
-      "scale":1.53,
-      "rarity":1,
-      "activityType":"diurnal",
-      "favourite_food":"untamedwilds:flora_junegrass",
-      "flags":{
-        "groupCount":4
+      "name": "western",
+      "variant": 3,
+      "scale": 1.53,
+      "rarity": 1,
+      "activityType": "diurnal",
+      "favourite_food": "untamedwilds:flora_junegrass",
+      "flags": {
+        "groupCount": 12
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|plains"
         ],
         [
           "category|mesa"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.18
+      }
+    },
+    {
+      "name": "titanotylopus",
+      "variant": 4,
+      "scale": 1.75,
+      "rarity": 2,
+      "activityType": "diurnal",
+      "favourite_food": "untamedwilds:flora_junegrass",
+      "health": 70,
+      "attack": 7,
+      "flags": {
+        "groupCount": 8
+      },
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ],
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.19
+      }
+    },
+    {
+      "name": "guanaco",
+      "variant": 5,
+      "scale": 0.67,
+      "rarity": 4,
+      "activityType": "diurnal",
+      "favourite_food": "untamedwilds:flora_junegrass",
+      "health": 22,
+      "attack": 3,
+      "flags": {
+        "groupCount": 10
+      },
+      "spawnBiomes": [
+        [
+          "category|extreme_hills"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.24
+      }
+    },
+    {
+      "name": "vicuna",
+      "variant": 6,
+      "scale": 0.55,
+      "rarity": 4,
+      "activityType": "diurnal",
+      "favourite_food": "untamedwilds:flora_junegrass",
+      "health": 16,
+      "attack": 2,
+      "flags": {
+        "groupCount": 12
+      },
+      "spawnBiomes": [
+        [
+          "category|extreme_hills"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.26
+      }
+    },
+    {
+      "name": "paleolama",
+      "variant": 7,
+      "scale": 0.73,
+      "rarity": 3,
+      "activityType": "cathemeral",
+      "favourite_food": "minecraft:cactus",
+      "health": 26,
+      "attack": 3,
+      "flags": {
+        "groupCount": 8
+      },
+      "spawnBiomes": [
+        [
+          "category|forest"
+        ],
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.22
+      }
+    },
+    {
+      "name": "camelus_knoblochi",
+      "variant": 8,
+      "scale": 1.25,
+      "rarity": 2,
+      "activityType": "diurnal",
+      "favourite_food": "minecraft:cactus",
+      "health": 50,
+      "attack": 5,
+      "flags": {
+        "groupCount": 8
+      },
+      "spawnBiomes": [
+        [
+          "category|taiga"
+        ],
+        [
+          "category|extreme_hills"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.19
+      }
+    },
+    {
+      "name": "llama",
+      "variant": 9,
+      "scale": 0.8,
+      "rarity": 4,
+      "activityType": "diurnal",
+      "favourite_food": "minecraft:cactus",
+      "health": 28,
+      "attack": 3,
+      "flags": {
+        "groupCount": 10
+      },
+      "spawnBiomes": [
+        [
+          "category|extreme_hills"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.22
+      }
+    },
+    {
+      "name": "alpaca",
+      "variant": 10,
+      "scale": 0.62,
+      "rarity": 4,
+      "activityType": "diurnal",
+      "favourite_food": "minecraft:cactus",
+      "health": 22,
+      "attack": 2,
+      "flags": {
+        "groupCount": 12
+      },
+      "spawnBiomes": [
+        [
+          "category|extreme_hills"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.22
+      }
+    },
+    {
+      "name": "hemiauchenia",
+      "variant": 11,
+      "scale": 0.95,
+      "rarity": 3,
+      "activityType": "cathemeral",
+      "favourite_food": "minecraft:cactus",
+      "health": 30,
+      "attack": 3,
+      "flags": {
+        "groupCount": 10
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.24
+      }
     }
-  ]
+  ],
+  "ecology": {
+    "tags": [
+      "browser"
+    ]
+  }
 }

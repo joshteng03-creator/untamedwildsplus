@@ -40,6 +40,13 @@ import untamedwilds.util.EntityUtils;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
+import untamedwilds.entity.ai.HerdFleeGoal;
+import untamedwilds.entity.ai.SmartAvoidGoal;
+import untamedwilds.entity.ai.MeleeAttackCircleHerd;
+import untamedwilds.util.EcologyTags;
+import untamedwilds.entity.ai.target.DefendHerdMateTarget;
+import untamedwilds.entity.ai.target.SmartHurtByTargetGoal;
+import untamedwilds.entity.ai.RetreatWhenRoutedGoal;
 
 public class EntityBison extends ComplexMobTerrestrial implements INewSkins, ISpecies, IPackEntity {
 
@@ -63,17 +70,30 @@ public class EntityBison extends ComplexMobTerrestrial implements INewSkins, ISp
 
     public void registerGoals() {
         this.goalSelector.addGoal(1, new SmartSwimGoal_Land(this));
+        this.goalSelector.addGoal(1, new RetreatWhenRoutedGoal(this, 1.5D));
+        // Backs off from carnivores when there is no calf to defend; ProtectChildrenTarget
+        // takes over when there is.
+        this.goalSelector.addGoal(2, new SmartAvoidGoal<>(this, LivingEntity.class, 12, 1.1D, 1.4D, EcologyTags::isPredator));
         this.goalSelector.addGoal(2, new RodeoGoal(this, 1.8F));
         this.goalSelector.addGoal(2, new MeleeAttackCharger(this, 1.4F, 3));
         this.goalSelector.addGoal(2, new SmartMeleeAttackGoal(this, 1.6D, false));
         this.goalSelector.addGoal(3, new SmartMateGoal(this, 0.8D));
         this.goalSelector.addGoal(3, new GrazeGoal(this, 10));
+        /* Density dependence, expressed as MOVEMENT rather than as a cap on births: a herd that
+         * has eaten its range out, or that is standing in an overcrowded neighbourhood, shifts
+         * ground, and surplus young adults disperse to found herds elsewhere. Runs on the herd
+         * LEADER only -- SmartWanderGoal already paths every other member to within 7 blocks of
+         * it, so moving the leader moves the herd. */
+        this.goalSelector.addGoal(3, new HerdMigrationGoal(this, 1.0D));
         this.goalSelector.addGoal(4, new GotoSleepGoal(this, 1D));
         this.goalSelector.addGoal(5, new BisonTerritorialityFight(this, 1.4F));
         this.goalSelector.addGoal(5, new SmartWanderGoal(this, 1D, 120, 0, true));
         this.goalSelector.addGoal(6, new SmartLookAtGoal(this, LivingEntity.class, 10.0F));
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(2, new ProtectChildrenTarget<>(this, LivingEntity.class, true, input -> !(input instanceof EntityBison) && getEcoLevel(input) > getEcoLevel(this)));
+        this.targetSelector.addGoal(1, new SmartHurtByTargetGoal(this));
+        /* Answers a herd-mate under attack, not just a calf. Below ProtectChildrenTarget so defence of
+         * young keeps first call on the scarce defender slots, which both goals share. */
+        this.targetSelector.addGoal(3, new DefendHerdMateTarget(this));
+        this.targetSelector.addGoal(2, new ProtectChildrenTarget<>(this, LivingEntity.class, true, input -> EcologyTags.isThreatTo(this, input)));
     }
 
     @Override
@@ -100,10 +120,10 @@ public class EntityBison extends ComplexMobTerrestrial implements INewSkins, ISp
     }
 
     public boolean wantsToBreed() {
-        if (ConfigGamerules.naturalBreeding.get() && this.age == 0) {
-            return this.getHunger() >= 80;
-        }
-        return false;
+        /* Forage stress -- hungry with nothing edible within reach -- is the carrying capacity signal,
+         * and it now suppresses births on its own. Animals still migrate first; they simply do not
+         * calve on ground that cannot feed a calf. Falls back to the old predicate in Zoo mode. */
+        return this.wantsToBreedAsHerbivore();
     }
 
     @Override
@@ -163,6 +183,11 @@ public class EntityBison extends ComplexMobTerrestrial implements INewSkins, ISp
 
     private Animation chooseAttackAnimation() {
         return ATTACK_GORE;
+    }
+
+    @Override
+    public Animation getChargeAnimation() {
+        return ATTACK_THREATEN;
     }
 
     @Nullable

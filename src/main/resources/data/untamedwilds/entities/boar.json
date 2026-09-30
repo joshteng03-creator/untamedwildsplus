@@ -1,98 +1,190 @@
 {
-  "name":"boar",
-  "breeding":"MID_WINTER",
-  "growing_time":4,
-  "offspring":4,
-  "activityType":"nocturnal",
-  "favourite_food":"minecraft:beetroot",
-  "sounds":{
-    "ambient":"untamedwilds:entity.boar.ambient",
-    "hurt":"untamedwilds:entity.boar.hurt",
-    "death":"untamedwilds:entity.boar.death",
-    "threat":"untamedwilds:entity.boar.squeal"
+  "name": "boar",
+  "breeding": "MID_WINTER",
+  "growing_time": 4,
+  "offspring": 5,
+  "activityType": "nocturnal",
+  "favourite_food": "minecraft:beetroot",
+  "sounds": {
+    "ambient": "untamedwilds:entity.boar.ambient",
+    "hurt": "untamedwilds:entity.boar.hurt",
+    "death": "untamedwilds:entity.boar.death",
+    "threat": "untamedwilds:entity.boar.squeal"
   },
-  "flags":{
-    "isWarthog":0
+  "flags": {
+    "isWarthog": 0
   },
-  "species":[
+  "species": [
     {
-      "name":"eurasian",
-      "variant":0,
-      "scale":1.2,
-      "rarity":1,
-      "skins":40,
-      "flags":{
-
+      "name": "eurasian",
+      "variant": 0,
+      "scale": 1.2,
+      "rarity": 1,
+      "skins": 40,
+      "flags": {
+        "groupCount": 8
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|forest"
         ],
         [
           "category|taiga"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.18
+      }
     },
     {
-      "name":"peccary",
-      "variant":1,
-      "scale":1,
-      "rarity":1,
-      "flags":{
-
+      "name": "peccary",
+      "variant": 1,
+      "scale": 1,
+      "rarity": 1,
+      "flags": {
+        "groupCount": 10
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|jungle"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.17
+      }
     },
     {
-      "name":"red_river",
-      "variant":2,
-      "scale":1,
-      "rarity":1,
-      "flags":{
-
+      "name": "red_river",
+      "variant": 2,
+      "scale": 1,
+      "rarity": 1,
+      "flags": {
+        "groupCount": 8
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|savanna"
         ],
         [
           "category|swamp"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.18
+      }
     },
     {
-      "name":"warthog",
-      "variant":3,
-      "scale":1.2,
-      "rarity":1,
-      "flags":{
-        "isWarthog": 1
+      "name": "warthog",
+      "variant": 3,
+      "scale": 1.2,
+      "rarity": 1,
+      "flags": {
+        "isWarthog": 1,
+        "groupCount": 6
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|savanna"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.21
+      }
     },
     {
-      "name":"giant_warthog",
-      "variant":4,
-      "scale":1.5,
-      "rarity":1,
-      "attack":6,
-      "health":35,
-      "flags":{
-        "isWarthog": 1
+      "name": "giant_warthog",
+      "variant": 4,
+      "scale": 1.5,
+      "rarity": 1,
+      "attack": 6,
+      "health": 35,
+      "flags": {
+        "isWarthog": 1,
+        "groupCount": 6
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|savanna"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.2
+      }
+    },
+    {
+      "name": "giant_forest_hog",
+      "variant": 5,
+      "scale": 1.35,
+      "rarity": 2,
+      "attack": 6,
+      "health": 34,
+      "flags": {
+        "isWarthog": 0,
+        "groupCount": 6
+      },
+      "spawnBiomes": [
+        [
+          "category|jungle"
+        ],
+        [
+          "category|forest"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.2
+      }
+    },
+    {
+      "name": "babirusa",
+      "variant": 6,
+      "scale": 0.85,
+      "rarity": 2,
+      "attack": 4,
+      "health": 20,
+      "flags": {
+        "isWarthog": 0,
+        "groupCount": 4
+      },
+      "spawnBiomes": [
+        [
+          "category|jungle"
+        ],
+        [
+          "category|swamp"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.2
+      }
+    },
+    {
+      "name": "kubanochoerus",
+      "variant": 7,
+      "scale": 1.45,
+      "rarity": 2,
+      "attack": 7,
+      "health": 38,
+      "flags": {
+        "isWarthog": 0,
+        "groupCount": 5
+      },
+      "spawnBiomes": [
+        [
+          "category|forest"
+        ],
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.2
+      }
     }
-  ]
+  ],
+  "ecology": {
+    "tags": [
+      "small_game",
+      "grazer"
+    ]
+  }
 }

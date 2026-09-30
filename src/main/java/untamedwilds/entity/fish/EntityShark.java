@@ -142,6 +142,9 @@ public class EntityShark extends ComplexMobAquatic implements ISpecies, IAnimate
 
     public boolean doHurtTarget(Entity entityIn) {
         boolean flag = super.doHurtTarget(entityIn);
+        if (flag) {
+            this.satiateFromKill(entityIn);
+        }
         if (flag && this.getAnimation() == NO_ANIMATION && !this.isBaby()) {
             this.setAnimation(ATTACK_THRASH);
         }
@@ -159,6 +162,7 @@ public class EntityShark extends ComplexMobAquatic implements ISpecies, IAnimate
 
     @Override
     public void updateAttributes() {
+        this.applySpeciesSpeed();
         this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getAttack());
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getHealth());
         this.setHealth(this.getMaxHealth());

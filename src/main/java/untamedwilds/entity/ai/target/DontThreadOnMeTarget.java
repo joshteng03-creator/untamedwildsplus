@@ -70,6 +70,10 @@ public class DontThreadOnMeTarget<T extends LivingEntity> extends TargetGoal {
             this.mob.setTarget(null);
             return false;
         }
+        // Being stepped on is not worth dying over, for either party -- see ComplexMob.tryBreakOff().
+        if (this.mob instanceof ComplexMob fighter && ComplexMob.tryBreakOff(fighter, fighter.getTarget())) {
+            return false;
+        }
         return super.canContinueToUse();
     }
 }

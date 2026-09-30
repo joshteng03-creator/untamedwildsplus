@@ -2,7 +2,7 @@
   "name":"opossum",
   "breeding":"AUTUMN",
   "growing_time":3,
-  "offspring":6,
+  "offspring":12,
   "activityType":"nocturnal",
   "favourite_food":"minecraft:chicken",
   "sounds":{
@@ -17,16 +17,25 @@
       "scale":0.8,
       "rarity":1,
       "growing_time":3,
-      "offspring":6,
+      "offspring":12,
       "skins":10,
-      "flags":{
-
-      },
+      "flags":{},
       "spawnBiomes":[
         [
           "category|forest"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.14
+      }
     }
-  ]
+  ],
+  "ecology":{
+    "tags":[
+      "small_game"
+    ],
+    "diet":[
+      "small_game"
+    ]
+  }
 }

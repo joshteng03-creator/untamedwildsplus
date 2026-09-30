@@ -21,10 +21,32 @@ public class HippoTerritoryTargetGoal<T extends LivingEntity> extends HuntMobTar
         };
     }
 
+    /* Chasing an intruder out of the pool is not feeding, so it must not burn the hunting cooldown
+     * and must not claim the fight-to-the-death exemption a real hunt gets. */
+    @Override
+    protected boolean isFoodHunt() {
+        return false;
+    }
+
+    /* Still cooldown-gated, though: without it a hippo re-acquires every intruder on the next tick. */
+    @Override
+    protected boolean usesHuntCooldown() {
+        return true;
+    }
+
     public boolean canUse() {
         if (mob.isBaby() || !mob.isInWater()) {
             return false;
         }
         return super.canUse();
+    }
+
+    @Override
+    public boolean canContinueToUse() {
+        // Driving an intruder out of the water is a fight, not a hunt -- see ComplexMob.tryBreakOff().
+        if (this.mob instanceof ComplexMob fighter && ComplexMob.tryBreakOff(fighter, fighter.getTarget())) {
+            return false;
+        }
+        return super.canContinueToUse();
     }
 }

@@ -21,12 +21,17 @@
       "rarity": 3,
       "attack": 4,
       "health": 32,
-      "flags": {},
+      "flags": {
+        "groupCount": 10
+      },
       "spawnBiomes": [
         [
           "category|plains"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.23
+      }
     },
     {
       "name": "hippidion",
@@ -35,7 +40,9 @@
       "rarity": 2,
       "attack": 4,
       "health": 30,
-      "flags": {},
+      "flags": {
+        "groupCount": 8
+      },
       "spawnBiomes": [
         [
           "category|plains"
@@ -43,7 +50,10 @@
         [
           "category|forest"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.21
+      }
     },
     {
       "name": "tarpan",
@@ -52,12 +62,151 @@
       "rarity": 3,
       "attack": 4,
       "health": 28,
-      "flags": {},
+      "flags": {
+        "groupCount": 10
+      },
       "spawnBiomes": [
         [
           "category|plains"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.24
+      }
+    },
+    {
+      "name": "grevys_zebra",
+      "variant": 3,
+      "scale": 0.84,
+      "rarity": 3,
+      "attack": 4,
+      "health": 32,
+      "flags": {
+        "groupCount": 12
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.28
+      }
+    },
+    {
+      "name": "quagga",
+      "variant": 4,
+      "scale": 0.75,
+      "rarity": 2,
+      "attack": 4,
+      "health": 28,
+      "flags": {
+        "groupCount": 14
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.27
+      }
+    },
+    {
+      "name": "przewalskis_horse",
+      "variant": 5,
+      "scale": 0.72,
+      "rarity": 3,
+      "attack": 4,
+      "health": 28,
+      "flags": {
+        "groupCount": 10
+      },
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ],
+        [
+          "category|extreme_hills"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.25
+      }
+    },
+    {
+      "name": "equus_namadicus",
+      "variant": 6,
+      "scale": 0.89,
+      "rarity": 2,
+      "attack": 5,
+      "health": 34,
+      "flags": {
+        "groupCount": 8
+      },
+      "spawnBiomes": [
+        [
+          "category|jungle"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.25
+      }
+    },
+    {
+      "name": "onager",
+      "variant": 7,
+      "scale": 0.67,
+      "rarity": 3,
+      "attack": 3,
+      "health": 24,
+      "flags": {
+        "groupCount": 10
+      },
+      "spawnBiomes": [
+        [
+          "category|desert"
+        ],
+        [
+          "category|mesa"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.29
+      }
+    },
+    {
+      "name": "european_wild_ass",
+      "variant": 8,
+      "scale": 0.61,
+      "rarity": 2,
+      "attack": 3,
+      "health": 22,
+      "flags": {
+        "groupCount": 8
+      },
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ],
+        [
+          "category|extreme_hills"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.29
+      }
     }
-  ]
+  ],
+  "ecology": {
+    "tags": [
+      "grazer"
+    ]
+  }
 }

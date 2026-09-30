@@ -274,6 +274,16 @@ public abstract class EntityUtils {
         return entityIn.getHealth() >= entityIn.getMaxHealth();
     }
 
+    /* Predator breeding used to require hasFullHealth(), which sounds reasonable and is in practice a
+     * near-permanent lockout: a predator regenerates a couple of hearts per 1000 ticks, so any animal
+     * that had ever been in a fight -- which is every animal that eats -- sat below max health more or
+     * less forever and never entered the breeding check. Herbivores had no equivalent clause and graze
+     * back to full in seconds, so predator populations shrank while their prey grew. A fraction lets a
+     * scarred predator still reproduce while a badly wounded one still cannot. */
+    public static boolean hasHealthFraction(LivingEntity entityIn, float fraction) {
+        return entityIn.getHealth() >= entityIn.getMaxHealth() * fraction;
+    }
+
     // Pulls all resources with the given name from the provided ResourceLocation
     public static Pair<Integer, Integer> buildSkinArrays(String name, String species, EntityDataHolder dataIn, int variant, HashMap<String, HashMap<Integer, ArrayList<ResourceLocation>>> common_list, HashMap<String, HashMap<Integer, ArrayList<ResourceLocation>>> rare_list) {
         return buildSkinArrays(name, species, dataIn.getSkins(variant), variant, common_list, rare_list);

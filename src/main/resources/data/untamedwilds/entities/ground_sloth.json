@@ -21,7 +21,9 @@
       "rarity": 2,
       "attack": 9,
       "health": 95,
-      "flags": {},
+      "flags": {
+        "groupCount": 1
+      },
       "spawnBiomes": [
         [
           "category|jungle"
@@ -29,7 +31,10 @@
         [
           "category|forest"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.12
+      }
     },
     {
       "name": "eremotherium",
@@ -38,12 +43,17 @@
       "rarity": 2,
       "attack": 9,
       "health": 90,
-      "flags": {},
+      "flags": {
+        "groupCount": 1
+      },
       "spawnBiomes": [
         [
           "category|jungle"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.12
+      }
     },
     {
       "name": "megalonyx",
@@ -52,12 +62,44 @@
       "rarity": 3,
       "attack": 7,
       "health": 65,
-      "flags": {},
+      "flags": {
+        "groupCount": 1
+      },
       "spawnBiomes": [
         [
           "category|forest"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.13
+      }
+    },
+    {
+      "name": "megalocnus",
+      "variant": 3,
+      "scale": 0.7,
+      "rarity": 3,
+      "attack": 4,
+      "health": 40,
+      "flags": {
+        "groupCount": 2
+      },
+      "spawnBiomes": [
+        [
+          "category|jungle"
+        ],
+        [
+          "category|forest"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.16
+      }
     }
-  ]
+  ],
+  "ecology": {
+    "tags": [
+      "megafauna"
+    ]
+  }
 }

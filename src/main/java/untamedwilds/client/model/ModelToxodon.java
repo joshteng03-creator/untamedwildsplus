@@ -9,132 +9,232 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.util.Mth;
 import untamedwilds.entity.mammal.EntityToxodon;
 
+/**
+ * Full Blockbench rebuild -- 34 boxes on 256x128, replacing the 19-box / 128x128 rig that
+ * was forked off ModelBison. The old one had SINGLE-SEGMENT legs and, by its own comment,
+ * sit/sleep fold angles inherited from that fork and never re-derived. None of it survives.
+ *
+ * Sculpted from scripts/toxodon_spec.py, which carries the spec, the forward-kinematics
+ * checker, the z-fight sweep, the UV shelf pack and the phase-7 pose solver. Box coords +
+ * texOffs are transcribed VERBATIM from the modded_entity export (the Y-down flip is the
+ * export's, never re-derived); scripts/gen_model_toxodon.py does the transcription.
+ *
+ * Notoungulate anatomy the numbers are expressing: high withers over a deep chest with the
+ * topline sloping DOWN to a low rump (withers 27.6u vs rump 21.7u in authoring space), a
+ * big head carried LOW on a short thick neck, four-segment legs on broad three-toed feet
+ * with the belly at ~36% of shoulder height, small high-set ears, high orbits, a heavy
+ * mandible, and the diagnostic procumbent chisel incisor battery.
+ *
+ * toxodon.json declares NO model flags AND both species share one mesh -- Mixotoxodon
+ * differs from Toxodon only in size, which getMobSize() already applies from the JSON
+ * `scale`. So there is deliberately no getVariant() switch in here: adding one would be
+ * dead code. Scales are calibrated 1 block = 1 metre at the shoulder (0.870 = 1.50 m,
+ * 1.014 = 1.75 m), so Toxodon matches the registered 1.7x1.5 hitbox exactly.
+ */
 public class ModelToxodon extends AdvancedEntityModel<EntityToxodon> {
 
-    private final AdvancedModelBox body_main;
-    private final AdvancedModelBox body_torso;
+    private final AdvancedModelBox body_barrel;
+    private final AdvancedModelBox body_withers;
+    private final AdvancedModelBox body_chest;
     private final AdvancedModelBox neck;
-    private final AdvancedModelBox head_main;
-    private final AdvancedModelBox muzzle;
+    private final AdvancedModelBox head_skull;
+    private final AdvancedModelBox head_muzzle;
+    private final AdvancedModelBox incisor_lower;
+    private final AdvancedModelBox incisor_upper;
+    private final AdvancedModelBox head_jaw;
+    private final AdvancedModelBox head_brow;
     private final AdvancedModelBox ear_left;
     private final AdvancedModelBox ear_right;
     private final AdvancedModelBox eye_left;
     private final AdvancedModelBox eye_right;
-    private final AdvancedModelBox incisors;
-    private final AdvancedModelBox leg_front_left;
-    private final AdvancedModelBox foot_front_left;
-    private final AdvancedModelBox leg_front_right;
-    private final AdvancedModelBox foot_front_right;
-    private final AdvancedModelBox leg_back_left;
-    private final AdvancedModelBox foot_back_left;
-    private final AdvancedModelBox leg_back_right;
-    private final AdvancedModelBox foot_back_right;
-    private final AdvancedModelBox tail;
+    private final AdvancedModelBox throat;
+    private final AdvancedModelBox fore_left_shoulder;
+    private final AdvancedModelBox fore_left_forearm;
+    private final AdvancedModelBox fore_left_cannon;
+    private final AdvancedModelBox fore_left_foot;
+    private final AdvancedModelBox fore_right_shoulder;
+    private final AdvancedModelBox fore_right_forearm;
+    private final AdvancedModelBox fore_right_cannon;
+    private final AdvancedModelBox fore_right_foot;
+    private final AdvancedModelBox body_croup;
+    private final AdvancedModelBox tail_dock;
+    private final AdvancedModelBox tail_tip;
+    private final AdvancedModelBox hind_left_thigh;
+    private final AdvancedModelBox hind_left_gaskin;
+    private final AdvancedModelBox hind_left_cannon;
+    private final AdvancedModelBox hind_left_foot;
+    private final AdvancedModelBox hind_right_thigh;
+    private final AdvancedModelBox hind_right_gaskin;
+    private final AdvancedModelBox hind_right_cannon;
+    private final AdvancedModelBox hind_right_foot;
 
     private final ModelAnimator animator;
 
     public ModelToxodon() {
-        this.texWidth = 128;
+        this.texWidth = 256;
         this.texHeight = 128;
 
-        // Sculpted fresh in Blockbench: low-slung barrel-bodied notoungulate (bulky deep chest tapering to
-        // a lower rear, short sturdy legs with broad feet), an elongated head with a high skull sloping to
-        // a broad low muzzle, small high-set ears + eyes, and the diagnostic chisel incisors. Box coords +
-        // texOffs transcribed VERBATIM from the modded_entity export (128x128, Y-down flip handled by it).
-        this.body_main = new AdvancedModelBox(this, 0, 0);
-        this.body_main.setRotationPoint(0.0F, 14.0F, 8.0F);
-        this.body_main.addBox(-7.0F, -13.0F, -7.0F, 14.0F, 13.0F, 19.0F, 0.0F);
+        this.body_barrel = new AdvancedModelBox(this, 0, 0);
+        this.body_barrel.setRotationPoint(0.0F, 4.0F, 5.0F);
+        this.body_barrel.addBox(-9.0F, -6.0F, -10.0F, 18.0F, 13.5000F, 22.0F, 0.0F);
+        this.body_withers = new AdvancedModelBox(this, 144, 0);
+        this.body_withers.setRotationPoint(0.0F, 0.0F, -6.0F);
+        this.body_withers.addBox(-7.9000F, -7.6000F, -9.0F, 15.8000F, 12.6000F, 15.0F, 0.0F);
+        this.body_chest = new AdvancedModelBox(this, 80, 0);
+        this.body_chest.setRotationPoint(0.0F, -1.0F, -10.0F);
+        this.body_chest.addBox(-7.4000F, -3.2000F, -9.0F, 14.8000F, 13.4000F, 17.0F, 0.0F);
+        this.setRotateAngle(body_chest, 0.1047F, 0.0F, 0.0F);
+        this.neck = new AdvancedModelBox(this, 31, 62);
+        this.neck.setRotationPoint(0.0F, -1.5000F, -6.0F);
+        this.neck.addBox(-5.2000F, -4.4000F, -4.5000F, 10.4000F, 9.4000F, 6.1000F, 0.0F);
+        this.setRotateAngle(neck, 0.1047F, 0.0F, 0.0F);
+        this.head_skull = new AdvancedModelBox(this, 176, 36);
+        this.head_skull.setRotationPoint(0.0F, 0.0F, -4.5000F);
+        this.head_skull.addBox(-5.0F, -3.6000F, -6.5000F, 10.0F, 8.0F, 8.1000F, 0.0F);
+        this.setRotateAngle(head_skull, 0.1396F, 0.0F, 0.0F);
+        this.head_muzzle = new AdvancedModelBox(this, 158, 62);
+        this.head_muzzle.setRotationPoint(0.0F, 0.0F, -6.5000F);
+        this.head_muzzle.addBox(-4.2000F, -3.0F, -4.5000F, 8.4000F, 6.4000F, 6.1000F, 0.0F);
+        this.setRotateAngle(head_muzzle, 0.1047F, 0.0F, 0.0F);
+        this.incisor_lower = new AdvancedModelBox(this, 208, 79);
+        this.incisor_lower.setRotationPoint(0.0F, 2.0F, -4.0F);
+        this.incisor_lower.addBox(-2.8000F, -0.9000F, -3.0F, 5.6000F, 1.8000F, 3.5000F, 0.0F);
+        this.incisor_upper = new AdvancedModelBox(this, 239, 79);
+        this.incisor_upper.setRotationPoint(0.0F, 0.0F, -4.0F);
+        this.incisor_upper.addBox(-2.4000F, -0.7000F, -2.5000F, 4.8000F, 1.4000F, 3.0F, 0.0F);
+        this.head_jaw = new AdvancedModelBox(this, 134, 36);
+        this.head_jaw.setRotationPoint(0.0F, 4.5000F, -3.5000F);
+        this.head_jaw.addBox(-4.6000F, -2.0F, -5.5000F, 9.2000F, 5.5000F, 11.5000F, 0.0F);
+        this.head_brow = new AdvancedModelBox(this, 0, 79);
+        this.head_brow.setRotationPoint(0.0F, -2.9000F, -3.0F);
+        this.head_brow.addBox(-3.8000F, -1.4000F, -4.0F, 7.6000F, 2.8000F, 8.0F, 0.0F);
+        this.ear_left = new AdvancedModelBox(this, 0, 90);
+        this.ear_left.setRotationPoint(3.2000F, -3.1000F, 0.5000F);
+        this.ear_left.addBox(0.0F, -0.8000F, -1.2000F, 3.6000F, 1.4000F, 2.8000F, 0.0F);
+        this.setRotateAngle(ear_left, -0.1745F, -0.3491F, -0.7854F);
+        this.ear_right = new AdvancedModelBox(this, 13, 90);
+        this.ear_right.setRotationPoint(-3.2000F, -3.1000F, 0.5000F);
+        this.ear_right.addBox(-3.6000F, -0.8000F, -1.2000F, 3.6000F, 1.4000F, 2.8000F, 0.0F);
+        this.setRotateAngle(ear_right, -0.1745F, 0.3491F, 0.7854F);
+        this.eye_left = new AdvancedModelBox(this, 227, 79);
+        this.eye_left.setRotationPoint(5.4000F, -1.5000F, -4.0F);
+        this.eye_left.addBox(0.0F, -1.5000F, -1.5000F, 0.0F, 3.0F, 3.0F, 0.0F);
+        this.eye_right = new AdvancedModelBox(this, 233, 79);
+        this.eye_right.setRotationPoint(-5.4000F, -1.5000F, -4.0F);
+        this.eye_right.addBox(0.0F, -1.5000F, -1.5000F, 0.0F, 3.0F, 3.0F, 0.0F);
+        this.throat = new AdvancedModelBox(this, 188, 62);
+        this.throat.setRotationPoint(0.0F, 3.0F, -2.0F);
+        this.throat.addBox(-5.6000F, 0.0F, -4.0F, 11.2000F, 4.5000F, 7.0F, 0.0F);
+        this.fore_left_shoulder = new AdvancedModelBox(this, 213, 36);
+        this.fore_left_shoulder.setRotationPoint(6.0F, 2.2949F, 0.0F);
+        this.fore_left_shoulder.addBox(-3.6000F, -1.8000F, -4.5000F, 7.2000F, 8.3000F, 8.0F, 0.0F);
+        this.setRotateAngle(fore_left_shoulder, -0.2094F, 0.0F, 0.0F);
+        this.fore_left_forearm = new AdvancedModelBox(this, 112, 62);
+        this.fore_left_forearm.setRotationPoint(-0.4000F, 6.5000F, 0.0F);
+        this.fore_left_forearm.addBox(-2.6000F, -2.0F, -3.2000F, 5.2000F, 7.5000F, 6.0F, 0.0F);
+        this.setRotateAngle(fore_left_forearm, 0.2269F, 0.0F, 0.0F);
+        this.fore_left_cannon = new AdvancedModelBox(this, 166, 79);
+        this.fore_left_cannon.setRotationPoint(-0.2000F, 5.5000F, 0.0F);
+        this.fore_left_cannon.addBox(-1.6000F, -1.2000F, -2.4000F, 3.2000F, 5.4000F, 4.6000F, 0.0F);
+        this.setRotateAngle(fore_left_cannon, -0.1745F, 0.0F, 0.0F);
+        this.fore_left_foot = new AdvancedModelBox(this, 84, 79);
+        this.fore_left_foot.setRotationPoint(0.1000F, 4.2000F, 0.0F);
+        this.fore_left_foot.addBox(-2.9000F, -0.8000F, -4.2000F, 5.8000F, 3.4000F, 6.2000F, 0.0F);
+        this.setRotateAngle(fore_left_foot, 0.0524F, 0.0F, 0.0F);
+        this.fore_right_shoulder = new AdvancedModelBox(this, 0, 62);
+        this.fore_right_shoulder.setRotationPoint(-6.0F, 2.2949F, 0.0F);
+        this.fore_right_shoulder.addBox(-3.6000F, -1.8000F, -4.5000F, 7.2000F, 8.3000F, 8.0F, 0.0F);
+        this.setRotateAngle(fore_right_shoulder, -0.2094F, 0.0F, 0.0F);
+        this.fore_right_forearm = new AdvancedModelBox(this, 135, 62);
+        this.fore_right_forearm.setRotationPoint(0.4000F, 6.5000F, 0.0F);
+        this.fore_right_forearm.addBox(-2.6000F, -2.0F, -3.2000F, 5.2000F, 7.5000F, 6.0F, 0.0F);
+        this.setRotateAngle(fore_right_forearm, 0.2269F, 0.0F, 0.0F);
+        this.fore_right_cannon = new AdvancedModelBox(this, 182, 79);
+        this.fore_right_cannon.setRotationPoint(0.2000F, 5.5000F, 0.0F);
+        this.fore_right_cannon.addBox(-1.6000F, -1.2000F, -2.4000F, 3.2000F, 5.4000F, 4.6000F, 0.0F);
+        this.setRotateAngle(fore_right_cannon, -0.1745F, 0.0F, 0.0F);
+        this.fore_right_foot = new AdvancedModelBox(this, 108, 79);
+        this.fore_right_foot.setRotationPoint(-0.1000F, 4.2000F, 0.0F);
+        this.fore_right_foot.addBox(-2.9000F, -0.8000F, -4.2000F, 5.8000F, 3.4000F, 6.2000F, 0.0F);
+        this.setRotateAngle(fore_right_foot, 0.0524F, 0.0F, 0.0F);
+        this.body_croup = new AdvancedModelBox(this, 0, 36);
+        this.body_croup.setRotationPoint(0.0F, -2.0F, 7.0F);
+        this.body_croup.addBox(-8.4000F, -2.0F, -6.0F, 16.8000F, 10.0F, 16.0F, 0.0F);
+        this.setRotateAngle(body_croup, -0.2269F, 0.0F, 0.0F);
+        this.tail_dock = new AdvancedModelBox(this, 225, 62);
+        this.tail_dock.setRotationPoint(0.0F, -0.5000F, 9.0F);
+        this.tail_dock.addBox(-1.4000F, -1.0F, -0.8000F, 2.8000F, 8.0F, 3.6000F, 0.0F);
+        this.setRotateAngle(tail_dock, 0.4363F, 0.0F, 0.0F);
+        this.tail_tip = new AdvancedModelBox(this, 198, 79);
+        this.tail_tip.setRotationPoint(0.0F, 6.5000F, 1.5000F);
+        this.tail_tip.addBox(-1.0F, -0.6000F, -0.9000F, 2.0F, 5.6000F, 2.8000F, 0.0F);
+        this.setRotateAngle(tail_tip, 0.2618F, 0.0F, 0.0F);
+        this.hind_left_thigh = new AdvancedModelBox(this, 66, 36);
+        this.hind_left_thigh.setRotationPoint(5.7000F, 3.1008F, 4.0F);
+        this.hind_left_thigh.addBox(-3.9000F, -2.0F, -5.0F, 7.8000F, 8.8000F, 9.2000F, 0.0F);
+        this.setRotateAngle(hind_left_thigh, -0.1920F, 0.0F, 0.0F);
+        this.hind_left_gaskin = new AdvancedModelBox(this, 64, 62);
+        this.hind_left_gaskin.setRotationPoint(-0.5000F, 6.8000F, 0.0F);
+        this.hind_left_gaskin.addBox(-2.6000F, -1.6000F, -3.4000F, 5.2000F, 8.0F, 6.4000F, 0.0F);
+        this.setRotateAngle(hind_left_gaskin, 0.9774F, 0.0F, 0.0F);
+        this.hind_left_cannon = new AdvancedModelBox(this, 132, 79);
+        this.hind_left_cannon.setRotationPoint(0.0F, 6.4000F, 0.0F);
+        this.hind_left_cannon.addBox(-1.8000F, -1.2000F, -2.4000F, 3.6000F, 5.2000F, 4.6000F, 0.0F);
+        this.setRotateAngle(hind_left_cannon, -0.7330F, 0.0F, 0.0F);
+        this.hind_left_foot = new AdvancedModelBox(this, 32, 79);
+        this.hind_left_foot.setRotationPoint(0.3000F, 4.0F, 0.0F);
+        this.hind_left_foot.addBox(-3.3000F, -0.8000F, -4.0F, 6.6000F, 3.3000F, 6.2000F, 0.0F);
+        this.setRotateAngle(hind_left_foot, 0.1745F, 0.0F, 0.0F);
+        this.hind_right_thigh = new AdvancedModelBox(this, 100, 36);
+        this.hind_right_thigh.setRotationPoint(-5.7000F, 3.1008F, 4.0F);
+        this.hind_right_thigh.addBox(-3.9000F, -2.0F, -5.0F, 7.8000F, 8.8000F, 9.2000F, 0.0F);
+        this.setRotateAngle(hind_right_thigh, -0.1920F, 0.0F, 0.0F);
+        this.hind_right_gaskin = new AdvancedModelBox(this, 88, 62);
+        this.hind_right_gaskin.setRotationPoint(0.5000F, 6.8000F, 0.0F);
+        this.hind_right_gaskin.addBox(-2.6000F, -1.6000F, -3.4000F, 5.2000F, 8.0F, 6.4000F, 0.0F);
+        this.setRotateAngle(hind_right_gaskin, 0.9774F, 0.0F, 0.0F);
+        this.hind_right_cannon = new AdvancedModelBox(this, 149, 79);
+        this.hind_right_cannon.setRotationPoint(0.0F, 6.4000F, 0.0F);
+        this.hind_right_cannon.addBox(-1.8000F, -1.2000F, -2.4000F, 3.6000F, 5.2000F, 4.6000F, 0.0F);
+        this.setRotateAngle(hind_right_cannon, -0.7330F, 0.0F, 0.0F);
+        this.hind_right_foot = new AdvancedModelBox(this, 58, 79);
+        this.hind_right_foot.setRotationPoint(-0.3000F, 4.0F, 0.0F);
+        this.hind_right_foot.addBox(-3.3000F, -0.8000F, -4.0F, 6.6000F, 3.3000F, 6.2000F, 0.0F);
+        this.setRotateAngle(hind_right_foot, 0.1745F, 0.0F, 0.0F);
 
-        this.body_torso = new AdvancedModelBox(this, 67, 0);
-        this.body_torso.setRotationPoint(0.0F, 1.0F, -14.0F);
-        this.body_torso.addBox(-8.0F, -16.0F, -7.0F, 16.0F, 16.0F, 14.0F, 0.0F);
-
-        this.neck = new AdvancedModelBox(this, 93, 72);
-        this.neck.setRotationPoint(0.0F, -9.0F, -7.0F);
-        this.neck.addBox(-5.0F, -7.0F, -3.0F, 10.0F, 7.0F, 4.0F, 0.0F);
-
-        this.head_main = new AdvancedModelBox(this, 0, 33);
-        this.head_main.setRotationPoint(0.0F, 0.0F, -3.0F);
-        this.head_main.addBox(-5.0F, -6.0F, -6.0F, 10.0F, 9.5F, 10.0F, 0.0F);
-
-        this.muzzle = new AdvancedModelBox(this, 41, 33);
-        this.muzzle.setRotationPoint(0.0F, 2.0F, -6.0F);
-        this.muzzle.addBox(-5.5F, -4.5F, -9.0F, 11.0F, 8.0F, 9.0F, 0.0F);
-
-        this.ear_left = new AdvancedModelBox(this, 0, 84);
-        this.ear_left.setRotationPoint(3.5F, -6.0F, 1.5F);
-        this.ear_left.addBox(-1.5F, -3.0F, -1.5F, 3.0F, 3.0F, 3.0F, 0.0F);
-
-        this.ear_right = new AdvancedModelBox(this, 13, 84);
-        this.ear_right.setRotationPoint(-3.5F, -6.0F, 1.5F);
-        this.ear_right.addBox(-1.5F, -3.0F, -1.5F, 3.0F, 3.0F, 3.0F, 0.0F);
-
-        this.eye_left = new AdvancedModelBox(this, 26, 84);
-        this.eye_left.setRotationPoint(5.05F, -1.75F, -3.75F);
-        this.eye_left.addBox(0.0F, -1.25F, -1.25F, 0.0F, 2.5F, 2.5F, 0.0F);
-
-        this.eye_right = new AdvancedModelBox(this, 33, 84);
-        this.eye_right.setRotationPoint(-5.05F, -1.75F, -3.75F);
-        this.eye_right.addBox(0.0F, -1.25F, -1.25F, 0.0F, 2.5F, 2.5F, 0.0F);
-
-        this.incisors = new AdvancedModelBox(this, 40, 84);
-        this.incisors.setRotationPoint(0.0F, 5.0F, -15.0F);
-        this.incisors.addBox(-3.0F, -1.5F, -1.0F, 6.0F, 3.0F, 2.0F, 0.0F);
-
-        this.leg_front_left = new AdvancedModelBox(this, 82, 33);
-        this.leg_front_left.setRotationPoint(4.5F, -0.5F, -17.0F);
-        this.leg_front_left.addBox(-3.0F, 0.0F, -3.0F, 6.0F, 10.5F, 6.0F, 0.0F);
-
-        this.foot_front_left = new AdvancedModelBox(this, 92, 54);
-        this.foot_front_left.setRotationPoint(0.0F, 8.0F, 0.0F);
-        this.foot_front_left.addBox(-3.5F, 0.0F, -4.0F, 7.0F, 2.5F, 8.0F, 0.0F);
-
-        this.leg_front_right = new AdvancedModelBox(this, 0, 54);
-        this.leg_front_right.setRotationPoint(-4.5F, -0.5F, -17.0F);
-        this.leg_front_right.addBox(-3.0F, 0.0F, -3.0F, 6.0F, 10.5F, 6.0F, 0.0F);
-
-        this.foot_front_right = new AdvancedModelBox(this, 0, 72);
-        this.foot_front_right.setRotationPoint(0.0F, 8.0F, 0.0F);
-        this.foot_front_right.addBox(-3.5F, 0.0F, -4.0F, 7.0F, 2.5F, 8.0F, 0.0F);
-
-        this.leg_back_left = new AdvancedModelBox(this, 25, 54);
-        this.leg_back_left.setRotationPoint(4.0F, -0.5F, 5.0F);
-        this.leg_back_left.addBox(-3.0F, 0.0F, -3.0F, 6.0F, 10.5F, 6.0F, 0.0F);
-
-        this.foot_back_left = new AdvancedModelBox(this, 31, 72);
-        this.foot_back_left.setRotationPoint(0.0F, 8.0F, 0.0F);
-        this.foot_back_left.addBox(-3.5F, 0.0F, -4.0F, 7.0F, 2.5F, 8.0F, 0.0F);
-
-        this.leg_back_right = new AdvancedModelBox(this, 50, 54);
-        this.leg_back_right.setRotationPoint(-4.0F, -0.5F, 5.0F);
-        this.leg_back_right.addBox(-3.0F, 0.0F, -3.0F, 6.0F, 10.5F, 6.0F, 0.0F);
-
-        this.foot_back_right = new AdvancedModelBox(this, 62, 72);
-        this.foot_back_right.setRotationPoint(0.0F, 8.0F, 0.0F);
-        this.foot_back_right.addBox(-3.5F, 0.0F, -4.0F, 7.0F, 2.5F, 8.0F, 0.0F);
-
-        this.tail = new AdvancedModelBox(this, 75, 54);
-        this.tail.setRotationPoint(0.0F, -12.0F, 11.0F);
-        this.tail.addBox(-1.5F, 0.0F, 0.0F, 3.0F, 7.0F, 5.0F, 0.0F);
-
-        this.body_main.addChild(this.body_torso);
-        this.body_torso.addChild(this.neck);
-        this.neck.addChild(this.head_main);
-        this.head_main.addChild(this.muzzle);
-        this.head_main.addChild(this.ear_left);
-        this.head_main.addChild(this.ear_right);
-        this.head_main.addChild(this.eye_left);
-        this.head_main.addChild(this.eye_right);
-        this.head_main.addChild(this.incisors);
-        this.body_main.addChild(this.leg_front_left);
-        this.leg_front_left.addChild(this.foot_front_left);
-        this.body_main.addChild(this.leg_front_right);
-        this.leg_front_right.addChild(this.foot_front_right);
-        this.body_main.addChild(this.leg_back_left);
-        this.leg_back_left.addChild(this.foot_back_left);
-        this.body_main.addChild(this.leg_back_right);
-        this.leg_back_right.addChild(this.foot_back_right);
-        this.body_main.addChild(this.tail);
+        this.body_barrel.addChild(this.body_withers);
+        this.body_barrel.addChild(this.body_chest);
+        this.body_chest.addChild(this.neck);
+        this.neck.addChild(this.head_skull);
+        this.head_skull.addChild(this.head_muzzle);
+        this.head_muzzle.addChild(this.incisor_lower);
+        this.head_muzzle.addChild(this.incisor_upper);
+        this.head_skull.addChild(this.head_jaw);
+        this.head_skull.addChild(this.head_brow);
+        this.head_skull.addChild(this.ear_left);
+        this.head_skull.addChild(this.ear_right);
+        this.head_skull.addChild(this.eye_left);
+        this.head_skull.addChild(this.eye_right);
+        this.neck.addChild(this.throat);
+        this.body_chest.addChild(this.fore_left_shoulder);
+        this.fore_left_shoulder.addChild(this.fore_left_forearm);
+        this.fore_left_forearm.addChild(this.fore_left_cannon);
+        this.fore_left_cannon.addChild(this.fore_left_foot);
+        this.body_chest.addChild(this.fore_right_shoulder);
+        this.fore_right_shoulder.addChild(this.fore_right_forearm);
+        this.fore_right_forearm.addChild(this.fore_right_cannon);
+        this.fore_right_cannon.addChild(this.fore_right_foot);
+        this.body_barrel.addChild(this.body_croup);
+        this.body_croup.addChild(this.tail_dock);
+        this.tail_dock.addChild(this.tail_tip);
+        this.body_croup.addChild(this.hind_left_thigh);
+        this.hind_left_thigh.addChild(this.hind_left_gaskin);
+        this.hind_left_gaskin.addChild(this.hind_left_cannon);
+        this.hind_left_cannon.addChild(this.hind_left_foot);
+        this.body_croup.addChild(this.hind_right_thigh);
+        this.hind_right_thigh.addChild(this.hind_right_gaskin);
+        this.hind_right_gaskin.addChild(this.hind_right_cannon);
+        this.hind_right_cannon.addChild(this.hind_right_foot);
 
         animator = ModelAnimator.create();
         updateDefaultPose();
@@ -142,17 +242,46 @@ public class ModelToxodon extends AdvancedEntityModel<EntityToxodon> {
 
     @Override
     public Iterable<BasicModelPart> parts() {
-        return ImmutableList.of(body_main);
+        return ImmutableList.of(body_barrel);
     }
 
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
         return ImmutableList.of(
-            body_main, body_torso, neck, head_main, muzzle,
-            ear_left, ear_right, eye_left, eye_right, incisors,
-            leg_front_left, foot_front_left, leg_front_right, foot_front_right,
-            leg_back_left, foot_back_left, leg_back_right, foot_back_right,
-            tail
+            body_barrel,
+            body_withers,
+            body_chest,
+            neck,
+            head_skull,
+            head_muzzle,
+            incisor_lower,
+            incisor_upper,
+            head_jaw,
+            head_brow,
+            ear_left,
+            ear_right,
+            eye_left,
+            eye_right,
+            throat,
+            fore_left_shoulder,
+            fore_left_forearm,
+            fore_left_cannon,
+            fore_left_foot,
+            fore_right_shoulder,
+            fore_right_forearm,
+            fore_right_cannon,
+            fore_right_foot,
+            body_croup,
+            tail_dock,
+            tail_tip,
+            hind_left_thigh,
+            hind_left_gaskin,
+            hind_left_cannon,
+            hind_left_foot,
+            hind_right_thigh,
+            hind_right_gaskin,
+            hind_right_cannon,
+            hind_right_foot
         );
     }
 
@@ -160,33 +289,39 @@ public class ModelToxodon extends AdvancedEntityModel<EntityToxodon> {
         EntityToxodon toxodon = (EntityToxodon) entityIn;
         animator.update(toxodon);
 
+        // ATTACK_THREATEN (50t) -- head swung low and side to side, weight rocking between
+        // the forelegs. A toxodon has no horns, so the threat display is the broad head and
+        // the incisor battery, not a rack: the head drops rather than lifting.
         animator.setAnimation(EntityToxodon.ATTACK_THREATEN);
         for (int i = 0; i < 2; i++) {
             animator.startKeyframe(12);
-            this.rotate(animator, body_torso, 0, 0, 7.83F);
-            this.rotate(animator, head_main, 7.83F, 0, -13.04F);
-            animator.move(leg_front_left, 0, -0.6F, 0);
-            this.rotate(animator, leg_front_left, 0, 0, -7.83F);
-            animator.move(leg_front_right, 0, -0.5F, 0);
-            this.rotate(animator, leg_front_right, -20F, 0, -5.21F);
+            this.rotate(animator, body_chest, 0, 0, 6.5F);
+            this.rotate(animator, neck, 12.0F, -14.0F, -8.0F);
+            this.rotate(animator, head_skull, 8.0F, -10.0F, 0);
+            this.rotate(animator, fore_left_shoulder, -18.0F, 0, 0);
+            this.rotate(animator, fore_right_shoulder, 15.0F, 0, 0);
             animator.endKeyframe();
             animator.startKeyframe(9);
-            this.rotate(animator, body_torso, 0, 0, -13.05F);
-            this.rotate(animator, head_main, 7.83F, 0, 26.08F);
-            animator.move(leg_front_left, 0, 0.5F, 0);
-            this.rotate(animator, leg_front_left, 0, 0, 13.04F);
-            animator.move(leg_front_right, 0, 0.5F, 0);
-            this.rotate(animator, leg_front_right, 24.79F, 0, 10.43F);
+            this.rotate(animator, body_chest, 0, 0, -11.0F);
+            this.rotate(animator, neck, 12.0F, 14.0F, 8.0F);
+            this.rotate(animator, head_skull, 8.0F, 10.0F, 0);
+            this.rotate(animator, fore_left_shoulder, 15.0F, 0, 0);
+            this.rotate(animator, fore_right_shoulder, -18.0F, 0, 0);
             animator.endKeyframe();
         }
         animator.resetKeyframe(8);
 
+        // ATTACK_GORE (14t) -- rear the head back, then drive the incisors up and forward.
+        // The upward finish is the point: the lower incisors are procumbent, so the animal
+        // hooks with them from below rather than stabbing downward.
         animator.setAnimation(EntityToxodon.ATTACK_GORE);
         animator.startKeyframe(6);
-        this.rotate(animator, head_main, 31.31F, 0, 26.08F);
+        this.rotate(animator, neck, -20.0F, 0, 0);
+        this.rotate(animator, head_skull, -16.0F, 0, 0);
         animator.endKeyframe();
         animator.startKeyframe(4);
-        this.rotate(animator, head_main, -26.08F, 0, -46.96F);
+        this.rotate(animator, neck, 34.0F, 0, 0);
+        this.rotate(animator, head_skull, 26.0F, 0, 0);
         animator.endKeyframe();
         animator.resetKeyframe(4);
     }
@@ -199,65 +334,109 @@ public class ModelToxodon extends AdvancedEntityModel<EntityToxodon> {
         float f = limbSwing / 2;
         limbSwingAmount = Math.min(0.4F, limbSwingAmount);
 
-        // Breathing Animation
-        this.body_main.setScale((float) (1.0F + Math.sin(ageInTicks / 20) * 0.08F), (float) (1.0F + Math.sin(ageInTicks / 16) * 0.08F), 1.0F);
-        this.body_torso.setScale((float) (1.0F + Math.sin(ageInTicks / 20) * 0.08F), (float) (1.0F + Math.sin(ageInTicks / 16) * 0.08F), 1.0F);
-        bob(body_main, 0.4F * globalSpeed, 0.1F, false, ageInTicks / 20, 2);
-        bob(leg_front_left, 0.4F * globalSpeed, 0.1F, false, -ageInTicks / 20, 2);
-        bob(leg_front_right, 0.4F * globalSpeed, 0.1F, false, -ageInTicks / 20, 2);
-        bob(leg_back_left, 0.4F * globalSpeed, 0.1F, false, -ageInTicks / 20, 2);
-        bob(leg_back_right, 0.4F * globalSpeed, 0.1F, false, -ageInTicks / 20, 2);
-        walk(head_main, 0.4f * globalSpeed, 0.03f, false, 2.8F, 0.06F, ageInTicks / 20, 2);
+        // ---- idle ----
+        float breath = (float) (Math.sin(ageInTicks / 20) * 0.05F);
+        this.body_barrel.setScale(1.0F + breath, 1.0F + breath, 1.0F);
+        this.body_chest.setScale(1.0F + breath, 1.0F + breath, 1.0F);
+        bob(body_barrel, 0.4F * globalSpeed, 0.1F, false, ageInTicks / 20, 2);
+        walk(neck, 0.35f * globalSpeed, 0.03f, false, 2.8F, 0.04F, ageInTicks / 20, 2);
+        this.swing(tail_dock, 0.10F, 0.14F, false, 0F, 0F, ageInTicks, 1);
+        this.swing(tail_tip, 0.10F, 0.20F, false, 1F, 0F, ageInTicks, 1);
 
-        // Blinking Animation: tuck the eye planes just inside the head faces to hide them.
+        // Blinking: bury the eye planes inside the skull. y/z MUST keep the
+        // constructor's values or the eye jumps across the face on every blink.
         if (!toxodon.shouldRenderEyes()) {
-            this.eye_left.setRotationPoint(4.5F, -1.75F, -3.75F);
-            this.eye_right.setRotationPoint(-4.5F, -1.75F, -3.75F);
+            this.eye_left.setRotationPoint(3.3480F, -1.5000F, -4.0F);
+            this.eye_right.setRotationPoint(-3.3480F, -1.5000F, -4.0F);
         }
 
-        // Head Tracking Animation
+        // Head tracking. The neck is short and heavily muscled, so it contributes less
+        // than a cervid's -- most of the turn happens at the skull.
         if (!toxodon.isSleeping()) {
-            this.faceTarget(netHeadYaw, headPitch, 3, head_main);
+            this.faceTarget(netHeadYaw, headPitch, 4, neck);
+            this.faceTarget(netHeadYaw, headPitch, 2, head_skull);
         }
 
-        // Pitch/Yaw handler
         if (toxodon.isInWater()) {
-            this.setRotateAngle(head_main, -0.18203784098300857F, 0.0F, 0.0F);
+            this.setRotateAngle(head_skull, -0.1820F, 0.0F, 0.0F);
             if (!toxodon.isOnGround()) {
                 f = ageInTicks / 6;
                 limbSwingAmount = 0.5f;
                 float pitch = Mth.clamp(toxodon.getXRot() - 10, -25F, 25.0F);
-                this.setRotateAngle(body_main, (float) (pitch * Math.PI / 180F), 0, 0);
+                this.setRotateAngle(body_barrel, (float) (pitch * Math.PI / 180F), 0, 0);
             }
         }
 
-        // Movement Animation
+        // ---- gait: a heavy, short-strided walk, so the swing amplitudes stay low ----
         if (toxodon.canMove()) {
-            bob(body_main, 0.8f * globalSpeed, 0.6f * globalDegree, true, f, limbSwingAmount);
-            walk(head_main, 0.8f * globalSpeed, 0.15f * globalDegree, true, 0, 0, f, limbSwingAmount);
-            walk(leg_front_left, -0.8f * globalSpeed, 1.0f * globalDegree, true, 0F, 1.0f, f, limbSwingAmount);
-            walk(leg_front_right, -0.8f * globalSpeed, 1.0f * globalDegree, true, 2F, 1.0f, f, limbSwingAmount);
-            walk(leg_back_left, 0.8f * globalSpeed, 1.0f * globalDegree, false, 2.8F, 0, f, limbSwingAmount);
-            walk(leg_back_right, 0.8f * globalSpeed, 1.0f * globalDegree, false, 0.8F, 0, f, limbSwingAmount);
+            bob(body_barrel, 0.8f * globalSpeed, 0.6f * globalDegree, true, f, limbSwingAmount);
+            walk(neck, 0.8f * globalSpeed, 0.16f * globalDegree, false, 0, 0, f, limbSwingAmount);
+            walk(head_skull, 0.8f * globalSpeed, 0.12f * globalDegree, true, 0, 0, f, limbSwingAmount);
+            walk(fore_right_shoulder, -0.8f * globalSpeed, 1.0f * globalDegree, true, 0F, 1.0f, f, limbSwingAmount);
+            walk(fore_right_forearm, -0.8f * globalSpeed, 1.0f * globalDegree, false, -1F, 1.0f, f, limbSwingAmount * 1.2f);
+            walk(fore_right_cannon, -0.8f * globalSpeed, 0.7f * globalDegree, false, -2F, 0.7f, f, limbSwingAmount);
+            walk(fore_left_shoulder, -0.8f * globalSpeed, 1.0f * globalDegree, true, 2F, 1.0f, f, limbSwingAmount);
+            walk(fore_left_forearm, -0.8f * globalSpeed, 1.0f * globalDegree, false, 1F, 1.0f, f, limbSwingAmount * 1.2f);
+            walk(fore_left_cannon, -0.8f * globalSpeed, 0.7f * globalDegree, false, 0F, 0.7f, f, limbSwingAmount);
+            walk(hind_right_thigh, 0.8f * globalSpeed, 1.0f * globalDegree, false, 2.8F, 0, f, limbSwingAmount);
+            walk(hind_right_gaskin, 0.8f * globalSpeed, 1.0f * globalDegree, true, 1.8F, 0, f, limbSwingAmount);
+            walk(hind_right_cannon, 0.8f * globalSpeed, 0.7f * globalDegree, false, 0.8F, 0, f, limbSwingAmount);
+            walk(hind_left_thigh, 0.8f * globalSpeed, 1.0f * globalDegree, false, 0.8F, 0, f, limbSwingAmount);
+            walk(hind_left_gaskin, 0.8f * globalSpeed, 1.0f * globalDegree, true, -0.2F, 0, f, limbSwingAmount);
+            walk(hind_left_cannon, 0.8f * globalSpeed, 0.7f * globalDegree, false, -1.2F, 0, f, limbSwingAmount);
         }
 
-        // Sitting / Sleeping: lower the body and fold the legs under. NOTE: leg-fold poses are inherited
-        // from the old fork geometry and need in-game re-derivation for this new sculpt (deferred, like the
-        // mammoth sleep pose) — walk/idle are relative so they read fine; only these rare poses may look off.
         if (toxodon.sitProgress > 0) {
-            this.progressPosition(body_main, toxodon.sitProgress, 0.0F, 12.0F, 0.0F, 40);
-            this.progressRotation(head_main, toxodon.sitProgress, (float) Math.toRadians(-20F), 0, 0, 40);
-            this.progressRotation(leg_front_left, toxodon.sitProgress, (float) Math.toRadians(-55F), 0, 0, 40);
-            this.progressRotation(leg_front_right, toxodon.sitProgress, (float) Math.toRadians(-55F), 0, 0, 40);
-            this.progressRotation(leg_back_left, toxodon.sitProgress, (float) Math.toRadians(-70F), (float) Math.toRadians(12F), 0, 40);
-            this.progressRotation(leg_back_right, toxodon.sitProgress, (float) Math.toRadians(-70F), (float) Math.toRadians(-12F), 0, 40);
+            // SOLVED by grid search against real box geometry (toxodon_spec.py --pose),
+            // NOT inherited from the old bison fork the way the previous rig's were:
+            // belly drops 10.70u, every leg box stays above y=0 and the
+            // cannon + foot of all four limbs rest ON the floor.
+            this.progressPosition(body_barrel, toxodon.sitProgress, 0.0F, 14.7000F, 0.0F, 40);
+            this.progressRotation(fore_left_shoulder, toxodon.sitProgress, -1.6177F, 0, 0, 40);
+            this.progressRotation(fore_left_forearm, toxodon.sitProgress, 1.2287F, 0, 0, 40);
+            this.progressRotation(fore_left_cannon, toxodon.sitProgress, -1.2755F, 0, 0, 40);
+            this.progressRotation(fore_left_foot, toxodon.sitProgress, 0.0448F, 0, 0, 40);
+            this.progressRotation(fore_right_shoulder, toxodon.sitProgress, -1.6177F, 0, 0, 40);
+            this.progressRotation(fore_right_forearm, toxodon.sitProgress, 1.2287F, 0, 0, 40);
+            this.progressRotation(fore_right_cannon, toxodon.sitProgress, -1.2755F, 0, 0, 40);
+            this.progressRotation(fore_right_foot, toxodon.sitProgress, 0.0448F, 0, 0, 40);
+            this.progressRotation(hind_left_thigh, toxodon.sitProgress, 1.9727F, 0, 0, 40);
+            this.progressRotation(hind_left_gaskin, toxodon.sitProgress, -1.5028F, 0, 0, 40);
+            this.progressRotation(hind_left_cannon, toxodon.sitProgress, -1.8136F, 0, 0, 40);
+            this.progressRotation(hind_left_foot, toxodon.sitProgress, -0.0012F, 0, 0, 40);
+            this.progressRotation(hind_right_thigh, toxodon.sitProgress, 1.9727F, 0, 0, 40);
+            this.progressRotation(hind_right_gaskin, toxodon.sitProgress, -1.5028F, 0, 0, 40);
+            this.progressRotation(hind_right_cannon, toxodon.sitProgress, -1.8136F, 0, 0, 40);
+            this.progressRotation(hind_right_foot, toxodon.sitProgress, -0.0012F, 0, 0, 40);
+            this.progressRotation(neck, toxodon.sitProgress, -0.2618F, 0, 0, 40);
+            this.progressRotation(head_skull, toxodon.sitProgress, -0.1745F, 0, 0, 40);
         }
+
         else if (toxodon.sleepProgress > 0) {
-            this.progressPosition(body_main, toxodon.sleepProgress, 0.0F, 12.0F, 0.0F, 40);
-            this.progressRotation(leg_front_left, toxodon.sleepProgress, (float) Math.toRadians(-55F), 0, 0, 40);
-            this.progressRotation(leg_front_right, toxodon.sleepProgress, (float) Math.toRadians(-55F), 0, 0, 40);
-            this.progressRotation(leg_back_left, toxodon.sleepProgress, (float) Math.toRadians(-70F), (float) Math.toRadians(12F), 0, 40);
-            this.progressRotation(leg_back_right, toxodon.sleepProgress, (float) Math.toRadians(-70F), (float) Math.toRadians(-12F), 0, 40);
+            // SOLVED by grid search against real box geometry (toxodon_spec.py --pose),
+            // NOT inherited from the old bison fork the way the previous rig's were:
+            // belly drops 11.70u, every leg box stays above y=0 and the
+            // cannon + foot of all four limbs rest ON the floor.
+            this.progressPosition(body_barrel, toxodon.sleepProgress, 0.0F, 15.7000F, 0.0F, 40);
+            this.progressRotation(fore_left_shoulder, toxodon.sleepProgress, -1.7149F, 0, 0, 40);
+            this.progressRotation(fore_left_forearm, toxodon.sleepProgress, 2.0717F, 0, 0, 40);
+            this.progressRotation(fore_left_cannon, toxodon.sleepProgress, -2.0253F, 0, 0, 40);
+            this.progressRotation(fore_left_foot, toxodon.sleepProgress, 0.0504F, 0, 0, 40);
+            this.progressRotation(fore_right_shoulder, toxodon.sleepProgress, -1.7149F, 0, 0, 40);
+            this.progressRotation(fore_right_forearm, toxodon.sleepProgress, 2.0717F, 0, 0, 40);
+            this.progressRotation(fore_right_cannon, toxodon.sleepProgress, -2.0253F, 0, 0, 40);
+            this.progressRotation(fore_right_foot, toxodon.sleepProgress, 0.0504F, 0, 0, 40);
+            this.progressRotation(hind_left_thigh, toxodon.sleepProgress, -1.6399F, 0, 0, 40);
+            this.progressRotation(hind_left_gaskin, toxodon.sleepProgress, 1.5096F, 0, 0, 40);
+            this.progressRotation(hind_left_cannon, toxodon.sleepProgress, -1.2087F, 0, 0, 40);
+            this.progressRotation(hind_left_foot, toxodon.sleepProgress, -0.0060F, 0, 0, 40);
+            this.progressRotation(hind_right_thigh, toxodon.sleepProgress, -1.6399F, 0, 0, 40);
+            this.progressRotation(hind_right_gaskin, toxodon.sleepProgress, 1.5096F, 0, 0, 40);
+            this.progressRotation(hind_right_cannon, toxodon.sleepProgress, -1.2087F, 0, 0, 40);
+            this.progressRotation(hind_right_foot, toxodon.sleepProgress, -0.0060F, 0, 0, 40);
+            this.progressRotation(neck, toxodon.sleepProgress, 0.5236F, 0, 0, 40);
+            this.progressRotation(head_skull, toxodon.sleepProgress, -0.6981F, 0, 0, 40);
         }
+
     }
 }

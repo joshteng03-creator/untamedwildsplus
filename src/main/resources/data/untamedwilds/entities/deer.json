@@ -11,17 +11,25 @@
     "death": "minecraft:entity.cow.death"
   },
   "flags": {
-    "groupCount": 4
+    "groupCount": 4,
+    "palmate": 0,
+    "throatBell": 0,
+    "antlerScale": 500
   },
   "species": [
     {
       "name": "megaloceros",
       "variant": 0,
-      "scale": 1.3,
+      "scale": 1.183,
       "rarity": 2,
       "attack": 5,
       "health": 45,
-      "flags": {},
+      "flags": {
+        "groupCount": 8,
+        "palmate": 1,
+        "throatBell": 0,
+        "antlerScale": 780
+      },
       "spawnBiomes": [
         [
           "category|forest"
@@ -29,16 +37,25 @@
         [
           "category|plains"
         ]
-      ]
+      ],
+      "offspring": 1,
+      "ecology": {
+        "speed": 0.25
+      }
     },
     {
       "name": "stag_moose",
       "variant": 1,
-      "scale": 1.25,
+      "scale": 1.127,
       "rarity": 2,
       "attack": 5,
       "health": 42,
-      "flags": {},
+      "flags": {
+        "groupCount": 2,
+        "palmate": 1,
+        "throatBell": 1,
+        "antlerScale": 434
+      },
       "spawnBiomes": [
         [
           "category|forest"
@@ -46,16 +63,25 @@
         [
           "category|swamp"
         ]
-      ]
+      ],
+      "offspring": 1,
+      "ecology": {
+        "speed": 0.23
+      }
     },
     {
       "name": "moose",
       "variant": 2,
-      "scale": 1.2,
+      "scale": 1.07,
       "rarity": 3,
       "attack": 5,
       "health": 40,
-      "flags": {},
+      "flags": {
+        "groupCount": 1,
+        "palmate": 1,
+        "throatBell": 1,
+        "antlerScale": 407
+      },
       "spawnBiomes": [
         [
           "category|taiga"
@@ -63,16 +89,25 @@
         [
           "category|swamp"
         ]
-      ]
+      ],
+      "offspring": 1,
+      "ecology": {
+        "speed": 0.23
+      }
     },
     {
       "name": "wapiti",
       "variant": 3,
-      "scale": 1.1,
+      "scale": 0.817,
       "rarity": 3,
       "attack": 4,
       "health": 32,
-      "flags": {},
+      "flags": {
+        "groupCount": 20,
+        "palmate": 0,
+        "throatBell": 0,
+        "antlerScale": 887
+      },
       "spawnBiomes": [
         [
           "category|forest"
@@ -80,21 +115,267 @@
         [
           "category|extreme_hills"
         ]
-      ]
+      ],
+      "offspring": 1,
+      "ecology": {
+        "speed": 0.27
+      }
     },
     {
       "name": "red_deer",
       "variant": 4,
-      "scale": 1.0,
+      "scale": 0.676,
       "rarity": 4,
       "attack": 4,
       "health": 28,
-      "flags": {},
+      "flags": {
+        "groupCount": 15,
+        "palmate": 0,
+        "throatBell": 0,
+        "antlerScale": 693
+      },
       "spawnBiomes": [
         [
           "category|forest"
         ]
-      ]
+      ],
+      "offspring": 1,
+      "ecology": {
+        "speed": 0.27
+      }
+    },
+    {
+      "name": "marsh_deer",
+      "variant": 5,
+      "scale": 0.648,
+      "rarity": 3,
+      "attack": 4,
+      "health": 30,
+      "flags": {
+        "groupCount": 3,
+        "palmate": 0,
+        "throatBell": 0,
+        "antlerScale": 537
+      },
+      "spawnBiomes": [
+        [
+          "category|swamp"
+        ]
+      ],
+      "offspring": 1,
+      "ecology": {
+        "speed": 0.25
+      }
+    },
+    {
+      "name": "huemul",
+      "variant": 6,
+      "scale": 0.507,
+      "rarity": 3,
+      "attack": 3,
+      "health": 26,
+      "flags": {
+        "groupCount": 4,
+        "palmate": 0,
+        "throatBell": 0,
+        "antlerScale": 343
+      },
+      "spawnBiomes": [
+        [
+          "category|extreme_hills"
+        ]
+      ],
+      "offspring": 1,
+      "ecology": {
+        "speed": 0.24
+      }
+    },
+    {
+      "name": "pampas_deer",
+      "variant": 7,
+      "scale": 0.394,
+      "rarity": 4,
+      "attack": 3,
+      "health": 22,
+      "flags": {
+        "groupCount": 8,
+        "palmate": 0,
+        "throatBell": 0,
+        "antlerScale": 441
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "offspring": 1,
+      "ecology": {
+        "speed": 0.28
+      }
+    },
+    {
+      "name": "pudu",
+      "variant": 8,
+      "scale": 0.203,
+      "rarity": 4,
+      "attack": 2,
+      "health": 14,
+      "flags": {
+        "groupCount": 2,
+        "palmate": 0,
+        "throatBell": 0,
+        "antlerScale": 257
+      },
+      "spawnBiomes": [
+        [
+          "category|forest"
+        ],
+        [
+          "category|jungle"
+        ]
+      ],
+      "offspring": 1,
+      "ecology": {
+        "speed": 0.26
+      }
+    },
+    {
+      "name": "caribou",
+      "variant": 9,
+      "scale": 0.68,
+      "rarity": 4,
+      "attack": 4,
+      "health": 30,
+      "flags": {
+        "groupCount": 20,
+        "palmate": 0,
+        "throatBell": 0,
+        "antlerScale": 1193
+      },
+      "spawnBiomes": [
+        [
+          "category|taiga"
+        ],
+        [
+          "category|icy"
+        ]
+      ],
+      "offspring": 1,
+      "ecology": {
+        "speed": 0.26
+      }
+    },
+    {
+      "name": "white_tailed",
+      "variant": 10,
+      "scale": 0.62,
+      "rarity": 5,
+      "attack": 3,
+      "health": 24,
+      "flags": {
+        "groupCount": 8,
+        "palmate": 0,
+        "throatBell": 0,
+        "antlerScale": 514
+      },
+      "spawnBiomes": [
+        [
+          "category|forest"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "offspring": 1,
+      "ecology": {
+        "speed": 0.27
+      }
+    },
+    {
+      "name": "fallow",
+      "variant": 11,
+      "scale": 0.62,
+      "rarity": 4,
+      "attack": 3,
+      "health": 22,
+      "flags": {
+        "groupCount": 12,
+        "palmate": 0,
+        "throatBell": 0,
+        "antlerScale": 654
+      },
+      "spawnBiomes": [
+        [
+          "category|forest"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "offspring": 1,
+      "ecology": {
+        "speed": 0.27
+      }
+    },
+    {
+      "name": "sika",
+      "variant": 12,
+      "scale": 0.55,
+      "rarity": 4,
+      "attack": 3,
+      "health": 20,
+      "flags": {
+        "groupCount": 10,
+        "palmate": 0,
+        "throatBell": 0,
+        "antlerScale": 474
+      },
+      "spawnBiomes": [
+        [
+          "category|forest"
+        ],
+        [
+          "category|jungle"
+        ]
+      ],
+      "offspring": 1,
+      "ecology": {
+        "speed": 0.26
+      }
+    },
+    {
+      "name": "eucladoceros",
+      "variant": 13,
+      "scale": 0.95,
+      "rarity": 2,
+      "attack": 5,
+      "health": 38,
+      "flags": {
+        "groupCount": 8,
+        "palmate": 0,
+        "throatBell": 0,
+        "antlerScale": 1037
+      },
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ],
+        [
+          "category|forest"
+        ]
+      ],
+      "offspring": 1,
+      "ecology": {
+        "speed": 0.25
+      }
     }
-  ]
+  ],
+  "ecology": {
+    "tags": [
+      "browser"
+    ]
+  }
 }

@@ -1,129 +1,327 @@
 {
-  "name":"bison",
-  "breeding":"MID_SUMMER",
-  "growing_time":10,
-  "offspring":1,
-  "sounds":{
-    "ambient":"untamedwilds:entity.bison.ambient",
-    "hurt":"minecraft:entity.cow.hurt",
-    "death":"minecraft:entity.cow.death"
+  "name": "bison",
+  "breeding": "MID_SUMMER",
+  "growing_time": 10,
+  "offspring": 1,
+  "sounds": {
+    "ambient": "untamedwilds:entity.bison.ambient",
+    "hurt": "minecraft:entity.cow.hurt",
+    "death": "minecraft:entity.cow.death"
   },
-  "flags":{
-    "groupCount":6
+  "flags": {
+    "groupCount": 6
   },
-  "species":[
+  "species": [
     {
-      "name":"plains",
-      "variant":0,
-      "scale":1.3,
-      "rarity":5,
-      "activityType":"diurnal",
-      "favourite_food":"untamedwilds:flora_junegrass",
-      "flags":{
-        "groupCount":6
+      "name": "plains",
+      "variant": 0,
+      "scale": 1.3,
+      "rarity": 5,
+      "activityType": "diurnal",
+      "favourite_food": "untamedwilds:flora_junegrass",
+      "flags": {
+        "groupCount": 20
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|plains"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.23
+      }
     },
     {
-      "name":"wisent",
-      "variant":1,
-      "scale":1.3,
-      "rarity":5,
-      "activityType":"diurnal",
-      "favourite_food":"minecraft:wheat",
-      "flags":{
-        "groupCount":6
+      "name": "wisent",
+      "variant": 1,
+      "scale": 1.3,
+      "rarity": 5,
+      "activityType": "diurnal",
+      "favourite_food": "minecraft:wheat",
+      "flags": {
+        "groupCount": 14
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|forest"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.23
+      }
     },
     {
-      "name":"steppe",
-      "variant":2,
-      "scale":1.4,
-      "rarity":3,
-      "activityType":"diurnal",
-      "favourite_food":"untamedwilds:flora_junegrass",
-      "health":70,
-      "flags":{
-        "groupCount":6
+      "name": "steppe",
+      "variant": 2,
+      "scale": 1.4,
+      "rarity": 3,
+      "activityType": "diurnal",
+      "favourite_food": "untamedwilds:flora_junegrass",
+      "health": 70,
+      "flags": {
+        "groupCount": 20
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|taiga"
         ],
         [
           "category|icy"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.23
+      }
     },
     {
-      "name":"long_horned",
-      "variant":3,
-      "scale":1.5,
-      "rarity":2,
-      "activityType":"diurnal",
-      "favourite_food":"untamedwilds:flora_junegrass",
-      "health":80,
-      "flags":{
-        "groupCount":4,
-        "longHorns":1
+      "name": "long_horned",
+      "variant": 3,
+      "scale": 1.5,
+      "rarity": 2,
+      "activityType": "diurnal",
+      "favourite_food": "untamedwilds:flora_junegrass",
+      "health": 80,
+      "flags": {
+        "groupCount": 12,
+        "longHorns": 1
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|plains"
         ],
         [
           "category|forest"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.22
+      }
     },
     {
-      "name":"aurochs",
-      "variant":4,
-      "scale":1.35,
-      "rarity":3,
-      "activityType":"diurnal",
-      "favourite_food":"minecraft:wheat",
-      "health":65,
-      "flags":{
-        "groupCount":5,
-        "lessHair":1
+      "name": "aurochs",
+      "variant": 4,
+      "scale": 1.35,
+      "rarity": 3,
+      "activityType": "diurnal",
+      "favourite_food": "minecraft:wheat",
+      "health": 65,
+      "flags": {
+        "groupCount": 12,
+        "lessHair": 1
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|plains"
         ],
         [
           "category|forest"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.23
+      }
     },
     {
-      "name":"giant_buffalo",
-      "variant":5,
-      "scale":1.5,
-      "rarity":2,
-      "activityType":"diurnal",
-      "favourite_food":"untamedwilds:flora_junegrass",
-      "health":85,
-      "flags":{
-        "groupCount":5,
-        "lessHair":1,
-        "longHorns":1
+      "name": "giant_buffalo",
+      "variant": 5,
+      "scale": 1.5,
+      "rarity": 2,
+      "activityType": "diurnal",
+      "favourite_food": "untamedwilds:flora_junegrass",
+      "health": 85,
+      "flags": {
+        "groupCount": 15,
+        "lessHair": 1,
+        "longHorns": 1
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|savanna"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.22
+      }
+    },
+    {
+      "name": "gaur",
+      "variant": 6,
+      "scale": 1.45,
+      "rarity": 3,
+      "activityType": "cathemeral",
+      "favourite_food": "minecraft:wheat",
+      "health": 85,
+      "attack": 9,
+      "flags": {
+        "groupCount": 10,
+        "lessHair": 1
+      },
+      "spawnBiomes": [
+        [
+          "category|jungle"
+        ],
+        [
+          "category|forest"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.22
+      }
+    },
+    {
+      "name": "wild_yak",
+      "variant": 7,
+      "scale": 1.4,
+      "rarity": 3,
+      "activityType": "diurnal",
+      "favourite_food": "untamedwilds:flora_junegrass",
+      "health": 80,
+      "attack": 8,
+      "flags": {
+        "groupCount": 12,
+        "longHorns": 1
+      },
+      "spawnBiomes": [
+        [
+          "category|extreme_hills"
+        ],
+        [
+          "category|icy"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.21
+      }
+    },
+    {
+      "name": "african_buffalo",
+      "variant": 8,
+      "scale": 1.25,
+      "rarity": 4,
+      "activityType": "cathemeral",
+      "favourite_food": "untamedwilds:flora_junegrass",
+      "health": 75,
+      "attack": 9,
+      "flags": {
+        "groupCount": 16,
+        "lessHair": 1,
+        "longHorns": 1
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.23
+      }
+    },
+    {
+      "name": "musk_ox",
+      "variant": 9,
+      "scale": 1.0,
+      "rarity": 3,
+      "activityType": "diurnal",
+      "favourite_food": "untamedwilds:flora_junegrass",
+      "health": 60,
+      "attack": 7,
+      "flags": {
+        "groupCount": 14
+      },
+      "spawnBiomes": [
+        [
+          "category|icy"
+        ],
+        [
+          "category|taiga"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.2
+      }
+    },
+    {
+      "name": "water_buffalo",
+      "variant": 10,
+      "scale": 1.3,
+      "rarity": 3,
+      "activityType": "cathemeral",
+      "favourite_food": "untamedwilds:flora_junegrass",
+      "health": 80,
+      "attack": 9,
+      "flags": {
+        "groupCount": 12,
+        "lessHair": 1,
+        "longHorns": 1
+      },
+      "spawnBiomes": [
+        [
+          "category|swamp"
+        ],
+        [
+          "category|jungle"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.21
+      }
+    },
+    {
+      "name": "banteng",
+      "variant": 11,
+      "scale": 1.25,
+      "rarity": 3,
+      "activityType": "cathemeral",
+      "favourite_food": "untamedwilds:flora_junegrass",
+      "health": 70,
+      "attack": 8,
+      "flags": {
+        "groupCount": 14,
+        "lessHair": 1
+      },
+      "spawnBiomes": [
+        [
+          "category|jungle"
+        ],
+        [
+          "category|forest"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.23
+      }
+    },
+    {
+      "name": "pelorovis",
+      "variant": 12,
+      "scale": 1.45,
+      "rarity": 2,
+      "activityType": "diurnal",
+      "favourite_food": "untamedwilds:flora_junegrass",
+      "health": 85,
+      "attack": 9,
+      "flags": {
+        "groupCount": 10,
+        "lessHair": 1,
+        "longHorns": 1
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.22
+      }
     }
-  ]
+  ],
+  "ecology": {
+    "tags": [
+      "grazer",
+      "megafauna"
+    ]
+  }
 }

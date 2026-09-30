@@ -28,9 +28,7 @@
       "attack":5,
       "health":30,
       "skins":41,
-      "flags":{
-
-      },
+      "flags":{},
       "spawnBiomes":[
         [
           "category|forest"
@@ -38,7 +36,10 @@
         [
           "category|taiga"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.23
+      }
     },
     {
       "name":"blind",
@@ -59,7 +60,10 @@
         [
           "category|underground"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.2
+      }
     },
     {
       "name":"brown",
@@ -68,7 +72,7 @@
       "rarity":3,
       "breeding":"MID_SUMMER",
       "growing_time":8,
-      "offspring":1,
+      "offspring":2,
       "activityType":"diurnal",
       "favourite_food":"minecraft:salmon",
       "attack":7,
@@ -84,7 +88,10 @@
         [
           "category|extreme_hills"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.23
+      }
     },
     {
       "name":"cave",
@@ -93,11 +100,11 @@
       "rarity":1,
       "breeding":"MID_SUMMER",
       "growing_time":10,
-      "offspring":1,
+      "offspring":2,
       "activityType":"crepuscular",
       "favourite_food":"minecraft:potato",
-      "attack":9,
-      "health":50,
+      "attack":10,
+      "health":58,
       "flags":{
         "hasHump":1
       },
@@ -108,7 +115,15 @@
         [
           "category|extreme_hills"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.22,
+        "diet":[
+          "small_game",
+          "grazer",
+          "browser"
+        ]
+      }
     },
     {
       "name":"panda",
@@ -133,7 +148,13 @@
         [
           "resource|minecraft:bamboo_jungle_hills"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.15,
+        "diet":[
+          "small_game"
+        ]
+      }
     },
     {
       "name":"polar",
@@ -147,9 +168,7 @@
       "favourite_food":"untamedwilds:material_blubber",
       "attack":8,
       "health":45,
-      "flags":{
-
-      },
+      "flags":{},
       "spawnBiomes":[
         [
           "category|icy"
@@ -160,7 +179,14 @@
         [
           "resource|minecraft:deep_frozen_ocean"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.22,
+        "diet":[
+          "small_game",
+          "aquatic"
+        ]
+      }
     },
     {
       "name":"spectacled",
@@ -181,7 +207,10 @@
         [
           "category|extreme_hills"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.2
+      }
     },
     {
       "name":"sun",
@@ -190,7 +219,7 @@
       "rarity":1,
       "breeding":"MID_WET",
       "growing_time":4,
-      "offspring":2,
+      "offspring":1,
       "activityType":"diurnal",
       "favourite_food":"minecraft:honeycomb",
       "attack":4,
@@ -202,7 +231,10 @@
         [
           "category|jungle"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.2
+      }
     },
     {
       "name":"short_faced",
@@ -214,8 +246,8 @@
       "offspring":1,
       "activityType":"cathemeral",
       "favourite_food":"minecraft:beef",
-      "attack":10,
-      "health":60,
+      "attack":12,
+      "health":70,
       "flags":{
         "hasHump":1
       },
@@ -226,7 +258,58 @@
         [
           "category|extreme_hills"
         ]
-      ]
+      ],
+      "ecology":{
+        "speed":0.24,
+        "diet":[
+          "grazer",
+          "browser",
+          "megafauna"
+        ]
+      }
+    },
+    {
+      "name":"arctotherium",
+      "variant":9,
+      "scale":1.4,
+      "rarity":1,
+      "breeding":"EARLY_SUMMER",
+      "growing_time":8,
+      "offspring":1,
+      "activityType":"cathemeral",
+      "favourite_food":"minecraft:beef",
+      "attack":13,
+      "health":80,
+      "flags":{
+        "hasHump":1
+      },
+      "spawnBiomes":[
+        [
+          "category|savanna"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology":{
+        "speed":0.23,
+        "diet":[
+          "grazer",
+          "browser",
+          "megafauna"
+        ]
+      }
     }
-  ]
+  ],
+  "ecology":{
+    "tags":[
+      "carnivore",
+      "megafauna"
+    ],
+    "diet":[
+      "small_game",
+      "grazer",
+      "browser"
+    ]
+  }
 }

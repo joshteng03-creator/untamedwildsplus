@@ -17,11 +17,13 @@
     {
       "name": "macrauchenia",
       "variant": 0,
-      "scale": 1.15,
+      "scale": 1.018,
       "rarity": 2,
       "attack": 6,
       "health": 50,
-      "flags": {},
+      "flags": {
+        "groupCount": 8
+      },
       "spawnBiomes": [
         [
           "category|plains"
@@ -29,7 +31,37 @@
         [
           "category|forest"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.21
+      }
+    },
+    {
+      "name": "xenorhinotherium",
+      "variant": 1,
+      "scale": 0.876,
+      "rarity": 3,
+      "attack": 5,
+      "health": 42,
+      "flags": {
+        "groupCount": 6
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|desert"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.23
+      }
     }
-  ]
+  ],
+  "ecology": {
+    "tags": [
+      "browser"
+    ]
+  }
 }

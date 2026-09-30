@@ -9,6 +9,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.phys.AABB;
+import untamedwilds.config.EcologyMode;
 import untamedwilds.entity.mammal.EntityBison;
 import untamedwilds.util.EntityUtils;
 
@@ -32,7 +33,9 @@ public class BisonTerritorialityFight extends Goal {
 
     @Override
     public boolean canUse() {
-        if (!EntityUtils.hasFullHealth(this.taskOwner) || this.taskOwner.isBaby() || !this.taskOwner.canMove() || !this.taskOwner.isMale()) {
+        // Zoo bulls do not spar. Territorial fights are an ecosystem behaviour, not an exhibit one.
+        if (!EcologyMode.allowsBrawls(this.taskOwner) || !EntityUtils.hasFullHealth(this.taskOwner)
+                || this.taskOwner.isBaby() || !this.taskOwner.canMove() || !this.taskOwner.isMale()) {
             return false;
         }
         if (this.taskOwner.getRandom().nextInt(400) != 0)

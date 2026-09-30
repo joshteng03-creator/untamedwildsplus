@@ -22,6 +22,8 @@ import untamedwilds.init.ModEntity;
 import untamedwilds.util.EntityUtils;
 
 import javax.annotation.Nullable;
+import untamedwilds.entity.ai.RetreatWhenRoutedGoal;
+import untamedwilds.entity.ai.target.SmartHurtByTargetGoal;
 
 public class EntityHippo extends ComplexMobAmphibious implements INewSkins, ISpecies {
 
@@ -45,6 +47,7 @@ public class EntityHippo extends ComplexMobAmphibious implements INewSkins, ISpe
     }
 
     public void registerGoals() {
+        this.goalSelector.addGoal(1, new RetreatWhenRoutedGoal(this, 1.5D));
         this.goalSelector.addGoal(2, new SmartMeleeAttackGoal(this, 1.4D, false));
         this.goalSelector.addGoal(3, new SmartMateGoal(this, 0.8D));
         this.goalSelector.addGoal(3, new GrazeGoal(this, 10));
@@ -53,7 +56,7 @@ public class EntityHippo extends ComplexMobAmphibious implements INewSkins, ISpe
         this.goalSelector.addGoal(5, new SmartWanderGoal(this, 1D, 120, 0, false));
         this.goalSelector.addGoal(5, new AmphibiousRandomSwimGoal(this, 1, 120));
         this.goalSelector.addGoal(6, new SmartLookAtGoal(this, LivingEntity.class, 10.0F));
-        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)).setAlertOthers());
+        this.targetSelector.addGoal(1, (new SmartHurtByTargetGoal(this)).setAlertOthers());
         this.targetSelector.addGoal(3, new HippoTerritoryTargetGoal<>(this, LivingEntity.class, true, false, input -> !(input instanceof EntityHippo || input instanceof ISpecies || getEcoLevel(input) > getEcoLevel(this))));
     }
 
@@ -69,10 +72,10 @@ public class EntityHippo extends ComplexMobAmphibious implements INewSkins, ISpe
     }
 
     public boolean wantsToBreed() {
-        if (ConfigGamerules.naturalBreeding.get() && this.age == 0) {
-            return this.getHunger() >= 80;
-        }
-        return false;
+        /* Forage stress -- hungry with nothing edible within reach -- is the carrying capacity signal,
+         * and it now suppresses births on its own. Animals still migrate first; they simply do not
+         * calve on ground that cannot feed a calf. Falls back to the old predicate in Zoo mode. */
+        return this.wantsToBreedAsHerbivore();
     }
 
     @Override

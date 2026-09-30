@@ -75,13 +75,17 @@ public class ModelEquid extends AdvancedEntityModel<EntityEquid> {
         this.body_chest.addBox(-7.5F, -4.5F, -8.0F, 15.0F, 13.5F, 10.0F, 0.0F);
         this.setRotateAngle(body_chest, 0.0873F, 0.0F, 0.0F);
 
-        // 6 WIDE, not 9. A horse's neck is narrow laterally and deep dorsoventrally, and it must come
+        // 5.4 WIDE, not 9. A horse's neck is narrow laterally and deep dorsoventrally, and it must come
         // out NARROWER than the skull is across the cheeks (8) -- at 9 it was wider than the head, which
         // is what read as fat. It also sat 0.07 units off the eye planes, so the neck's own cheek
-        // rendered in front of the eyes and clipped them; at 6 the eyes (|x| 4.3) clear it by 1.3.
+        // rendered in front of the eyes and clipped them; the eyes (|x| 4.3) now clear it by 1.6.
+        // Trimmed 6.0 -> 5.4 because at +-3.0 its side faces were exactly coplanar with the muzzle's.
+        // The NECK is the one that moved rather than the muzzle: the muzzle carries a per-variant
+        // setScale(1.12) for hippidion, which would have walked a narrowed muzzle straight back onto
+        // the neck's plane for that one species only -- the worst kind of bug to find later.
         this.neck = new AdvancedModelBox(this, 176, 0);
         this.neck.setRotationPoint(0.0F, -2.0F, -3.0F);
-        this.neck.addBox(-3.0F, -13.0F, -5.0F, 6.0F, 14.0F, 8.0F, 0.0F);
+        this.neck.addBox(-2.7F, -13.0F, -5.0F, 5.4F, 14.0F, 8.0F, 0.0F);
         this.setRotateAngle(neck, 0.6981F, 0.0F, 0.0F);
 
         // The crest rides the neck's LOCAL +Z face, not its local top: the neck leans 40 deg, which
@@ -111,7 +115,8 @@ public class ModelEquid extends AdvancedEntityModel<EntityEquid> {
         this.muzzle.addBox(-3.0F, -2.5F, -7.0F, 6.0F, 6.5F, 8.0F, 0.0F);
 
         this.forelock = new AdvancedModelBox(this, 108, 55);
-        this.forelock.setRotationPoint(0.0F, -1.5F, -2.0F);
+        // Dropped 0.4: the forelock's underside sat on the neck's top face plane (3.9u2).
+        this.forelock.setRotationPoint(0.0F, -1.1F, -2.0F);
         this.forelock.addBox(-2.5F, -2.5F, -3.0F, 5.0F, 3.5F, 5.0F, 0.0F);
         this.setRotateAngle(forelock, 0.1396F, 0.0F, 0.0F);
 
@@ -175,9 +180,16 @@ public class ModelEquid extends AdvancedEntityModel<EntityEquid> {
         this.hoof_front_right.setRotationPoint(0.0F, 5.7F, 0.0F);
         this.hoof_front_right.addBox(-1.4F, -0.4F, -2.4F, 2.8F, 2.92F, 4.8F, 0.0F);
 
+        // Croup depth cut 10 -> 7. At 10 the rear face ran world z 15.4 (top) to 17.6 (bottom), which
+        // is 9.6 units of rump BEHIND the hip joint at z 7.98 -- roughly 55 cm on a 1.5 m horse, where
+        // the real hip-to-point-of-buttock is nearer 35. It read as a squared-off shelf of butt past
+        // the hind legs. Now z 12.4 / 14.6, i.e. 6.6 behind the hip. The barrel's rear face (z 11,
+        // y -3.5..8.5) still sits inside the croup, so nothing new is exposed, and the leg pivots
+        // (croup-local z 1) are untouched -- the solved hind stance and ground contact are unaffected.
+        // Depth-only, so the UV footprint shrinks (50x21 -> 44x18) inside its slot; no repack.
         this.body_croup = new AdvancedModelBox(this, 126, 0);
         this.body_croup.setRotationPoint(0.0F, -3.0F, 7.0F);
-        this.body_croup.addBox(-7.5F, -2.5F, -1.0F, 15.0F, 11.5F, 10.0F, 0.0F);
+        this.body_croup.addBox(-7.5F, -2.5F, -1.0F, 15.0F, 11.5F, 7.0F, 0.0F);
         this.setRotateAngle(body_croup, -0.192F, 0.0F, 0.0F);
 
         // HIND STANCE -- rotations only, no box was moved or resized. The old angles (thigh -10, gaskin
@@ -231,21 +243,27 @@ public class ModelEquid extends AdvancedEntityModel<EntityEquid> {
         // put the dock at -39, the hair at -55 and the tip at -65 world, so the tail swept forward and
         // ended up hanging under the barrel (its z reached 1.0, i.e. mid-belly) instead of behind the
         // horse. Now the three segments read +1 / +3 / +3 in world space: the tail falls straight down
-        // off the point of the croup with a 3 deg rearward lean, spanning z 13.5-21.5 (entirely behind
-        // the rump, whose rear face is at z 14.1-16.3) and ending at y 17.8 -- just below the hocks at
+        // off the point of the croup with a 3 deg rearward lean (it spanned z 13.5-21.5 when the croup
+        // was 10 deep; see the pivot note below) and ending at y 17.8 -- just below the hocks at
         // y 16, which is where a horse's tail actually reaches. Still 6.2 units clear of the ground.
+        // Pivots pulled forward with the shortened croup (dock 7 -> 4.5, hair_1 3 -> 1.0,
+        // hair_2 1 -> 0.5): rotations are unchanged, so the solved +1/+3/+3 world lean survives, but
+        // the tail no longer hangs 5 units off the back of a rump that has itself moved forward. The
+        // hair now spans roughly z 11-17 against a rear face at 12.4-16.6. Moving hair_2 to 0.5 also
+        // clears an existing bug: it shares hair_1's world rotation, and at pivot z 1 their REAR
+        // faces were both at hair_1-local z 3.5 -- coplanar over a 4.8-wide band, i.e. z-fighting.
         this.tail_dock = new AdvancedModelBox(this, 62, 55);
-        this.tail_dock.setRotationPoint(0.0F, -1.0F, 7.0F);
+        this.tail_dock.setRotationPoint(0.0F, -1.0F, 4.5F);
         this.tail_dock.addBox(-2.0F, -1.0F, -0.5F, 4.0F, 4.5F, 4.5F, 0.0F);
         this.setRotateAngle(tail_dock, 0.2094F, 0.0F, 0.0F);
 
         this.tail_hair_1 = new AdvancedModelBox(this, 162, 34);
-        this.tail_hair_1.setRotationPoint(0.0F, 2.0F, 3.0F);
+        this.tail_hair_1.setRotationPoint(0.0F, 2.0F, 1.0F);
         this.tail_hair_1.addBox(-2.8F, -0.5F, -1.0F, 5.6F, 9.5F, 4.5F, 0.0F);
         this.setRotateAngle(tail_hair_1, 0.0349F, 0.0F, 0.0F);
 
         this.tail_hair_2 = new AdvancedModelBox(this, 20, 55);
-        this.tail_hair_2.setRotationPoint(0.0F, 8.0F, 1.0F);
+        this.tail_hair_2.setRotationPoint(0.0F, 8.0F, 0.5F);
         this.tail_hair_2.addBox(-2.4F, -0.5F, -1.0F, 4.8F, 9.0F, 3.5F, 0.0F);
         this.setRotateAngle(tail_hair_2, 0.0F, 0.0F, 0.0F);
 

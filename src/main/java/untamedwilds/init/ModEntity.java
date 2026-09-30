@@ -61,10 +61,26 @@ public class ModEntity {
     public static RegistryObject<EntityType<EntityBoar>> BOAR = createEntity(EntityBoar::new, "boar", 1.2F, 1.2F, 0x503C2A, 0x605449);
     public static RegistryObject<EntityType<EntityBison>> BISON = createEntity(EntityBison::new, "bison", 1.7F, 1.6F, 0x845B2B, 0x49342A);
     public static RegistryObject<EntityType<EntityMammoth>> MAMMOTH = createEntity(EntityMammoth::new, "mammoth", 2.6F, 2.6F, 0x5A3E28, 0x2E211A);
-    public static RegistryObject<EntityType<EntityDeer>> DEER = createEntity(EntityDeer::new, "deer", 1.4F, 1.8F, 0x8B5A2B, 0x4A3221);
+    public static RegistryObject<EntityType<EntityDeer>> DEER = createEntity(EntityDeer::new, "deer", 1.5F, 2.2F, 0x8B5A2B, 0x4A3221);
     public static RegistryObject<EntityType<EntityEquid>> EQUID = createEntity(EntityEquid::new, "equid", 1.4F, 1.6F, 0x9C6B3F, 0x5A3B22);
-    public static RegistryObject<EntityType<EntityGiraffid>> GIRAFFID = createEntity(EntityGiraffid::new, "giraffid", 1.6F, 2.4F, 0xD8A44A, 0x6E4B22);
-    public static RegistryObject<EntityType<EntityMacrauchenia>> MACRAUCHENIA = createEntity(EntityMacrauchenia::new, "macrauchenia", 1.3F, 1.9F, 0xA98A5C, 0x5E4A2E);
+    // Height 2.4F -> 3.4F with the 2026-08-08 remodel. The sculpt is calibrated 1 block = 1
+    // metre at the withers, so the giraffe stands 3.30 blocks at the shoulder and 5.96 to the
+    // ossicones; a 2.4 box covered under half of it. 3.4 covers the body and the base of the
+    // neck and deliberately stops there -- a ~6-block hitbox would leave a giraffe unable to
+    // path anywhere. Width stays 1.6F: the widest species measures 1.49 blocks. The okapi
+    // (1.50 m) shares the per-TYPE box and is therefore much smaller than its hitbox, the same
+    // documented tradeoff the dwarf mammoths ship with: getMobSize() scales only the rendered
+    // model and EntityGiraffid has no getScale() override.
+    public static RegistryObject<EntityType<EntityGiraffid>> GIRAFFID = createEntity(EntityGiraffid::new, "giraffid", 1.6F, 3.4F, 0xD8A44A, 0x6E4B22);
+    // 1.4 x 2.4, not the original 1.3 x 1.9: the remodelled rig is calibrated 1 block = 1 m
+    // at the withers, and a 1.80 m Macrauchenia carrying a raised camelid neck stands 2.55
+    // blocks to the ear tips. Matches the mod's other tall/long-necked types (deer 1.5x2.2,
+    // giraffid 1.6x2.4). Hitboxes are per-TYPE, so xenorhinotherium (2.20) fits inside it too.
+    public static RegistryObject<EntityType<EntityMacrauchenia>> MACRAUCHENIA = createEntity(EntityMacrauchenia::new, "macrauchenia", 1.4F, 2.4F, 0xA98A5C, 0x5E4A2E);
+    // 1.3 x 1.2: the rig is calibrated 1 block = 1 m at the withers, and the largest
+    // species (palorchestes 1.35 m, megatapirus 1.30 m) sit just above it while the
+    // living tapirs sit just under. Hitboxes are per-TYPE, not per-species.
+    public static RegistryObject<EntityType<EntityTapir>> TAPIR = createEntity(EntityTapir::new, "tapir", 1.3F, 1.2F, 0x6B5B4A, 0x33291F);
     public static RegistryObject<EntityType<EntityToxodon>> TOXODON = createEntity(EntityToxodon::new, "toxodon", 1.7F, 1.5F, 0x6B5A47, 0x3A2E22);
     public static RegistryObject<EntityType<EntityGroundSloth>> GROUND_SLOTH = createEntity(EntityGroundSloth::new, "ground_sloth", 1.6F, 2.2F, 0x7A5A3A, 0x3E2C1C);
     public static RegistryObject<EntityType<EntityAntelope>> ANTELOPE = createEntity(EntityAntelope::new, "antelope", 1.0F, 1.2F, 0xC79A5B, 0x6E5230);
@@ -147,6 +163,7 @@ public class ModEntity {
         event.put(EQUID.get(), EntityEquid.registerAttributes().build());
         event.put(GIRAFFID.get(), EntityGiraffid.registerAttributes().build());
         event.put(MACRAUCHENIA.get(), EntityMacrauchenia.registerAttributes().build());
+        event.put(TAPIR.get(), EntityTapir.registerAttributes().build());
         event.put(TOXODON.get(), EntityToxodon.registerAttributes().build());
         event.put(GROUND_SLOTH.get(), EntityGroundSloth.registerAttributes().build());
         event.put(ANTELOPE.get(), EntityAntelope.registerAttributes().build());
@@ -199,6 +216,7 @@ public class ModEntity {
         event.registerEntityRenderer(ModEntity.EQUID.get(), RendererEquid::new);
         event.registerEntityRenderer(ModEntity.GIRAFFID.get(), RendererGiraffid::new);
         event.registerEntityRenderer(ModEntity.MACRAUCHENIA.get(), RendererMacrauchenia::new);
+        event.registerEntityRenderer(ModEntity.TAPIR.get(), RendererTapir::new);
         event.registerEntityRenderer(ModEntity.TOXODON.get(), RendererToxodon::new);
         event.registerEntityRenderer(ModEntity.GROUND_SLOTH.get(), RendererGroundSloth::new);
         event.registerEntityRenderer(ModEntity.ANTELOPE.get(), RendererAntelope::new);

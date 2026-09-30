@@ -35,12 +35,23 @@ import untamedwilds.init.ModEntity;
 import untamedwilds.util.EntityUtils;
 
 import javax.annotation.Nullable;
+import untamedwilds.entity.ai.HerdFleeGoal;
+import untamedwilds.entity.ai.SmartAvoidGoal;
+import untamedwilds.entity.ai.MeleeAttackCircleHerd;
+import untamedwilds.util.EcologyTags;
+import untamedwilds.entity.ai.target.DefendHerdMateTarget;
+import untamedwilds.entity.ai.target.SmartHurtByTargetGoal;
+import untamedwilds.entity.ai.RetreatWhenRoutedGoal;
 
 public class EntityMammoth extends ComplexMobTerrestrial implements INewSkins, ISpecies, IPackEntity, INeedsPostUpdate {
 
     private static final EntityDataAccessor<Boolean> WOOLLY_COAT = SynchedEntityData.defineId(EntityMammoth.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> LARGE_TUSKS = SynchedEntityData.defineId(EntityMammoth.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> FLAT_BACK = SynchedEntityData.defineId(EntityMammoth.class, EntityDataSerializers.BOOLEAN);
+    /* An INT rather than the boolean the other toggles use, because the three ear sizes are genuinely
+     * three: the extinct proboscideans keep a small ear, Elephas maximus has a medium one, and
+     * Loxodonta africana's is the huge fan the genus is known for. */
+    private static final EntityDataAccessor<Integer> EAR_SIZE = SynchedEntityData.defineId(EntityMammoth.class, EntityDataSerializers.INT);
 
     public static Animation ATTACK_THREATEN;
     public static Animation ATTACK_GORE;
@@ -58,19 +69,31 @@ public class EntityMammoth extends ComplexMobTerrestrial implements INewSkins, I
         this.entityData.define(WOOLLY_COAT, false);
         this.entityData.define(LARGE_TUSKS, false);
         this.entityData.define(FLAT_BACK, false);
+        this.entityData.define(EAR_SIZE, 0);
     }
 
     public void registerGoals() {
         this.goalSelector.addGoal(1, new SmartSwimGoal_Land(this));
+        this.goalSelector.addGoal(1, new RetreatWhenRoutedGoal(this, 1.5D));
+        // Backs off from carnivores when there is no calf to defend; ProtectChildrenTarget
+        // takes over when there is.
+        this.goalSelector.addGoal(2, new SmartAvoidGoal<>(this, LivingEntity.class, 12, 1.1D, 1.4D, EcologyTags::isPredator));
         this.goalSelector.addGoal(2, new MeleeAttackCharger(this, 1.4F, 3));
         this.goalSelector.addGoal(2, new SmartMeleeAttackGoal(this, 1.6D, false));
         this.goalSelector.addGoal(3, new SmartMateGoal(this, 0.8D));
         this.goalSelector.addGoal(3, new GrazeGoal(this, 10));
+        /* Density dependence, expressed as MOVEMENT rather than as a cap on births: a herd that
+         * has eaten its range out, or that is standing in an overcrowded neighbourhood, shifts
+         * ground, and surplus young adults disperse to found herds elsewhere. Runs on the herd
+         * LEADER only -- SmartWanderGoal already paths every other member to within 7 blocks of
+         * it, so moving the leader moves the herd. */
+        this.goalSelector.addGoal(3, new HerdMigrationGoal(this, 1.0D));
         this.goalSelector.addGoal(4, new GotoSleepGoal(this, 1D));
         this.goalSelector.addGoal(5, new SmartWanderGoal(this, 1D, 120, 0, true));
         this.goalSelector.addGoal(6, new SmartLookAtGoal(this, LivingEntity.class, 10.0F));
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(2, new ProtectChildrenTarget<>(this, LivingEntity.class, true, input -> !(input instanceof EntityMammoth) && getEcoLevel(input) > getEcoLevel(this)));
+        this.targetSelector.addGoal(1, new SmartHurtByTargetGoal(this));
+        this.targetSelector.addGoal(3, new DefendHerdMateTarget(this));
+        this.targetSelector.addGoal(2, new ProtectChildrenTarget<>(this, LivingEntity.class, true, input -> EcologyTags.isThreatTo(this, input)));
     }
 
     @Override
@@ -97,10 +120,10 @@ public class EntityMammoth extends ComplexMobTerrestrial implements INewSkins, I
     }
 
     public boolean wantsToBreed() {
-        if (ConfigGamerules.naturalBreeding.get() && this.age == 0) {
-            return this.getHunger() >= 80;
-        }
-        return false;
+        /* Forage stress -- hungry with nothing edible within reach -- is the carrying capacity signal,
+         * and it now suppresses births on its own. Animals still migrate first; they simply do not
+         * calve on ground that cannot feed a calf. Falls back to the old predicate in Zoo mode. */
+        return this.wantsToBreedAsHerbivore();
     }
 
     @Override
@@ -159,6 +182,13 @@ public class EntityMammoth extends ComplexMobTerrestrial implements INewSkins, I
         return ATTACK_GORE;
     }
 
+    /* The mammoth is the reason this hook exists: MeleeAttackCharger used to pick the wind-up with two
+     * hardcoded instanceof checks for bison and rhino, so the heaviest charger in the mod had no tell. */
+    @Override
+    public Animation getChargeAnimation() {
+        return ATTACK_THREATEN;
+    }
+
     @Nullable
     public EntityMammoth getBreedOffspring(ServerLevel serverWorld, AgeableMob ageable) {
         return create_offspring(new EntityMammoth(ModEntity.MAMMOTH.get(), this.level));
@@ -191,6 +221,8 @@ public class EntityMammoth extends ComplexMobTerrestrial implements INewSkins, I
     private void setWoollyCoat(boolean woolly){ this.entityData.set(WOOLLY_COAT, woolly); }
     public boolean hasLargeTusks(){ return (this.entityData.get(LARGE_TUSKS)); }
     private void setLargeTusks(boolean large){ this.entityData.set(LARGE_TUSKS, large); }
+    public int getEarSize(){ return (this.entityData.get(EAR_SIZE)); }
+    private void setEarSize(int size){ this.entityData.set(EAR_SIZE, size); }
     public boolean hasFlatBack(){ return (this.entityData.get(FLAT_BACK)); }
     private void setFlatBack(boolean flat){ this.entityData.set(FLAT_BACK, flat); }
 
@@ -199,6 +231,7 @@ public class EntityMammoth extends ComplexMobTerrestrial implements INewSkins, I
         compound.putBoolean("hasWoollyCoat", this.hasWoollyCoat());
         compound.putBoolean("hasLargeTusks", this.hasLargeTusks());
         compound.putBoolean("flatBack", this.hasFlatBack());
+        compound.putInt("earSize", this.getEarSize());
     }
 
     public void readAdditionalSaveData(CompoundTag compound){
@@ -206,15 +239,18 @@ public class EntityMammoth extends ComplexMobTerrestrial implements INewSkins, I
         this.setWoollyCoat(compound.getBoolean("hasWoollyCoat"));
         this.setLargeTusks(compound.getBoolean("hasLargeTusks"));
         this.setFlatBack(compound.getBoolean("flatBack"));
+        this.setEarSize(compound.getInt("earSize"));
     }
 
     @Override
     public void updateAttributes() {
+        this.applySpeciesSpeed();
         this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getAttack());
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getHealth());
         this.setHealth(this.getMaxHealth());
         this.setWoollyCoat(getEntityData(this.getType()).getFlags(this.getVariant(), "hasWoollyCoat") == 1);
         this.setLargeTusks(getEntityData(this.getType()).getFlags(this.getVariant(), "hasLargeTusks") == 1);
         this.setFlatBack(getEntityData(this.getType()).getFlags(this.getVariant(), "flatBack") == 1);
+        this.setEarSize(getEntityData(this.getType()).getFlags(this.getVariant(), "earSize"));
     }
 }

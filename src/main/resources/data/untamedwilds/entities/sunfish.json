@@ -4,9 +4,7 @@
   "growing_time":6,
   "offspring":5,
   "favourite_food":"untamedwilds:chum",
-  "sounds":{
-
-  },
+  "sounds":{},
   "species":[
     {
       "name":"sunfish",
@@ -42,5 +40,10 @@
         ]
       ]
     }
-  ]
+  ],
+  "ecology":{
+    "tags":[
+      "aquatic"
+    ]
+  }
 }

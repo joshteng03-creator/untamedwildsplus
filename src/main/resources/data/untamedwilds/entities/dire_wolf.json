@@ -1,28 +1,28 @@
 {
-  "name":"dire_wolf",
-  "breeding":"MID_WINTER",
-  "growing_time":5,
-  "offspring":3,
-  "activityType":"cathemeral",
-  "favourite_food":"minecraft:beef",
-  "sounds":{
-    "ambient":"minecraft:entity.wolf.ambient",
-    "hurt":"minecraft:entity.wolf.hurt",
-    "death":"minecraft:entity.wolf.death",
-    "threat":"minecraft:entity.wolf.growl"
+  "name": "dire_wolf",
+  "breeding": "MID_WINTER",
+  "growing_time": 5,
+  "offspring": 5,
+  "activityType": "cathemeral",
+  "favourite_food": "minecraft:beef",
+  "sounds": {
+    "ambient": "minecraft:entity.wolf.ambient",
+    "hurt": "minecraft:entity.wolf.hurt",
+    "death": "minecraft:entity.wolf.death",
+    "threat": "minecraft:entity.wolf.growl"
   },
-  "species":[
+  "species": [
     {
-      "name":"dire_wolf",
-      "variant":0,
-      "scale":1.1,
-      "rarity":3,
-      "attack":7,
-      "health":24,
-      "flags":{
-        "groupCount":5
+      "name": "dire_wolf",
+      "variant": 0,
+      "scale": 0.9,
+      "rarity": 3,
+      "attack": 9,
+      "health": 34,
+      "flags": {
+        "groupCount": 8
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|plains"
         ],
@@ -32,19 +32,27 @@
         [
           "category|taiga"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.24,
+        "diet": [
+          "grazer",
+          "browser",
+          "megafauna"
+        ]
+      }
     },
     {
-      "name":"pleistocene_wolf",
-      "variant":1,
-      "scale":1.0,
-      "rarity":2,
-      "attack":6,
-      "health":20,
-      "flags":{
-        "groupCount":5
+      "name": "pleistocene_wolf",
+      "variant": 1,
+      "scale": 0.82,
+      "rarity": 2,
+      "attack": 8,
+      "health": 28,
+      "flags": {
+        "groupCount": 8
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|taiga"
         ],
@@ -54,7 +62,232 @@
         [
           "category|extreme_hills"
         ]
-      ]
+      ],
+      "ecology": {
+        "speed": 0.25
+      }
+    },
+    {
+      "name": "dhole",
+      "variant": 2,
+      "scale": 0.55,
+      "rarity": 3,
+      "attack": 6,
+      "health": 22,
+      "flags": {
+        "groupCount": 10
+      },
+      "spawnBiomes": [
+        [
+          "category|jungle"
+        ],
+        [
+          "category|forest"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.27
+      }
+    },
+    {
+      "name": "african_wild_dog",
+      "variant": 3,
+      "scale": 0.6,
+      "rarity": 3,
+      "attack": 6,
+      "health": 24,
+      "flags": {
+        "groupCount": 12
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.29
+      }
+    },
+    {
+      "name": "protocyon",
+      "variant": 4,
+      "scale": 0.75,
+      "rarity": 2,
+      "attack": 8,
+      "health": 30,
+      "flags": {
+        "groupCount": 6
+      },
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ],
+        [
+          "category|forest"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.24
+      }
+    },
+    {
+      "name": "thylacine",
+      "variant": 5,
+      "scale": 0.5,
+      "rarity": 2,
+      "attack": 5,
+      "health": 20,
+      "flags": {
+        "groupCount": 2
+      },
+      "spawnBiomes": [
+        [
+          "category|forest"
+        ],
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.25
+      }
+    },
+    {
+      "name": "gray_wolf",
+      "variant": 6,
+      "scale": 0.8,
+      "rarity": 4,
+      "attack": 7,
+      "health": 26,
+      "flags": {
+        "groupCount": 8
+      },
+      "spawnBiomes": [
+        [
+          "category|taiga"
+        ],
+        [
+          "category|forest"
+        ],
+        [
+          "category|extreme_hills"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.25
+      }
+    },
+    {
+      "name": "coyote",
+      "variant": 7,
+      "scale": 0.58,
+      "rarity": 4,
+      "attack": 4,
+      "health": 16,
+      "flags": {
+        "groupCount": 4
+      },
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ],
+        [
+          "category|desert"
+        ],
+        [
+          "category|mesa"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.27
+      }
+    },
+    {
+      "name": "maned_wolf",
+      "variant": 8,
+      "scale": 0.72,
+      "rarity": 3,
+      "attack": 5,
+      "health": 18,
+      "flags": {
+        "groupCount": 2,
+        "legLength": 1350,
+        "legThickness": 640
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.26
+      }
+    },
+    {
+      "name": "xenocyon",
+      "variant": 9,
+      "scale": 0.78,
+      "rarity": 2,
+      "attack": 6,
+      "health": 24,
+      "flags": {
+        "groupCount": 10
+      },
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ],
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.26
+      }
+    },
+    {
+      "name": "bush_dog",
+      "variant": 10,
+      "scale": 0.42,
+      "rarity": 3,
+      "attack": 3,
+      "health": 12,
+      "flags": {
+        "groupCount": 8,
+        "legLength": 720,
+        "legThickness": 1100
+      },
+      "spawnBiomes": [
+        [
+          "category|jungle"
+        ],
+        [
+          "category|swamp"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.24
+      }
     }
-  ]
+  ],
+  "ecology": {
+    "tags": [
+      "carnivore"
+    ],
+    "diet": [
+      "grazer",
+      "browser",
+      "small_game"
+    ]
+  },
+  "flags": {
+    "legLength": 1000,
+    "legThickness": 1000
+  }
 }
