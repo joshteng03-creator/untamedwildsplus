@@ -45,27 +45,19 @@ public class EntityBear extends ComplexMobTerrestrial implements ISpecies, INewS
     private static final EntityDataAccessor<Boolean> SHORT_SNOUT = SynchedEntityData.defineId(EntityBear.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> BACK_HUMP = SynchedEntityData.defineId(EntityBear.class, EntityDataSerializers.BOOLEAN);
 
-    public static Animation ATTACK_BITE;
-    public static Animation ATTACK_MAUL;
-    public static Animation ATTACK_SWIPE;
-    public static Animation ATTACK_POUND;
-    public static Animation ANIMATION_ROAR;
-    public static Animation IDLE_STAND;
-    public static Animation IDLE_TALK;
-    public static Animation ANIMATION_EAT;
+    public static final Animation ATTACK_BITE = Animation.create(18);
+    public static final Animation ATTACK_MAUL = Animation.create(76);
+    public static final Animation ATTACK_SWIPE = Animation.create(26);
+    public static final Animation ATTACK_POUND = Animation.create(28);
+    public static final Animation ANIMATION_ROAR = Animation.create(50);
+    public static final Animation IDLE_STAND = Animation.create(148);
+    public static final Animation IDLE_TALK = Animation.create(20);
+    public static final Animation ANIMATION_EAT = Animation.create(104);
 
     public EntityBear(EntityType<? extends ComplexMob> type, Level worldIn) {
         super(type, worldIn);
         this.entityData.define(SHORT_SNOUT, false);
         this.entityData.define(BACK_HUMP, false);
-        ANIMATION_ROAR = Animation.create(50);
-        IDLE_TALK = Animation.create(20);
-        IDLE_STAND = Animation.create(148);
-        ANIMATION_EAT = Animation.create(104);
-        ATTACK_BITE = Animation.create(18);
-        ATTACK_MAUL = Animation.create(76);
-        ATTACK_SWIPE = Animation.create(26);
-        ATTACK_POUND = Animation.create(28);
         this.maxUpStep = 1;
         this.turn_speed = 0.3F;
     }

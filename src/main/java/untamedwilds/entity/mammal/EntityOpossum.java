@@ -48,8 +48,8 @@ public class EntityOpossum extends ComplexMobTerrestrial implements ISpecies, IN
     private static final EntityDataAccessor<Boolean> PLAYING_DEAD = SynchedEntityData.defineId(EntityOpossum.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> JOEYS = SynchedEntityData.defineId(EntityOpossum.class, EntityDataSerializers.INT);
 
-    public static Animation IDLE_SCRATCH;
-    public static Animation THREAT_BACK_OFF;
+    public static final Animation IDLE_SCRATCH = Animation.create(80);
+    public static final Animation THREAT_BACK_OFF = Animation.create(30);
 
     // TODO: Some kind of chest raiding
     // TODO: Ain't coding climbing AI
@@ -57,8 +57,6 @@ public class EntityOpossum extends ComplexMobTerrestrial implements ISpecies, IN
         super(type, worldIn);
         //this.moveControl = new SmartSwimmingMoveControl(this, 40, 5, 0.25F, 0.3F, true);
         this.lookControl = new SmartSwimmerLookControl(this, 20);
-        IDLE_SCRATCH = Animation.create(80);
-        THREAT_BACK_OFF = Animation.create(30);
         this.ticksToSit = 20;
     }
 

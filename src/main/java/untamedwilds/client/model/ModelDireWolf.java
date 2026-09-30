@@ -312,9 +312,15 @@ public class ModelDireWolf extends AdvancedEntityModel<EntityDireWolf> {
         return ImmutableList.of(this.body_main);
     }
 
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of(
             body_main, body_chest, arm_left_upper, arm_left_lower, arm_left_foot,
             arm_left_paw, arm_right_upper, arm_right_lower, arm_right_foot, arm_right_paw,
             body_loin, body_croup, tail_1, tail_2, tail_3,
@@ -323,6 +329,8 @@ public class ModelDireWolf extends AdvancedEntityModel<EntityDireWolf> {
             head_main, head_face, head_snout, nose, head_jaw,
             cheek_left, cheek_right, ear_left, ear_left_tip, ear_right,
             ear_right_tip, eye_left, eye_right, neck_ruff);
+        }
+        return this.allParts;
     }
 
     private void animate(IAnimatedEntity entityIn) {

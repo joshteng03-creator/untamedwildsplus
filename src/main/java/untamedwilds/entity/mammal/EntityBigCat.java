@@ -44,12 +44,12 @@ public class EntityBigCat extends ComplexMobTerrestrial implements ISpecies, INe
     private static final EntityDataAccessor<Boolean> SABRE_FANGS = SynchedEntityData.defineId(EntityBigCat.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> SHORT_SABRES = SynchedEntityData.defineId(EntityBigCat.class, EntityDataSerializers.BOOLEAN);
 
-    public static Animation ATTACK_MAUL;
-    public static Animation ATTACK_POUNCE;
+    public static final Animation ATTACK_MAUL = Animation.create(22);
+    public static final Animation ATTACK_POUNCE = Animation.create(42);
     public static Animation ANIMATION_ROAR;
     public static Animation ANIMATION_EAT;
-    public static Animation IDLE_TALK;
-    public static Animation IDLE_STRETCH;
+    public static final Animation IDLE_TALK = Animation.create(20);
+    public static final Animation IDLE_STRETCH = Animation.create(110);
     public int aggroProgress;
     /* The victim this cat has already spent its ambush on. Deliberately not persisted: the same reasoning
      * as huntCommitTicks, which is also transient -- a reload ends the hunt anyway, and the worst case is
@@ -64,10 +64,6 @@ public class EntityBigCat extends ComplexMobTerrestrial implements ISpecies, INe
         this.entityData.define(FLUFFY_TAIL, false);
         this.entityData.define(SABRE_FANGS, false);
         this.entityData.define(SHORT_SABRES, false);
-        ATTACK_POUNCE = Animation.create(42);
-        ATTACK_MAUL = Animation.create(22);
-        IDLE_TALK = Animation.create(20);
-        IDLE_STRETCH = Animation.create(110);
         this.maxUpStep = 1;
         this.turn_speed = 0.1F;
     }
@@ -157,7 +153,7 @@ public class EntityBigCat extends ComplexMobTerrestrial implements ISpecies, INe
             else if (EntityUtils.getPackSize(this.getType(), this.getVariant()) > 1) {
                 this.herd.tick();
             }
-            if (this.level.getGameTime() % 1000 == 0) {
+            if ((this.level.getGameTime() + this.getId()) % 1000 == 0) { // staggered by id: every animal on the same tick was a sync-packet burst
                 this.drainHuntingHunger(2);
                 if (!this.isStarving()) {
                     // A fed predator recovers between hunts; a hungry one does not. Regeneration used to be a flat

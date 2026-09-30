@@ -112,11 +112,19 @@ public class ModelCatfish extends AdvancedEntityModel<EntityCatfish> {
         return ImmutableList.of(this.body_main);
     }
 
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(body_main, head_main, body_bottom, head_main_1, fin_dorsal, fin_pectoral_left,
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of(body_main, head_main, body_bottom, head_main_1, fin_dorsal, fin_pectoral_left,
                 fin_pelvic_left, fin_pelvic_right, fin_pectoral_right, whisker_left, whisker_right, body_tail, fin_anal,
                 fin_dorsal_1, fin_caudal);
+        }
+        return this.allParts;
     }
 
     public void setupAnim(EntityCatfish catfish, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {

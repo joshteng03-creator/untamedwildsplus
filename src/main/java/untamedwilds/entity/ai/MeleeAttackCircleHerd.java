@@ -37,6 +37,7 @@ public class MeleeAttackCircleHerd extends Goal {
     private int failedPathFindingPenalty = 0;
     private final boolean canPenalize = false;
     private float offset = 0;
+    private int circleRepathDelay = 0;
     private final float maxJumpVelocity;
     private final boolean isJumper;
 
@@ -178,7 +179,13 @@ public class MeleeAttackCircleHerd extends Goal {
             }
         }
         else if (this.attacker.herd != null) {
-            if (this.attacker.getTarget() != null) {
+            /* The circle point moves ~0.15 blocks a tick, and moveTo to a moving point never reuses a path,
+             * so re-pathing every tick meant a fresh pathfind per pack member every few ticks for most of each
+             * cycle. Every ~10 ticks or when the current path runs out is visually the same. A countdown, not
+             * tickCount % 10: vanilla gives goals their full tick on alternate server ticks keyed on entity id,
+             * so a modulo gate can land on the skipped parity and never fire. */
+            if (this.attacker.getTarget() != null && (--this.circleRepathDelay <= 0 || this.attacker.getNavigation().isDone())) {
+                this.circleRepathDelay = reducedTickDelay(10);
                 double x = this.attacker.getTarget().getX() + Math.cos(this.offset + this.attacker.tickCount / 40F) * 6;
                 double z = this.attacker.getTarget().getZ() + Math.sin(this.offset + this.attacker.tickCount / 40F) * 6;
                 this.attacker.getNavigation().moveTo(x, this.attacker.getTarget().getY(), z, 1.2F);

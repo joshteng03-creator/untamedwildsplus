@@ -122,11 +122,19 @@ public class ModelTarantula extends AdvancedEntityModel<EntityTarantula> {
         return ImmutableList.of(this.body_main);
     }
 
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(body_main, abdomen, legR4, legR3, legR2, legR1, legL4, legL3, legL2, legL1, legR42,
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of(body_main, abdomen, legR4, legR3, legR2, legR1, legL4, legL3, legL2, legL1, legR42,
                 legR32, legR22, legR12, legL42, legL32, legL22, legL12
         );
+        }
+        return this.allParts;
     }
 
     public void setupAnim(EntityTarantula tarantula, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {

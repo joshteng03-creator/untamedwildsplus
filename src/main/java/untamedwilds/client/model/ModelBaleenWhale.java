@@ -105,9 +105,15 @@ public class ModelBaleenWhale extends AdvancedEntityModel<EntityBaleenWhale> {
         return ImmutableList.of(main_body);
     }
 
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(main_body,
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of(main_body,
             main_head,
             fin_left,
             tail_1,
@@ -122,6 +128,8 @@ public class ModelBaleenWhale extends AdvancedEntityModel<EntityBaleenWhale> {
             tail_left,
             tail_right
         );
+        }
+        return this.allParts;
     }
 
     public void setupAnim(EntityBaleenWhale whale, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {

@@ -132,9 +132,15 @@ public class ModelHippo extends AdvancedEntityModel<EntityHippo> {
         return ImmutableList.of(this.body_main);
     }
 
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of(
                 body_main,
                 head_neck,
                 arm_right,
@@ -156,6 +162,8 @@ public class ModelHippo extends AdvancedEntityModel<EntityHippo> {
                 leg_right_2,
                 leg_left_2
         );
+        }
+        return this.allParts;
     }
 
     private void animate(IAnimatedEntity entityIn) {

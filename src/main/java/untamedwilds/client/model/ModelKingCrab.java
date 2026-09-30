@@ -270,15 +270,23 @@ public class ModelKingCrab extends AdvancedEntityModel<EntityKingCrab> {
         return ImmutableList.of(this.body_main);
     }
 
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(body_main, body_spikes, arm_left_1, arm_r_1, leg_l_11, leg_l_21, leg_l_31, leg_r_11,
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of(body_main, body_spikes, arm_left_1, arm_r_1, leg_l_11, leg_l_21, leg_l_31, leg_r_11,
         leg_r_21, leg_r_31, head, shape69, arm_left_1_spikes, arm_left_2, arm_left_2_spikes, arm_left_pincer_1,
         arm_left_pincer_2, arm_r_1_spikes, arm_r_2, arm_r_2_spikes, arm_r_pincer_1, arm_r_pincer_2, leg_l_11_spikes,
         leg_l_12, leg_l_12_spikes, leg_l_21_spikes, leg_l_22, leg_l_22_spikes, leg_l_31_spikes, leg_l_32, leg_l_32_spikes,
         leg_r_11_spikes, leg_r_12, leg_r_12_spikes, leg_r_21_spikes, leg_r_22, leg_r_22_spikes, leg_r_31_spikes,
         leg_r_32, leg_r_32_spikes
         );
+        }
+        return this.allParts;
     }
 
     private void animate(IAnimatedEntity entityIn) {

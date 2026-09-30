@@ -46,22 +46,16 @@ public class EntitySpitter extends ComplexMobTerrestrial implements ISpecies, IN
     private static final EntityDataAccessor<Boolean> CAN_GROW = SynchedEntityData.defineId(EntitySpitter.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(EntitySpitter.class, EntityDataSerializers.BOOLEAN);
 
-    public static Animation ATTACK_MAUL_RIGHT;
-    public static Animation ATTACK_MAUL_LEFT;
-    public static Animation ATTACK_SPIT;
-    public static Animation ANIMATION_EAT;
-    public static Animation IDLE_WATCH;
-    public static Animation IDLE_TALK;
+    public static final Animation ATTACK_MAUL_RIGHT = Animation.create(22);
+    public static final Animation ATTACK_MAUL_LEFT = Animation.create(22);
+    public static final Animation ATTACK_SPIT = Animation.create(20);
+    public static final Animation ANIMATION_EAT = Animation.create(80);
+    public static final Animation IDLE_WATCH = Animation.create(80);
+    public static final Animation IDLE_TALK = Animation.create(40);
     public int aggroProgress;
 
     public EntitySpitter(EntityType<? extends ComplexMob> type, Level worldIn) {
         super(type, worldIn);
-        ATTACK_MAUL_RIGHT = Animation.create(22);
-        ATTACK_MAUL_LEFT = Animation.create(22);
-        ATTACK_SPIT = Animation.create(20);
-        IDLE_TALK = Animation.create(40);
-        IDLE_WATCH = Animation.create(80);
-        ANIMATION_EAT = Animation.create(80);
         this.turn_speed = 0.3F;
     }
 

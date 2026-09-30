@@ -144,11 +144,19 @@ public class ModelHyena extends AdvancedEntityModel<EntityHyena> {
         return ImmutableList.of(this.body_main);
     }
 
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of( body_main, head_neck, arm_left_upper, leg_left_upper, tail_1, arm_right_upper, leg_right_upper,
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of( body_main, head_neck, arm_left_upper, leg_left_upper, tail_1, arm_right_upper, leg_right_upper,
             head_main, hair, eye_right, eye_left, head_snout, head_jaw, ear_right, ear_left, arm_left_lower,
             leg_left_lower, arm_right_lower, leg_right_lower);
+        }
+        return this.allParts;
     }
 
     private void animate(IAnimatedEntity entityIn) {

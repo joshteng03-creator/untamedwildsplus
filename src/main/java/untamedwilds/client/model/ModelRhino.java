@@ -142,12 +142,20 @@ public class ModelRhino extends AdvancedEntityModel<EntityRhino> {
         return ImmutableList.of(body_belly);
     }
 
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(body_belly, body_front, leg_right, leg_left, head_neck, arm_right_1, arm_left_1, head_face,
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of(body_belly, body_front, leg_right, leg_left, head_neck, arm_right_1, arm_left_1, head_face,
                 ear_right, ear_left, horn_front, horn_back, eye_left, eye_right, arm_right_2, arm_left_2, leg_right_2,
                 leg_left_2, horn_front_small
         );
+        }
+        return this.allParts;
     }
 
     private void animate(IAnimatedEntity entityIn) {

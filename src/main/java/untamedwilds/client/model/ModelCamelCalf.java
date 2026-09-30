@@ -125,9 +125,15 @@ public class ModelCamelCalf extends AdvancedEntityModel<EntityCamel> {
         return ImmutableList.of(this.body_main);
     }
 
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of(
                 body_main,
                 arm_left,
                 arm_right,
@@ -146,6 +152,8 @@ public class ModelCamelCalf extends AdvancedEntityModel<EntityCamel> {
                 eye_left,
                 eye_right
         );
+        }
+        return this.allParts;
     }
 
     public void setupAnim(EntityCamel camel, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {

@@ -127,9 +127,15 @@ public class ModelSnake extends AdvancedEntityModel<EntitySnake> {
         animator.resetKeyframe(3);
     }
     
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of(
             main_neck,
             head_face,
             head_jaw,
@@ -146,6 +152,8 @@ public class ModelSnake extends AdvancedEntityModel<EntitySnake> {
             body_9,
             body_10
         );
+        }
+        return this.allParts;
     }
 
     public void setupAnim(EntitySnake snake, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {

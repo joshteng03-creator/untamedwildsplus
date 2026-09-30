@@ -161,9 +161,15 @@ public class ModelWarthog extends AdvancedEntityModel<EntityBoar> {
         return ImmutableList.of(this.main_body);
     }
 
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of(
             main_body,
             head_main,
             leg_left_1,
@@ -187,6 +193,8 @@ public class ModelWarthog extends AdvancedEntityModel<EntityBoar> {
             arm_right_2,
             leg_right_2
         );
+        }
+        return this.allParts;
     }
 
     void animate(IAnimatedEntity entityIn) {

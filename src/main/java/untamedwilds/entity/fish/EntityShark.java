@@ -33,7 +33,7 @@ public class EntityShark extends ComplexMobAquatic implements ISpecies, IAnimate
 
     private static final EntityDataAccessor<Boolean> SHORT_FINS = SynchedEntityData.defineId(EntityShark.class, EntityDataSerializers.BOOLEAN);
 
-    public static Animation ATTACK_THRASH;
+    public static final Animation ATTACK_THRASH = Animation.create(15);
     private int animationTick;
     private Animation currentAnimation;
     public int ringBufferIndex = -1;
@@ -41,7 +41,6 @@ public class EntityShark extends ComplexMobAquatic implements ISpecies, IAnimate
 
     public EntityShark(EntityType<? extends ComplexMob> type, Level worldIn) {
         super(type, worldIn);
-        ATTACK_THRASH = Animation.create(15);
         this.entityData.define(SHORT_FINS, false);
         this.turn_speed = 0.3F;
     }

@@ -162,12 +162,20 @@ public class ModelBear extends AdvancedEntityModel<EntityBear> {
         return ImmutableList.of(body_main);
     }
 
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(body_main, body_buttocks, body_torso, leg_left_1, leg_right_1, leg_left_2, leg_left_foot,
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of(body_main, body_buttocks, body_torso, leg_left_1, leg_right_1, leg_left_2, leg_left_foot,
                 leg_right_2, leg_right_foot, arm_left_1, head_face, arm_right_1, arm_left_2, arm_left_foot, head_snout,
                 head_jaw, head_eyes, arm_right_2, arm_right_foot
         );
+        }
+        return this.allParts;
     }
 
     private void animate(IAnimatedEntity entityIn) {

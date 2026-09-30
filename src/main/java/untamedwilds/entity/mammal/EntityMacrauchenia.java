@@ -41,13 +41,11 @@ import untamedwilds.entity.ai.RetreatWhenRoutedGoal;
 
 public class EntityMacrauchenia extends ComplexMobTerrestrial implements INewSkins, ISpecies, IPackEntity, INeedsPostUpdate {
 
-    public static Animation ATTACK_THREATEN;
-    public static Animation ATTACK_GORE;
+    public static final Animation ATTACK_THREATEN = Animation.create(50);
+    public static final Animation ATTACK_GORE = Animation.create(14);
 
     public EntityMacrauchenia(EntityType<? extends ComplexMob> type, Level worldIn) {
         super(type, worldIn);
-        ATTACK_THREATEN = Animation.create(50);
-        ATTACK_GORE = Animation.create(14);
         this.maxUpStep = 1F;
         this.turn_speed = 0.2F;
     }
@@ -113,7 +111,7 @@ public class EntityMacrauchenia extends ComplexMobTerrestrial implements INewSki
             else {
                 this.herd.tick();
             }
-            if (this.level.getGameTime() % 1000 == 0) {
+            if ((this.level.getGameTime() + this.getId()) % 1000 == 0) { // staggered by id: every animal on the same tick was a sync-packet burst
                 this.addHunger(-10);
                 if (!this.isStarving()) {
                     this.heal(1.0F);

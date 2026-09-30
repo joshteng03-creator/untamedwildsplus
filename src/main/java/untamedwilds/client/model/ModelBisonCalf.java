@@ -115,9 +115,15 @@ public class ModelBisonCalf extends AdvancedEntityModel<EntityBison> {
         return ImmutableList.of(body_main);
     }
 
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of(
                 body_main,
                 leg_left_thigh,
                 leg_right_thigh,
@@ -135,6 +141,8 @@ public class ModelBisonCalf extends AdvancedEntityModel<EntityBison> {
                 leg_left_calf,
                 leg_right_calf
         );
+        }
+        return this.allParts;
     }
 
     public void setupAnim(EntityBison bison, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {

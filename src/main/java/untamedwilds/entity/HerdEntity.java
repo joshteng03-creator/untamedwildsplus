@@ -422,7 +422,8 @@ public class HerdEntity {
                          * has finished -- far too slow to keep up with a leader crossing a hundred
                          * blocks. Without this the herd arrives as one animal with a long tail of
                          * stragglers still standing on the range it was supposed to have left. */
-                        else if (this.migrating && creature.getTarget() == null && creature.fleeCooldown <= 0 && creature.canMove()) {
+                        else if (this.migrating && creature.getTarget() == null && creature.fleeCooldown <= 0 && creature.canMove()
+                                && followerNeedsRepath(creature)) {
                             creature.getNavigation().moveTo(this.leader.getX(), this.leader.getY(), this.leader.getZ(), 1.1D);
                         }
                     }
@@ -435,6 +436,14 @@ public class HerdEntity {
                 removeCreature(this, mob);
             }
         }
+    }
+
+    /* A follower already walking toward where the leader is keeps its path; it re-paths only when it has
+     * arrived or the leader has moved more than 8 blocks from its destination. Re-pathing on every herd
+     * tick cost one pathfind per straggler every 10 ticks for the whole journey. */
+    private boolean followerNeedsRepath(ComplexMob creature) {
+        BlockPos dest = creature.getNavigation().getTargetPos();
+        return creature.getNavigation().isDone() || dest == null || dest.distSqr(this.leader.blockPosition()) > 64.0D;
     }
 
     static boolean canCombineHerds(HerdEntity thisPack, HerdEntity otherPack) {

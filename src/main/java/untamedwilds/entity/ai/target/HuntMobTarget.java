@@ -49,6 +49,13 @@ public class HuntMobTarget<T extends LivingEntity> extends TargetGoal {
     }
 
     protected boolean isValidTarget(LivingEntity entity, @Nullable Predicate<LivingEntity> predicate) {
+        /* Cheapest test first. The scan box is a cuboid, so its corners hold candidates that canAttack's
+         * range check below rejects anyway -- after the diet lookup, the herd walk and the rout memory had
+         * already been paid for. Never stricter than canAttack, whose range is this times visibility. */
+        double range = this.getFollowDistance();
+        if (this.mob.distanceToSqr(entity) > range * range) {
+            return false;
+        }
         if (entity instanceof Creeper || entity.equals(this.mob) || (!ConfigGamerules.attackUndead.get() && entity.getMobType() == MobType.UNDEAD) || (entity instanceof ComplexMob cmob && !cmob.canBeTargeted()) || (predicate != null && !predicate.test(entity))) {
             return false;
         }
@@ -138,6 +145,11 @@ public class HuntMobTarget<T extends LivingEntity> extends TargetGoal {
             }
             if (hunter.huntingCooldown != 0)
                 return false;
+            /* A fresh search is a follow-range entity scan plus the odds check's own scan, and nothing here
+             * throttled it: every hungry predator paid both every other tick. Vanilla's target goals roll a
+             * ~10-tick random interval; re-acquiring a committed victim (above) stays immediate. */
+            if (this.mob.getRandom().nextInt(reducedTickDelay(10)) != 0)
+                return false;
             /* Do not START a fight the group cannot win. Checked here and NOT in canContinueToUse: a
              * predator already committed would otherwise abandon its quarry the instant the first
              * defender turned up, which is every hunt. Once committed, the commitment timer and the
@@ -151,8 +163,7 @@ public class HuntMobTarget<T extends LivingEntity> extends TargetGoal {
         if (list.isEmpty())
             return false;
 
-        list.sort(this.sorter);
-        this.targetMob = list.get(0);
+        this.targetMob = this.sorter.best(list);
         return true;
     }
 
@@ -302,6 +313,22 @@ public class HuntMobTarget<T extends LivingEntity> extends TargetGoal {
 
         public int compare(Entity entity_1, Entity entity_2) {
             return Double.compare(this.weightedDistance(entity_1), this.weightedDistance(entity_2));
+        }
+
+        /* The lowest-weighted candidate in one pass: the first element list.sort(this) would have put first,
+         * but each weight -- a census lookup and a herd walk -- is computed once instead of twice per
+         * comparison. */
+        public <E extends Entity> E best(List<E> candidates) {
+            E best = null;
+            double bestWeight = Double.MAX_VALUE;
+            for (E candidate : candidates) {
+                double weight = this.weightedDistance(candidate);
+                if (best == null || weight < bestWeight) {
+                    best = candidate;
+                    bestWeight = weight;
+                }
+            }
+            return best;
         }
     }
 }

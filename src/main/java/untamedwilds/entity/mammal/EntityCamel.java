@@ -43,13 +43,11 @@ import untamedwilds.entity.ai.RetreatWhenRoutedGoal;
 
 public class EntityCamel extends ComplexMobTerrestrial implements INewSkins, ISpecies, IPackEntity {
 
-    public static Animation IDLE_TALK;
-    public static Animation ATTACK_SPIT;
+    public static final Animation IDLE_TALK = Animation.create(20);
+    public static final Animation ATTACK_SPIT = Animation.create(20);
 
     public EntityCamel(EntityType<? extends ComplexMob> type, Level worldIn) {
         super(type, worldIn);
-        IDLE_TALK = Animation.create(20);
-        ATTACK_SPIT = Animation.create(20);
         this.maxUpStep = 1F;
         this.turn_speed = 0.2F;
     }
@@ -127,7 +125,7 @@ public class EntityCamel extends ComplexMobTerrestrial implements INewSkins, ISp
             else {
                 this.herd.tick();
             }
-            if (this.level.getGameTime() % 1000 == 0) {
+            if ((this.level.getGameTime() + this.getId()) % 1000 == 0) { // staggered by id: every animal on the same tick was a sync-packet burst
                 this.addHunger(-10);
                 if (!this.isStarving()) {
                     this.heal(1.0F);

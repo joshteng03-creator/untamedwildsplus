@@ -65,6 +65,11 @@ public class ProtectChildrenTarget<T extends LivingEntity> extends HuntMobTarget
     public boolean canUse() {
         if (this.mob.isBaby() || (this.mob instanceof TamableAnimal tamable && tamable.isTame()))
             return false;
+        /* Every adult ran a calf scan plus, with a calf about, a threat scan and a census-weighted sort,
+         * every other tick. A ~10-tick random interval is vanilla's cadence for target goals and still
+         * answers a threat to a calf within half a second. */
+        if (this.mob.getRandom().nextInt(reducedTickDelay(10)) != 0)
+            return false;
 
         if (this.mob instanceof ComplexMob temp) {
 
@@ -79,7 +84,7 @@ public class ProtectChildrenTarget<T extends LivingEntity> extends HuntMobTarget
                         return false;
                     }
 
-                    list.sort(this.sorter);
+                    T threat = this.sorter.best(list);
                     /* Bounded group defence. Every adult runs this goal independently, so before this
                      * check a twenty-strong herd put a dozen mothers onto the same wolf at once and
                      * killed it in about two seconds no matter how strong it was -- the reason
@@ -90,10 +95,10 @@ public class ProtectChildrenTarget<T extends LivingEntity> extends HuntMobTarget
                      * Nothing else is needed to make the non-defenders retreat: the HEAVY herbivores
                      * all carry a SmartAvoidGoal keyed on predators that is suppressed only while they
                      * hold a combat target, so refusing the target IS the backing away. */
-                    if (temp.herd != null && !temp.herd.tryClaimDefenderSlot(temp, list.get(0))) {
+                    if (temp.herd != null && !temp.herd.tryClaimDefenderSlot(temp, threat)) {
                         return false;
                     }
-                    this.targetMob = list.get(0);
+                    this.targetMob = threat;
                     return true;
                 }
             }

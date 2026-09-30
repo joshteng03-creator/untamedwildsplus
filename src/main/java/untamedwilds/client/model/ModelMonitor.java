@@ -145,11 +145,19 @@ public class ModelMonitor extends AdvancedEntityModel<EntityMonitor> {
         return ImmutableList.of(main_body);
     }
 
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(main_body, head_neck, arm_left, leg_left, tail_1, arm_right, leg_right, head_face, head_snout, head_jaw, head_tongue, arm_left_2,
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of(main_body, head_neck, arm_left, leg_left, tail_1, arm_right, leg_right, head_face, head_snout, head_jaw, head_tongue, arm_left_2,
             arm_left_hand, leg_left_2, leg_left_feet, tail_2, arm_right_2, arm_right_hand, leg_right_2, leg_right_feet
         );
+        }
+        return this.allParts;
     }
 
     private void animate(IAnimatedEntity entityIn) {

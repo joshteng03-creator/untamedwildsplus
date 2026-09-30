@@ -49,17 +49,14 @@ public class EntityBoar extends ComplexMobTerrestrial implements ISpecies, INewS
 
     private BlockPos lastDugPos = null;
 
-    public static Animation WORK_DIG;
-    public static Animation ATTACK;
-    public static Animation TALK;
+    public static final Animation WORK_DIG = Animation.create(48);
+    public static final Animation ATTACK = Animation.create(18);
+    public static final Animation TALK = Animation.create(20);
 
     public EntityBoar(EntityType<? extends ComplexMob> type, Level worldIn) {
         super(type, worldIn);
         this.entityData.define(WARTHOG, false);
         this.turn_speed = 0.6F;
-        WORK_DIG = Animation.create(48);
-        ATTACK = Animation.create(18);
-        TALK = Animation.create(20);
     }
 
     public void registerGoals() {
@@ -110,7 +107,7 @@ public class EntityBoar extends ComplexMobTerrestrial implements ISpecies, INewS
     public void aiStep() {
         if (!this.level.isClientSide) {
             this.setAngry(this.getTarget() != null);
-            if (this.level.getGameTime() % 1000 == 0) {
+            if ((this.level.getGameTime() + this.getId()) % 1000 == 0) { // staggered by id: every animal on the same tick was a sync-packet burst
                 this.addHunger(-10);
                 if (!this.isStarving()) {
                     this.heal(1.0F);

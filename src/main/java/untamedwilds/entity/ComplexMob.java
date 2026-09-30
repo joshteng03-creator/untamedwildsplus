@@ -57,6 +57,8 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @MethodsReturnNonnullByDefault
@@ -803,6 +805,23 @@ public abstract class ComplexMob extends TamableAnimal {
         if (this.herd == null || !EcologyMode.allowsMigration(this)) {
             return false;
         }
+        /* A crowding_radius box (97 blocks wide at the default 48) scanned from wantsToMigrate, pickDisperser,
+         * the predator breeding gate and twice per candidate in SmartMateGoal. Local density does not change
+         * on a tick timescale, so reuse the answer for OVERCROWDING_CACHE_TICKS. */
+        long now = this.level.getGameTime();
+        if (now - this.overcrowdedCheckedAt < OVERCROWDING_CACHE_TICKS) {
+            return this.overcrowdedCached;
+        }
+        this.overcrowdedCheckedAt = now;
+        this.overcrowdedCached = this.countOvercrowded();
+        return this.overcrowdedCached;
+    }
+
+    private static final int OVERCROWDING_CACHE_TICKS = 100;
+    private long overcrowdedCheckedAt = Long.MIN_VALUE / 2;
+    private boolean overcrowdedCached;
+
+    private boolean countOvercrowded() {
         double radius = ConfigGamerules.crowdingRadius.get();
         int capacity = (int) Math.ceil(this.herd.getMaxSize() * ConfigGamerules.localCapacityFactor.get());
         int neighbours = 0;
@@ -1407,21 +1426,24 @@ public abstract class ComplexMob extends TamableAnimal {
         }
         ComplexMob best = null;
         int bestCount = 0;
-        for (ComplexMob rival : this.level.getEntitiesOfClass(ComplexMob.class, this.getBoundingBox().inflate(DISPLACEMENT_RADIUS))) {
+        List<ComplexMob> nearby = this.level.getEntitiesOfClass(ComplexMob.class, this.getBoundingBox().inflate(DISPLACEMENT_RADIUS));
+        // Count only the rivals actually standing over the carcass, not the whole clan's roster. Counted
+        // once from the one scan -- this used to re-run the identical scan for every rival in it.
+        Map<EntityType<?>, Integer> present = new HashMap<>();
+        for (ComplexMob mate : nearby) {
+            if (mate.isAlive() && !mate.isBaby()) {
+                present.merge(mate.getType(), 1, Integer::sum);
+            }
+        }
+        for (ComplexMob rival : nearby) {
             int needed = rival.displacementGroupSize();
             if (rival == this || !rival.isAlive() || rival.isBaby() || needed <= 0 || !this.yieldsCarcassTo(rival)
                     || (this.herd != null && this.herd.creatureList.contains(rival))) {
                 continue;
             }
-            // Count only the rivals actually standing over the carcass, not the whole clan's roster.
-            int present = 0;
-            for (ComplexMob mate : this.level.getEntitiesOfClass(ComplexMob.class, this.getBoundingBox().inflate(DISPLACEMENT_RADIUS))) {
-                if (mate.getType() == rival.getType() && mate.isAlive() && !mate.isBaby()) {
-                    present++;
-                }
-            }
-            if (present >= needed && present > bestCount) {
-                bestCount = present;
+            int count = present.getOrDefault(rival.getType(), 0);
+            if (count >= needed && count > bestCount) {
+                bestCount = count;
                 best = rival;
             }
         }

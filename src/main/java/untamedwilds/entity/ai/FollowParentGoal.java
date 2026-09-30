@@ -23,6 +23,10 @@ public class FollowParentGoal extends Goal {
        if (!this.taskOwner.isBaby() || this.taskOwner.getTarget() != null || !this.taskOwner.canMove()) {
             return false;
         }
+        // The parent scan ran every other tick for every calf, even one standing beside its mother.
+        if (this.taskOwner.getRandom().nextInt(reducedTickDelay(10)) != 0) {
+            return false;
+        }
         List<? extends ComplexMob> list = this.taskOwner.level.getEntitiesOfClass(this.taskOwner.getClass(), this.taskOwner.getBoundingBox().inflate(8.0D, 4.0D, 8.0D));
         ComplexMob entityanimal = null;
         double d0 = Double.MAX_VALUE;

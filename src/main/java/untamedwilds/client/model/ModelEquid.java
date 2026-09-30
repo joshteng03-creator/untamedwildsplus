@@ -307,9 +307,15 @@ public class ModelEquid extends AdvancedEntityModel<EntityEquid> {
         return ImmutableList.of(body_barrel);
     }
 
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of(
             body_barrel, body_chest, body_croup,
             neck, mane, head, muzzle, forelock, ear_left, ear_right, eye_left, eye_right,
             arm_left_1, arm_left_2, arm_left_3, hoof_front_left,
@@ -318,6 +324,8 @@ public class ModelEquid extends AdvancedEntityModel<EntityEquid> {
             leg_right_1, leg_right_2, leg_right_3, hoof_back_right,
             tail_dock, tail_hair_1, tail_hair_2
         );
+        }
+        return this.allParts;
     }
 
     private void animate(IAnimatedEntity entityIn) {

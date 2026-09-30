@@ -40,6 +40,7 @@ public class EcologyTags {
     private static final double PREFERRED_BIAS = 3.0D;
 
     private static final Map<EntityType<?>, String> VANILLA_TAGS = new HashMap<>();
+    private static final Map<String, List<String>> SINGLE_TAG_LISTS = new java.util.concurrent.ConcurrentHashMap<>();
     static {
         VANILLA_TAGS.put(EntityType.COW, GRAZER);
         VANILLA_TAGS.put(EntityType.SHEEP, GRAZER);
@@ -75,22 +76,24 @@ public class EcologyTags {
                 }
             }
         }
+        /* This runs for every candidate in every predator and prey scan, so the one-element lists are
+         * shared rather than allocated per call. */
         String vanilla = VANILLA_TAGS.get(entity.getType());
         if (vanilla != null) {
-            return List.of(vanilla);
+            return SINGLE_TAG_LISTS.computeIfAbsent(vanilla, List::of);
         }
         // Players get a tag no diet lists, so tagging a predator never makes it seek players out. They
         // can still be attacked through the retaliation/territorial goals, which is where that belongs.
         if (entity instanceof Player) {
-            return List.of(PLAYER);
+            return SINGLE_TAG_LISTS.computeIfAbsent(PLAYER, List::of);
         }
         // Unknown mob (another mod's, or an untagged vanilla one): infer from body size so it is still
         // huntable. Deliberately generous -- being wrong here only costs a slightly odd target choice.
         float bulk = entity.getBbWidth() * entity.getBbHeight();
         if (bulk < 0.7F) {
-            return List.of(SMALL_GAME);
+            return SINGLE_TAG_LISTS.computeIfAbsent(SMALL_GAME, List::of);
         }
-        return bulk > 4.0F ? List.of(MEGAFAUNA) : List.of(GRAZER);
+        return SINGLE_TAG_LISTS.computeIfAbsent(bulk > 4.0F ? MEGAFAUNA : GRAZER, List::of);
     }
 
     /** What this predator EATS. Empty means "no preference declared" -- keep the legacy behaviour. */

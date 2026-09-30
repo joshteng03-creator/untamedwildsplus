@@ -237,9 +237,15 @@ public class ModelGlyptodont extends AdvancedEntityModel<EntityGlyptodont> {
         return ImmutableList.of(body_core);
     }
 
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of(
             body_core, shell_crown, shell_front, shell_rear, shell_flank_left, shell_flank_right,
             head_neck, head_main, head_cap, snout, eye_left, eye_right,
             arm_left_1, arm_left_2, arm_right_1, arm_right_2,
@@ -247,6 +253,8 @@ public class ModelGlyptodont extends AdvancedEntityModel<EntityGlyptodont> {
             tail_1, tail_2, tail_3, tail_club,
             club_spike_left, club_spike_right, club_spike_top, club_spike_rear
         );
+        }
+        return this.allParts;
     }
 
     private void animate(IAnimatedEntity entityIn) {

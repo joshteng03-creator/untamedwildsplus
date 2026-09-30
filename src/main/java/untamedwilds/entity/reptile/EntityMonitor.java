@@ -46,8 +46,8 @@ public class EntityMonitor extends ComplexMobAmphibious implements ISpecies, INe
 
     private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(EntityMonitor.class, EntityDataSerializers.BOOLEAN);
 
-    public static Animation IDLE_TONGUE;
-    public static Animation ATTACK_THRASH;
+    public static final Animation IDLE_TONGUE = Animation.create(20);
+    public static final Animation ATTACK_THRASH = Animation.create(30);
     public int swimProgress;
     public float offset;
     public Pair<Float, Float> head_movement;
@@ -58,8 +58,6 @@ public class EntityMonitor extends ComplexMobAmphibious implements ISpecies, INe
         super(type, worldIn);
         this.moveControl = new SmartSwimmingMoveControl(this, 40, 5, 0.25F, 0.3F, true);
         this.lookControl = new SmartSwimmerLookControl(this, 20);
-        IDLE_TONGUE = Animation.create(20);
-        ATTACK_THRASH = Animation.create(30);
         this.head_movement = new Pair<>(0F, 0F);
         this.ticksToSit = 20;
     }

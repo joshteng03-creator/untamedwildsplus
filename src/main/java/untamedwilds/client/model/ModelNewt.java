@@ -112,11 +112,19 @@ public class ModelNewt extends AdvancedEntityModel<EntityNewt> {
         return ImmutableList.of(this.body_main);
     }
 
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(body_main, head_main, body_hip, arm_right, arm_left, leg_left, leg_right, body_crest, tail_1_crest,
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of(body_main, head_main, body_hip, arm_right, arm_left, leg_left, leg_right, body_crest, tail_1_crest,
                 tail_2, tail_1, gill_l_1, gill_l_2, gill_r_1, gill_r_2
         );
+        }
+        return this.allParts;
     }
 
     public void setupAnim(EntityNewt newt, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {

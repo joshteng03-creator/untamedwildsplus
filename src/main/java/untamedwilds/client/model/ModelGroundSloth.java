@@ -266,9 +266,15 @@ public class ModelGroundSloth extends AdvancedEntityModel<EntityGroundSloth> {
         return ImmutableList.of(body_hips);
     }
 
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of(
             body_hips, body_arch, body_chest, neck, head, snout, jaw,
             ear_left, ear_right, eye_left, eye_right,
             arm_left_1, arm_left_2, hand_left, claw_left_a, claw_left_b, claw_left_c,
@@ -277,6 +283,8 @@ public class ModelGroundSloth extends AdvancedEntityModel<EntityGroundSloth> {
             leg_right_thigh, leg_right_shank, foot_right,
             tail_1, tail_2, tail_3
         );
+        }
+        return this.allParts;
     }
 
     private void animate(IAnimatedEntity entityIn) {

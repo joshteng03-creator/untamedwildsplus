@@ -245,9 +245,15 @@ public class ModelToxodon extends AdvancedEntityModel<EntityToxodon> {
         return ImmutableList.of(body_barrel);
     }
 
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of(
             body_barrel,
             body_withers,
             body_chest,
@@ -283,6 +289,8 @@ public class ModelToxodon extends AdvancedEntityModel<EntityToxodon> {
             hind_right_cannon,
             hind_right_foot
         );
+        }
+        return this.allParts;
     }
 
     private void animate(IAnimatedEntity entityIn) {

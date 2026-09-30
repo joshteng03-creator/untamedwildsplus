@@ -127,9 +127,17 @@ public class ModelAnaconda extends AdvancedEntityModel<EntityAnaconda> {
         animator.update(entity);
     }
 
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(head_main, body_head_top, body_head_top_1, body_snout_top, body_snout_top_1, body_1, body_2, body_3, body_4, body_5, body_6, body_7, body_8, body_9, body_10, body_11, body_12, body_13);
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of(head_main, body_head_top, body_head_top_1, body_snout_top, body_snout_top_1, body_1, body_2, body_3, body_4, body_5, body_6, body_7, body_8, body_9, body_10, body_11, body_12, body_13);
+        }
+        return this.allParts;
     }
 
     public void setupAnim(EntityAnaconda anaconda, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {

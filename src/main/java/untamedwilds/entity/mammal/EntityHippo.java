@@ -27,20 +27,15 @@ import untamedwilds.entity.ai.target.SmartHurtByTargetGoal;
 
 public class EntityHippo extends ComplexMobAmphibious implements INewSkins, ISpecies {
 
-    public static Animation EAT;
-    public static Animation IDLE_YAWN;
-    public static Animation IDLE_LOOK;
-    public static Animation ATTACK;
-    public static Animation IDLE_TALK;
+    public static final Animation EAT = Animation.create(48);
+    public static final Animation IDLE_YAWN = Animation.create(36);
+    public static final Animation IDLE_LOOK = Animation.create(128);
+    public static final Animation ATTACK = Animation.create(24);
+    public static final Animation IDLE_TALK = Animation.create(20);
     public int angryProgress;
 
     public EntityHippo(EntityType<? extends ComplexMob> type, Level worldIn) {
         super(type, worldIn);
-        IDLE_YAWN = Animation.create(36);
-        IDLE_LOOK = Animation.create(128);
-        IDLE_TALK = Animation.create(20);
-        EAT = Animation.create(48);
-        ATTACK = Animation.create(24);
         this.maxUpStep = 1F;
         this.isAmphibious = true;
         this.turn_speed = 0.3F;
@@ -84,7 +79,7 @@ public class EntityHippo extends ComplexMobAmphibious implements INewSkins, ISpe
             if (this.isInWater() && this.getTarget() == null) {
                 this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.01D, 0.0D));
             }
-            if (this.level.getGameTime() % 1000 == 0) {
+            if ((this.level.getGameTime() + this.getId()) % 1000 == 0) { // staggered by id: every animal on the same tick was a sync-packet burst
                 this.addHunger(-10);
                 if (!this.isStarving()) {
                     this.heal(1.0F);

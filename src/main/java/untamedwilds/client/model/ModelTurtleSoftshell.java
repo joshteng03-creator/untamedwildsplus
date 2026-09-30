@@ -80,10 +80,18 @@ public class ModelTurtleSoftshell extends AdvancedEntityModel<EntitySoftshellTur
         return ImmutableList.of(this.main_body);
     }
 
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(main_body, hand_left, hand_right, leg_left, leg_right, neck, main_head
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of(main_body, hand_left, hand_right, leg_left, leg_right, neck, main_head
         );
+        }
+        return this.allParts;
     }
 
     public void setupAnim(EntitySoftshellTurtle turtle, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {

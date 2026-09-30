@@ -32,14 +32,12 @@ public class EntityAardvark extends ComplexMobTerrestrial implements ISpecies, I
 
     private BlockPos lastDugPos = null;
 
-    public static Animation WORK_DIG;
-    public static Animation ATTACK;
+    public static final Animation WORK_DIG = Animation.create(76);
+    public static final Animation ATTACK = Animation.create(18);
 
     public EntityAardvark(EntityType<? extends ComplexMob> type, Level worldIn) {
         super(type, worldIn);
         this.turn_speed = 0.8F;
-        WORK_DIG = Animation.create(76);
-        ATTACK = Animation.create(18);
     }
 
     public void registerGoals() {
@@ -76,7 +74,7 @@ public class EntityAardvark extends ComplexMobTerrestrial implements ISpecies, I
     public void aiStep() {
         if (!this.level.isClientSide) {
             this.setAngry(this.getTarget() != null);
-            if (this.level.getGameTime() % 1000 == 0) {
+            if ((this.level.getGameTime() + this.getId()) % 1000 == 0) { // staggered by id: every animal on the same tick was a sync-packet burst
                 this.addHunger(-10);
                 if (!this.isStarving()) {
                     this.heal(1.0F);

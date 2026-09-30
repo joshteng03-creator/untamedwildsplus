@@ -151,12 +151,20 @@ public class ModelShark extends AdvancedEntityModel<EntityShark> {
         return ImmutableList.of(body_main);
     }
 
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(body_main, head_snout, body_tail_1, fin_dorsal, fin_right, fin_left, head_face_1,
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of(body_main, head_snout, body_tail_1, fin_dorsal, fin_right, fin_left, head_face_1,
             head_jaw, head_face_teeth, head_hammer, head_jaw_teeth, body_tail_2, fin_pelvic_left, fin_pelvic_right,
             body_tail_3, fin_what_top, fin_what_bottom, fin_caudal, fin_caudal_2, head_nose
         );
+        }
+        return this.allParts;
     }
 
     private void animate(IAnimatedEntity entityIn) {

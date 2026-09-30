@@ -42,16 +42,13 @@ public class EntityKingCrab extends ComplexMobAmphibious implements ISpecies, IN
 
     private int animationTick;
     private Animation currentAnimation;
-    public static Animation EAT_LEFT;
-    public static Animation EAT_RIGHT;
-    public static Animation EAT_BOTH;
+    public static final Animation EAT_LEFT = Animation.create(56);
+    public static final Animation EAT_RIGHT = Animation.create(56);
+    public static final Animation EAT_BOTH = Animation.create(80);
 
     public EntityKingCrab(EntityType<? extends EntityKingCrab> type, Level worldIn) {
         super(type, worldIn);
         //this.moveControl = new SmartSwimmingMoveControl(this, 40, 5, 1F, 0.6F, true);
-        EAT_LEFT = Animation.create(56);
-        EAT_RIGHT = Animation.create(56);
-        EAT_BOTH = Animation.create(80);
         this.maxUpStep = 1;
     }
 

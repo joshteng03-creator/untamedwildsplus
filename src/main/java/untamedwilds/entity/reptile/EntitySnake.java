@@ -45,12 +45,11 @@ public class EntitySnake extends ComplexMobTerrestrial implements ISpecies, INew
     private static final EntityDataAccessor<Boolean> RATTLER = SynchedEntityData.defineId(EntitySnake.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(EntitySnake.class, EntityDataSerializers.BOOLEAN);
 
-    public static Animation ANIMATION_TONGUE;
+    public static final Animation ANIMATION_TONGUE = Animation.create(10);
     public float offset;
 
     public EntitySnake(EntityType<? extends ComplexMobTerrestrial> type, Level worldIn) {
         super(type, worldIn);
-        ANIMATION_TONGUE = Animation.create(10);
         this.ticksToSit = 20;
     }
 

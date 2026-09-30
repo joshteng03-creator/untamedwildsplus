@@ -49,6 +49,13 @@ public class LookThroughSpyglassEvent {
     }
 
     public static HitResult raycast(Entity origin, double maxDistance, boolean hitsEntities) {
+        /* Level.clip reads block states along the whole ray, and on the server getBlockState loads -- or
+         * generates -- any chunk it touches. At the default 5000-block spyglass range, one look across
+         * open plains or ocean could generate hundreds of chunks on the main thread. Nothing past the view
+         * distance is loaded or rendered for the player anyway. */
+        if (origin.level.getServer() != null) {
+            maxDistance = Math.min(maxDistance, origin.level.getServer().getPlayerList().getViewDistance() * 16.0D);
+        }
         Vec3 startPos = origin.getEyePosition(1F);
         Vec3 rotation = origin.getViewVector(1F);
         Vec3 endPos = startPos.add(rotation.x * maxDistance, rotation.y * maxDistance, rotation.z * maxDistance);
@@ -57,8 +64,13 @@ public class LookThroughSpyglassEvent {
         if(hitResult.getType() != HitResult.Type.MISS)
             endPos = hitResult.getLocation();
 
-        maxDistance *= 5;
-        HitResult entityHitResult = ProjectileUtil.getEntityHitResult(origin, startPos, endPos, origin.getBoundingBox().expandTowards(rotation.scale(maxDistance)).inflate(1.0D, 1.0D, 1.0D), entity -> !entity.isSpectator(), maxDistance);
+        /* getEntityHitResult's last argument is a SQUARED distance. It was passed range x 5, so entities were
+         * only ever found within sqrt(5 x range) -- about 158 blocks at the default range -- while the search
+         * box was sized to range x 5 (25,000 blocks) and swept every entity along it. Same reach, box sized
+         * to it. */
+        double entityReachSqr = maxDistance * 5;
+        double entityReach = Math.sqrt(entityReachSqr);
+        HitResult entityHitResult = ProjectileUtil.getEntityHitResult(origin, startPos, endPos, origin.getBoundingBox().expandTowards(rotation.scale(entityReach)).inflate(1.0D, 1.0D, 1.0D), entity -> !entity.isSpectator(), entityReachSqr);
 
         if(hitsEntities && entityHitResult != null)
             hitResult = entityHitResult;

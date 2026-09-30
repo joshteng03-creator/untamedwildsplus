@@ -31,15 +31,12 @@ import untamedwilds.entity.ai.MeleeAttackCircleHerd;
 
 public class EntityHyena extends ComplexMobTerrestrial implements INewSkins, ISpecies, IPackEntity, INeedsPostUpdate {
 
-    public static Animation ATTACK_POUNCE;
-    public static Animation IDLE_TALK;
-    public static Animation ATTACK_BITE;
+    public static final Animation ATTACK_POUNCE = Animation.create(42);
+    public static final Animation IDLE_TALK = Animation.create(20);
+    public static final Animation ATTACK_BITE = Animation.create(15);
 
     public EntityHyena(EntityType<? extends ComplexMob> type, Level worldIn) {
         super(type, worldIn);
-        IDLE_TALK = Animation.create(20);
-        ATTACK_POUNCE = Animation.create(42);
-        ATTACK_BITE = Animation.create(15);
         this.maxUpStep = 1F;
         this.turn_speed = 0.1F;
     }
@@ -108,7 +105,7 @@ public class EntityHyena extends ComplexMobTerrestrial implements INewSkins, ISp
             else {
                 this.herd.tick();
             }
-            if (this.level.getGameTime() % 1000 == 0) {
+            if ((this.level.getGameTime() + this.getId()) % 1000 == 0) { // staggered by id: every animal on the same tick was a sync-packet burst
                 this.drainHuntingHunger(4);
                 if (!this.isStarving()) {
                     // See EntityBear: canids healed 1 HP per 1000 ticks, slower than anything they hunt.

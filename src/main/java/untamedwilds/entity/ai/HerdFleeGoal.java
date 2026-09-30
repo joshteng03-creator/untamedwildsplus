@@ -126,9 +126,16 @@ public class HerdFleeGoal<T extends LivingEntity> extends SmartAvoidGoal<T> {
 
     @Override
     public void start() {
+        /* Only the animal that STARTS a panic raises the alarm. Every herd-mate that then sees the same
+         * predator on its own 10-tick scan used to re-alert the whole herd and the alarm network, and
+         * panic() re-pathed everyone each time: in a 20-strong herd with neighbours that was over a
+         * thousand pathfinds within half a second, repeated for as long as the threat stayed in view. */
+        boolean alreadyPanicking = this.taskOwner.fleeCooldown > 0;
         this.taskOwner.setTarget(null);
         this.taskOwner.fleeCooldown = PANIC_TICKS;
-        this.alertHerd();
+        if (!alreadyPanicking) {
+            this.alertHerd();
+        }
         super.start();
     }
 
@@ -176,6 +183,10 @@ public class HerdFleeGoal<T extends LivingEntity> extends SmartAvoidGoal<T> {
     private void panic(ComplexMob animal) {
         // A herd-mate holding the line is not swept up in the stampede; see isDefending.
         if (!animal.isAlive() || animal.isTame() || this.toAvoid == null || isDefending(animal)) {
+            return;
+        }
+        // Already running from this panic: keep the escape path it has rather than recomputing one.
+        if (animal.fleeCooldown > 0 && !animal.getNavigation().isDone()) {
             return;
         }
         animal.setTarget(null);

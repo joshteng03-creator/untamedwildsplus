@@ -100,9 +100,15 @@ public class ModelTortoise extends AdvancedEntityModel<EntityTortoise> {
         animator.resetKeyframe(3);*/
     }
     
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of(
                 body_main,
                 neck,
                 hand_right,
@@ -114,6 +120,8 @@ public class ModelTortoise extends AdvancedEntityModel<EntityTortoise> {
                 head,
                 shape8
         );
+        }
+        return this.allParts;
     }
 
     public void setupAnim(EntityTortoise tortoise, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {

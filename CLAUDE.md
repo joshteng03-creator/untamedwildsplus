@@ -966,6 +966,34 @@ future-species list, was lost that way. Phase 1 (build SUCCESSFUL, runClient pen
   It is a greedy-string argument beside the `auto` literal (Brigadier prefers the literal), because
   `word()` rejects the colon.
 
+### Phase 3 — optimization (2026-09-30, build SUCCESSFUL, not yet profiled in-game)
+
+Behaviour-preserving: the same decisions, evaluated less often. **Throttling rule learned here:**
+vanilla gives goals their full tick only when `(serverTick + entityId)` is even, so a
+`tickCount % N` gate inside a goal can sit on the skipped parity and never fire. Goals use a
+countdown or `getRandom().nextInt(reducedTickDelay(N))`; `% N` staggers are only safe in `aiStep`.
+- `HerdFleeGoal`: only the animal that STARTS a panic alerts the herd and alarm network, and an
+  animal already fleeing keeps its path (was 1000+ pathfinds per sighting in a big mixed herd).
+- `MeleeAttackCircleHerd`: circle re-path every ~10 ticks or when the path ends (was every tick).
+- `HuntMobTarget`: cheap distance test first in `isValidTarget`; fresh searches on vanilla's ~10-tick
+  random interval (re-acquiring a committed victim stays immediate); `Sorter.best()` picks the target
+  in one pass instead of a sort that recomputed census weights twice per comparison.
+  `ProtectChildrenTarget` and `FollowParentGoal` got the same random interval.
+- `LookThroughSpyglassEvent`: the raycast could load/generate chunks up to 5000 blocks out — now
+  clamped to the view distance. Its entity search passed range where vanilla wants a SQUARED
+  distance (effective reach ~158 blocks, box 25,000 blocks long); reach kept, box sized to it.
+- `ForageRegrowthHandler`: attempts spread evenly across the interval (was a ~5000-lookup spike every
+  200 ticks), and the neighbour sweep checks its chunks are loaded first.
+- `HerdEntity` migration followers re-path only when arrived or the leader moved > 8 blocks;
+  `isLocallyOvercrowded` cached 100 ticks per animal; `findCarcassThief` scans once, not once per rival;
+  `EcologyTags` stops allocating one-element lists per lookup; the 19 `% 1000` hunger/heal blocks are
+  staggered by entity id; `predator_odds_ratio` can now be 0 (disables the check and its scan).
+- Client: all 52 models build `getAllParts()` once (was a fresh ImmutableList per animal per frame).
+  The 70 `Animation` statics are now `static final` — they were recreated in every entity constructor,
+  and since models compare them by identity, spawning an animal could drop another's running animation.
+- Deliberately not done yet: leader-shared predator scans for herbivores (changes the "many eyes"
+  detection design — only if a Spark profile says it matters).
+
 ## Models & skins (Claude Design)
 
 Models are hand-written Citadel `AdvancedEntityModel<EntityXxx>` from `AdvancedModelBox` cubes

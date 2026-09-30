@@ -156,9 +156,17 @@ public class ModelAardvark extends AdvancedEntityModel<EntityAardvark> {
         return ImmutableList.of(this.body_main);
     }
 
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(body_main, head_neck, arm_left_1, body_booty, arm_right_1, hair, head_head, head_ear_left, head_ear_right, head_snout, eye_left, eye_right, arm_left_2, leg_left_1, body_tail_1, leg_right_1, leg_left_2, body_tail_2, body_tail_3, leg_right_2, arm_right_2);
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of(body_main, head_neck, arm_left_1, body_booty, arm_right_1, hair, head_head, head_ear_left, head_ear_right, head_snout, eye_left, eye_right, arm_left_2, leg_left_1, body_tail_1, leg_right_1, leg_left_2, body_tail_2, body_tail_3, leg_right_2, arm_right_2);
+        }
+        return this.allParts;
     }
 
     private void animate(IAnimatedEntity entityIn) {

@@ -52,7 +52,15 @@ public class ForageRegrowthHandler {
         }
         int interval = ConfigGamerules.forageRegrowthInterval.get();
         int attempts = ConfigGamerules.forageRegrowthAttempts.get();
-        if (interval <= 0 || attempts <= 0 || level.getGameTime() % interval != 0) {
+        if (interval <= 0 || attempts <= 0) {
+            return;
+        }
+        /* Spread each interval's attempts evenly across its ticks instead of firing all of them on one:
+         * 32 attempts per player at up to ~150 block reads each was a ~5000-lookup spike every 200 ticks.
+         * The per-interval total is unchanged. */
+        long phase = level.getGameTime() % interval;
+        int thisTick = (int) ((phase + 1) * attempts / interval - phase * attempts / interval);
+        if (thisTick <= 0) {
             return;
         }
         /* Both gates are deliberate. Zoo mode has no forage depletion to undo, and if grazing is not
@@ -64,7 +72,7 @@ public class ForageRegrowthHandler {
         Random random = level.getRandom();
         for (int p = 0; p < level.players().size(); p++) {
             BlockPos origin = level.players().get(p).blockPosition();
-            for (int i = 0; i < attempts; i++) {
+            for (int i = 0; i < thisTick; i++) {
                 tryRegrow(level, random, origin);
             }
         }
@@ -104,6 +112,11 @@ public class ForageRegrowthHandler {
 
     /** Whether {@code block} occurs within {@link #SPREAD_SEARCH} of {@code pos}, at the same level or one either side. */
     private static boolean hasNeighbour(ServerLevel level, BlockPos pos, net.minecraft.world.level.block.Block block) {
+        /* The column itself was checked, but a column at the edge of the loaded area has neighbours in
+         * a chunk that is not, and getBlockState on the server loads it synchronously. */
+        if (!level.hasChunksAt(pos.getX() - SPREAD_SEARCH, pos.getZ() - SPREAD_SEARCH, pos.getX() + SPREAD_SEARCH, pos.getZ() + SPREAD_SEARCH)) {
+            return false;
+        }
         for (BlockPos candidate : BlockPos.betweenClosed(pos.offset(-SPREAD_SEARCH, -1, -SPREAD_SEARCH), pos.offset(SPREAD_SEARCH, 1, SPREAD_SEARCH))) {
             if (level.getBlockState(candidate).is(block)) {
                 return true;

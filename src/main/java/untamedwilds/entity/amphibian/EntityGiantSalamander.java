@@ -37,7 +37,7 @@ import java.util.List;
 
 public class EntityGiantSalamander extends ComplexMobAmphibious implements ISpecies, INeedsPostUpdate, INewSkins {
 
-    public static Animation ATTACK_SWALLOW;
+    public static final Animation ATTACK_SWALLOW = Animation.create(15);
     public int swimProgress;
     public float offset;
 
@@ -45,7 +45,6 @@ public class EntityGiantSalamander extends ComplexMobAmphibious implements ISpec
         super(type, worldIn);
         this.moveControl = new SmartSwimmingMoveControl(this, 40, 5, 0.25F, 0.3F, true);
         this.lookControl = new SmartSwimmerLookControl(this, 20);
-        ATTACK_SWALLOW = Animation.create(15);
     }
 
     public static AttributeSupplier.Builder registerAttributes() {

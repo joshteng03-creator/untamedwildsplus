@@ -138,12 +138,20 @@ public class MonsterSpitter extends AdvancedEntityModel<EntitySpitter> {
         return ImmutableList.of(this.body_main);
     }
 
+    /* Built once: Citadel asks for this every frame for every animal, and ImmutableList.of over
+     * dozens of parts was a fresh allocation each time. Lazy because the parts only exist once
+     * the constructor has built them. */
+    private ImmutableList<AdvancedModelBox> allParts;
+
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of( body_main, body_abdomen, arm_right_upper, arm_left_upper, head_neck, back_sail,
+        if (this.allParts == null) {
+            this.allParts = ImmutableList.of( body_main, body_abdomen, arm_right_upper, arm_left_upper, head_neck, back_sail,
             leg_right_upper, leg_left_upper, leg_right_lower, arm_right_claw, leg_left_lower, arm_left_claw, arm_right_lower,
             arm_right_claw_1, arm_left_lower, arm_left_claw_1, head_snout, head_tube
         );
+        }
+        return this.allParts;
     }
 
     private void animate(IAnimatedEntity entityIn) {
