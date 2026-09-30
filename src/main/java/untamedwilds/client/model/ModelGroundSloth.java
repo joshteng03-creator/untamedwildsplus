@@ -360,11 +360,11 @@ public class ModelGroundSloth extends AdvancedEntityModel<EntityGroundSloth> {
         this.swing(tail_2, 0.08F, 0.14F, false, 1F, 0F, ageInTicks, 1);
         this.swing(tail_3, 0.08F, 0.18F, false, 2F, 0F, ageInTicks, 1);
 
-        // Blinking: bury the eye planes inside the skull (|x| 5.85 -> 4.6) so they stop rendering.
-        if (!sloth.shouldRenderEyes()) {
-            this.eye_left.setRotationPoint(4.6F, -0.5F, -6.0F);
-            this.eye_right.setRotationPoint(-4.6F, -0.5F, -6.0F);
-        }
+        // Blinking / asleep: squash the eye planes to 20% height about their centre, so the eye reads as a
+        // shut slit instead of vanishing into the skull. Written every frame -- the model is shared.
+        float eyeOpen = sloth.shouldRenderEyes() ? 1.0F : 0.2F;
+        this.eye_left.setScale(1.0F, eyeOpen, 1.0F);
+        this.eye_right.setScale(1.0F, eyeOpen, 1.0F);
 
         // Head Tracking
         if (!sloth.isSleeping()) {
@@ -410,47 +410,52 @@ public class ModelGroundSloth extends AdvancedEntityModel<EntityGroundSloth> {
             swing(tail_3, 0.7f * globalSpeed, 0.40f * globalDegree, false, -2F, 0, f, limbSwingAmount);
         }
 
-        // Rest / sleep: one pose for both. The body sinks 11 units so the belly settles just off the
-        // ground, each limb folds against itself, and the tail flattens out behind. The fold angles were
-        // solved against the actual box geometry -- notably the claws need +104/+108 deg, because once
-        // the hand folds back they otherwise swing 6.3 units THROUGH the floor, and the tail's standing
-        // 16 deg droop has to flatten to 4 deg or it clips once the body drops.
+        // Rest / sleep: sternal, re-solved numerically against the box geometry (2026-09-30). The old fold
+        // pushed the shanks 0.64u and the forearms 0.51u through the ground and buried the hands and claws
+        // inside the chest, so the forelimbs read as stumps. Now the forearms lie FORWARD on the ground with
+        // the hands turned in and the claws curled forward in front of the chest (~80% of the claw volume
+        // visible), the hind limbs fold under, and the tail lies on the ground. Sit holds the head up; sleep
+        // rests the chin on the ground. No box goes below ground in either pose.
         if (sloth.sitProgress > 0) {
-            applyRestingPose(sloth.sitProgress);
+            applyRestingPose(sloth.sitProgress, false);
         }
         else if (sloth.sleepProgress > 0) {
-            applyRestingPose(sloth.sleepProgress);
+            applyRestingPose(sloth.sleepProgress, true);
         }
     }
 
-    private void applyRestingPose(float progress) {
+    private void applyRestingPose(float progress, boolean asleep) {
         this.progressPosition(body_hips, progress, 0.0F, 11.0F, 9.0F, 40);
 
-        this.progressRotation(arm_left_1, progress, (float) Math.toRadians(-20F), 0, (float) Math.toRadians(-5F), 40);
-        this.progressRotation(arm_left_2, progress, (float) Math.toRadians(100F), 0, 0, 40);
-        this.progressRotation(hand_left, progress, (float) Math.toRadians(-10F), 0, 0, 40);
-        this.progressRotation(claw_left_a, progress, (float) Math.toRadians(-104F), 0, (float) Math.toRadians(-7F), 40);
-        this.progressRotation(claw_left_b, progress, (float) Math.toRadians(-108F), 0, 0, 40);
-        this.progressRotation(claw_left_c, progress, (float) Math.toRadians(-104F), 0, (float) Math.toRadians(7F), 40);
-        this.progressRotation(arm_right_1, progress, (float) Math.toRadians(-20F), 0, (float) Math.toRadians(5F), 40);
-        this.progressRotation(arm_right_2, progress, (float) Math.toRadians(100F), 0, 0, 40);
-        this.progressRotation(hand_right, progress, (float) Math.toRadians(-10F), 0, 0, 40);
-        this.progressRotation(claw_right_a, progress, (float) Math.toRadians(-104F), 0, (float) Math.toRadians(7F), 40);
-        this.progressRotation(claw_right_b, progress, (float) Math.toRadians(-108F), 0, 0, 40);
-        this.progressRotation(claw_right_c, progress, (float) Math.toRadians(-104F), 0, (float) Math.toRadians(-7F), 40);
-
-        this.progressRotation(leg_left_thigh, progress, (float) Math.toRadians(40F), 0, (float) Math.toRadians(-4F), 40);
-        this.progressRotation(leg_left_shank, progress, (float) Math.toRadians(-130F), 0, 0, 40);
-        this.progressRotation(foot_left, progress, (float) Math.toRadians(4F), (float) Math.toRadians(14F), (float) Math.toRadians(16F), 40);
-        this.progressRotation(leg_right_thigh, progress, (float) Math.toRadians(40F), 0, (float) Math.toRadians(4F), 40);
-        this.progressRotation(leg_right_shank, progress, (float) Math.toRadians(-130F), 0, 0, 40);
-        this.progressRotation(foot_right, progress, (float) Math.toRadians(4F), (float) Math.toRadians(-14F), (float) Math.toRadians(-16F), 40);
-
-        this.progressRotation(neck, progress, (float) Math.toRadians(-4F), 0, 0, 40);
-        this.progressRotation(head, progress, (float) Math.toRadians(-2F), 0, 0, 40);
-
-        this.progressRotation(tail_1, progress, (float) Math.toRadians(-4F), 0, 0, 40);
-        this.progressRotation(tail_2, progress, (float) Math.toRadians(-4F), 0, 0, 40);
+        this.progressRotation(arm_left_1, progress, (float) Math.toRadians(-61F), 0, (float) Math.toRadians(-13F), 40);
+        this.progressRotation(arm_left_2, progress, (float) Math.toRadians(-39F), 0, 0, 40);
+        this.progressRotation(hand_left, progress, (float) Math.toRadians(20F), (float) Math.toRadians(-13F), 0, 40);
+        this.progressRotation(claw_left_a, progress, (float) Math.toRadians(92F), 0, (float) Math.toRadians(-7F), 40);
+        this.progressRotation(claw_left_b, progress, (float) Math.toRadians(95F), 0, 0, 40);
+        this.progressRotation(claw_left_c, progress, (float) Math.toRadians(92F), 0, (float) Math.toRadians(7F), 40);
+        this.progressRotation(arm_right_1, progress, (float) Math.toRadians(-61F), 0, (float) Math.toRadians(13F), 40);
+        this.progressRotation(arm_right_2, progress, (float) Math.toRadians(-39F), 0, 0, 40);
+        this.progressRotation(hand_right, progress, (float) Math.toRadians(20F), (float) Math.toRadians(13F), 0, 40);
+        this.progressRotation(claw_right_a, progress, (float) Math.toRadians(92F), 0, (float) Math.toRadians(7F), 40);
+        this.progressRotation(claw_right_b, progress, (float) Math.toRadians(95F), 0, 0, 40);
+        this.progressRotation(claw_right_c, progress, (float) Math.toRadians(92F), 0, (float) Math.toRadians(-7F), 40);
+        this.progressRotation(leg_left_thigh, progress, (float) Math.toRadians(45F), 0, (float) Math.toRadians(-4F), 40);
+        this.progressRotation(leg_left_shank, progress, (float) Math.toRadians(-135F), 0, 0, 40);
+        this.progressRotation(foot_left, progress, (float) Math.toRadians(5F), (float) Math.toRadians(14F), (float) Math.toRadians(16F), 40);
+        this.progressRotation(leg_right_thigh, progress, (float) Math.toRadians(45F), 0, (float) Math.toRadians(4F), 40);
+        this.progressRotation(leg_right_shank, progress, (float) Math.toRadians(-135F), 0, 0, 40);
+        this.progressRotation(foot_right, progress, (float) Math.toRadians(5F), (float) Math.toRadians(-14F), (float) Math.toRadians(-16F), 40);
+        this.progressRotation(tail_1, progress, (float) Math.toRadians(-8F), 0, 0, 40);
+        this.progressRotation(tail_2, progress, (float) Math.toRadians(-8F), 0, 0, 40);
         this.progressRotation(tail_3, progress, (float) Math.toRadians(-4F), 0, 0, 40);
+
+        if (asleep) {
+            this.progressRotation(neck, progress, (float) Math.toRadians(-1F), 0, 0, 40);
+            this.progressRotation(head, progress, (float) Math.toRadians(2F), 0, 0, 40);
+        }
+        else {
+            this.progressRotation(neck, progress, (float) Math.toRadians(-12F), 0, 0, 40);
+            this.progressRotation(head, progress, (float) Math.toRadians(-6F), 0, 0, 40);
+        }
     }
 }

@@ -438,51 +438,134 @@ public class ModelMammoth extends AdvancedEntityModel<EntityMammoth> {
         EntityMammoth mammoth = (EntityMammoth) entityIn;
         animator.update(mammoth);
 
-        // Threat display: rock the shoulders, swing the head so the tusks sweep, and paw the ground.
+        // Every keyframe below was checked numerically against the box geometry (2026-09-30): nothing goes
+        // below ground, with the tusks at 1.0x and at the 1.35x large-tusk scale, and no trunk segment passes
+        // through the skull.
+
+        // Threat display: trumpet (head and trunk thrown up, ears flared, a forefoot raised), then stomp.
         animator.setAnimation(EntityMammoth.ATTACK_THREATEN);
-        for (int i = 0; i < 2; i++) {
-            animator.startKeyframe(12);
-            this.rotate(animator, body_chest, 0, 0, 6.5F);
-            this.rotate(animator, neck, 5.2F, 0, -10.4F);
-            this.rotate(animator, head, 5.2F, 0, -7.8F);
-            this.rotate(animator, trunk_1, -18F, 0, 0);
-            this.rotate(animator, trunk_2, -14F, 0, 0);
-            animator.move(leg_front_left_1, 0, -0.6F, 0);
-            this.rotate(animator, leg_front_left_1, 0, 0, -6.5F);
-            animator.move(leg_front_right_1, 0, -0.5F, 0);
-            this.rotate(animator, leg_front_right_1, -18F, 0, -5.2F);
-            animator.endKeyframe();
-            animator.startKeyframe(9);
-            this.rotate(animator, body_chest, 0, 0, -10.4F);
-            this.rotate(animator, neck, 5.2F, 0, 20.9F);
-            this.rotate(animator, head, 5.2F, 0, 13.0F);
-            this.rotate(animator, trunk_1, -10F, 0, 0);
-            this.rotate(animator, trunk_2, -8F, 0, 0);
-            animator.move(leg_front_left_1, 0, 0.5F, 0);
-            this.rotate(animator, leg_front_left_1, 0, 0, 10.4F);
-            animator.move(leg_front_right_1, 0, 0.5F, 0);
-            this.rotate(animator, leg_front_right_1, 22F, 0, 10.4F);
-            animator.endKeyframe();
-        }
+        animator.startKeyframe(12);
+        this.rotate(animator, neck, -22.0F, 0, 0);
+        this.rotate(animator, head, -14.0F, 0, 0);
+        this.rotate(animator, ear_left, 0, 40.0F, 0);
+        this.rotate(animator, ear_right, 0, -40.0F, 0);
+        this.rotate(animator, leg_front_right_1, -30.0F, 0, 0);
+        this.rotate(animator, leg_front_right_2, 45.0F, 0, 0);
+        this.rotate(animator, foot_front_right, -10.0F, 0, 0);
+        this.rotate(animator, trunk_1, -25.0F, 0, 0);
+        this.rotate(animator, trunk_2, -35.0F, 0, 0);
+        this.rotate(animator, trunk_3, -40.0F, 0, 0);
+        this.rotate(animator, trunk_4, -40.0F, 0, 0);
+        this.rotate(animator, trunk_5, -35.0F, 0, 0);
+        this.rotate(animator, trunk_tip, -30.0F, 0, 0);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(6);
+        animator.startKeyframe(7);
+        this.rotate(animator, neck, 10.0F, 0, 6.0F);
+        this.rotate(animator, head, 8.0F, 0, 4.0F);
+        this.rotate(animator, ear_left, 0, 40.0F, 0);
+        this.rotate(animator, ear_right, 0, -40.0F, 0);
+        this.rotate(animator, trunk_1, -10.0F, 0, 0);
+        this.rotate(animator, trunk_2, -8.0F, 0, 0);
+        this.rotate(animator, trunk_3, 6.0F, 0, 0);
+        this.rotate(animator, trunk_4, 10.0F, 0, 0);
+        this.rotate(animator, trunk_5, 12.0F, 0, 0);
+        this.rotate(animator, trunk_tip, 14.0F, 0, 0);
+        animator.endKeyframe();
+        animator.startKeyframe(10);
+        this.rotate(animator, neck, -22.0F, 0, 0);
+        this.rotate(animator, head, -14.0F, 0, 0);
+        this.rotate(animator, ear_left, 0, 40.0F, 0);
+        this.rotate(animator, ear_right, 0, -40.0F, 0);
+        this.rotate(animator, leg_front_right_1, -30.0F, 0, 0);
+        this.rotate(animator, leg_front_right_2, 45.0F, 0, 0);
+        this.rotate(animator, foot_front_right, -10.0F, 0, 0);
+        this.rotate(animator, trunk_1, -25.0F, 0, 0);
+        this.rotate(animator, trunk_2, -35.0F, 0, 0);
+        this.rotate(animator, trunk_3, -40.0F, 0, 0);
+        this.rotate(animator, trunk_4, -40.0F, 0, 0);
+        this.rotate(animator, trunk_5, -35.0F, 0, 0);
+        this.rotate(animator, trunk_tip, -30.0F, 0, 0);
+        animator.endKeyframe();
+        animator.startKeyframe(7);
+        this.rotate(animator, neck, 10.0F, 0, 6.0F);
+        this.rotate(animator, head, 8.0F, 0, 4.0F);
+        this.rotate(animator, ear_left, 0, 40.0F, 0);
+        this.rotate(animator, ear_right, 0, -40.0F, 0);
+        this.rotate(animator, trunk_1, -10.0F, 0, 0);
+        this.rotate(animator, trunk_2, -8.0F, 0, 0);
+        this.rotate(animator, trunk_3, 6.0F, 0, 0);
+        this.rotate(animator, trunk_4, 10.0F, 0, 0);
+        this.rotate(animator, trunk_5, 12.0F, 0, 0);
+        this.rotate(animator, trunk_tip, 14.0F, 0, 0);
+        animator.endKeyframe();
         animator.resetKeyframe(8);
 
-        // Gore: rear the head back, then drive the tusks forward and up.
+        // Gore: head down with the trunk curled under out of harm's way, then a lunge that tosses the tusks
+        // up and across.
         animator.setAnimation(EntityMammoth.ATTACK_GORE);
         animator.startKeyframe(6);
-        this.rotate(animator, neck, 20.9F, 0, 13.0F);
-        this.rotate(animator, head, 15.6F, 0, 10.4F);
-        this.rotate(animator, trunk_1, -26F, 0, 0);
-        this.rotate(animator, trunk_2, -20F, 0, 0);
-        this.rotate(animator, trunk_3, -16F, 0, 0);
+        this.rotate(animator, neck, 21.0F, 0, 13.0F);
+        this.rotate(animator, head, 16.0F, 0, 10.0F);
+        this.rotate(animator, ear_left, 0, 25.0F, 0);
+        this.rotate(animator, ear_right, 0, -25.0F, 0);
+        this.rotate(animator, trunk_1, 12.0F, 0, 0);
+        this.rotate(animator, trunk_2, 26.0F, 0, 0);
+        this.rotate(animator, trunk_3, 32.0F, 0, 0);
+        this.rotate(animator, trunk_4, 28.0F, 0, 0);
+        this.rotate(animator, trunk_5, 20.0F, 0, 0);
+        this.rotate(animator, trunk_tip, 14.0F, 0, 0);
         animator.endKeyframe();
         animator.startKeyframe(4);
-        this.rotate(animator, neck, -20.9F, 0, -31.3F);
-        this.rotate(animator, head, -18.2F, 0, -20.9F);
-        this.rotate(animator, trunk_1, 10F, 0, 0);
-        this.rotate(animator, trunk_2, 14F, 0, 0);
-        this.rotate(animator, trunk_3, 18F, 0, 0);
+        this.rotate(animator, neck, -21.0F, 0, -31.0F);
+        this.rotate(animator, head, -18.0F, 0, -21.0F);
+        this.rotate(animator, ear_left, 0, 25.0F, 0);
+        this.rotate(animator, ear_right, 0, -25.0F, 0);
+        this.rotate(animator, trunk_1, 14.0F, 0, 0);
+        this.rotate(animator, trunk_2, 26.0F, 0, 0);
+        this.rotate(animator, trunk_3, 32.0F, 0, 0);
+        this.rotate(animator, trunk_4, 28.0F, 0, 0);
+        this.rotate(animator, trunk_5, 20.0F, 0, 0);
+        this.rotate(animator, trunk_tip, 14.0F, 0, 0);
+        animator.move(body_hips, 0, 0, -2.0F);
         animator.endKeyframe();
         animator.resetKeyframe(4);
+
+        // Graze: head drops and the trunk reaches the ground, the tip curls round a mouthful, then the whole
+        // trunk coils back under the skull to the mouth.
+        animator.setAnimation(EntityMammoth.EAT);
+        animator.startKeyframe(10);
+        this.rotate(animator, neck, 27.0F, 0, 0);
+        this.rotate(animator, head, 6.0F, 0, 0);
+        this.rotate(animator, trunk_1, -12.0F, 0, 0);
+        this.rotate(animator, trunk_2, -4.0F, 0, 0);
+        this.rotate(animator, trunk_3, 2.0F, 0, 0);
+        this.rotate(animator, trunk_4, 4.0F, 0, 0);
+        this.rotate(animator, trunk_5, 3.0F, 0, 0);
+        this.rotate(animator, trunk_tip, 1.0F, 0, 0);
+        animator.endKeyframe();
+        animator.startKeyframe(6);
+        this.rotate(animator, neck, 27.0F, 0, 0);
+        this.rotate(animator, head, 6.0F, 0, 0);
+        this.rotate(animator, trunk_1, -12.0F, 0, 0);
+        this.rotate(animator, trunk_2, -4.0F, 0, 0);
+        this.rotate(animator, trunk_3, 2.0F, 0, 0);
+        this.rotate(animator, trunk_4, 14.0F, 0, 0);
+        this.rotate(animator, trunk_5, 28.0F, 0, 0);
+        this.rotate(animator, trunk_tip, 40.0F, 0, 0);
+        animator.endKeyframe();
+        animator.startKeyframe(10);
+        this.rotate(animator, neck, -4.0F, 0, 0);
+        this.rotate(animator, head, 0, 0, 0);
+        this.rotate(animator, trunk_1, -11.0F, 0, 0);
+        this.rotate(animator, trunk_2, 39.0F, 0, 0);
+        this.rotate(animator, trunk_3, 63.0F, 0, 0);
+        this.rotate(animator, trunk_4, 68.0F, 0, 0);
+        this.rotate(animator, trunk_5, 59.0F, 0, 0);
+        this.rotate(animator, trunk_tip, 50.0F, 0, 0);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(6);
+        animator.resetKeyframe(8);
     }
 
     public void setupAnim(EntityMammoth mammoth, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
@@ -536,16 +619,19 @@ public class ModelMammoth extends AdvancedEntityModel<EntityMammoth> {
         this.body_hump.setScale(1.0F, flatBack ? 0.55F : 1.0F, 1.0F);
 
         // ---- Idle: trunk hangs and sways, amplitude growing toward the tip so the chain reads as a
-        // heavy muscular hose rather than a stiff rod. Ears flick, tail swings.
-        this.walk(trunk_1, 0.10F, 0.035F, false, 0.0F, 0F, ageInTicks, 1);
-        this.walk(trunk_2, 0.10F, 0.05F, false, 0.6F, 0F, ageInTicks, 1);
-        this.walk(trunk_3, 0.10F, 0.07F, false, 1.2F, 0F, ageInTicks, 1);
-        this.walk(trunk_4, 0.10F, 0.09F, false, 1.8F, 0F, ageInTicks, 1);
-        this.walk(trunk_5, 0.10F, 0.11F, false, 2.4F, 0F, ageInTicks, 1);
-        this.walk(trunk_tip, 0.10F, 0.14F, false, 3.0F, 0F, ageInTicks, 1);
-        this.swing(trunk_2, 0.07F, 0.04F, false, 1.0F, 0F, ageInTicks, 1);
-        this.swing(trunk_4, 0.07F, 0.07F, false, 2.0F, 0F, ageInTicks, 1);
-        this.swing(trunk_tip, 0.07F, 0.10F, false, 3.0F, 0F, ageInTicks, 1);
+        // heavy muscular hose rather than a stiff rod. Ears flick, tail swings. Lying down, the trunk rests
+        // ON the ground, so its sway is cut to 30% -- at full amplitude the tip swings through the floor.
+        float rest = Math.max(mammoth.sitProgress, mammoth.sleepProgress) / 40F;
+        float sway = 1.0F - 0.7F * rest;
+        this.walk(trunk_1, 0.10F, 0.035F * sway, false, 0.0F, 0F, ageInTicks, 1);
+        this.walk(trunk_2, 0.10F, 0.05F * sway, false, 0.6F, 0F, ageInTicks, 1);
+        this.walk(trunk_3, 0.10F, 0.07F * sway, false, 1.2F, 0F, ageInTicks, 1);
+        this.walk(trunk_4, 0.10F, 0.09F * sway, false, 1.8F, 0F, ageInTicks, 1);
+        this.walk(trunk_5, 0.10F, 0.11F * sway, false, 2.4F, 0F, ageInTicks, 1);
+        this.walk(trunk_tip, 0.10F, 0.14F * sway, false, 3.0F, 0F, ageInTicks, 1);
+        this.swing(trunk_2, 0.07F, 0.04F * sway, false, 1.0F, 0F, ageInTicks, 1);
+        this.swing(trunk_4, 0.07F, 0.07F * sway, false, 2.0F, 0F, ageInTicks, 1);
+        this.swing(trunk_tip, 0.07F, 0.10F * sway, false, 3.0F, 0F, ageInTicks, 1);
         this.flap(ear_left, 0.09F, earFlap, true, 0F, 0F, ageInTicks, 1);
         this.flap(ear_right, 0.09F, earFlap, false, 0F, 0F, ageInTicks, 1);
         this.swing(tail, 0.10F, 0.16F, false, 0F, 0F, ageInTicks, 1);
@@ -561,11 +647,12 @@ public class ModelMammoth extends AdvancedEntityModel<EntityMammoth> {
         bob(leg_back_right_1, 0.4F * globalSpeed, 0.1F, false, -ageInTicks / 20, 2);
         walk(neck, 0.4f * globalSpeed, 0.03f, false, 2.8F, 0.06F, ageInTicks / 20, 2);
 
-        // Blinking: bury the eye planes inside the skull (|x| 9.35 -> 8.0) so they stop rendering.
-        if (!mammoth.shouldRenderEyes()) {
-            this.eye_left.setRotationPoint(8.0F, -1.5F, -6.0F);
-            this.eye_right.setRotationPoint(-8.0F, -1.5F, -6.0F);
-        }
+        // Blinking / asleep: squash the eye planes to 20% height about their centre, so the eye reads as a
+        // shut dark slit instead of simply vanishing (the old trick buried the plane inside the skull).
+        // Written every frame -- the model is shared, so a closed eye would otherwise leak to the next mammoth.
+        float eyeOpen = mammoth.shouldRenderEyes() ? 1.0F : 0.2F;
+        this.eye_left.setScale(1.0F, eyeOpen, 1.0F);
+        this.eye_right.setScale(1.0F, eyeOpen, 1.0F);
 
         // Head tracking
         if (!mammoth.isSleeping()) {
@@ -584,29 +671,29 @@ public class ModelMammoth extends AdvancedEntityModel<EntityMammoth> {
             }
         }
 
-        // ---- Walk. Two-segment legs driven exactly like ModelRhino: the upper segment leads and the
-        // lower segment follows a step out of phase (and slightly hotter) so the knee/hock flexes
-        // through the stride instead of the whole leg swinging as one rigid post. Front and hind run at
-        // opposite sign for a diagonal gait; the feet counter-rotate so the sole stays flat at plant.
-        // Speeds are lower than the rhino's -- a mammoth strides slowly and heavily.
+        // ---- Walk: a lateral-sequence walk (LH, LF, RH, RF, a quarter-cycle apart) -- the elephant gait.
+        // Upper leg, lower leg and foot per leg type were FITTED to the box geometry (2026-09-30) with the
+        // exact Citadel walk() term at limbSwingAmount 0.4: each foot is planted for half the cycle and moves
+        // backward while planted, lifts ~2u in swing, digs in at most 0.16u, stride ~12u. The inherited
+        // rhino cycle it replaces dug in 0.9u and slid the planted hind feet FORWARD (a moonwalk).
         if (mammoth.canMove()) {
-            bob(body_hips, 0.8f * globalSpeed, 0.5f * globalDegree, true, f, limbSwingAmount);
+            bob(body_hips, 0.8f * globalSpeed, 0.3f * globalDegree, true, f, limbSwingAmount);
+            flap(body_hips, 0.8f * globalSpeed, 0.08f * globalDegree, false, 0, 0, f, limbSwingAmount);
             walk(neck, 0.8f * globalSpeed, 0.18f * globalDegree, false, 0, 0, f, limbSwingAmount);
             walk(head, 0.8f * globalSpeed, 0.12f * globalDegree, true, 0, 0, f, limbSwingAmount);
 
-            walk(leg_front_right_1, -0.8f * globalSpeed, 1.0f * globalDegree, true, 0F, 1.0f, f, limbSwingAmount);
-            walk(leg_front_right_2, -0.8f * globalSpeed, 1.0f * globalDegree, false, -1F, 1.0f, f, limbSwingAmount * 1.2f);
-            walk(foot_front_right, -0.8f * globalSpeed, 0.5f * globalDegree, true, -2F, 0, f, limbSwingAmount);
-            walk(leg_front_left_1, -0.8f * globalSpeed, 1.0f * globalDegree, true, 2F, 1.0f, f, limbSwingAmount);
-            walk(leg_front_left_2, -0.8f * globalSpeed, 1.0f * globalDegree, false, 1F, 1.0f, f, limbSwingAmount * 1.2f);
-            walk(foot_front_left, -0.8f * globalSpeed, 0.5f * globalDegree, true, 0F, 0, f, limbSwingAmount);
-
-            walk(leg_back_right_1, 0.8f * globalSpeed, 1.0f * globalDegree, false, 2.8F, 0, f, limbSwingAmount);
-            walk(leg_back_right_2, 0.8f * globalSpeed, 1.0f * globalDegree, true, 1.8F, 0, f, limbSwingAmount);
-            walk(foot_back_right, 0.8f * globalSpeed, 0.5f * globalDegree, false, 0.8F, 0, f, limbSwingAmount);
-            walk(leg_back_left_1, 0.8f * globalSpeed, 1.0f * globalDegree, false, 0.8F, 0, f, limbSwingAmount);
-            walk(leg_back_left_2, 0.8f * globalSpeed, 1.0f * globalDegree, true, -0.2F, 0, f, limbSwingAmount);
-            walk(foot_back_left, 0.8f * globalSpeed, 0.5f * globalDegree, false, -1.2F, 0, f, limbSwingAmount);
+            walk(leg_back_left_1, 0.8f * globalSpeed, 0.745F, false, 0.000F, -0.229F, f, limbSwingAmount);
+            walk(leg_back_left_2, 0.8f * globalSpeed, -0.596F, false, 0.895F, 0.944F, f, limbSwingAmount);
+            walk(foot_back_left, 0.8f * globalSpeed, 0.248F, false, 0.443F, -0.606F, f, limbSwingAmount);
+            walk(leg_front_left_1, 0.8f * globalSpeed, 0.769F, false, -1.571F, 0.280F, f, limbSwingAmount);
+            walk(leg_front_left_2, 0.8f * globalSpeed, -0.717F, false, -2.348F, -1.199F, f, limbSwingAmount);
+            walk(foot_front_left, 0.8f * globalSpeed, 0.334F, false, -2.151F, 0.819F, f, limbSwingAmount);
+            walk(leg_back_right_1, 0.8f * globalSpeed, 0.745F, false, -3.142F, -0.229F, f, limbSwingAmount);
+            walk(leg_back_right_2, 0.8f * globalSpeed, -0.596F, false, -2.247F, 0.944F, f, limbSwingAmount);
+            walk(foot_back_right, 0.8f * globalSpeed, 0.248F, false, -2.699F, -0.606F, f, limbSwingAmount);
+            walk(leg_front_right_1, 0.8f * globalSpeed, 0.769F, false, 1.571F, 0.280F, f, limbSwingAmount);
+            walk(leg_front_right_2, 0.8f * globalSpeed, -0.717F, false, 0.794F, -1.199F, f, limbSwingAmount);
+            walk(foot_front_right, 0.8f * globalSpeed, 0.334F, false, 0.991F, 0.819F, f, limbSwingAmount);
 
             // The trunk swings with the stride, lagging further down the chain.
             walk(trunk_1, 0.8f * globalSpeed, 0.22f * globalDegree, false, 0F, 0, f, limbSwingAmount);
@@ -618,44 +705,70 @@ public class ModelMammoth extends AdvancedEntityModel<EntityMammoth> {
             swing(tail, 0.8f * globalSpeed, 0.35f * globalDegree, false, 0F, 0, f, limbSwingAmount);
         }
 
-        // ---- Rest / sleep. Both use one validated pose: the body sinks 16 units so the belly settles
-        // just off the ground, each leg folds against itself (front knee forward, hind hock back) and
-        // the trunk lies stretched out in front. The fold angles were solved against the actual box
-        // geometry so all four feet land AT ground level -- the previous model dropped the body but left
-        // the legs unfolded, so they hung in the air underneath it.
+        // ---- Rest / sleep: sternal recumbency, solved numerically against the box geometry (2026-09-30).
+        // The body sinks until the belly is 0.8u off the ground (headroom for the 6% breathing scale). At that
+        // height a folded knee no longer fits, so the legs take the elephant's real lying posture: forelegs
+        // stretched forward, hind legs straight back, all four feet within 0.1u of the ground. The tail lies
+        // back along the ground, and the woolly coat flares and compresses instead of passing through it.
+        // Checked with tusk scale 1.0 and 1.35: no box goes below ground in either pose.
+        // Fur scales are written every frame (1.0 when standing) because the model instance is shared.
+        float furRest = mammoth.sitProgress > 0 ? mammoth.sitProgress / 40F : mammoth.sleepProgress / 40F;
+        this.fur_skirt_left.setScale(1.0F, 1.0F - 0.45F * furRest, 1.0F);
+        this.fur_skirt_right.setScale(1.0F, 1.0F - 0.45F * furRest, 1.0F);
+        this.fur_chest.setScale(1.0F, 1.0F - 0.40F * furRest, 1.0F);
+        this.fur_rump.setScale(1.0F, 1.0F - 0.35F * furRest, 1.0F);
         if (mammoth.sitProgress > 0) {
-            applyRestingPose(mammoth.sitProgress);
+            applyRestingPose(mammoth.sitProgress, false);
         }
         else if (mammoth.sleepProgress > 0) {
-            applyRestingPose(mammoth.sleepProgress);
+            applyRestingPose(mammoth.sleepProgress, true);
         }
     }
 
-    private void applyRestingPose(float progress) {
-        this.progressPosition(body_hips, progress, 0.0F, 10.0F, 4.0F, 40);
+    private void applyRestingPose(float progress, boolean asleep) {
+        this.progressPosition(body_hips, progress, 0.0F, 14.5F, 4.0F, 40);
 
-        this.progressRotation(leg_front_left_1, progress, (float) Math.toRadians(-30F), 0, 0, 40);
-        this.progressRotation(leg_front_left_2, progress, (float) Math.toRadians(130F), 0, 0, 40);
-        this.progressRotation(foot_front_left, progress, 0, 0, 0, 40);
-        this.progressRotation(leg_front_right_1, progress, (float) Math.toRadians(-30F), 0, 0, 40);
-        this.progressRotation(leg_front_right_2, progress, (float) Math.toRadians(130F), 0, 0, 40);
-        this.progressRotation(foot_front_right, progress, 0, 0, 0, 40);
+        this.progressRotation(leg_front_left_1, progress, (float) Math.toRadians(-80F), 0, 0, 40);
+        this.progressRotation(leg_front_left_2, progress, (float) Math.toRadians(20F), 0, 0, 40);
+        this.progressRotation(foot_front_left, progress, (float) Math.toRadians(-20F), 0, 0, 40);
+        this.progressRotation(leg_front_right_1, progress, (float) Math.toRadians(-80F), 0, 0, 40);
+        this.progressRotation(leg_front_right_2, progress, (float) Math.toRadians(20F), 0, 0, 40);
+        this.progressRotation(foot_front_right, progress, (float) Math.toRadians(-20F), 0, 0, 40);
 
-        this.progressRotation(leg_back_left_1, progress, (float) Math.toRadians(45F), 0, 0, 40);
-        this.progressRotation(leg_back_left_2, progress, (float) Math.toRadians(-140F), 0, 0, 40);
-        this.progressRotation(foot_back_left, progress, 0, 0, 0, 40);
-        this.progressRotation(leg_back_right_1, progress, (float) Math.toRadians(45F), 0, 0, 40);
-        this.progressRotation(leg_back_right_2, progress, (float) Math.toRadians(-140F), 0, 0, 40);
-        this.progressRotation(foot_back_right, progress, 0, 0, 0, 40);
+        this.progressRotation(leg_back_left_1, progress, (float) Math.toRadians(80F), 0, 0, 40);
+        this.progressRotation(leg_back_left_2, progress, 0, 0, 0, 40);
+        this.progressRotation(foot_back_left, progress, (float) Math.toRadians(10F), 0, 0, 40);
+        this.progressRotation(leg_back_right_1, progress, (float) Math.toRadians(80F), 0, 0, 40);
+        this.progressRotation(leg_back_right_2, progress, 0, 0, 0, 40);
+        this.progressRotation(foot_back_right, progress, (float) Math.toRadians(10F), 0, 0, 40);
 
-        this.progressRotation(neck, progress, (float) Math.toRadians(2F), 0, 0, 40);
-        this.progressRotation(head, progress, (float) Math.toRadians(8F), 0, 0, 40);
+        this.progressRotation(tail, progress, (float) Math.toRadians(65F), 0, 0, 40);
+        this.progressRotation(tail_tuft, progress, (float) Math.toRadians(15F), 0, 0, 40);
+        this.progressRotation(fur_rump, progress, (float) Math.toRadians(40F), 0, 0, 40);
+        this.progressRotation(fur_skirt_left, progress, 0, 0, (float) Math.toRadians(-25F), 40);
+        this.progressRotation(fur_skirt_right, progress, 0, 0, (float) Math.toRadians(25F), 40);
 
-        this.progressRotation(trunk_1, progress, (float) Math.toRadians(-40F), 0, 0, 40);
-        this.progressRotation(trunk_2, progress, (float) Math.toRadians(-30F), 0, 0, 40);
-        this.progressRotation(trunk_3, progress, (float) Math.toRadians(-20F), 0, 0, 40);
-        this.progressRotation(trunk_4, progress, (float) Math.toRadians(-4F), 0, 0, 40);
-        this.progressRotation(trunk_5, progress, (float) Math.toRadians(-2F), 0, 0, 40);
-        this.progressRotation(trunk_tip, progress, (float) Math.toRadians(-2F), 0, 0, 40);
+        if (asleep) {
+            // Head down until the (large) tusks rest on the ground; trunk hangs, then lies forward.
+            this.progressRotation(neck, progress, 0, 0, 0, 40);
+            this.progressRotation(head, progress, (float) Math.toRadians(-4F), 0, 0, 40);
+            this.progressRotation(trunk_1, progress, 0, 0, 0, 40);
+            this.progressRotation(trunk_2, progress, (float) Math.toRadians(-40F), 0, 0, 40);
+            this.progressRotation(trunk_3, progress, (float) Math.toRadians(-30F), 0, 0, 40);
+            this.progressRotation(trunk_4, progress, 0, 0, 0, 40);
+            this.progressRotation(trunk_5, progress, 0, 0, 0, 40);
+            this.progressRotation(trunk_tip, progress, 0, 0, 0, 40);
+        }
+        else {
+            // Resting awake: head held up, tusks well clear; trunk hangs to the ground and curls forward.
+            this.progressRotation(neck, progress, (float) Math.toRadians(-4F), 0, 0, 40);
+            this.progressRotation(head, progress, (float) Math.toRadians(-12F), 0, 0, 40);
+            this.progressRotation(trunk_1, progress, 0, 0, 0, 40);
+            this.progressRotation(trunk_2, progress, 0, 0, 0, 40);
+            this.progressRotation(trunk_3, progress, (float) Math.toRadians(-40F), 0, 0, 40);
+            this.progressRotation(trunk_4, progress, (float) Math.toRadians(-15F), 0, 0, 40);
+            this.progressRotation(trunk_5, progress, (float) Math.toRadians(-15F), 0, 0, 40);
+            this.progressRotation(trunk_tip, progress, (float) Math.toRadians(-15F), 0, 0, 40);
+        }
     }
 }

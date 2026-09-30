@@ -55,6 +55,7 @@ public class EntityMammoth extends ComplexMobTerrestrial implements INewSkins, I
 
     public static final Animation ATTACK_THREATEN = Animation.create(50);
     public static final Animation ATTACK_GORE = Animation.create(14);
+    public static final Animation EAT = Animation.create(40); // matches GrazeGoal's 40-tick eatingGrassTimer
 
     public EntityMammoth(EntityType<? extends ComplexMob> type, Level worldIn) {
         super(type, worldIn);
@@ -210,10 +211,10 @@ public class EntityMammoth extends ComplexMobTerrestrial implements INewSkins, I
 
     @Override
     public Animation[] getAnimations() {
-        return new Animation[]{NO_ANIMATION, ATTACK_THREATEN, ATTACK_GORE};
+        return new Animation[]{NO_ANIMATION, ATTACK_THREATEN, ATTACK_GORE, EAT};
     }
 
-    public Animation getAnimationEat() { return NO_ANIMATION; }
+    public Animation getAnimationEat() { return EAT; }
 
     public boolean hasWoollyCoat(){ return (this.entityData.get(WOOLLY_COAT)); }
     private void setWoollyCoat(boolean woolly){ this.entityData.set(WOOLLY_COAT, woolly); }

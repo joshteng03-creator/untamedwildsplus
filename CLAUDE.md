@@ -1033,6 +1033,84 @@ Plus hyenas: `kleptoparasitism_clan_size` default 4 → 3; brown/striped hyena +
 shortface/cave hyena +plains. **Changed DEFAULTS do not reach existing worlds** — Forge keeps the
 old value in each world's `serverconfig`; new gamerules are added with their defaults.
 
+### Phase 5 — prey-side ecology (2026-09-30, build SUCCESSFUL, not yet soak-tested)
+
+The four causes of prey decline diagnosed on 2026-08-11 and parked until now. Test in the same
+census soak as Phase 4 — they interact.
+1. **Herd protection was a cliff with positive feedback** — eco used the current headcount, so each
+   kill made the next easier (bison herd 28 at twenty, 13 at five). Herbivore herds now weigh in at
+   `HerdEntity.getProtectiveSize()`: the headcount, or a remembered larger size that fades one member
+   per `herd_memory_ticks` (1200). Carnivore packs are unaffected (Phase 4 rule).
+2. **Calves were unprotected by construction** — the whole level, herd included, was ×0.3. For
+   herbivore calves only the calf's own body is ×0.3 now; the herd term is ×`calf_herd_protection`
+   (0.6). Bison calf: 14 in a herd of twenty (dire wolves 14 cannot, wild dogs 16 can), 8 in a herd of
+   ten. A calf that strays is scored without the herd term via `getEcoLevelAsPrey`.
+3. **Solitary megafauna had nothing** — rhinos, solitary sloths, moose (`herd == null`, no defender
+   slots, no alert). A herd-less herbivore of 40+ max health takes
+   `solitary_megafauna_damage_reduction` (0.25) less damage from carnivores, in `ComplexMob.hurt`,
+   never stacking past the best single reduction.
+4. **Flight manufactured its own stragglers** — every panicking animal ran to its own random point.
+   `HerdFleeGoal` now gives the herd one heading (away from the threat, from the herd centre,
+   `ComplexMob.fleeHeading`) and each animal paths along it (`DefaultRandomPos.getPosTowards`, falling
+   back to plain away-from-threat); alarm-network neighbours of other species take their own heading.
+`performRetaliation` stays **inert** by decision: herds already have defender slots, the ×2 charge
+and `DefendHerdMateTarget`; free counter-hits would stack on all three.
+
+### Phase 6 — remaining skins (2026-09-30, every skin signed off by the user in Blockbench)
+
+- **Giraffid ×6** (okapi, samotherium, bramatherium, helladotherium, palaeotragus, sivatherium),
+  on per-species rigs (`gen_bb_rig --giraffid-neck <nf> [--scale oss_*:<k>]`, all ossicone
+  families built, non-species ones hidden via `scratch/fam2.js`).
+- **Recolours redone as different animals:** western camel (ashy fawn + dark ridge saddle),
+  steppe bison (Altamira two-tone: black cape over rufous), long-horned bison (cool umber + frosted
+  cape, ivory horns), giant warthog (slate + pale mane + cream whiskers + laterite mud),
+  short-faced bear (rufous, dark face mask, cream chest band), homotherium (plain sand-cream,
+  lioness face structure recoloured), cave hyena (ash-grey, small spots, dark crest).
+  **American lion kept as shipped** (user's call). Megatherium + megalonyx got eremotherium's
+  countershade (`scripts/countershade_sloth.js`). All 12 mammoths seam-sealed
+  (`scripts/mammoth_bleed.js`, 0 painted texels changed); woolly + steppe mammoth fur re-haired
+  (`scripts/mammoth_fur.js`: strands, ragged alpha hem, open skirt undersides). The flatBack dome no
+  longer floats (the remodel's pivot sits on the dome's base) — no Java change needed.
+- **Tooling bugs found and fixed — read before any skin work:**
+  1. `gen_bb_rig` resize options moved UV footprints with the geometry → skins misaligned IN GAME
+     while the Blockbench preview looked right. UVs are now frozen at the Java box size
+     (`uv-frozen (resized) parts: N`). 7 already-saved skins were repainted; the Aug Tier-3 deer
+     antlers + maned wolf / bush dog legs are **not yet audited**.
+  2. `java2bb` ignored LOCAL-variable parts (`AdvancedModelBox ear_left = new ...`): ModelBear's
+     ears, teeth and tail were missing from rigs. Only ModelBear was affected.
+  3. `MM.load` decoded PNGs asynchronously, so reference stamps (eyes!) could copy blank pixels —
+     the western camel came out eyeless. Now a synchronous zlib PNG decoder.
+  4. Paint coverage: faces now paint every texel their FRACTIONAL UV range touches, shared texels
+     by priority (down < other; fringe < core) — kills bright seam slivers on pale species.
+- New painter options: bisonlib `maneCol/maneAmt/maneParts/maneTop`, `strandAmt`, `clumpCol`,
+  `tufts` (stamps plains' fringe cut-outs); camellib `ridgeCol/ridgeAmt`. **User's standing note:
+  fur must read as hair (strands, clumps, ragged tufts), never a flat gradient or flat panel.**
+
+### Phase 7 — mammoth animation revamp + sloth poses (2026-09-30, build SUCCESSFUL, runClient pending)
+
+Every pose below was SOLVED numerically (scale-aware FK: Citadel `translate · rotZYX · scale`), then
+shown on a posed Blockbench rig for the user's sign-off. Rest poses and the sloth are user-approved;
+the mammoth action/walk key poses were built into Java after being shown.
+- **Mammoth rest/sleep** (`applyRestingPose(progress, asleep)`): body_hips rp y 14.5 (belly 0.8u off
+  the ground — headroom for the 6% breathing scale). At that height a folded knee cannot fit, so the
+  legs take the elephant's real lying posture: forelegs forward, hind legs straight back. Tail lies on
+  the ground; woolly fur flares and y-scales (setScale written EVERY frame — the model is shared).
+  Sit = head up; sleep = the 1.35× tusks rest on the ground. Checked at both tusk scales.
+- **Eyes (mammoth + ground sloth):** closed = eye planes `setScale(1, 0.2, 1)`, a slit, instead of
+  burying them in the skull. Other models still use the bury trick.
+- **Mammoth walk:** lateral-sequence gait (LH, LF, RH, RF) FITTED with scipy to the exact Citadel
+  term `±(cos(f·speed+offset)·degree·amt + weight·amt)` (invert negates the weight too). The inherited
+  rhino cycle dug 0.9u and slid planted hind feet FORWARD; now planted feet move back, lift ~2u,
+  dig ≤0.3u (0.2 of that is the standing pose's own baseline), ≥2 feet down at all times.
+- **Mammoth actions:** THREATEN = trumpet (head/trunk up, ears flared, forefoot raised) + stomp ×2;
+  GORE = trunk tucked under, lunge + tusk toss; NEW `EntityMammoth.EAT` (40 ticks, the length of
+  GrazeGoal's `eatingGrassTimer`): reach ground → grasp → coil trunk to mouth. Nothing below ground,
+  no trunk segment through the skull. Trunk idle sway is cut to 30% while lying.
+- **Ground sloth rest/sleep:** the old fold pushed shanks/forearms 0.5–0.6u through the ground and
+  buried hands + claws in the chest (the forelimbs read as stumps — user). Now forearms lie forward
+  on the ground, hands turned in, claws curled forward in front of the chest; hind limbs fold under;
+  tail on the ground. Sit = head up; sleep = chin on the ground.
+
 ## Models & skins (Claude Design)
 
 Models are hand-written Citadel `AdvancedEntityModel<EntityXxx>` from `AdvancedModelBox` cubes
