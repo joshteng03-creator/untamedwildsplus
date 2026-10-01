@@ -3,6 +3,7 @@ package untamedwilds.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -115,7 +116,8 @@ public class NestReptileBlock extends Block implements SimpleWaterloggedBlock, E
             ReptileNestBlockEntity te = (ReptileNestBlockEntity) worldIn.getBlockEntity(pos);
             if (te != null) {
                 if (playerIn.isCreative() && playerIn.isSteppingCarefully()) {
-                    UntamedWilds.LOGGER.info(te.getEggCount()); // TODO: DEBUG
+                    // Creative inspection: show the egg count to the player instead of the server log.
+                    playerIn.displayClientMessage(new TextComponent("Eggs: " + te.getEggCount()), true);
                 }
                 else {
                     te.removeEggs(worldIn, 1);

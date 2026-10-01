@@ -1111,6 +1111,25 @@ the mammoth action/walk key poses were built into Java after being shown.
   on the ground, hands turned in, claws curled forward in front of the chest; hind limbs fold under;
   tail on the ground. Sit = head up; sleep = chin on the ground.
 
+### Phase 8 — upstream TODO cleanup (2026-09-30, build SUCCESSFUL)
+
+- **Loot tables for the 11 types that had none** (hyena, football_fish, spadefish, triggerfish,
+  whale_shark, king_crab, newt, giant_salamander, snake, large_snake, spitter), in the style of the
+  shipped tables: fish → cod (smelted if on fire) or tropical_fish for reef fish, reptile meat →
+  `food_turtle_raw` (as monitor), snakes → `material_snake_skin`. Every type now has a table.
+- **`RaidCropsGoal` fixed but still unwired (user's call):** it built a LootContext without ORIGIN/TOOL
+  (block loot threw), never reset `continueTask` (one raid per lifetime), and had no give-up timer.
+- **Newt `crested`:** crested_2 was a byte copy of crested_1 → collapsed to one skin (`crested.png`,
+  skins 20 → 10). Existing skin indices are clamped, so saved newts are safe.
+- **`NestReptileBlock`:** the creative sneak-use egg count goes to the player's action bar, not the log.
+- **Removed** `GuardPositionTarget` (no callers, no logic). Opossum play-dead comment corrected: mod
+  predators respect `canBeTargeted()`; only vanilla attackers re-acquire.
+- **Orphan PNGs kept (user's call)** and inventoried in `docs/plans/future_species.md` as ready-made
+  art for Phase 10. Skin resolution rule for reference: `skins` tens digit = common count (≥2 →
+  `<sp>_N.png`, else `<sp>.png`), ones digit − 1 = rare count (`<sp>_Nr.png`); dimorphic big cats
+  append `_male`/`_female`.
+- The other TODOs are upstream feature wishes (climbing AI, chest raiding, egg hatching…) — left as-is.
+
 ## Models & skins (Claude Design)
 
 Models are hand-written Citadel `AdvancedEntityModel<EntityXxx>` from `AdvancedModelBox` cubes

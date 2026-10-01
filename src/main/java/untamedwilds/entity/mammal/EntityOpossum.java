@@ -188,7 +188,9 @@ public class EntityOpossum extends ComplexMobTerrestrial implements ISpecies, IN
     public boolean hurt(DamageSource damageSource, float amount) {
         if (!this.isPlayingDead()) {
             if (damageSource.getEntity() instanceof Mob aggressor) {
-                // TODO: null target doesn't work
+                // Drops the current attacker's target. untamedwilds predators then leave the opossum alone,
+                // because canBeTargeted() is false while it plays dead; VANILLA attackers (wolves, foxes)
+                // re-acquire it through their own target goals, which this cannot prevent cheaply.
                 aggressor.setTarget(null);
                 this.makeAreaOfEffectCloud(this.level, this.blockPosition());
                 this.setPlayingDead(true);

@@ -5,10 +5,10 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.FarmBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.LootContext;
 import untamedwilds.entity.ComplexMobTerrestrial;
 
 import java.util.EnumSet;
@@ -19,6 +19,9 @@ public class RaidCropsGoal extends Goal {
     private BlockPos targetPos;
     private final ComplexMobTerrestrial taskOwner;
     private boolean continueTask;
+    private int ticksRunning;
+    // Give up on a crop the mob cannot reach instead of pathing at it forever.
+    private static final int GIVE_UP_TICKS = 300;
 
     public RaidCropsGoal(ComplexMobTerrestrial entityIn) {
         this.taskOwner = entityIn;
@@ -45,17 +48,26 @@ public class RaidCropsGoal extends Goal {
 
     @Override
     public void start() {
+        // Reset per run: continueTask used to stay false after the first raid, so each mob could only
+        // ever raid once in its lifetime.
+        this.continueTask = true;
+        this.ticksRunning = 0;
         this.taskOwner.getNavigation().moveTo((double)this.targetPos.getX() + 0.5D, this.targetPos.getY() + 1, (double)this.targetPos.getZ() + 0.5D, 1f);
     }
 
     @Override
     public void tick() {
-        if (this.taskOwner.distanceToSqr(targetPos.getX(), targetPos.getY(), targetPos.getZ()) < 4) {
+        if (++this.ticksRunning > GIVE_UP_TICKS) {
+            this.continueTask = false;
+            return;
+        }
+        if (this.taskOwner.distanceToSqr(targetPos.getX() + 0.5D, targetPos.getY(), targetPos.getZ() + 0.5D) < 4) {
             BlockState block = this.taskOwner.level.getBlockState(this.targetPos);
             if (block.getBlock() instanceof CropBlock) {
-                // TODO: Broken
-                LootContext.Builder loot = new LootContext.Builder((ServerLevel) taskOwner.level).withRandom(this.taskOwner.getRandom()).withLuck(1.0F);
-                List<ItemStack> drops = block.getBlock().getDrops(block, loot);
+                // Block.getDrops(state, level, pos, blockEntity) supplies the ORIGIN and TOOL loot parameters.
+                // The old hand-built LootContext left them out, so the block loot table threw
+                // "Missing required parameters" the moment a mob reached a crop.
+                List<ItemStack> drops = Block.getDrops(block, (ServerLevel) this.taskOwner.level, this.targetPos, null);
                 if (!drops.isEmpty()) {
                     this.taskOwner.addHunger(Math.max(drops.size() * 10, 10));
                     this.taskOwner.level.destroyBlock(this.targetPos, false);
