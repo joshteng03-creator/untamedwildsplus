@@ -28,32 +28,29 @@ Any time you remodel an animal, follow the standing 9-phase SOP at
 
 ## ▶ Start here (session handoff — read this first)
 
-**Where things stand (2026-07-20):**
-- You are on branch **`ice-age-megafauna`**, which is **committed and pushed** to
-  `origin` (`github.com/joshteng03-creator/untamedwildsplus`) — local and remote are in sync
-  (verify with `git status` → "up to date with 'origin/ice-age-megafauna'").
-- **All 10 new entity types are already implemented and wired** end-to-end: `mammoth, deer,
-  ground_sloth, glyptodont, dire_wolf, equid, giraffid, antelope, toxodon, macrauchenia`. Each has an
-  `Entity*.java`, `Model*.java`, `Renderer*.java`, full `ModEntity` registration (all three hooks), a
-  species JSON, a loot table, and spawn-table entries. Part-1 variants, the `hasSabreFangs` flag, and the
-  predator-balance work are also in. See the Progress log below for specifics.
-- **Two things are deliberately placeholder:** (1) every new texture is a stub PNG, and (2) the new-type
-  **geometry** is a fork of an existing body (bison/hyena/etc.) with feature cubes bolted on — not yet
-  sculpted to the real animal.
+**Where things stand (2026-10-01, version 2.6.0):**
+- Branch **`ice-age-megafauna`**, committed and pushed to `origin`
+  (`github.com/joshteng03-creator/untamedwildsplus`). The release PR targets **`1.18.2`**.
+- **Content:** 43 entity types, every one with a model, renderer, species JSON, loot table and spawn
+  entries. The ice-age types (mammoth, deer, ground_sloth, glyptodont, dire_wolf, equid, giraffid,
+  antelope, toxodon, macrauchenia) and the tapir are all **sculpted** in Blockbench and ported to
+  Java, and every skin is painted and user-approved.
+- **Ecology:** hunting, herds, demography, ecosystem mode (`/gamerule untamedwildsEcosystemMode`),
+  predator balance and prey-side defences — see the Progress log and the Phase 1–8 sections below.
+- **Roadmap:** `docs/plans/2026-09-30-status-audit-and-roadmap.md`. Phases 0, 1 and 3–8 are done.
+  Future species start in `docs/plans/future_species.md`.
 
-**The remaining work ("the rest of the mod creation process"), in recommended order:**
-1. **Verify it compiles first.** Run `./gradlew build` from the repo root, then `./gradlew runClient`
-   for an in-game smoke test. The new-type code was AI-generated and verified *statically only* (see
-   caveats below), so a real compile may surface issues — fix those before investing in art/geometry.
-   Smoke test per type: obtain the `<type>_spawn_egg`, `/summon untamedwilds:<type>`, confirm it renders
-   with no missing-texture (pink/black) or console errors, spawns in its biomes, drops loot, breeds, and
-   that predators only hunt when hungry (Part 3).
-2. **Resculpt geometry in Blockbench (Track A)** — use the Blockbench MCP connection (next section) to
-   shape each new type to its real silhouette, then translate the geometry into the matching
-   `client/model/Model<Name>.java`. Priority: `mammoth` (currently a bison body + trunk/tusks) and
-   `dire_wolf` (a hyena body), then the 8 herbivores (all bison-body forks).
-3. **Paint real skins (Track B, Claude Design)** — replace the placeholder PNGs. See "Models & skins".
-4. **Open a PR** from `ice-age-megafauna` against `1.18.2` once it builds and looks right.
+**The one big gap: almost nothing since 2026-07-21 has been seen in game.** Every change builds
+(`./gradlew build` → BUILD SUCCESSFUL), but runClient is outstanding (roadmap Phase 2). Do that first:
+1. `./gradlew runClient > scratch/runclient.log 2>&1` (redirect, never pipe through `tail`), then grep
+   the log for `ERROR` / `Exception`.
+2. Smoke test per type: spawn egg, renders with no pink/black, every species variant, sit/sleep poses,
+   blink, per-species toggles (`longHorns`, `earSize`, `flatBack`, tusks, antler/horn families,
+   glyptodont club), the mammoth's new walk / threaten / gore / graze animations.
+3. Ecology: `/untamedwilds census` (and `census <species>`, `census auto <minutes>`) in an Ecosystem-mode
+   world over a few in-game days — every predator type should persist and herds should oscillate, not
+   hit 0. Check the AnalyzerItem eco level is unchanged right after a hunting blow and a bison charge.
+4. Multi-mod run with JEI, Citadel and Patchouli, then merge the PR.
 
 ## ▶ Blockbench MCP — how models get made this session
 
