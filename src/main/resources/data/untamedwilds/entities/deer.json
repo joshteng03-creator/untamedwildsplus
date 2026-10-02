@@ -349,22 +349,22 @@
     {
       "name": "eucladoceros",
       "variant": 13,
-      "scale": 0.95,
+      "scale": 0.65,
       "rarity": 2,
-      "attack": 5,
-      "health": 38,
+      "attack": 4,
+      "health": 30,
       "flags": {
-        "groupCount": 8,
+        "groupCount": 6,
         "palmate": 0,
         "throatBell": 0,
-        "antlerScale": 1037
+        "antlerScale": 800
       },
       "spawnBiomes": [
         [
           "category|plains"
         ],
         [
-          "category|forest"
+          "category|swamp"
         ]
       ],
       "offspring": 1,

@@ -37,20 +37,15 @@ Any time you remodel an animal, follow the standing 9-phase SOP at
   Java, and every skin is painted and user-approved.
 - **Ecology:** hunting, herds, demography, ecosystem mode (`/gamerule untamedwildsEcosystemMode`),
   predator balance and prey-side defences — see the Progress log and the Phase 1–8 sections below.
-- **Roadmap:** `docs/plans/2026-09-30-status-audit-and-roadmap.md`. Phases 0, 1 and 3–8 are done.
-  Future species start in `docs/plans/future_species.md`.
+- **Roadmap:** `docs/plans/2026-09-30-status-audit-and-roadmap.md`. Phases 0–8 are done (Phase 2,
+  the in-game verification, was marked complete by the user on 2026-10-01). Phase 9 (release) is
+  built and pushed as 2.6.0; the PR `ice-age-megafauna` → `1.18.2` is opened by the user.
 
-**The one big gap: almost nothing since 2026-07-21 has been seen in game.** Every change builds
-(`./gradlew build` → BUILD SUCCESSFUL), but runClient is outstanding (roadmap Phase 2). Do that first:
-1. `./gradlew runClient > scratch/runclient.log 2>&1` (redirect, never pipe through `tail`), then grep
-   the log for `ERROR` / `Exception`.
-2. Smoke test per type: spawn egg, renders with no pink/black, every species variant, sit/sleep poses,
-   blink, per-species toggles (`longHorns`, `earSize`, `flatBack`, tusks, antler/horn families,
-   glyptodont club), the mammoth's new walk / threaten / gore / graze animations.
-3. Ecology: `/untamedwilds census` (and `census <species>`, `census auto <minutes>`) in an Ecosystem-mode
-   world over a few in-game days — every predator type should persist and herds should oscillate, not
-   hit 0. Check the AnalyzerItem eco level is unchanged right after a hunting blow and a bison charge.
-4. Multi-mod run with JEI, Citadel and Patchouli, then merge the PR.
+**Next: Phase 10, future mob additions.** The candidate list is `docs/plans/future_species.md`; the
+user picks what goes in. Each pick gets ecology tags + a diet slotted into the food web, is built
+with the full remodelling SOP and Blockbench sign-off for its model and every skin, and any new
+predator or large herbivore gets a census soak (`/untamedwilds census auto <minutes>`) so it doesn't
+undo the Phase 4–5 balance.
 
 ## ▶ Blockbench MCP — how models get made this session
 

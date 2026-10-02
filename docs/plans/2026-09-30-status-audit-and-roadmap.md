@@ -129,6 +129,9 @@ file. Each phase ends with `./gradlew build` and a CLAUDE.md progress-log + memo
   `getChargeAnimation()`), and make `performRetaliation` either a real hook or remove the 16 calls.
 
 ### Phase 2 — In-game verification + measurement baseline (needs the user at the GUI)
+**Status: COMPLETE (marked complete by the user, 2026-10-01).** The census command (item 1) shipped in
+Phase 1; the in-game checks (items 2–4) were run by the user.
+
 1. Add a lightweight **census logger**: a `/untamedwilds census` command (+ optional every-N-minutes
    CSV to `run/logs/uw_census.csv`) counting adults/juveniles per type & species in loaded chunks,
    plus mean condition. Phases 4–5 are unmeasurable without it (acceptance = bounded oscillation).
