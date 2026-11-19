@@ -1,0 +1,22 @@
+{
+    "name": "White-Tailed Deer",
+    "icon": "untamedwilds:textures/icon/deer/white_tailed.png",
+    "category": "untamedwilds:deer_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "White-Tailed Deer",
+            "text": "The white-tailed deer ($(o)Odocoileus virginianus$()) is a medium-sized deer found throughout most of North America, Central America and northern South America.$(br2)When alarmed, it raises its tail to flash the bright white underside as a warning to other deer.$(br2)White-tailed deer are highly adaptable, living in forests, farmland, swamps and suburbs, and they are the most widespread wild hoofed animal in the Americas."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:deer{Variant: 10, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "White-Tailed Deer",
+            "text": "Relative Size: ★★☆☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

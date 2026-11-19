@@ -1,0 +1,6 @@
+{
+    "name": "Large Rodents",
+    "description": "Large rodents are the giants of the rodent order: the capybaras and the beavers, herbivore Mammals that live along rivers, lakes and wetlands.$(br2)They are strong swimmers with ever-growing, orange-enamelled incisors, and they escape danger by diving into the water.$(br2)During the Pleistocene, both groups had giant relatives the size of a bear.",
+    "icon": "untamedwilds:textures/icon/large_rodent/category.png",
+    "parent": "untamedwilds:taxon_mammal"
+}

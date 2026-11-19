@@ -1,0 +1,22 @@
+{
+    "name": "Flores Stegodon",
+    "icon": "untamedwilds:textures/icon/mammoth/stegodon_florensis.png",
+    "category": "untamedwilds:mammoth_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Flores Stegodon",
+            "text": "$(o)Stegodon florensis$() was a dwarf stegodon that lived on the Indonesian island of Flores during the Middle and Late Pleistocene.$(br2)Like its mainland relatives it had long, close-set tusks, but over hundreds of thousands of years it shrank from about 1.9 metres at the shoulder to only 1.3 metres.$(br2)Its bones lie alongside those of the \"hobbit\" $(o)Homo floresiensis$() in Liang Bua cave. It died out about 50,000 years ago."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:mammoth{Variant: 13, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Flores Stegodon",
+            "text": "Relative Size: ★★★★☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Hay Bale$(br2)Number of Offspring: 1$(br2)Growth time: 16 Days"
+        }
+    ]
+}

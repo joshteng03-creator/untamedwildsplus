@@ -1,0 +1,414 @@
+{
+  "parent": "untamedwilds:untamedwilds/first_sighting",
+  "display": {
+    "icon": {
+      "item": "minecraft:writable_book"
+    },
+    "title": {
+      "translate": "advancements.untamedwilds.naturalist.title"
+    },
+    "description": {
+      "translate": "advancements.untamedwilds.naturalist.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "aardvark": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:aardvark"
+      }
+    },
+    "antelope": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:antelope"
+      }
+    },
+    "arowana": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:arowana"
+      }
+    },
+    "baleen_whale": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:baleen_whale"
+      }
+    },
+    "bear": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:bear"
+      }
+    },
+    "big_cat": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:big_cat"
+      }
+    },
+    "bison": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:bison"
+      }
+    },
+    "boar": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:boar"
+      }
+    },
+    "camel": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:camel"
+      }
+    },
+    "caprine": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:caprine"
+      }
+    },
+    "catfish": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:catfish"
+      }
+    },
+    "crocodilian": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:crocodilian"
+      }
+    },
+    "deer": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:deer"
+      }
+    },
+    "diprotodont": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:diprotodont"
+      }
+    },
+    "dire_wolf": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:dire_wolf"
+      }
+    },
+    "equid": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:equid"
+      }
+    },
+    "football_fish": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:football_fish"
+      }
+    },
+    "giant_clam": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:giant_clam"
+      }
+    },
+    "giant_monitor": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:giant_monitor"
+      }
+    },
+    "giant_salamander": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:giant_salamander"
+      }
+    },
+    "giraffid": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:giraffid"
+      }
+    },
+    "glyptodont": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:glyptodont"
+      }
+    },
+    "great_ape": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:great_ape"
+      }
+    },
+    "ground_bird": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:ground_bird"
+      }
+    },
+    "ground_sloth": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:ground_sloth"
+      }
+    },
+    "hippo": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:hippo"
+      }
+    },
+    "hyena": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:hyena"
+      }
+    },
+    "kangaroo": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:kangaroo"
+      }
+    },
+    "king_crab": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:king_crab"
+      }
+    },
+    "large_rodent": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:large_rodent"
+      }
+    },
+    "large_snake": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:large_snake"
+      }
+    },
+    "macrauchenia": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:macrauchenia"
+      }
+    },
+    "mammoth": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:mammoth"
+      }
+    },
+    "manatee": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:manatee"
+      }
+    },
+    "monitor": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:monitor"
+      }
+    },
+    "mustelid": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:mustelid"
+      }
+    },
+    "newt": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:newt"
+      }
+    },
+    "opossum": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:opossum"
+      }
+    },
+    "orca": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:orca"
+      }
+    },
+    "pinniped": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:pinniped"
+      }
+    },
+    "rhino": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:rhino"
+      }
+    },
+    "shark": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:shark"
+      }
+    },
+    "snake": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:snake"
+      }
+    },
+    "softshell_turtle": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:softshell_turtle"
+      }
+    },
+    "spadefish": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:spadefish"
+      }
+    },
+    "sunfish": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:sunfish"
+      }
+    },
+    "tapir": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:tapir"
+      }
+    },
+    "tarantula": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:tarantula"
+      }
+    },
+    "tortoise": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:tortoise"
+      }
+    },
+    "toxodon": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:toxodon"
+      }
+    },
+    "trevally": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:trevally"
+      }
+    },
+    "triggerfish": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:triggerfish"
+      }
+    },
+    "whale_shark": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:whale_shark"
+      }
+    },
+    "wildebeest": {
+      "trigger": "untamedwilds:discovered_animal",
+      "conditions": {
+        "entity_type": "untamedwilds:wildebeest"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "aardvark",
+      "antelope",
+      "baleen_whale",
+      "bear",
+      "big_cat",
+      "bison",
+      "boar",
+      "camel",
+      "caprine",
+      "deer",
+      "diprotodont",
+      "dire_wolf",
+      "equid",
+      "giraffid",
+      "glyptodont",
+      "great_ape",
+      "ground_sloth",
+      "hippo",
+      "hyena",
+      "kangaroo",
+      "large_rodent",
+      "macrauchenia",
+      "mammoth",
+      "manatee",
+      "mustelid",
+      "opossum",
+      "orca",
+      "pinniped",
+      "rhino",
+      "tapir",
+      "toxodon",
+      "wildebeest"
+    ],
+    [
+      "ground_bird"
+    ],
+    [
+      "arowana",
+      "catfish",
+      "football_fish",
+      "shark",
+      "spadefish",
+      "sunfish",
+      "trevally",
+      "triggerfish",
+      "whale_shark"
+    ],
+    [
+      "crocodilian",
+      "giant_monitor",
+      "large_snake",
+      "monitor",
+      "snake",
+      "softshell_turtle",
+      "tortoise"
+    ],
+    [
+      "giant_salamander",
+      "newt"
+    ],
+    [
+      "king_crab",
+      "tarantula"
+    ],
+    [
+      "giant_clam"
+    ]
+  ]
+}

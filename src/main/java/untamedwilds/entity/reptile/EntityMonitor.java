@@ -248,8 +248,7 @@ public class EntityMonitor extends ComplexMobAmphibious implements ISpecies, INe
     @Override
     public void updateAttributes() {
         this.applySpeciesSpeed();
-        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getAttack());
-        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getHealth());
+        this.applySpeciesHealthAndAttack();
         this.setHealth(this.getMaxHealth());
     }
 

@@ -1,0 +1,22 @@
+{
+    "name": "Pudu",
+    "icon": "untamedwilds:textures/icon/deer/pudu.png",
+    "category": "untamedwilds:deer_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Pudu",
+            "text": "The pudu ($(o)Pudu puda$()), or southern pudu, is a tiny deer native to the temperate rainforests of southern Chile and western Argentina.$(br2)It is one of the smallest deer in the world, standing under half a metre at the shoulder, and males grow only short, spike-like antlers.$(br2)Pudus are shy and solitary, moving through dense undergrowth to browse on leaves, buds, fruit and fallen seeds."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:deer{Variant: 8, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Pudu",
+            "text": "Relative Size: ★☆☆☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

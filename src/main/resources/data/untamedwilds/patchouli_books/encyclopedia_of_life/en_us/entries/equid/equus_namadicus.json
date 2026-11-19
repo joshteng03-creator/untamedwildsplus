@@ -1,0 +1,22 @@
+{
+    "name": "Narmada Horse",
+    "icon": "untamedwilds:textures/icon/equid/equus_namadicus.png",
+    "category": "untamedwilds:equid_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Narmada Horse",
+            "text": "The Narmada horse ($(o)Equus namadicus$()) is an extinct horse that lived across the Indian subcontinent during the Middle and Late Pleistocene.$(br2)It is named after the Narmada River valley of central India, where its fossils have been found since the 19th century.$(br2)One of the largest species of $(o)Equus$(), it is thought to have been more closely related to zebras and asses than to true horses."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:equid{Variant: 6, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Narmada Horse",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

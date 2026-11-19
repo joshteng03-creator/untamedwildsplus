@@ -1,0 +1,163 @@
+{
+  "name": "crocodilian",
+  "breeding": "SUMMER",
+  "growing_time": 8,
+  "offspring": 3,
+  "activityType": "crepuscular",
+  "favourite_food": "minecraft:beef",
+  "sounds":{
+    "ambient":"untamedwilds:entity.crocodilian.ambient",
+    "hurt":"untamedwilds:entity.crocodilian.hurt",
+    "death":"untamedwilds:entity.crocodilian.death",
+    "threat":"untamedwilds:entity.crocodilian.threat",
+    "call":"untamedwilds:entity.crocodilian.call"
+  },
+  "flags": {
+    "groupCount": 1
+  },
+  "ecology": {
+    "tags": [
+      "carnivore"
+    ],
+    "diet": [
+      "grazer",
+      "browser",
+      "small_game",
+      "aquatic"
+    ]
+  },
+  "species": [
+    {
+      "name": "nile",
+      "variant": 0,
+      "scale": 0.988,
+      "rarity": 3,
+      "attack": 10,
+      "health": 60,
+      "spawnBiomes": [
+        [
+          "category|river"
+        ],
+        [
+          "category|swamp"
+        ],
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.2
+      }
+    },
+    {
+      "name": "saltwater",
+      "variant": 1,
+      "scale": 1.148,
+      "rarity": 2,
+      "attack": 12,
+      "health": 80,
+      "spawnBiomes": [
+        [
+          "category|beach"
+        ],
+        [
+          "category|river"
+        ],
+        [
+          "category|swamp"
+        ],
+        [
+          "category|jungle"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.2
+      }
+    },
+    {
+      "name": "mugger",
+      "variant": 2,
+      "scale": 0.773,
+      "rarity": 3,
+      "attack": 8,
+      "health": 45,
+      "spawnBiomes": [
+        [
+          "category|river"
+        ],
+        [
+          "category|swamp"
+        ],
+        [
+          "category|jungle"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.2
+      }
+    },
+    {
+      "name": "black_caiman",
+      "variant": 3,
+      "scale": 0.949,
+      "rarity": 2,
+      "attack": 10,
+      "health": 60,
+      "spawnBiomes": [
+        [
+          "category|jungle"
+        ],
+        [
+          "category|river"
+        ],
+        [
+          "category|swamp"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.2
+      }
+    },
+    {
+      "name": "quinkana",
+      "variant": 4,
+      "scale": 0.883,
+      "rarity": 1,
+      "attack": 10,
+      "health": 50,
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|forest"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.24
+      }
+    },
+    {
+      "name": "voay",
+      "variant": 5,
+      "scale": 1.104,
+      "rarity": 1,
+      "attack": 11,
+      "health": 70,
+      "spawnBiomes": [
+        [
+          "category|swamp"
+        ],
+        [
+          "category|river"
+        ],
+        [
+          "category|jungle"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.2
+      }
+    }
+  ]
+}

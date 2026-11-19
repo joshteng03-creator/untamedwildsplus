@@ -1,102 +1,262 @@
 {
-	"pools": [{
-		"name": "mammoth",
-		"rolls": 1,
-		"entries": [{
-			"type": "minecraft:item",
-			"name": "minecraft:beef",
-			"functions": [{
-				"function": "minecraft:set_count",
-				"count": {
-					"min": 4,
-					"max": 8
-				}
-			},
-			{
-				"function": "minecraft:looting_enchant",
-				"count": {
-					"min": 0,
-					"max": 2
-				}
-			},
-			{
-				"function": "minecraft:furnace_smelt",
-				"conditions": [
-					{
-						"condition": "minecraft:entity_properties",
-						"predicate": {
-							"flags": {
-								"is_on_fire": true
-							}
-						},
-						"entity": "this"
-					}
-				]
-			}
-		]},
-		{
-			"type": "minecraft:item",
-			"name": "untamedwilds:material_fat",
-			"functions": [{
-				"function": "set_count",
-				"count": {
-					"min": 4,
-					"max": 7
-				}
-			},
-			{
-				"function": "looting_enchant",
-				"count": {
-					"min": 0,
-					"max": 2
-				}
-			}
-		]}
-	]},
-	{
-		"name": "mammoth",
-		"rolls": 1,
-		"entries": [{
-			"type": "minecraft:item",
-			"name": "minecraft:bone",
-			"weight": 1,
-			"functions": [{
-				"function": "set_count",
-				"count": {
-					"min": 2,
-					"max": 6
-				}
+  "pools": [
+    {
+      "name": "mammoth",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "untamedwilds:food_pachyderm_raw",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 4,
+                "max": 8
+              }
             },
             {
-				"function": "looting_enchant",
-				"count": {
-					"min": 0,
-					"max": 2
-				}
+              "function": "minecraft:looting_enchant",
+              "count": {
+                "min": 0,
+                "max": 2
+              }
+            },
+            {
+              "function": "minecraft:furnace_smelt",
+              "conditions": [
+                {
+                  "condition": "minecraft:entity_properties",
+                  "predicate": {
+                    "flags": {
+                      "is_on_fire": true
+                    }
+                  },
+                  "entity": "this"
+                }
+              ]
             }
-        ]}
-    ]},
-	{
-		"name": "mammoth",
-		"rolls": 1,
-		"entries": [{
-			"type": "minecraft:item",
-			"name": "minecraft:leather",
-			"weight": 1,
-			"functions": [{
-				"function": "set_count",
-				"count": {
-					"min": 3,
-					"max": 6
-				}
-			},
-			{
-				"function": "looting_enchant",
-				"count": {
-					"min": 0,
-					"max": 2
-				}
-			}
-		]}
-	]}
-]}
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "untamedwilds:material_fat",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 4,
+                "max": 7
+              }
+            },
+            {
+              "function": "looting_enchant",
+              "count": {
+                "min": 0,
+                "max": 2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mammoth",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:bone",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 6
+              }
+            },
+            {
+              "function": "looting_enchant",
+              "count": {
+                "min": 0,
+                "max": 2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mammoth",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:leather",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 3,
+                "max": 6
+              }
+            },
+            {
+              "function": "looting_enchant",
+              "count": {
+                "min": 0,
+                "max": 2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mammoth_ivory",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "untamedwilds:material_ivory",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            },
+            {
+              "function": "minecraft:looting_enchant",
+              "count": {
+                "min": 0,
+                "max": 1
+              }
+            }
+          ],
+          "conditions": [
+            {
+              "condition": "minecraft:inverted",
+              "term": {
+                "condition": "minecraft:alternative",
+                "terms": [
+                  {
+                    "condition": "minecraft:entity_properties",
+                    "entity": "this",
+                    "predicate": {
+                      "nbt": "{Variant:10}"
+                    }
+                  },
+                  {
+                    "condition": "minecraft:entity_properties",
+                    "entity": "this",
+                    "predicate": {
+                      "nbt": "{Variant:11}"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mammoth_ivory_dwarf",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "untamedwilds:material_ivory",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 0,
+                "max": 1
+              }
+            },
+            {
+              "function": "minecraft:looting_enchant",
+              "count": {
+                "min": 0,
+                "max": 1
+              }
+            }
+          ],
+          "conditions": [
+            {
+              "condition": "minecraft:alternative",
+              "terms": [
+                {
+                  "condition": "minecraft:entity_properties",
+                  "entity": "this",
+                  "predicate": {
+                    "nbt": "{Variant:10}"
+                  }
+                },
+                {
+                  "condition": "minecraft:entity_properties",
+                  "entity": "this",
+                  "predicate": {
+                    "nbt": "{Variant:11}"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "mammoth_fur",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "untamedwilds:material_woolly_fur",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 2,
+                "max": 4
+              }
+            },
+            {
+              "function": "minecraft:looting_enchant",
+              "count": {
+                "min": 0,
+                "max": 1
+              }
+            }
+          ],
+          "conditions": [
+            {
+              "condition": "minecraft:alternative",
+              "terms": [
+                {
+                  "condition": "minecraft:entity_properties",
+                  "entity": "this",
+                  "predicate": {
+                    "nbt": "{Variant:0}"
+                  }
+                },
+                {
+                  "condition": "minecraft:entity_properties",
+                  "entity": "this",
+                  "predicate": {
+                    "nbt": "{Variant:2}"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

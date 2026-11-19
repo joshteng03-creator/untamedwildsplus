@@ -1,0 +1,22 @@
+{
+    "name": "Steppe Mammoth",
+    "icon": "untamedwilds:textures/icon/mammoth/steppe_mammoth.png",
+    "category": "untamedwilds:mammoth_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Steppe Mammoth",
+            "text": "The steppe mammoth ($(o)Mammuthus trogontherii$()) is an extinct mammoth that lived across northern Eurasia, from Europe to Siberia and China, during the Early and Middle Pleistocene.$(br2)It was one of the largest mammoths that ever lived, with males reaching around four metres at the shoulder.$(br2)The steppe mammoth was a grazer of open grasslands, and it was the ancestor of the later woolly mammoth."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:mammoth{Variant: 2, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Steppe Mammoth",
+            "text": "Relative Size: ★★★★★$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Hay Bale$(br2)Number of Offspring: 1$(br2)Growth time: 16 Days"
+        }
+    ]
+}

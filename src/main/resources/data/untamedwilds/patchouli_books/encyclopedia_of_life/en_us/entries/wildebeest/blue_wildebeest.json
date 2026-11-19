@@ -1,0 +1,22 @@
+{
+    "name": "Blue Wildebeest",
+    "icon": "untamedwilds:textures/icon/wildebeest/blue_wildebeest.png",
+    "category": "untamedwilds:wildebeest_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Blue Wildebeest",
+            "text": "The blue wildebeest ($(o)Connochaetes taurinus$()) is a grazing antelope of the savannas of eastern and southern Africa.$(br2)It is slate grey with dark stripes on its neck and shoulders, a black mane and beard, and cow-like horns.$(br2)Over a million of them make the Great Migration every year, following the rains across the Serengeti."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:wildebeest{Variant: 0, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Blue Wildebeest",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 7 Days"
+        }
+    ]
+}

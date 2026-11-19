@@ -1,0 +1,22 @@
+{
+    "name": "Thylacosmilus",
+    "icon": "untamedwilds:textures/icon/big_cat/thylacosmilus.png",
+    "category": "untamedwilds:big_cat_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Thylacosmilus",
+            "text": "$(o)Thylacosmilus$() ($(o)Thylacosmilus atrox$()) is an extinct predator that lived in South America from the Late Miocene to the Pliocene, until about 3 million years ago.$(br2)Though it looked like a sabre-toothed cat, it was not a cat at all, but a sparassodont, a relative of marsupials.$(br2)Its huge, ever-growing upper canines were protected by long bony flanges on the lower jaw."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:big_cat{Variant: 15, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Thylacosmilus",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Nighttime$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 2$(br2)Growth time: 6 Days"
+        }
+    ]
+}

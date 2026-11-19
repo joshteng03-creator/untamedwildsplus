@@ -44,12 +44,15 @@ import untamedwilds.util.EcologyTags;
 import untamedwilds.entity.ai.target.DefendHerdMateTarget;
 import untamedwilds.entity.ai.target.SmartHurtByTargetGoal;
 import untamedwilds.entity.ai.RetreatWhenRoutedGoal;
+import untamedwilds.entity.MountProfile;
 
-public class EntityBison extends ComplexMobTerrestrial implements INewSkins, ISpecies, IPackEntity {
+public class EntityBison extends ComplexMobTerrestrial implements INewSkins, ISpecies, IPackEntity, INeedsPostUpdate {
 
 
     public static final Animation ATTACK_THREATEN = Animation.create(50);
     public static final Animation ATTACK_GORE = Animation.create(14);
+    public static final Animation EAT = Animation.create(40);   // 2.8.0 idle pose (gen_keyframes.py)
+    public static final Animation DRINK = Animation.create(100);   // 2.8.0 idle pose (gen_keyframes.py)
 
     public EntityBison(EntityType<? extends ComplexMob> type, Level worldIn) {
         super(type, worldIn);
@@ -68,6 +71,7 @@ public class EntityBison extends ComplexMobTerrestrial implements INewSkins, ISp
         this.goalSelector.addGoal(2, new SmartMeleeAttackGoal(this, 1.6D, false));
         this.goalSelector.addGoal(3, new SmartMateGoal(this, 0.8D));
         this.goalSelector.addGoal(3, new GrazeGoal(this, 10));
+        this.goalSelector.addGoal(3, new DrinkGoal(this));   // 2.8.0 cosmetic waterhole visits
         /* Density dependence, expressed as MOVEMENT rather than as a cap on births: a herd that
          * has eaten its range out, or that is standing in an overcrowded neighbourhood, shifts
          * ground, and surplus young adults disperse to found herds elsewhere. Runs on the herd
@@ -165,7 +169,7 @@ public class EntityBison extends ComplexMobTerrestrial implements INewSkins, ISp
     }
 
     protected void playStepSound(BlockPos pos, BlockState blockIn) {
-        this.playSound(SoundEvents.RAVAGER_STEP, 0.15F, 1.0F);
+        this.playFootstep(SoundEvents.RAVAGER_STEP, 0.15F, 1.0F);   // 2.8.0 heavy steps (JSON "step")
     }
 
     private Animation chooseAttackAnimation() {
@@ -211,11 +215,27 @@ public class EntityBison extends ComplexMobTerrestrial implements INewSkins, ISp
 
 
     @Override
+    public Animation getAnimationDrink() { return DRINK; }
+    // 2.8.0 solved DRINK reach (gen_keyframes.py): muzzle 15.4 units in front of the centre at size 1
+    @Override
+    public double getDrinkReach() { return 0.965D * this.getMobSize(); }
+
+    @Override
     public Animation[] getAnimations() {
-        return new Animation[]{NO_ANIMATION, ATTACK_THREATEN, ATTACK_GORE};
+        return new Animation[]{NO_ANIMATION, ATTACK_THREATEN, ATTACK_GORE, EAT, DRINK};
     }
 
-    public Animation getAnimationEat() { return NO_ANIMATION; }
+    public Animation getAnimationEat() { return EAT; }
+
+    /* 2026-10-24: bison never implemented INeedsPostUpdate, so every variant ran on the registerAttributes()
+     * defaults of 35 HP / 7 attack and the 60-85 HP in bison.json was never applied -- a body eco level of 6
+     * instead of 8-9, which opened every bison herd to more predators than intended. */
+    @Override
+    public void updateAttributes() {
+        this.applySpeciesSpeed();
+        this.applySpeciesHealthAndAttack();
+        this.setHealth(this.getMaxHealth());
+    }
 
     public static class RodeoGoal extends Goal {
         private final EntityBison bison;
@@ -270,5 +290,10 @@ public class EntityBison extends ComplexMobTerrestrial implements INewSkins, ISp
                 this.bison.level.broadcastEntityEvent(this.bison, (byte)6);
             }
         }
+    }
+
+    @Override
+    public MountProfile getMountProfile() {
+        return MountProfile.BOVID;
     }
 }

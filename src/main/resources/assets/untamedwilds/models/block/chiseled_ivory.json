@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "untamedwilds:block/chiseled_ivory_top",
+    "side": "untamedwilds:block/chiseled_ivory"
+  }
+}

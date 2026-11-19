@@ -1,0 +1,561 @@
+{
+ "_doc": "Clip selections for process.py (start/end in seconds of the raw source).",
+ "clips": [
+  {
+   "batch": "B1",
+   "type": "mammoth",
+   "key": "ambient",
+   "src": "mammoth/fs-437977",
+   "start": 9.6,
+   "end": 11.8,
+   "stand_in": "African/Asian elephant rumble",
+   "hp": 30,
+   "note": "low rumble tail after a trumpet"
+  },
+  {
+   "batch": "B1",
+   "type": "mammoth",
+   "key": "ambient",
+   "src": "mammoth/fs-103117",
+   "start": 83.5,
+   "end": 87.5,
+   "stand_in": "African/Asian elephant rumble (faint)",
+   "hp": 30,
+   "note": "faint field rumble, check noise"
+  },
+  {
+   "batch": "B1",
+   "type": "mammoth",
+   "key": "call",
+   "src": "mammoth/fs-437977",
+   "start": 12.6,
+   "end": 20.4,
+   "stand_in": "African/Asian elephant trumpet (long)",
+   "hp": 30
+  },
+  {
+   "batch": "B1",
+   "type": "mammoth",
+   "key": "call",
+   "src": "mammoth/fs-103117",
+   "start": 68.8,
+   "end": 72.5,
+   "stand_in": "African/Asian elephant trumpets x2",
+   "hp": 30
+  },
+  {
+   "batch": "B1",
+   "type": "mammoth",
+   "key": "threat",
+   "src": "mammoth/fs-527845",
+   "start": 0.05,
+   "end": 1.3,
+   "stand_in": "African/Asian elephant trumpet-growl",
+   "hp": 30
+  },
+  {
+   "batch": "B1",
+   "type": "mammoth",
+   "key": "threat",
+   "src": "mammoth/fs-103117",
+   "start": 47.6,
+   "end": 49.4,
+   "stand_in": "African/Asian elephant trumpet",
+   "hp": 30
+  },
+  {
+   "batch": "B1",
+   "type": "mammoth",
+   "key": "alarm",
+   "src": "mammoth/commons-12880761",
+   "start": 0.1,
+   "end": 1.1,
+   "stand_in": "Asian elephant short trumpet",
+   "hp": 30
+  },
+  {
+   "batch": "B1",
+   "type": "mammoth",
+   "key": "alarm",
+   "src": "mammoth/fs-103117",
+   "start": 95.0,
+   "end": 96.0,
+   "stand_in": "African/Asian elephant short trumpet",
+   "hp": 30
+  },
+  {
+   "batch": "B1",
+   "type": "mammoth",
+   "key": "hurt",
+   "src": "mammoth/fs-510490",
+   "start": 0.0,
+   "end": 1.25,
+   "stand_in": "African/Asian elephant scream",
+   "hp": 30
+  },
+  {
+   "batch": "B1",
+   "type": "mammoth",
+   "key": "hurt",
+   "src": "mammoth/fs-437977",
+   "start": 5.5,
+   "end": 6.9,
+   "stand_in": "African/Asian elephant trumpet-scream",
+   "hp": 30
+  },
+  {
+   "batch": "B1",
+   "type": "mammoth",
+   "key": "death",
+   "src": "mammoth/fs-819668",
+   "start": 2.8,
+   "end": 5.9,
+   "stand_in": "African/Asian elephant roar fading (zoo)",
+   "hp": 30
+  },
+  {
+   "batch": "B1",
+   "type": "rhino",
+   "key": "ambient",
+   "src": "rhino/fs-535810",
+   "start": 0.0,
+   "end": 3.1,
+   "stand_in": "Indian rhinoceros honk/grunt"
+  },
+  {
+   "batch": "B1",
+   "type": "rhino",
+   "key": "ambient",
+   "src": "rhino/fs-535810",
+   "start": 4.4,
+   "end": 6.4,
+   "stand_in": "Indian rhinoceros grunt"
+  },
+  {
+   "batch": "B1",
+   "type": "rhino",
+   "key": "ambient",
+   "src": "rhino/fs-792852",
+   "start": 62.9,
+   "end": 65.9,
+   "stand_in": "white rhino low growl/breath"
+  },
+  {
+   "batch": "B1",
+   "type": "rhino",
+   "key": "threat",
+   "src": "rhino/fs-792852",
+   "start": 12.8,
+   "end": 14.4,
+   "stand_in": "white rhino snort (fight)"
+  },
+  {
+   "batch": "B1",
+   "type": "rhino",
+   "key": "alarm",
+   "src": "rhino/fs-792852",
+   "start": 23.8,
+   "end": 25.0,
+   "stand_in": "white rhino snort burst"
+  },
+  {
+   "batch": "B1",
+   "type": "rhino",
+   "key": "hurt",
+   "src": "rhino/fs-792852",
+   "start": 72.7,
+   "end": 74.8,
+   "stand_in": "white rhino squeal-snort (fight)"
+  },
+  {
+   "batch": "B1",
+   "type": "rhino",
+   "key": "hurt",
+   "src": "rhino/fs-535810",
+   "start": 7.85,
+   "end": 9.2,
+   "stand_in": "Indian rhinoceros honk"
+  },
+  {
+   "batch": "B1",
+   "type": "rhino",
+   "key": "death",
+   "src": "rhino/fs-792852",
+   "start": 76.1,
+   "end": 78.1,
+   "stand_in": "white rhino groan (fight)"
+  },
+  {
+   "batch": "B1",
+   "type": "toxodon",
+   "key": "ambient",
+   "src": "toxodon/fs-194870",
+   "start": 4.4,
+   "end": 7.4,
+   "stand_in": "hippopotamus grunting (Kafue River)",
+   "lp": 3000
+  },
+  {
+   "batch": "B1",
+   "type": "toxodon",
+   "key": "ambient",
+   "src": "toxodon/fs-194871",
+   "start": 4.6,
+   "end": 7.6,
+   "stand_in": "hippopotamus grunting",
+   "lp": 3000
+  },
+  {
+   "batch": "B1",
+   "type": "toxodon",
+   "key": "ambient",
+   "src": "toxodon/fs-194871",
+   "start": 9.6,
+   "end": 12.4,
+   "stand_in": "hippopotamus grunting",
+   "lp": 3000
+  },
+  {
+   "batch": "B1",
+   "type": "toxodon",
+   "key": "threat",
+   "src": "toxodon/fs-194871",
+   "start": 20.6,
+   "end": 23.6,
+   "stand_in": "hippopotamus wheeze-honk",
+   "lp": 3000
+  },
+  {
+   "batch": "B1",
+   "type": "toxodon",
+   "key": "hurt",
+   "src": "toxodon/fs-194870",
+   "start": 13.8,
+   "end": 16.2,
+   "stand_in": "hippopotamus honk",
+   "lp": 3000
+  },
+  {
+   "batch": "B1",
+   "type": "toxodon",
+   "key": "hurt",
+   "src": "toxodon/fs-194871",
+   "start": 24.6,
+   "end": 25.7,
+   "stand_in": "hippopotamus honk",
+   "lp": 3000
+  },
+  {
+   "batch": "B1",
+   "type": "toxodon",
+   "key": "death",
+   "src": "toxodon/fs-194870",
+   "start": 11.3,
+   "end": 14.0,
+   "stand_in": "hippopotamus honk series",
+   "lp": 3000
+  },
+  {
+   "batch": "B1",
+   "type": "ground_sloth",
+   "key": "ambient",
+   "src": "ground_sloth/nps-yell-grizzlyvocal",
+   "start": 26.0,
+   "end": 28.4,
+   "stand_in": "grizzly bear (NPS) huff"
+  },
+  {
+   "batch": "B1",
+   "type": "ground_sloth",
+   "key": "ambient",
+   "src": "ground_sloth/nps-yell-grizzlyvocal",
+   "start": 50.3,
+   "end": 52.3,
+   "stand_in": "grizzly bear (NPS) huffs"
+  },
+  {
+   "batch": "B1",
+   "type": "ground_sloth",
+   "key": "ambient",
+   "src": "ground_sloth/nps-yell-grizzlyvocal",
+   "start": 12.3,
+   "end": 14.0,
+   "stand_in": "grizzly bear (NPS) huff / jaw pop"
+  },
+  {
+   "batch": "B1",
+   "type": "ground_sloth",
+   "key": "threat",
+   "src": "ground_sloth/nps-yell-grizzlyvocal",
+   "start": 41.1,
+   "end": 44.1,
+   "stand_in": "grizzly bear (NPS) growl"
+  },
+  {
+   "batch": "B1",
+   "type": "ground_sloth",
+   "key": "threat",
+   "src": "ground_sloth/fs-763026",
+   "start": 1.8,
+   "end": 4.7,
+   "stand_in": "black bear growl (field)"
+  },
+  {
+   "batch": "B1",
+   "type": "ground_sloth",
+   "key": "hurt",
+   "src": "ground_sloth/nps-yell-grizzlyvocal",
+   "start": 33.0,
+   "end": 36.0,
+   "stand_in": "grizzly bear (NPS) roar-huff"
+  },
+  {
+   "batch": "B1",
+   "type": "ground_sloth",
+   "key": "hurt",
+   "src": "ground_sloth/nps-yell-grizzlyvocal",
+   "start": 54.2,
+   "end": 57.2,
+   "stand_in": "grizzly bear (NPS) roar-huff"
+  },
+  {
+   "batch": "B1",
+   "type": "ground_sloth",
+   "key": "death",
+   "src": "ground_sloth/nps-yell-grizzlyvocal",
+   "start": 64.5,
+   "end": 67.5,
+   "stand_in": "grizzly bear (NPS) long growl"
+  },
+  {
+   "batch": "B1",
+   "type": "glyptodont",
+   "key": "ambient",
+   "src": "glyptodont/fs-652361",
+   "start": 2.1,
+   "end": 3.0,
+   "stand_in": "domestic pig grunt",
+   "hp": 80
+  },
+  {
+   "batch": "B1",
+   "type": "glyptodont",
+   "key": "ambient",
+   "src": "glyptodont/fs-652361",
+   "start": 6.3,
+   "end": 7.4,
+   "stand_in": "domestic pig grunt",
+   "hp": 80
+  },
+  {
+   "batch": "B1",
+   "type": "glyptodont",
+   "key": "ambient",
+   "src": "glyptodont/fs-652361",
+   "start": 23.7,
+   "end": 24.3,
+   "stand_in": "domestic pig low grunt",
+   "hp": 80
+  },
+  {
+   "batch": "B1",
+   "type": "glyptodont",
+   "key": "hurt",
+   "src": "glyptodont/fs-652361",
+   "start": 1.0,
+   "end": 1.6,
+   "stand_in": "domestic pig grunt (sharp)",
+   "hp": 80
+  },
+  {
+   "batch": "B1",
+   "type": "glyptodont",
+   "key": "hurt",
+   "src": "glyptodont/fs-652361",
+   "start": 13.6,
+   "end": 14.4,
+   "stand_in": "domestic pig squeal",
+   "hp": 80
+  },
+  {
+   "batch": "B1",
+   "type": "glyptodont",
+   "key": "death",
+   "src": "glyptodont/fs-652361",
+   "start": 41.1,
+   "end": 42.8,
+   "stand_in": "domestic pig long grunt",
+   "hp": 80
+  },
+  {
+   "batch": "B2",
+   "type": "bison",
+   "key": "call",
+   "src": "bison/nps-bison-yell",
+   "start": 0.3,
+   "end": 2.4,
+   "stand_in": "American bison bellow (NPS)",
+   "hp": 40
+  },
+  {
+   "batch": "B2",
+   "type": "bison",
+   "key": "call",
+   "src": "bison/nps-yell-bison-20050914",
+   "start": 4.8,
+   "end": 6.5,
+   "stand_in": "American bison bellow (NPS)",
+   "hp": 40
+  },
+  {
+   "batch": "B2",
+   "type": "bison",
+   "key": "ambient",
+   "src": "bison/nps-yell-bison-20050918",
+   "start": 9.6,
+   "end": 10.9,
+   "stand_in": "American bison grunt-bellow (NPS)",
+   "hp": 40
+  },
+  {
+   "batch": "B2",
+   "type": "bison",
+   "key": "ambient",
+   "src": "bison/nps-bison-yell",
+   "start": 4.6,
+   "end": 6.1,
+   "stand_in": "American bison grunt (NPS)",
+   "hp": 40
+  },
+  {
+   "batch": "B2",
+   "type": "deer",
+   "key": "call",
+   "src": "deer/nps-yell-elkbugle1",
+   "start": 2.6,
+   "end": 8.7,
+   "stand_in": "bull elk bugle + chuckles (NPS)"
+  },
+  {
+   "batch": "B2",
+   "type": "deer",
+   "key": "call",
+   "src": "deer/nps-elk-grsa",
+   "start": 7.4,
+   "end": 15.4,
+   "stand_in": "bull elk bugle (NPS)"
+  },
+  {
+   "batch": "B2",
+   "type": "deer",
+   "key": "call",
+   "src": "deer/nps-yell-elkbullcows",
+   "start": 178.1,
+   "end": 183.7,
+   "stand_in": "bull elk bugle (NPS)"
+  },
+  {
+   "batch": "B2",
+   "type": "deer",
+   "key": "threat",
+   "src": "deer/nps-yell-elkbullcows",
+   "start": 159.1,
+   "end": 160.8,
+   "stand_in": "bull elk chuckle grunts (NPS)"
+  },
+  {
+   "batch": "B2",
+   "type": "deer",
+   "key": "hurt",
+   "src": "deer/nps-yell-elkcalf",
+   "start": 0.2,
+   "end": 2.1,
+   "stand_in": "elk calf mew (NPS)"
+  },
+  {
+   "batch": "B2",
+   "type": "deer",
+   "key": "hurt",
+   "src": "deer/nps-yell-elkcalf",
+   "start": 3.5,
+   "end": 5.6,
+   "stand_in": "elk calf mew (NPS)"
+  },
+  {
+   "batch": "B2",
+   "type": "deer",
+   "key": "death",
+   "src": "deer/nps-yell-elkcalf",
+   "start": 6.7,
+   "end": 8.9,
+   "stand_in": "elk calf mew, falling (NPS)"
+  },
+  {
+   "batch": "B3",
+   "type": "dire_wolf",
+   "key": "call",
+   "src": "dire_wolf/nps-wolf-dena",
+   "start": 0.2,
+   "end": 8.4,
+   "stand_in": "grey wolf howl (NPS Denali)"
+  },
+  {
+   "batch": "B3",
+   "type": "crocodilian",
+   "key": "call",
+   "src": "crocodilian/nps-alligator-ever1",
+   "start": 1.0,
+   "end": 6.0,
+   "stand_in": "American alligator growl/bellow (NPS Everglades)",
+   "hp": 40
+  },
+  {
+   "batch": "B3",
+   "type": "crocodilian",
+   "key": "call",
+   "src": "crocodilian/nps-alligator-ever1",
+   "start": 17.5,
+   "end": 23.5,
+   "stand_in": "American alligator growl/bellow (NPS Everglades)",
+   "hp": 40
+  },
+  {
+   "batch": "B4",
+   "type": "baleen_whale",
+   "key": "call",
+   "src": "baleen_whale/nps-humpback-glba",
+   "start": 0.2,
+   "end": 7.4,
+   "stand_in": "humpback whale whoops (NPS Glacier Bay hydrophone)",
+   "hp": 40,
+   "note": "noisy hydrophone background"
+  },
+  {
+   "batch": "B5",
+   "type": "shared",
+   "key": "grazer_eat",
+   "src": "shared/nps-yell-bisoneating",
+   "start": 4.6,
+   "end": 7.0,
+   "stand_in": "bison tearing/chewing grass (NPS)"
+  },
+  {
+   "batch": "B5",
+   "type": "shared",
+   "key": "grazer_eat",
+   "src": "shared/nps-yell-bisoneating",
+   "start": 14.3,
+   "end": 16.8,
+   "stand_in": "bison tearing/chewing grass (NPS)"
+  },
+  {
+   "batch": "B5",
+   "type": "shared",
+   "key": "grazer_eat",
+   "src": "shared/nps-yell-bisoneating",
+   "start": 24.0,
+   "end": 26.6,
+   "stand_in": "bison tearing/chewing grass (NPS)"
+  }
+ ]
+}

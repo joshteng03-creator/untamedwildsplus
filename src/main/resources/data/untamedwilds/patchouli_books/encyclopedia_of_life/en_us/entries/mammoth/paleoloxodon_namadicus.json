@@ -1,0 +1,22 @@
+{
+    "name": "Namadicus Elephant",
+    "icon": "untamedwilds:textures/icon/mammoth/paleoloxodon_namadicus.png",
+    "category": "untamedwilds:mammoth_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Namadicus Elephant",
+            "text": "The Namadicus elephant ($(o)Palaeoloxodon namadicus$()) is an extinct elephant that lived on the Indian subcontinent during the Middle and Late Pleistocene.$(br2)It is named after the Narmada River valley in India, where its fossils were first found.$(br2)A close relative of the straight-tusked elephant of Europe, it shared that species' huge size and prominent bony crest at the top of the skull, and is regarded as one of the largest proboscideans ever."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:mammoth{Variant: 9, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Namadicus Elephant",
+            "text": "Relative Size: ★★★★★$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Hay Bale$(br2)Number of Offspring: 1$(br2)Growth time: 16 Days"
+        }
+    ]
+}

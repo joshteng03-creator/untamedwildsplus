@@ -1,0 +1,15 @@
+[
+ ["B5", "shared", "grazer_eat", "shared/fs-365138", 14.4, 17.0, "horse tearing and chewing grass (Germany)", {"hp": 80}],
+ ["B5", "shared", "grazer_eat", "shared/fs-365138", 18.4, 21.4, "horse tearing and chewing grass (Germany)", {"hp": 80}],
+ ["B5", "shared", "grazer_eat", "shared/fs-406338", 7.5, 10.0, "cattle eating grass", {"hp": 80}],
+ ["B5", "shared", "animal_drink", "shared/fs-499001", 9.9, 12.9, "dog lapping water from a bowl", {"hp": 80}],
+ ["B5", "shared", "animal_drink", "shared/fs-499001", 13.0, 16.0, "dog lapping water from a bowl", {"hp": 80}],
+ ["B5", "shared", "megafauna_step", "shared/fs-334228", 13.3, 13.9, "heavy stomp on ground, contact mic (bassy thud)", {"hp": 30}],
+ ["B5", "shared", "megafauna_step", "shared/fs-334228", 10.0, 10.5, "heavy stomp on ground, contact mic (bassy thud)", {"hp": 30}],
+ ["B5", "shared", "megafauna_step", "shared/fs-512483", 0.0, 1.2, "hard stomp on ground", {"hp": 30}],
+ ["B5", "shared", "megafauna_step", "shared/fs-721601", 0.0, null, "giant footstep breaking branches (designed foley)", {"hp": 30}],
+ ["B5", "shared", "carcass_butcher", "shared/fs-101733", 0.5, 2.0, "knife chopping meat (Boqueria market)", {"hp": 80}],
+ ["B5", "shared", "carcass_butcher", "shared/fs-641046", 0.0, null, "wet meat squelch/impact (foley)", {"hp": 60}],
+ ["B5", "shared", "carcass_butcher", "shared/fs-649966", 0.0, null, "flesh squelch/tear (foley)", {"hp": 60}],
+ ["B4", "kangaroo", "alarm", "shared/fs-334228", 6.2, 6.7, "ground thump (stand-in for kangaroo foot-thump alarm)", {"hp": 30}]
+]

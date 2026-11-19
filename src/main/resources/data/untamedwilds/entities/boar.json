@@ -179,6 +179,29 @@
       "ecology": {
         "speed": 0.2
       }
+    },
+    {
+      "name": "platygonus",
+      "variant": 8,
+      "scale": 1.05,
+      "rarity": 2,
+      "attack": 4,
+      "health": 18,
+      "flags": {
+        "isWarthog": 0,
+        "groupCount": 8
+      },
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ],
+        [
+          "category|forest"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.19
+      }
     }
   ],
   "ecology": {

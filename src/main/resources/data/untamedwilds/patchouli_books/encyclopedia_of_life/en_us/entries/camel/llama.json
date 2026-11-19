@@ -1,0 +1,22 @@
+{
+    "name": "Llama",
+    "icon": "untamedwilds:textures/icon/camel/llama.png",
+    "category": "untamedwilds:camel_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Llama",
+            "text": "The llama ($(o)Lama glama$()) is a domesticated South American camelid, bred from the wild guanaco in the Andes thousands of years ago.$(br2)It is the largest of the South American camelids and has long been used as a pack animal for carrying loads across the mountains.$(br2)Llamas are social herd animals. They are also kept for their meat and wool, and as guard animals for flocks of sheep."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:camel{Variant: 9, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Llama",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Cactus$(br2)Number of Offspring: 1$(br2)Growth time: 13 Days"
+        }
+    ]
+}

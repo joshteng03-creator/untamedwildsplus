@@ -68,6 +68,8 @@ public class EntityBear extends ComplexMobTerrestrial implements ISpecies, INewS
         this.goalSelector.addGoal(2, new FindItemsGoal(this, 12));
         this.goalSelector.addGoal(2, new SmartMeleeAttackGoal(this, 1.6D, false, 1));
         this.goalSelector.addGoal(3, new SmartAvoidGoal<>(this, LivingEntity.class, 16, 1.2D, 1.6D, input -> getEcoLevel(input) > getEcoLevel(this)));
+        // 2.8.0: walks to carcasses and feeds (below avoidance, so it still gives way to something stronger)
+        this.goalSelector.addGoal(4, new untamedwilds.entity.ai.FeedOnCarcassGoal(this));
         this.goalSelector.addGoal(4, new SmartMateGoal(this, 1D));
         this.goalSelector.addGoal(4, new GotoSleepGoal(this, 1D));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.25D));
@@ -323,8 +325,7 @@ public class EntityBear extends ComplexMobTerrestrial implements ISpecies, INewS
     @Override
     public void updateAttributes() {
         this.applySpeciesSpeed();
-        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getAttack());
-        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getHealth());
+        this.applySpeciesHealthAndAttack();
         this.setHealth(this.getMaxHealth());
         this.setShortSnout(getEntityData(this.getType()).getFlags(this.getVariant(), "hasShortSnout") == 1);
         this.setHump(getEntityData(this.getType()).getFlags(this.getVariant(), "hasHump") == 1);

@@ -1,0 +1,22 @@
+{
+    "name": "Cheetah",
+    "icon": "untamedwilds:textures/icon/big_cat/cheetah.png",
+    "category": "untamedwilds:big_cat_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Cheetah",
+            "text": "The cheetah ($(o)Acinonyx jubatus$()) is a slender big cat of the open savannas and grasslands of Africa, with a small remaining population in Iran.$(br2)It is the fastest land animal, reaching around 100 km/h in short sprints. Its semi-retractable claws grip the ground like running spikes.$(br2)Female cheetahs live alone with their cubs, while males often form small coalitions, usually of brothers."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:big_cat{Variant: 11, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Cheetah",
+            "text": "Relative Size: ★★☆☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 3$(br2)Growth time: 6 Days"
+        }
+    ]
+}

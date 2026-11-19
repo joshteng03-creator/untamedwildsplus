@@ -37,6 +37,18 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
+import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.WallBlock;
+import untamedwilds.block.AntlerChandelierBlock;
+import untamedwilds.block.AntlerTrophyBlock;
+import untamedwilds.block.FeedingTroughBlock;
+import untamedwilds.block.SaltLickBlock;
+import untamedwilds.block.SpeciesPlacardBlock;
+import untamedwilds.block.blockentity.FeedingTroughBlockEntity;
+import untamedwilds.block.blockentity.SaltLickBlockEntity;
+import untamedwilds.block.blockentity.SpeciesPlacardBlockEntity;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = UntamedWilds.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -60,10 +72,40 @@ public class ModBlock {
     public static RegistryObject<Block> CARPET_BIGCAT_PUMA  = createBlock("carpet_bigcat_puma", () -> new CarpetBlock(Block.Properties.of(Material.CLOTH_DECORATION, MaterialColor.COLOR_GRAY).destroyTime(0.1F).sound( SoundType.WOOL)), CreativeModeTab.TAB_DECORATIONS);
     public static RegistryObject<Block> CARPET_BIGCAT_SNOW  = createBlock("carpet_bigcat_snow_leopard", () -> new CarpetBlock(Block.Properties.of(Material.CLOTH_DECORATION, MaterialColor.COLOR_BLACK).destroyTime(0.1F).sound( SoundType.WOOL)), CreativeModeTab.TAB_DECORATIONS);
     public static RegistryObject<Block> CARPET_BIGCAT_TIGER  = createBlock("carpet_bigcat_tiger", () -> new CarpetBlock(Block.Properties.of(Material.CLOTH_DECORATION, MaterialColor.COLOR_BROWN).destroyTime(0.1F).sound( SoundType.WOOL)), CreativeModeTab.TAB_DECORATIONS);
+    public static RegistryObject<Block> CARPET_BEAR_CAVE  = createBlock("carpet_bear_cave", () -> new CarpetBlock(Block.Properties.of(Material.CLOTH_DECORATION, MaterialColor.COLOR_BROWN).destroyTime(0.1F).sound( SoundType.WOOL)), CreativeModeTab.TAB_DECORATIONS);
+    public static RegistryObject<Block> CARPET_BEAR_PANDA  = createBlock("carpet_bear_panda", () -> new CarpetBlock(Block.Properties.of(Material.CLOTH_DECORATION, MaterialColor.SNOW).destroyTime(0.1F).sound( SoundType.WOOL)), CreativeModeTab.TAB_DECORATIONS);
+    public static RegistryObject<Block> CARPET_BEAR_SPECTACLED  = createBlock("carpet_bear_spectacled", () -> new CarpetBlock(Block.Properties.of(Material.CLOTH_DECORATION, MaterialColor.COLOR_BLACK).destroyTime(0.1F).sound( SoundType.WOOL)), CreativeModeTab.TAB_DECORATIONS);
+    public static RegistryObject<Block> CARPET_BEAR_SUN  = createBlock("carpet_bear_sun", () -> new CarpetBlock(Block.Properties.of(Material.CLOTH_DECORATION, MaterialColor.COLOR_BLACK).destroyTime(0.1F).sound( SoundType.WOOL)), CreativeModeTab.TAB_DECORATIONS);
+    public static RegistryObject<Block> CARPET_BEAR_SHORT_FACED  = createBlock("carpet_bear_short_faced", () -> new CarpetBlock(Block.Properties.of(Material.CLOTH_DECORATION, MaterialColor.TERRACOTTA_ORANGE).destroyTime(0.1F).sound( SoundType.WOOL)), CreativeModeTab.TAB_DECORATIONS);
+    public static RegistryObject<Block> CARPET_BEAR_ARCTOTHERIUM  = createBlock("carpet_bear_arctotherium", () -> new CarpetBlock(Block.Properties.of(Material.CLOTH_DECORATION, MaterialColor.COLOR_BROWN).destroyTime(0.1F).sound( SoundType.WOOL)), CreativeModeTab.TAB_DECORATIONS);
+    public static RegistryObject<Block> CARPET_BIGCAT_CAVE_LION  = createBlock("carpet_bigcat_cave_lion", () -> new CarpetBlock(Block.Properties.of(Material.CLOTH_DECORATION, MaterialColor.SAND).destroyTime(0.1F).sound( SoundType.WOOL)), CreativeModeTab.TAB_DECORATIONS);
+    public static RegistryObject<Block> CARPET_BIGCAT_AMERICAN_LION  = createBlock("carpet_bigcat_american_lion", () -> new CarpetBlock(Block.Properties.of(Material.CLOTH_DECORATION, MaterialColor.COLOR_ORANGE).destroyTime(0.1F).sound( SoundType.WOOL)), CreativeModeTab.TAB_DECORATIONS);
+    public static RegistryObject<Block> CARPET_BIGCAT_BARBARY_LION  = createBlock("carpet_bigcat_barbary_lion", () -> new CarpetBlock(Block.Properties.of(Material.CLOTH_DECORATION, MaterialColor.SAND).destroyTime(0.1F).sound( SoundType.WOOL)), CreativeModeTab.TAB_DECORATIONS);
+    public static RegistryObject<Block> CARPET_BIGCAT_HOMOTHERIUM  = createBlock("carpet_bigcat_homotherium", () -> new CarpetBlock(Block.Properties.of(Material.CLOTH_DECORATION, MaterialColor.SAND).destroyTime(0.1F).sound( SoundType.WOOL)), CreativeModeTab.TAB_DECORATIONS);
+    public static RegistryObject<Block> CARPET_BIGCAT_MARSUPIAL_LION  = createBlock("carpet_bigcat_marsupial_lion", () -> new CarpetBlock(Block.Properties.of(Material.CLOTH_DECORATION, MaterialColor.COLOR_ORANGE).destroyTime(0.1F).sound( SoundType.WOOL)), CreativeModeTab.TAB_DECORATIONS);
+    public static RegistryObject<Block> CARPET_BIGCAT_SABERTOOTH  = createBlock("carpet_bigcat_sabertooth", () -> new CarpetBlock(Block.Properties.of(Material.CLOTH_DECORATION, MaterialColor.COLOR_GRAY).destroyTime(0.1F).sound( SoundType.WOOL)), CreativeModeTab.TAB_DECORATIONS);
+    public static RegistryObject<Block> CARPET_BIGCAT_CHEETAH  = createBlock("carpet_bigcat_cheetah", () -> new CarpetBlock(Block.Properties.of(Material.CLOTH_DECORATION, MaterialColor.GOLD).destroyTime(0.1F).sound( SoundType.WOOL)), CreativeModeTab.TAB_DECORATIONS);
+    public static RegistryObject<Block> CARPET_BIGCAT_AMERICAN_CHEETAH  = createBlock("carpet_bigcat_american_cheetah", () -> new CarpetBlock(Block.Properties.of(Material.CLOTH_DECORATION, MaterialColor.COLOR_LIGHT_GRAY).destroyTime(0.1F).sound( SoundType.WOOL)), CreativeModeTab.TAB_DECORATIONS);
+    public static RegistryObject<Block> CARPET_BIGCAT_CASPIAN_TIGER  = createBlock("carpet_bigcat_caspian_tiger", () -> new CarpetBlock(Block.Properties.of(Material.CLOTH_DECORATION, MaterialColor.COLOR_ORANGE).destroyTime(0.1F).sound( SoundType.WOOL)), CreativeModeTab.TAB_DECORATIONS);
+    public static RegistryObject<Block> CARPET_BIGCAT_THYLACOSMILUS  = createBlock("carpet_bigcat_thylacosmilus", () -> new CarpetBlock(Block.Properties.of(Material.CLOTH_DECORATION, MaterialColor.COLOR_GRAY).destroyTime(0.1F).sound( SoundType.WOOL)), CreativeModeTab.TAB_DECORATIONS);
+    public static RegistryObject<Block> CARPET_BIGCAT_SMILODON_FATALIS  = createBlock("carpet_bigcat_smilodon_fatalis", () -> new CarpetBlock(Block.Properties.of(Material.CLOTH_DECORATION, MaterialColor.TERRACOTTA_BROWN).destroyTime(0.1F).sound( SoundType.WOOL)), CreativeModeTab.TAB_DECORATIONS);
 
     // Storage
     public static RegistryObject<Block> LARD_BLOCK  = createBlock("block_lard", () -> new LardBlock(Block.Properties.of(Material.CLAY, MaterialColor.COLOR_YELLOW).destroyTime(0.1F).sound(SoundType.SLIME_BLOCK)), CreativeModeTab.TAB_BUILDING_BLOCKS);
     public static RegistryObject<Block> PEARL_BLOCK  = createBlock("block_pearl", () -> new Block(Block.Properties.of(Material.STONE, MaterialColor.COLOR_CYAN).destroyTime(5.0F).sound(SoundType.STONE)), CreativeModeTab.TAB_BUILDING_BLOCKS);
+    // Ivory set (2026-10-06): bone-block hardness and sound, quartz-style variants. Pillars like the bone block.
+    public static RegistryObject<Block> IVORY_BLOCK = createBlock("ivory_block", () -> new RotatedPillarBlock(Block.Properties.of(Material.STONE, MaterialColor.SAND).requiresCorrectToolForDrops().strength(2.0F).sound(SoundType.BONE_BLOCK)), CreativeModeTab.TAB_BUILDING_BLOCKS);
+    public static RegistryObject<Block> IVORY_SLAB = createBlock("ivory_slab", () -> new SlabBlock(Block.Properties.of(Material.STONE, MaterialColor.SAND).requiresCorrectToolForDrops().strength(2.0F).sound(SoundType.BONE_BLOCK)), CreativeModeTab.TAB_BUILDING_BLOCKS);
+    public static RegistryObject<Block> IVORY_STAIRS = createBlock("ivory_stairs", () -> new StairBlock(() -> ModBlock.IVORY_BLOCK.get().defaultBlockState(), Block.Properties.of(Material.STONE, MaterialColor.SAND).requiresCorrectToolForDrops().strength(2.0F).sound(SoundType.BONE_BLOCK)), CreativeModeTab.TAB_BUILDING_BLOCKS);
+    public static RegistryObject<Block> IVORY_WALL = createBlock("ivory_wall", () -> new WallBlock(Block.Properties.of(Material.STONE, MaterialColor.SAND).requiresCorrectToolForDrops().strength(2.0F).sound(SoundType.BONE_BLOCK)), CreativeModeTab.TAB_DECORATIONS);
+    public static RegistryObject<Block> CHISELED_IVORY = createBlock("chiseled_ivory", () -> new RotatedPillarBlock(Block.Properties.of(Material.STONE, MaterialColor.SAND).requiresCorrectToolForDrops().strength(2.0F).sound(SoundType.BONE_BLOCK)), CreativeModeTab.TAB_BUILDING_BLOCKS);
+    public static RegistryObject<Block> DISPLAY_PLINTH = createBlock("display_plinth", () -> new Block(Block.Properties.of(Material.STONE, MaterialColor.STONE).requiresCorrectToolForDrops().strength(2.0F, 6.0F)), CreativeModeTab.TAB_DECORATIONS);
+    public static RegistryObject<Block> ANTLER_CHANDELIER = createBlock("antler_chandelier", () -> new AntlerChandelierBlock(Block.Properties.of(Material.WOOD, MaterialColor.SAND).strength(1.0F).sound(SoundType.BONE_BLOCK).noOcclusion().lightLevel(state -> 15)), "cutout", CreativeModeTab.TAB_DECORATIONS);
+    public static RegistryObject<Block> ANTLER_TROPHY = createBlock("antler_trophy", () -> new AntlerTrophyBlock(Block.Properties.of(Material.WOOD, MaterialColor.SAND).strength(1.0F).sound(SoundType.BONE_BLOCK).noOcclusion()), "cutout", CreativeModeTab.TAB_DECORATIONS);
+    // Zoo blocks (2026-10-08)
+    public static RegistryObject<Block> FEEDING_TROUGH = createBlock("feeding_trough", () -> new FeedingTroughBlock(Block.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(1.5F).sound(SoundType.WOOD).noOcclusion()), "cutout", CreativeModeTab.TAB_DECORATIONS);
+    public static RegistryObject<Block> SPECIES_PLACARD = createBlock("species_placard", () -> new SpeciesPlacardBlock(Block.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(1.5F).sound(SoundType.WOOD).noOcclusion()), "cutout", CreativeModeTab.TAB_DECORATIONS);
+    public static RegistryObject<Block> SALT_LICK = createBlock("salt_lick", () -> new SaltLickBlock(Block.Properties.of(Material.STONE, MaterialColor.QUARTZ).strength(0.8F).sound(SoundType.CALCITE).noOcclusion()), CreativeModeTab.TAB_DECORATIONS);
 
     // Machines
     public static RegistryObject<Block> TRAP_CAGE  = createBlock("trap_cage", () -> new CageBlock(Block.Properties.of(Material.WOOD, MaterialColor.WOOD).destroyTime(3.0F).sound(SoundType.WOOD)), CreativeModeTab.TAB_TRANSPORTATION);
@@ -112,6 +154,9 @@ public class ModBlock {
     public static final RegistryObject<BlockEntityType<CritterBurrowBlockEntity>> TILE_ENTITY_BURROW = TILE_ENTITIES.register("critter_burrow", () -> BlockEntityType.Builder.of(CritterBurrowBlockEntity::new, ModBlock.BURROW.get()).build(null));
     public static final RegistryObject<BlockEntityType<ReptileNestBlockEntity>> TILE_ENTITY_NEST_REPTILE = TILE_ENTITIES.register("nest_reptile_block_entity", () -> BlockEntityType.Builder.of(ReptileNestBlockEntity::new, ModBlock.NEST_REPTILE.get()).build(null));
     public static final RegistryObject<BlockEntityType<EggBlockEntity>> TILE_ENTITY_EGG = TILE_ENTITIES.register("strange_egg", () -> BlockEntityType.Builder.of(EggBlockEntity::new, ModBlock.EGG_SPITTER.get()).build(null));
+    public static final RegistryObject<BlockEntityType<FeedingTroughBlockEntity>> TILE_ENTITY_TROUGH = TILE_ENTITIES.register("feeding_trough", () -> BlockEntityType.Builder.of(FeedingTroughBlockEntity::new, ModBlock.FEEDING_TROUGH.get()).build(null));
+    public static final RegistryObject<BlockEntityType<SaltLickBlockEntity>> TILE_ENTITY_SALT_LICK = TILE_ENTITIES.register("salt_lick", () -> BlockEntityType.Builder.of(SaltLickBlockEntity::new, ModBlock.SALT_LICK.get()).build(null));
+    public static final RegistryObject<BlockEntityType<SpeciesPlacardBlockEntity>> TILE_ENTITY_PLACARD = TILE_ENTITIES.register("species_placard", () -> BlockEntityType.Builder.of(SpeciesPlacardBlockEntity::new, ModBlock.SPECIES_PLACARD.get()).build(null));
 
     public static <B extends Block> RegistryObject<Block> createBlock(String name, Supplier<? extends B> supplier, CreativeModeTab group) {
         return createBlock(name, supplier, null, group, 0);

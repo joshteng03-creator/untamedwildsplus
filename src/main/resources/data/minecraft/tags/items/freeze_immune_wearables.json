@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "untamedwilds:fur_helmet",
+    "untamedwilds:fur_chestplate",
+    "untamedwilds:fur_leggings",
+    "untamedwilds:fur_boots"
+  ]
+}

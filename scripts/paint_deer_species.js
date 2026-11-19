@@ -68,6 +68,35 @@
       legCol: '#4e4536', legAmt: 0.30, hoof: '#232019',
       shadeLo: 0.10, shadeHi: 0.68,
       hairScale: 1.5, hairAmt: 0.15, grizzleAmt: 0.20
+    },
+    // Axis axis (quick-win batch, 2026-10-02) -- the THIRD spotted deer, so it has to part from
+    // fallow (chestnut) and sika (dark, sparse spots) on tone and density: bright golden-rufous,
+    // the densest white spot rows in the set, a white throat bib and belly, dark spine line.
+    chital: {
+      back: '#a25a22', flank: '#cf8636', belly: '#d49a52',
+      paleCol: '#f7f2e8', spotAmt: 0.95, spotSpacing: 3.4,
+      dorsalCol: '#3e2212', dorsalAmt: 0.70,
+      bibAmt: 0.85, bellyAmt: 0.90, bellyY0: 14.0, bellyY1: 17.5, rumpAmt: 0.55,
+      muzzle: '#ece4d2', muzzleAmt: 0.50,
+      antler: '#6b5a42', antlerTip: '#d2c6a8', rackSpan: 13.0,
+      legCol: '#b06a2c', legAmt: 0.10, hoof: '#22201b',
+      shadeLo: 0.16, shadeHi: 0.78,
+      hairScale: 1.9, hairAmt: 0.07, grizzleAmt: 0.0
+    },
+    // Rusa unicolor (quick-win batch, 2026-10-02) -- big, coarse-coated and DARK, but the dark
+    // browns are the most crowded corner of the deer census (wapiti, red deer, pudu, both moose),
+    // so it goes cool grey-brown and grizzled instead of warm: a shaggy painted neck mane, a buff
+    // chin and inner leg, a buff rump patch, no spots, long rusine rack.
+    sambar: {
+      back: '#383129', flank: '#4c4339', belly: '#62574a',
+      paleCol: '#c6b89f', bellyAmt: 0.35, bellyY0: 13.5, bellyY1: 17.0,
+      bellyLegY0: 9.0, bellyLegY1: 15.0, rumpAmt: 0.30,
+      maneCol: '#29231d', maneAmt: 0.75,
+      muzzle: '#bdae95', muzzleAmt: 0.45,
+      antler: '#5c4c38', antlerTip: '#b0a387', rackSpan: 16.0,
+      legCol: '#2c2620', legAmt: 0.35, hoof: '#1e1b18',
+      shadeLo: 0.10, shadeHi: 0.70,
+      hairScale: 1.4, hairAmt: 0.14, grizzleAmt: 0.14
     }
   };
 

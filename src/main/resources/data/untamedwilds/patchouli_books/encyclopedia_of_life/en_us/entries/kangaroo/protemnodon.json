@@ -1,0 +1,22 @@
+{
+    "name": "Giant Wallaby",
+    "icon": "untamedwilds:textures/icon/kangaroo/protemnodon.png",
+    "category": "untamedwilds:kangaroo_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Giant Wallaby",
+            "text": "$(o)Protemnodon$() ($(o)Protemnodon anak$()), sometimes called the giant wallaby, was a heavy-bodied relative of today's wallabies that lived in Australia and New Guinea during the Pleistocene.$(br2)It was more strongly built than living kangaroos, and some species may have moved on all fours more often than they hopped.$(br2)It lived in forests and woodlands, browsing and grazing."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:kangaroo{Variant: 4, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Giant Wallaby",
+            "text": "Relative Size: ★★★☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 8 Days"
+        }
+    ]
+}

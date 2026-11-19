@@ -1,0 +1,107 @@
+{
+  "name": "wildebeest",
+  "breeding": "SUMMER",
+  "growing_time": 7,
+  "offspring": 1,
+  "activityType": "diurnal",
+  "favourite_food": "minecraft:wheat",
+  "sounds":{
+    "ambient":"untamedwilds:entity.wildebeest.ambient",
+    "hurt":"untamedwilds:entity.wildebeest.hurt",
+    "death":"untamedwilds:entity.wildebeest.death",
+    "alarm":"untamedwilds:entity.wildebeest.alarm",
+    "call":"untamedwilds:entity.wildebeest.call"
+  },
+  "flags": {
+    "groupCount": 12
+  },
+  "ecology": {
+    "tags": [
+      "grazer"
+    ]
+  },
+  "species": [
+    {
+      "name": "blue_wildebeest",
+      "variant": 0,
+      "scale": 1.064,
+      "rarity": 3,
+      "attack": 6,
+      "health": 40,
+      "flags": {
+        "groupCount": 16
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.25
+      }
+    },
+    {
+      "name": "black_wildebeest",
+      "variant": 1,
+      "scale": 0.941,
+      "rarity": 2,
+      "attack": 5,
+      "health": 34,
+      "flags": {
+        "groupCount": 12
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.25
+      }
+    },
+    {
+      "name": "megalotragus",
+      "variant": 2,
+      "scale": 1.228,
+      "rarity": 1,
+      "attack": 8,
+      "health": 56,
+      "flags": {
+        "groupCount": 8
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.23
+      }
+    },
+    {
+      "name": "hartebeest",
+      "variant": 3,
+      "scale": 1.023,
+      "rarity": 2,
+      "attack": 5,
+      "health": 36,
+      "flags": {
+        "groupCount": 10
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.26
+      }
+    }
+  ]
+}

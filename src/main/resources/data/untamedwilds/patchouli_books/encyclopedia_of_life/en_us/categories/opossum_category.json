@@ -1,0 +1,6 @@
+{
+    "name": "Opossums",
+    "description": "Opossums are small omnivore marsupial Mammals native to the Americas. $(br2)Common characteristics include a pointed snout, a long prehensile tail, and a pouch in which females raise their young. $(br2)Opossums are highly adaptable and can be found in forests, farmland and even towns.",
+    "icon": "untamedwilds:textures/icon/opossum/category.png",
+    "parent": "untamedwilds:taxon_mammal"
+}

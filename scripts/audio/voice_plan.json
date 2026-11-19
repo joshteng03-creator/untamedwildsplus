@@ -1,0 +1,987 @@
+{
+ "_doc": "P6a voice plan: per type -> key -> stand-in species, search terms, wanted clip count, max length (s). Licence whitelist: CC0 / public domain only.",
+ "B1": {
+  "mammoth": {
+   "ambient": {
+    "stand_in": "African/Asian elephant rumble",
+    "search": [
+     "elephant rumble",
+     "elephant"
+    ],
+    "wanted": 3,
+    "max_len_s": 3.0
+   },
+   "threat": {
+    "stand_in": "elephant trumpet",
+    "search": [
+     "elephant trumpet"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "alarm": {
+    "stand_in": "elephant trumpet (short)",
+    "search": [
+     "elephant trumpet"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "call": {
+    "stand_in": "elephant trumpet (long)",
+    "search": [
+     "elephant trumpet",
+     "elephant call"
+    ],
+    "wanted": 2,
+    "max_len_s": 8
+   },
+   "hurt": {
+    "stand_in": "elephant roar/scream",
+    "search": [
+     "elephant roar",
+     "elephant scream"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "death": {
+    "stand_in": "elephant roar (long, falling)",
+    "search": [
+     "elephant roar"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   }
+  },
+  "rhino": {
+   "ambient": {
+    "stand_in": "rhinoceros snort/puff/grunt",
+    "search": [
+     "rhino",
+     "rhinoceros"
+    ],
+    "wanted": 3,
+    "max_len_s": 3.0
+   },
+   "threat": {
+    "stand_in": "rhino snort",
+    "search": [
+     "rhino snort"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "hurt": {
+    "stand_in": "rhino grunt",
+    "search": [
+     "rhino grunt"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "death": {
+    "stand_in": "rhino grunt (long)",
+    "search": [
+     "rhino"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "alarm": {
+    "stand_in": "rhino snort",
+    "search": [
+     "rhino snort"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   }
+  },
+  "toxodon": {
+   "ambient": {
+    "stand_in": "hippo/rhino grunt",
+    "search": [
+     "hippo",
+     "hippopotamus",
+     "hippo grunt"
+    ],
+    "wanted": 3,
+    "max_len_s": 3.0
+   },
+   "hurt": {
+    "stand_in": "hippo grunt",
+    "search": [
+     "hippo"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "death": {
+    "stand_in": "hippo",
+    "search": [
+     "hippo"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "threat": {
+    "stand_in": "hippo bellow",
+    "search": [
+     "hippo"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   }
+  },
+  "ground_sloth": {
+   "ambient": {
+    "stand_in": "large-mammal huff (bear/tapir)",
+    "search": [
+     "bear huff",
+     "bear grunt",
+     "bear"
+    ],
+    "wanted": 3,
+    "max_len_s": 3.0
+   },
+   "threat": {
+    "stand_in": "bear growl/huff",
+    "search": [
+     "bear growl"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "hurt": {
+    "stand_in": "bear grunt",
+    "search": [
+     "bear grunt"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "death": {
+    "stand_in": "bear groan",
+    "search": [
+     "bear"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   }
+  },
+  "glyptodont": {
+   "ambient": {
+    "stand_in": "armadillo/pig snuffle",
+    "search": [
+     "armadillo",
+     "pig snuffle",
+     "pig grunt"
+    ],
+    "wanted": 3,
+    "max_len_s": 3.0
+   },
+   "hurt": {
+    "stand_in": "pig grunt",
+    "search": [
+     "pig grunt",
+     "pig squeal"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "death": {
+    "stand_in": "pig grunt (long)",
+    "search": [
+     "pig"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   }
+  },
+  "diprotodont": {
+   "ambient": {
+    "stand_in": "wombat grunt/hiss",
+    "search": [
+     "wombat"
+    ],
+    "wanted": 3,
+    "max_len_s": 3.0
+   },
+   "threat": {
+    "stand_in": "wombat hiss/growl",
+    "search": [
+     "wombat"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "hurt": {
+    "stand_in": "wombat grunt",
+    "search": [
+     "wombat"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "death": {
+    "stand_in": "wombat",
+    "search": [
+     "wombat"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   }
+  }
+ },
+ "B2": {
+  "deer": {
+   "call": {
+    "stand_in": "elk bugle / red deer roar",
+    "search": [
+     "elk bugle",
+     "red deer roar",
+     "stag roar"
+    ],
+    "wanted": 3,
+    "max_len_s": 8
+   },
+   "alarm": {
+    "stand_in": "deer alarm bark/snort",
+    "search": [
+     "deer bark",
+     "deer snort",
+     "deer alarm"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "ambient": {
+    "stand_in": "deer bleat / moose grunt",
+    "search": [
+     "deer bleat",
+     "moose grunt",
+     "deer grunt"
+    ],
+    "wanted": 3,
+    "max_len_s": 3.0
+   },
+   "hurt": {
+    "stand_in": "deer bleat",
+    "search": [
+     "deer bleat",
+     "fawn"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "death": {
+    "stand_in": "deer bleat (long)",
+    "search": [
+     "deer"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "threat": {
+    "stand_in": "stag grunt/roar (short)",
+    "search": [
+     "stag grunt",
+     "rut"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   }
+  },
+  "antelope": {
+   "alarm": {
+    "stand_in": "impala/springbok/gazelle snort",
+    "search": [
+     "impala",
+     "gazelle",
+     "antelope snort"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "ambient": {
+    "stand_in": "saiga / antelope grunt",
+    "search": [
+     "saiga",
+     "antelope",
+     "impala"
+    ],
+    "wanted": 3,
+    "max_len_s": 3.0
+   },
+   "hurt": {
+    "stand_in": "antelope bleat",
+    "search": [
+     "antelope",
+     "goat bleat"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "death": {
+    "stand_in": "antelope",
+    "search": [
+     "antelope"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   }
+  },
+  "wildebeest": {
+   "ambient": {
+    "stand_in": "gnu grunt/moan",
+    "search": [
+     "wildebeest",
+     "gnu"
+    ],
+    "wanted": 3,
+    "max_len_s": 3.0
+   },
+   "call": {
+    "stand_in": "gnu moan (long)",
+    "search": [
+     "wildebeest"
+    ],
+    "wanted": 2,
+    "max_len_s": 8
+   },
+   "alarm": {
+    "stand_in": "wildebeest snort",
+    "search": [
+     "wildebeest snort"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "hurt": {
+    "stand_in": "wildebeest grunt",
+    "search": [
+     "wildebeest"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "death": {
+    "stand_in": "wildebeest",
+    "search": [
+     "wildebeest"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   }
+  },
+  "equid": {
+   "ambient": {
+    "stand_in": "horse snort/nicker, zebra bark",
+    "search": [
+     "horse snort",
+     "horse nicker",
+     "zebra"
+    ],
+    "wanted": 3,
+    "max_len_s": 3.0
+   },
+   "call": {
+    "stand_in": "whinny / zebra bark",
+    "search": [
+     "horse whinny",
+     "zebra",
+     "donkey"
+    ],
+    "wanted": 2,
+    "max_len_s": 8
+   },
+   "alarm": {
+    "stand_in": "horse snort",
+    "search": [
+     "horse snort"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "hurt": {
+    "stand_in": "horse squeal",
+    "search": [
+     "horse squeal",
+     "horse"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "death": {
+    "stand_in": "horse",
+    "search": [
+     "horse whinny"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   }
+  },
+  "giraffid": {
+   "alarm": {
+    "stand_in": "giraffe snort",
+    "search": [
+     "giraffe"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "ambient": {
+    "stand_in": "giraffe hum / snort",
+    "search": [
+     "giraffe",
+     "okapi"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "hurt": {
+    "stand_in": "giraffe grunt",
+    "search": [
+     "giraffe"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "death": {
+    "stand_in": "giraffe",
+    "search": [
+     "giraffe"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   }
+  },
+  "caprine": {
+   "ambient": {
+    "stand_in": "ibex/goat bleat",
+    "search": [
+     "goat bleat",
+     "goat",
+     "ibex",
+     "sheep"
+    ],
+    "wanted": 3,
+    "max_len_s": 3.0
+   },
+   "alarm": {
+    "stand_in": "chamois/goat alarm whistle/snort",
+    "search": [
+     "goat snort",
+     "chamois",
+     "ibex whistle"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "hurt": {
+    "stand_in": "goat bleat (short)",
+    "search": [
+     "goat"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "death": {
+    "stand_in": "goat",
+    "search": [
+     "goat bleat"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   }
+  },
+  "macrauchenia": {
+   "alarm": {
+    "stand_in": "guanaco/llama alarm call",
+    "search": [
+     "llama alarm",
+     "guanaco",
+     "alpaca alarm"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "ambient": {
+    "stand_in": "llama/alpaca hum",
+    "search": [
+     "alpaca hum",
+     "llama hum",
+     "alpaca"
+    ],
+    "wanted": 3,
+    "max_len_s": 3.0
+   },
+   "hurt": {
+    "stand_in": "llama",
+    "search": [
+     "llama",
+     "alpaca"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "death": {
+    "stand_in": "llama",
+    "search": [
+     "llama"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   }
+  },
+  "tapir": {
+   "call": {
+    "stand_in": "tapir whistle",
+    "search": [
+     "tapir"
+    ],
+    "wanted": 2,
+    "max_len_s": 8
+   },
+   "ambient": {
+    "stand_in": "tapir squeak/huff",
+    "search": [
+     "tapir"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "hurt": {
+    "stand_in": "tapir",
+    "search": [
+     "tapir"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "death": {
+    "stand_in": "tapir",
+    "search": [
+     "tapir"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   }
+  },
+  "bison": {
+   "call": {
+    "stand_in": "bison bellow (NPS Yellowstone)",
+    "search": [
+     "bison bellow",
+     "bison"
+    ],
+    "wanted": 2,
+    "max_len_s": 8
+   },
+   "ambient": {
+    "stand_in": "bison grunt",
+    "search": [
+     "bison"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   }
+  }
+ },
+ "B3": {
+  "dire_wolf": {
+   "call": {
+    "stand_in": "grey wolf howl",
+    "search": [
+     "wolf howl"
+    ],
+    "wanted": 3,
+    "max_len_s": 8
+   },
+   "threat": {
+    "stand_in": "wolf growl",
+    "search": [
+     "wolf growl"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "alarm": {
+    "stand_in": "wolf bark",
+    "search": [
+     "wolf bark"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "hurt": {
+    "stand_in": "wolf whine/yelp",
+    "search": [
+     "wolf whine",
+     "dog yelp"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "death": {
+    "stand_in": "wolf yelp",
+    "search": [
+     "dog yelp"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "ambient": {
+    "stand_in": "wolf whine/huff",
+    "search": [
+     "wolf"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   }
+  },
+  "crocodilian": {
+   "threat": {
+    "stand_in": "alligator/crocodile hiss",
+    "search": [
+     "alligator hiss",
+     "crocodile hiss"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "hurt": {
+    "stand_in": "crocodile hiss",
+    "search": [
+     "crocodile",
+     "alligator"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "call": {
+    "stand_in": "alligator bellow",
+    "search": [
+     "alligator bellow",
+     "alligator"
+    ],
+    "wanted": 2,
+    "max_len_s": 8
+   },
+   "death": {
+    "stand_in": "alligator",
+    "search": [
+     "alligator"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "ambient": {
+    "stand_in": "alligator grunt",
+    "search": [
+     "alligator"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   }
+  },
+  "giant_monitor": {
+   "threat": {
+    "stand_in": "monitor hiss",
+    "search": [
+     "monitor lizard hiss",
+     "lizard hiss",
+     "komodo"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "hurt": {
+    "stand_in": "hiss",
+    "search": [
+     "hiss"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   }
+  },
+  "monitor": {
+   "threat": {
+    "stand_in": "monitor hiss",
+    "search": [
+     "monitor lizard hiss",
+     "lizard hiss"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   }
+  },
+  "softshell_turtle": {
+   "threat": {
+    "stand_in": "turtle hiss",
+    "search": [
+     "turtle hiss",
+     "tortoise hiss"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   }
+  },
+  "tortoise": {
+   "ambient": {
+    "stand_in": "tortoise grunt",
+    "search": [
+     "tortoise"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "threat": {
+    "stand_in": "tortoise hiss",
+    "search": [
+     "tortoise hiss"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   }
+  },
+  "giant_salamander": {
+   "ambient": {
+    "stand_in": "barely vocal (sparse)",
+    "search": [
+     "salamander"
+    ],
+    "wanted": 0,
+    "max_len_s": 3.0
+   }
+  },
+  "newt": {
+   "ambient": {
+    "stand_in": "barely vocal (sparse)",
+    "search": [
+     "newt"
+    ],
+    "wanted": 0,
+    "max_len_s": 3.0
+   }
+  }
+ },
+ "B4": {
+  "pinniped": {
+   "ambient": {
+    "stand_in": "sea lion bark / seal grunt",
+    "search": [
+     "sea lion",
+     "seal",
+     "walrus"
+    ],
+    "wanted": 3,
+    "max_len_s": 3.0
+   },
+   "call": {
+    "stand_in": "walrus bellow / seal moan",
+    "search": [
+     "walrus",
+     "seal call",
+     "elephant seal"
+    ],
+    "wanted": 2,
+    "max_len_s": 8
+   },
+   "hurt": {
+    "stand_in": "sea lion bark",
+    "search": [
+     "sea lion"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "death": {
+    "stand_in": "seal",
+    "search": [
+     "seal"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "threat": {
+    "stand_in": "sea lion bark/roar",
+    "search": [
+     "sea lion"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   }
+  },
+  "baleen_whale": {
+   "call": {
+    "stand_in": "humpback/blue whale moan (NOAA)",
+    "search": [
+     "humpback whale",
+     "whale song",
+     "blue whale"
+    ],
+    "wanted": 3,
+    "max_len_s": 8
+   },
+   "ambient": {
+    "stand_in": "whale blow/spout",
+    "search": [
+     "whale blow",
+     "whale breath",
+     "spout"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "hurt": {
+    "stand_in": "whale moan (short)",
+    "search": [
+     "whale"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "death": {
+    "stand_in": "whale moan (long)",
+    "search": [
+     "whale"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   }
+  },
+  "kangaroo": {
+   "ambient": {
+    "stand_in": "kangaroo cough/grunt",
+    "search": [
+     "kangaroo"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "alarm": {
+    "stand_in": "foot thump",
+    "search": [
+     "kangaroo thump",
+     "foot stomp thump"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "hurt": {
+    "stand_in": "kangaroo grunt",
+    "search": [
+     "kangaroo"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "death": {
+    "stand_in": "kangaroo",
+    "search": [
+     "kangaroo"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "threat": {
+    "stand_in": "kangaroo growl",
+    "search": [
+     "kangaroo"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   }
+  },
+  "large_rodent": {
+   "alarm": {
+    "stand_in": "capybara bark",
+    "search": [
+     "capybara"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "ambient": {
+    "stand_in": "capybara clicks/purr",
+    "search": [
+     "capybara",
+     "guinea pig"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "call": {
+    "stand_in": "beaver tail slap",
+    "search": [
+     "beaver tail slap",
+     "beaver"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "hurt": {
+    "stand_in": "rodent squeak",
+    "search": [
+     "capybara",
+     "guinea pig"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   },
+   "death": {
+    "stand_in": "rodent squeal",
+    "search": [
+     "guinea pig"
+    ],
+    "wanted": 1,
+    "max_len_s": 3.0
+   }
+  }
+ },
+ "B5": {
+  "shared": {
+   "grazer_eat": {
+    "stand_in": "grass tearing/chewing",
+    "search": [
+     "grass tearing",
+     "chewing grass",
+     "horse eating"
+    ],
+    "wanted": 3,
+    "max_len_s": 3.0
+   },
+   "animal_drink": {
+    "stand_in": "water lapping/slurping",
+    "search": [
+     "lapping water",
+     "dog drinking",
+     "slurp"
+    ],
+    "wanted": 2,
+    "max_len_s": 3.0
+   },
+   "megafauna_step": {
+    "stand_in": "heavy footstep thud",
+    "search": [
+     "heavy footstep",
+     "thud",
+     "stomp"
+    ],
+    "wanted": 3,
+    "max_len_s": 3.0
+   },
+   "carcass_butcher": {
+    "stand_in": "wet chop/cut",
+    "search": [
+     "meat chop",
+     "butcher",
+     "wet chop"
+    ],
+    "wanted": 3,
+    "max_len_s": 3.0
+   }
+  }
+ }
+}

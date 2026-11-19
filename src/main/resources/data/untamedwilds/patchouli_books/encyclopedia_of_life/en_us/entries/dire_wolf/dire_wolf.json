@@ -1,0 +1,22 @@
+{
+    "name": "Dire Wolf",
+    "icon": "untamedwilds:textures/icon/dire_wolf/dire_wolf.png",
+    "category": "untamedwilds:dire_wolf_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Dire Wolf",
+            "text": "The dire wolf ($(o)Aenocyon dirus$()) is an extinct canid that lived in North and South America during the Late Pleistocene, until about 13,000 years ago.$(br2)It was similar in size to the largest modern gray wolves but more heavily built, with a powerful bite. Despite its resemblance to the gray wolf, genetic studies place it in a separate lineage.$(br2)Remains of thousands of dire wolves have been found in the La Brea Tar Pits."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:dire_wolf{Variant: 0, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Dire Wolf",
+            "text": "Relative Size: ★★☆☆☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 3$(br2)Growth time: 5 Days"
+        }
+    ]
+}

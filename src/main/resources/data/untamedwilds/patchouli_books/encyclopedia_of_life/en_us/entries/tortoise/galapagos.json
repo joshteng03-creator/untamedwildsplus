@@ -1,0 +1,22 @@
+{
+    "name": "Galapagos Giant Tortoise",
+    "icon": "untamedwilds:textures/icon/tortoise/galapagos.png",
+    "category": "untamedwilds:tortoise_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Galapagos Giant Tortoise",
+            "text": "The Galápagos giant tortoise ($(o)Chelonoidis niger$()) is the largest living tortoise. Each of the Galápagos Islands has its own form, and many scientists now treat them as separate species.$(br2)Tortoises from moist highlands have big domed shells, while those from dry islands have saddle-shaped shells raised at the front, so they can stretch their long necks up to cactus pads.$(br2)The islands' vice-governor told Charles Darwin he could tell which island a tortoise came from by its shell."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:tortoise{Variant: 7, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Galapagos Giant Tortoise",
+            "text": "Relative Size: ★★★☆☆$(br2)Always active$(br2)1 Color$(br2)Favourite Food: Apple$(br2)Number of Offspring: 5$(br2)Growth time: 6 Days"
+        }
+    ]
+}

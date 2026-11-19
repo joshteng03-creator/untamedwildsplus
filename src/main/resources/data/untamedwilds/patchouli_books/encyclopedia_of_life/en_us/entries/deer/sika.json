@@ -1,0 +1,22 @@
+{
+    "name": "Sika Deer",
+    "icon": "untamedwilds:textures/icon/deer/sika.png",
+    "category": "untamedwilds:deer_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Sika Deer",
+            "text": "The sika deer ($(o)Cervus nippon$()) is a medium-sized deer native to East Asia, from Japan and Taiwan to eastern China and the Russian Far East.$(br2)Its chestnut summer coat is marked with white spots, which fade as it grows a darker winter coat.$(br2)Sika deer are highly vocal, using a wide range of calls including whistles and screams, and they have been introduced to Europe, North America and New Zealand."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:deer{Variant: 12, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Sika Deer",
+            "text": "Relative Size: ★★☆☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

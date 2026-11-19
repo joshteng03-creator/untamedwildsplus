@@ -1,0 +1,22 @@
+{
+    "name": "Sable Antelope",
+    "icon": "untamedwilds:textures/icon/antelope/sable.png",
+    "category": "untamedwilds:antelope_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Sable Antelope",
+            "text": "The sable antelope ($(o)Hippotragus niger$()) is a large antelope of the wooded savannas of East and Southern Africa.$(br2)Mature bulls are glossy black with white bellies and face markings, while females and young are chestnut to dark brown. Both sexes have long, ringed horns that sweep back in a curve.$(br2)Sable live in herds of females and young, each watched over by a territorial bull."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:antelope{Variant: 7, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Sable Antelope",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 6 Days"
+        }
+    ]
+}

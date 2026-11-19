@@ -4,10 +4,14 @@
   "growing_time":6,
   "offspring":5,
   "favourite_food":"minecraft:apple",
+  "flags":{
+    "meiolania":0
+  },
   "sounds":{
-    "ambient":"entity.turtle.ambient_land",
+    "ambient":"untamedwilds:entity.tortoise.ambient",
     "hurt":"entity.turtle.hurt",
-    "death":"entity.turtle.death"
+    "death":"entity.turtle.death",
+    "threat":"untamedwilds:entity.tortoise.threat"
   },
   "species":[
     {
@@ -90,6 +94,73 @@
           "category|savanna"
         ]
       ]
+    },
+    {
+      "name":"aldabra",
+      "variant":6,
+      "scale":1.8,
+      "rarity":2,
+      "health":40,
+      "spawnBiomes":[
+        [
+          "category|beach"
+        ],
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology":{
+        "tags":[
+          "megafauna"
+        ]
+      }
+    },
+    {
+      "name":"galapagos",
+      "variant":7,
+      "scale":1.95,
+      "rarity":2,
+      "health":45,
+      "spawnBiomes":[
+        [
+          "category|beach"
+        ],
+        [
+          "category|desert"
+        ]
+      ],
+      "ecology":{
+        "tags":[
+          "megafauna"
+        ]
+      }
+    },
+    {
+      "name":"meiolania",
+      "variant":8,
+      "scale":1.5,
+      "rarity":2,
+      "attack":4,
+      "health":35,
+      "flags":{
+        "meiolania":1
+      },
+      "spawnBiomes":[
+        [
+          "category|forest"
+        ],
+        [
+          "category|beach"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology":{
+        "tags":[
+          "megafauna"
+        ]
+      }
     }
   ],
   "ecology":{

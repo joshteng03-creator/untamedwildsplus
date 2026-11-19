@@ -1,0 +1,22 @@
+{
+    "name": "Pygmy Hippopotamus",
+    "icon": "untamedwilds:textures/icon/hippo/pygmy.png",
+    "category": "untamedwilds:hippo_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Pygmy Hippopotamus",
+            "text": "The pygmy hippopotamus ($(o)Choeropsis liberiensis$()) lives in the rainforest swamps and streams of West Africa, mostly in Liberia.$(br2)It weighs less than a fifth as much as a common hippo, with longer legs, a small rounded head with eyes on the sides, and greenish-black skin that fades to creamy grey below.$(br2)Shy and solitary, it hides in swamps by day and comes out at night to eat ferns, leaves and fruit."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:hippo{Variant: 2, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Pygmy Hippopotamus",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Nighttime$(br2)1 Color$(br2)Favourite Food: Water Hyacinth$(br2)Number of Offspring: 1$(br2)Growth time: 8 Days"
+        }
+    ]
+}

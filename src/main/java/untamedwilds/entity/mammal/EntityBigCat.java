@@ -354,8 +354,7 @@ public class EntityBigCat extends ComplexMobTerrestrial implements ISpecies, INe
     @Override
     public void updateAttributes() {
         this.applySpeciesSpeed();
-        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getAttack());
-        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getHealth());
+        this.applySpeciesHealthAndAttack();
         this.setHealth(this.getMaxHealth());
         this.setDimorphism(getEntityData(this.getType()).getFlags(this.getVariant(), "dimorphism") == 1);
         this.setFluffyTail(getEntityData(this.getType()).getFlags(this.getVariant(), "fluffyTail") == 1);

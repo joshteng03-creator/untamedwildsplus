@@ -1,0 +1,22 @@
+{
+    "name": "Helmeted Musk Ox",
+    "icon": "untamedwilds:textures/icon/bison/bootherium.png",
+    "category": "untamedwilds:bison_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Helmeted Musk Ox",
+            "text": "The helmeted musk ox ($(o)Bootherium bombifrons$()) lived across North America, from Alaska to Texas, during the Middle and Late Pleistocene.$(br2)It was taller and leaner than the living musk ox, with a longer snout, and in males the horn bases joined across the top of the skull in a solid bony helmet.$(br2)Males and females looked so different that they were once placed in separate genera. It died out about 11,000 years ago."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:bison{Variant: 14, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Helmeted Musk Ox",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Junegrass$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

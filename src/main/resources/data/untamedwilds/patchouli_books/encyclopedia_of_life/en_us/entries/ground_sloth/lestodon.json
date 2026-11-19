@@ -1,0 +1,22 @@
+{
+    "name": "Lestodon",
+    "icon": "untamedwilds:textures/icon/ground_sloth/lestodon.png",
+    "category": "untamedwilds:ground_sloth_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Lestodon",
+            "text": "$(o)Lestodon$() ($(o)Lestodon armatus$()) was one of the largest ground sloths, a grazer on the Pampas of Argentina, Uruguay and southern Brazil during the Pleistocene.$(br2)It had a heavy barrel body, strong clawed limbs and a very broad, square muzzle, with two pairs of tusk-like teeth at the front of its jaws.$(br2)A bed of thirteen skeletons of different ages shows that it sometimes lived in groups. It died out about 12,000 years ago."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:ground_sloth{Variant: 5, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Lestodon",
+            "text": "Relative Size: ★★★★★$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 14 Days"
+        }
+    ]
+}

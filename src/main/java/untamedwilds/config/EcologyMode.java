@@ -54,6 +54,13 @@ public final class EcologyMode {
         return level.getGameRules().getBoolean(ECOSYSTEM_MODE);
     }
 
+    /** Sets this world's mode (GameTests; same effect as /gamerule untamedwildsEcosystemMode). */
+    public static void setEcosystem(net.minecraft.server.level.ServerLevel level, boolean ecosystem) {
+        if (ECOSYSTEM_MODE != null) {
+            level.getGameRules().getRule(ECOSYSTEM_MODE).set(ecosystem, level.getServer());
+        }
+    }
+
     /** Convenience for the common case of asking about the world an animal is standing in. */
     public static boolean isEcosystem(LivingEntity entity) {
         return isEcosystem(entity.level);
@@ -180,8 +187,18 @@ public final class EcologyMode {
         return isEcosystem(entity);
     }
 
+    /** Slow immigration of locally absent species (2026-10-24). Zoo exhibits are stocked, not colonised. */
+    public static boolean allowsImmigration(@Nullable Level level) {
+        return isEcosystem(level) && ConfigGamerules.immigrationEnabled.get();
+    }
+
     /** Level-scoped form, for the forage regrowth handler, which has a Level and no entity. */
     public static boolean allowsForageDepletion(@Nullable Level level) {
         return isEcosystem(level);
+    }
+
+    /** Cold stress and the other climate consequences. Zoo animals are not starved by the weather. */
+    public static boolean allowsClimateEffects(LivingEntity entity) {
+        return isEcosystem(entity) && ConfigGamerules.climateEffects.get();
     }
 }

@@ -1,0 +1,22 @@
+{
+    "name": "Palaeotragus",
+    "icon": "untamedwilds:textures/icon/giraffid/palaeotragus.png",
+    "category": "untamedwilds:giraffid_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Palaeotragus",
+            "text": "Palaeotragus ($(o)Palaeotragus rouenii$()) is an extinct giraffid that lived in southeastern Europe and western Asia during the Late Miocene, first described from fossils found at Pikermi in Greece.$(br2)It belongs to a group of primitive giraffids that resembled large okapis, with long legs and a moderately long neck.$(br2)Its relatives ranged widely across Africa and Eurasia, and some survived into the Early Pleistocene."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:giraffid{Variant: 6, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Palaeotragus",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 12 Days"
+        }
+    ]
+}

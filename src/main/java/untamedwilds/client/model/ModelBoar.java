@@ -185,6 +185,41 @@ public class ModelBoar extends AdvancedEntityModel<EntityBoar> {
     
     void animate(IAnimatedEntity entityIn) {
         animator.update(entityIn);
+        // <gen:idle-poses> 2.8.0: SOLVED by scripts/pose_reach.py against this model's own boxes (muzzle to the grass / the
+        // water line beyond the bank, every head part and horn family clear of the ground, nothing through the torso).
+        // Regenerate, never hand-edit: python scripts/gen_keyframes.py boar
+        // DRINK (100t, DrinkGoal): muzzle to the water past the bank edge, two swallows lifting the head
+        animator.setAnimation(EntityBoar.DRINK);
+        animator.startKeyframe(15);
+        this.rotate(animator, head_main, 10.1F, 0.0F, 0.0F);
+        this.rotate(animator, head_snout, 0.6F, 0.0F, 0.0F);
+        animator.move(head_main, 0.0F, 5.3F, 0.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(20);
+        animator.startKeyframe(5);
+        this.rotate(animator, head_main, 5.1F, 0.0F, 0.0F);
+        this.rotate(animator, head_snout, 0.6F, 0.0F, 0.0F);
+        animator.move(head_main, 0.0F, 5.3F, 0.0F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, head_main, 10.1F, 0.0F, 0.0F);
+        this.rotate(animator, head_snout, 0.6F, 0.0F, 0.0F);
+        animator.move(head_main, 0.0F, 5.3F, 0.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(20);
+        animator.startKeyframe(5);
+        this.rotate(animator, head_main, 5.1F, 0.0F, 0.0F);
+        this.rotate(animator, head_snout, 0.6F, 0.0F, 0.0F);
+        animator.move(head_main, 0.0F, 5.3F, 0.0F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, head_main, 10.1F, 0.0F, 0.0F);
+        this.rotate(animator, head_snout, 0.6F, 0.0F, 0.0F);
+        animator.move(head_main, 0.0F, 5.3F, 0.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(10);
+        animator.resetKeyframe(15);
+        // </gen:idle-poses>
 
         animator.setAnimation(EntityBoar.TALK);
         animator.startKeyframe(10);

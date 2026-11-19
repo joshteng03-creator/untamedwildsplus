@@ -1,0 +1,6 @@
+{
+    "name": "Toxodonts",
+    "description": "Toxodonts are extinct herbivore Mammals belonging to the notoungulates, a group of hoofed mammals that evolved in South America. $(br2)They were heavy, rhinoceros-like animals with short legs and ever-growing teeth. $(br2)They lived in the grasslands and wetlands of South America, with some reaching Central America.",
+    "icon": "untamedwilds:textures/icon/toxodon/category.png",
+    "parent": "untamedwilds:taxon_mammal"
+}

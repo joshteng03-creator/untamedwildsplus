@@ -1,0 +1,6 @@
+{
+    "name": "Antelope",
+    "description": "Antelope are slender, fast-running hoofed Mammals, most of which belong to the bovid family alongside cattle and goats.$(br2)They are herbivores that rely on keen senses and speed to escape predators, and most species carry permanent, unbranched horns. The pronghorn and its extinct relatives are not true antelope, but share the same lifestyle.$(br2)Antelope are most common in open grasslands, savannas, steppes and deserts.",
+    "icon": "untamedwilds:textures/icon/antelope/category.png",
+    "parent": "untamedwilds:taxon_mammal"
+}

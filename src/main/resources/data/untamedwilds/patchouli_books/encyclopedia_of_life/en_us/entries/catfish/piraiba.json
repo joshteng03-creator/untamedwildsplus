@@ -1,0 +1,22 @@
+{
+    "name": "Piraiba",
+    "icon": "untamedwilds:textures/icon/catfish/piraiba.png",
+    "category": "untamedwilds:catfish_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Piraiba",
+            "text": "The piraíba ($(o)Brachyplatystoma filamentosum$()), or goliath catfish, is one of the largest catfish of the Amazon and Orinoco basins.$(br2)Adults are dark grey above and white below, with long whiskers, and the biggest reach over 3 metres. Young fish are spotted and have a long thread on their tail fin.$(br2)Fishermen call fish over about 50 kilograms piraíba, and smaller ones filhote, meaning \"youngster\"."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:catfish{Variant: 5, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Piraiba",
+            "text": "Relative Size: ★★☆☆☆$(br2)Always active$(br2)1 Color$(br2)Favourite Food: Chum$(br2)Number of Offspring: 5$(br2)Growth time: 6 Days"
+        }
+    ]
+}

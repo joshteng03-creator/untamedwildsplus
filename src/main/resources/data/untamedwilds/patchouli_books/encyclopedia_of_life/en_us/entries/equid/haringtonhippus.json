@@ -1,0 +1,22 @@
+{
+    "name": "Stilt-Legged Horse",
+    "icon": "untamedwilds:textures/icon/equid/haringtonhippus.png",
+    "category": "untamedwilds:equid_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Stilt-Legged Horse",
+            "text": "The stilt-legged horse ($(o)Haringtonhippus francisci$()) lived across North America, from the Yukon to southern Mexico, during the Pleistocene.$(br2)It was a small, slender horse with long, very thin lower legs, built more like a wild ass than a true horse.$(br2)Ancient DNA showed in 2017 that it was a separate lineage from true horses, though some scientists still place it in $(o)Equus$(). It died out about 12,000 years ago."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:equid{Variant: 10, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Stilt-Legged Horse",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

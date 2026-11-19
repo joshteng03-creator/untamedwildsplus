@@ -1,0 +1,22 @@
+{
+    "name": "Bighorn Sheep",
+    "icon": "untamedwilds:textures/icon/caprine/bighorn.png",
+    "category": "untamedwilds:caprine_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Bighorn Sheep",
+            "text": "The bighorn sheep ($(o)Ovis canadensis$()) is a wild sheep of the mountains and deserts of western North America.$(br2)Rams have massive curled horns, and during the rut they charge each other head-on at high speed, with clashes heard far away.$(br2)Bighorns have a white rump and muzzle, and climb steep cliffs to escape predators."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:caprine{Variant: 3, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Bighorn Sheep",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 7 Days"
+        }
+    ]
+}

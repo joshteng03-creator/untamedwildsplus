@@ -5,14 +5,16 @@
   "offspring": 1,
   "activityType": "cathemeral",
   "favourite_food": "minecraft:sweet_berries",
-  "sounds": {
-    "ambient": "minecraft:entity.cow.ambient",
-    "hurt": "minecraft:entity.cow.hurt",
-    "death": "minecraft:entity.cow.death"
+  "sounds":{
+    "ambient":"untamedwilds:entity.glyptodont.ambient",
+    "hurt":"untamedwilds:entity.glyptodont.hurt",
+    "death":"untamedwilds:entity.glyptodont.death",
+    "step":"untamedwilds:entity.megafauna.step"
   },
   "flags": {
     "groupCount": 2,
-    "hasTailClub": 0
+    "hasTailClub": 0,
+    "lowShell": 0
   },
   "species": [
     {
@@ -60,12 +62,13 @@
     {
       "name": "pampatherium",
       "variant": 2,
-      "scale": 0.85,
+      "scale": 0.55,
       "rarity": 3,
       "attack": 4,
       "health": 45,
       "flags": {
-        "groupCount": 3
+        "groupCount": 3,
+        "lowShell": 1
       },
       "spawnBiomes": [
         [
@@ -77,6 +80,51 @@
       ],
       "ecology": {
         "speed": 0.15
+      }
+    },
+    {
+      "name": "glyptotherium",
+      "variant": 3,
+      "scale": 1.0,
+      "rarity": 3,
+      "attack": 6,
+      "health": 60,
+      "flags": {
+        "groupCount": 2
+      },
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ],
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.12
+      }
+    },
+    {
+      "name": "panochthus",
+      "variant": 4,
+      "scale": 1.0,
+      "rarity": 3,
+      "attack": 7,
+      "health": 65,
+      "flags": {
+        "groupCount": 1,
+        "hasTailClub": 1
+      },
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ],
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.12
       }
     }
   ],

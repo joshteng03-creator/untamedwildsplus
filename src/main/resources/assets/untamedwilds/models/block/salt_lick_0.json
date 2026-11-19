@@ -1,0 +1,147 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "particle": "untamedwilds:block/salt_lick",
+    "salt": "untamedwilds:block/salt_lick"
+  },
+  "elements": [
+    {
+      "name": "lick",
+      "from": [
+        2,
+        0,
+        2
+      ],
+      "to": [
+        14,
+        10,
+        14
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            2,
+            6,
+            14,
+            16
+          ],
+          "texture": "#salt"
+        },
+        "south": {
+          "uv": [
+            2,
+            6,
+            14,
+            16
+          ],
+          "texture": "#salt"
+        },
+        "east": {
+          "uv": [
+            2,
+            6,
+            14,
+            16
+          ],
+          "texture": "#salt"
+        },
+        "west": {
+          "uv": [
+            2,
+            6,
+            14,
+            16
+          ],
+          "texture": "#salt"
+        },
+        "up": {
+          "uv": [
+            2,
+            2,
+            14,
+            14
+          ],
+          "texture": "#salt"
+        },
+        "down": {
+          "uv": [
+            2,
+            2,
+            14,
+            14
+          ],
+          "texture": "#salt"
+        }
+      }
+    },
+    {
+      "name": "crown",
+      "from": [
+        3,
+        10,
+        3
+      ],
+      "to": [
+        13,
+        11,
+        13
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            3,
+            5,
+            13,
+            6
+          ],
+          "texture": "#salt"
+        },
+        "south": {
+          "uv": [
+            3,
+            5,
+            13,
+            6
+          ],
+          "texture": "#salt"
+        },
+        "east": {
+          "uv": [
+            3,
+            5,
+            13,
+            6
+          ],
+          "texture": "#salt"
+        },
+        "west": {
+          "uv": [
+            3,
+            5,
+            13,
+            6
+          ],
+          "texture": "#salt"
+        },
+        "up": {
+          "uv": [
+            3,
+            3,
+            13,
+            13
+          ],
+          "texture": "#salt"
+        },
+        "down": {
+          "uv": [
+            3,
+            3,
+            13,
+            13
+          ],
+          "texture": "#salt"
+        }
+      }
+    }
+  ]
+}

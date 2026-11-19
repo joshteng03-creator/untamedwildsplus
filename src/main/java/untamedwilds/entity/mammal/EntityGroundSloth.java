@@ -2,6 +2,10 @@ package untamedwilds.entity.mammal;
 
 import com.github.alexthe666.citadel.animation.Animation;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -42,7 +46,15 @@ import untamedwilds.entity.ai.RetreatWhenRoutedGoal;
 public class EntityGroundSloth extends ComplexMobTerrestrial implements INewSkins, ISpecies, IPackEntity, INeedsPostUpdate {
 
     public static final Animation ATTACK_THREATEN = Animation.create(50);
+    // Rebuilt rig (2026-11-16): head family, from the species data. 0 MEGATHERIID (tall skull, deep jaw, prehensile lip),
+    // 1 MYLODONTID (broad square muzzle), 2 MEGALONYCHID (short, blunt). 0 is the default, so a species without the flag
+    // gets the Megatherium head.
+    private static final EntityDataAccessor<Integer> HEAD_SHAPE = SynchedEntityData.defineId(EntityGroundSloth.class, EntityDataSerializers.INT);
+    // species scales of the July mesh, by variant -- only for rescaling pre-rebuild saves (see readAdditionalSaveData)
+    private static final float[] PRE_REBUILD_SCALE = {1.4F, 1.35F, 1.1F, 0.4F, 1.15F};
     public static final Animation ATTACK_GORE = Animation.create(14);
+    public static final Animation EAT = Animation.create(40);   // 2.8.0 idle pose (gen_keyframes.py)
+    public static final Animation DRINK = Animation.create(100);   // 2.8.0 idle pose (gen_keyframes.py)
 
     public EntityGroundSloth(EntityType<? extends ComplexMob> type, Level worldIn) {
         super(type, worldIn);
@@ -59,6 +71,7 @@ public class EntityGroundSloth extends ComplexMobTerrestrial implements INewSkin
         this.goalSelector.addGoal(2, new SmartMeleeAttackGoal(this, 1.6D, false));
         this.goalSelector.addGoal(3, new SmartMateGoal(this, 0.8D));
         this.goalSelector.addGoal(3, new GrazeGoal(this, 10));
+        this.goalSelector.addGoal(3, new DrinkGoal(this));   // 2.8.0 cosmetic waterhole visits
         /* Density dependence, expressed as MOVEMENT rather than as a cap on births: a herd that
          * has eaten its range out, or that is standing in an overcrowded neighbourhood, shifts
          * ground, and surplus young adults disperse to found herds elsewhere. Runs on the herd
@@ -151,7 +164,7 @@ public class EntityGroundSloth extends ComplexMobTerrestrial implements INewSkin
     }
 
     protected void playStepSound(BlockPos pos, BlockState blockIn) {
-        this.playSound(SoundEvents.RAVAGER_STEP, 0.15F, 1.0F);
+        this.playFootstep(SoundEvents.RAVAGER_STEP, 0.15F, 1.0F);   // 2.8.0 heavy steps (JSON "step")
     }
 
     private Animation chooseAttackAnimation() {
@@ -180,17 +193,59 @@ public class EntityGroundSloth extends ComplexMobTerrestrial implements INewSkin
     }
 
     @Override
+    public Animation getAnimationDrink() { return DRINK; }
+
+    // 2.8.0 solved DRINK reach (gen_keyframes.py): muzzle 48.8 units in front of the centre at size 1
+    @Override
+    public double getDrinkReach() { return 3.048D * this.getMobSize(); }
+
+    @Override
     public Animation[] getAnimations() {
-        return new Animation[]{NO_ANIMATION, ATTACK_THREATEN, ATTACK_GORE};
+        return new Animation[]{NO_ANIMATION, ATTACK_THREATEN, ATTACK_GORE, EAT, DRINK};
     }
 
-    public Animation getAnimationEat() { return NO_ANIMATION; }
+    public Animation getAnimationEat() { return EAT; }
 
     @Override
     public void updateAttributes() {
         this.applySpeciesSpeed();
-        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getAttack());
-        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getHealth());
+        this.applySpeciesHealthAndAttack();
         this.setHealth(this.getMaxHealth());
+        this.applyShapeFlags();
+    }
+
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(HEAD_SHAPE, 0);
+    }
+
+    public int getHeadShape() { return this.entityData.get(HEAD_SHAPE); }
+
+    private void applyShapeFlags() {
+        if (getEntityData(this.getType()) == null) {
+            return;
+        }
+        this.entityData.set(HEAD_SHAPE, getEntityData(this.getType()).getFlags(this.getVariant(), "headShape"));
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putInt("headShape", this.getHeadShape());
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        // A save from before the 2026-11-16 rebuild has no headShape. Its Size was rolled against the July mesh and its
+        // oversized scales; rescale by new/old species scale so it loads at life size, keeping its own variation.
+        if (!compound.contains("headShape") && getEntityData(this.getType()) != null) {
+            int v = this.getVariant();
+            if (v >= 0 && v < PRE_REBUILD_SCALE.length) {
+                this.setMobSize(this.getMobSize() * this.getModelScale() / PRE_REBUILD_SCALE[v]);
+            }
+        }
+        this.applyShapeFlags();
     }
 }

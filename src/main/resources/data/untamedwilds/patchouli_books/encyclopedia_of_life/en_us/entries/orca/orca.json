@@ -1,0 +1,22 @@
+{
+    "name": "Orca",
+    "icon": "untamedwilds:textures/icon/orca/orca.png",
+    "category": "untamedwilds:orca_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Orca",
+            "text": "The $(o)Orca$() ($(o)Orcinus orca$()), or killer whale, is the largest dolphin and the top predator of the sea. Adult males reach about 8 metres, and their straight dorsal fin can stand nearly 2 metres tall; females are smaller with a curved fin.$(br2)Orcas live in matriarchal pods. Different populations specialise in fish, seals or even other whales, and they work together to catch them.$(br2)They are found in every ocean but are most common in cold waters."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:orca{Variant: 0, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Orca",
+            "text": "Relative Size: ★★★★★$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Raw Salmon$(br2)Number of Offspring: 1$(br2)Growth time: 12 Days"
+        }
+    ]
+}

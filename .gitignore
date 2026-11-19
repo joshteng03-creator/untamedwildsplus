@@ -20,6 +20,8 @@ build
 # other
 eclipse
 run
+# 2.8.0 headless harness working dirs (GameTest server, soak server, client smoke): worlds, logs, configs
+run-*/
 
 # Files from Forge MDK
 forge*changelog.txt

@@ -83,6 +83,11 @@ public class JSONLoader<T> extends SimpleJsonResourceReloadListener {
         return this.data.get(id);
     }
 
+    /** Every parsed entry, keyed by json id. Read-only view (2.8.0: lets EntityDataListenerEvent register all types). */
+    public Map<ResourceLocation, T> getAllData() {
+        return java.util.Collections.unmodifiableMap(this.data);
+    }
+
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> jsons, ResourceManager resourceManager, ProfilerFiller profiler) {
         UntamedWilds.LOGGER.info("Beginning loading of data for data loader: {}", this.folderName);

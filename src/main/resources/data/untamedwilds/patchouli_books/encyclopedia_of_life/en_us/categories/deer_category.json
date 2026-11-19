@@ -1,0 +1,6 @@
+{
+    "name": "Deer",
+    "description": "Deer are hoofed ruminant Mammals found in forests, grasslands and tundra across most of the world. $(br2)Common characteristics of deer include long, slender legs, large ears, and bony antlers in males, which are shed and regrown every year. $(br2)Deer are herbivores, browsing and grazing on leaves, shoots and grasses, and are important prey for many predators.",
+    "icon": "untamedwilds:textures/icon/deer/category.png",
+    "parent": "untamedwilds:taxon_mammal"
+}

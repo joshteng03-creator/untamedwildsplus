@@ -1,0 +1,22 @@
+{
+    "name": "Lowland Tapir",
+    "icon": "untamedwilds:textures/icon/tapir/lowland.png",
+    "category": "untamedwilds:tapir_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Lowland Tapir",
+            "text": "The lowland tapir ($(o)Tapirus terrestris$()), or South American tapir, is a tapir found in the rainforests, wetlands and grasslands of South America.$(br2)It is the largest native land mammal of the Amazon. Like all tapirs, it has a short prehensile snout used to grasp leaves and fruit.$(br2)Lowland tapirs are strong swimmers and often take to water to escape predators. The species is listed as Vulnerable."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:tapir{Variant: 0, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Lowland Tapir",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Nighttime$(br2)1 Color$(br2)Favourite Food: Apple$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

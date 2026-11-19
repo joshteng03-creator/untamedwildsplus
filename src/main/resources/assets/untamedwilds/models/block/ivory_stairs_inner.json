@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "untamedwilds:block/ivory_block_top",
+    "top": "untamedwilds:block/ivory_block_top",
+    "side": "untamedwilds:block/ivory_block_side"
+  }
+}

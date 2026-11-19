@@ -1,0 +1,22 @@
+{
+    "name": "Giant Wildebeest",
+    "icon": "untamedwilds:textures/icon/wildebeest/megalotragus.png",
+    "category": "untamedwilds:wildebeest_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Giant Wildebeest",
+            "text": "$(o)Megalotragus$() ($(o)Megalotragus priscus$()), the giant wildebeest, lived in southern Africa during the Pleistocene.$(br2)It stood about 1.5 metres at the shoulder, with a long face and very long horns that swept out and back.$(br2)It survived until the end of the last ice age, about 12,000 years ago."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:wildebeest{Variant: 2, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Giant Wildebeest",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 7 Days"
+        }
+    ]
+}

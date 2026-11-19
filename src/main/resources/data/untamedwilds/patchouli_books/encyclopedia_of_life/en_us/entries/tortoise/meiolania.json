@@ -1,0 +1,22 @@
+{
+    "name": "Meiolania",
+    "icon": "untamedwilds:textures/icon/tortoise/meiolania.png",
+    "category": "untamedwilds:tortoise_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Meiolania",
+            "text": "$(o)Meiolania$() ($(o)Meiolania platyceps$()) was a giant horned turtle that lived on Lord Howe Island, east of Australia, during the Late Pleistocene.$(br2)Its shell was about a metre long, its head carried large cow-like horns and could not be pulled into the shell, and its tail was sheathed in spiked rings ending in a bony club.$(br2)It was not a true tortoise. It vanished before people reached the island, but a relative on Vanuatu survived until about 3,000 years ago."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:tortoise{Variant: 8, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Meiolania",
+            "text": "Relative Size: ★★★☆☆$(br2)Always active$(br2)1 Color$(br2)Favourite Food: Apple$(br2)Number of Offspring: 5$(br2)Growth time: 6 Days"
+        }
+    ]
+}

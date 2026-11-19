@@ -20,6 +20,7 @@ carries no comments at all -- the explanation stays here.
 import base64
 import json
 import pathlib
+import math
 import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
@@ -141,6 +142,37 @@ if "--boxscale" in sys.argv:
         b = [o[i] + (p["t"][i] - o[i]) * f[i] for i in range(3)]
         p["f"], p["t"] = [min(a[i], b[i]) for i in range(3)], [max(a[i], b[i]) for i in range(3)]
     print("box-scaled: %s" % sys.argv[sys.argv.index("--boxscale") + 1])
+
+# Bake a Java rotationPoint shift (in the PARENT's frame) on one part, carrying its subtree.
+# Blockbench stores everything unrotated, so the parent frame is the world frame here; Java
+# x and y are mirrored (Blockbench x = -Java x, y up), z is shared.
+#   --move fore_left_shoulder:-0.6:0:0     (Java deltas dx:dy:dz)
+if "--move" in sys.argv:
+    byname = {p["n"]: p for p in spec["parts"]}
+
+    def sub3(n):
+        out = [n]
+        for p in spec["parts"]:
+            if p["p"] == n:
+                out += sub3(p["n"])
+        return out
+
+    for item in sys.argv[sys.argv.index("--move") + 1].split(","):
+        n, dx, dy, dz = item.split(":")
+        d = [-float(dx), -float(dy), float(dz)]
+        for m in sub3(n):
+            for key in ("o", "f", "t"):
+                byname[m][key] = [byname[m][key][i] + d[i] for i in range(3)]
+    print("moved: %s" % sys.argv[sys.argv.index("--move") + 1])
+
+# Override one part's Java rotateAngle (radians, as setRotateAngle takes them). Groups nest in
+# Blockbench, so the subtree follows.   --rot tail_1:-0.1:0:0
+if "--rot" in sys.argv:
+    byname = {p["n"]: p for p in spec["parts"]}
+    for item in sys.argv[sys.argv.index("--rot") + 1].split(","):
+        n, rx, ry, rz = item.split(":")
+        byname[n]["r"] = [-math.degrees(float(rx)), -math.degrees(float(ry)), math.degrees(float(rz))]
+    print("rotated: %s" % sys.argv[sys.argv.index("--rot") + 1])
 
 # Preview ModelGiraffid's per-species neck (setupAnim, "PER-SPECIES NECK LENGTH"): each
 # neck segment's box is scaled (nthick, nthick, nf) about its own pivot, each mane blade

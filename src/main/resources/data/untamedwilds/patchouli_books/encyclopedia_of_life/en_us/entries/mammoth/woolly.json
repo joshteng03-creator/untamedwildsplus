@@ -1,0 +1,22 @@
+{
+    "name": "Woolly Mammoth",
+    "icon": "untamedwilds:textures/icon/mammoth/woolly.png",
+    "category": "untamedwilds:mammoth_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Woolly Mammoth",
+            "text": "The woolly mammoth ($(o)Mammuthus primigenius$()) is an extinct mammoth that lived across the cold steppes of northern Eurasia and North America during the Pleistocene.$(br2)It was about the size of a modern African elephant, but was adapted to the cold with a thick coat of fur, small ears, a short tail and a layer of fat beneath the skin.$(br2)Most populations died out around 10,000 years ago, but a small population on Wrangel Island survived until about 4,000 years ago."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:mammoth{Variant: 0, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Woolly Mammoth",
+            "text": "Relative Size: ★★★★★$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Hay Bale$(br2)Number of Offspring: 1$(br2)Growth time: 16 Days"
+        }
+    ]
+}

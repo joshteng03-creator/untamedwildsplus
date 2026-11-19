@@ -1,0 +1,22 @@
+{
+    "name": "Diprotodon",
+    "icon": "untamedwilds:textures/icon/diprotodont/diprotodon.png",
+    "category": "untamedwilds:diprotodont_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Diprotodon",
+            "text": "$(o)Diprotodon$() ($(o)Diprotodon optatum$()) is the largest marsupial known to have lived, about the size of a rhinoceros. It roamed much of Australia during the Pleistocene.$(br2)It browsed on shrubs and grazed in open woodland and grassland, and fossil trackways show its feet turned inward as it walked.$(br2)Diprotodon may have moved in small groups, and some evidence suggests it made seasonal migrations."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:diprotodont{Variant: 0, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Diprotodon",
+            "text": "Relative Size: ★★★★★$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 12 Days"
+        }
+    ]
+}

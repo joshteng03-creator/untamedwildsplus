@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ATA",
+    "ATA"
+  ],
+  "key": {
+    "A": {
+      "item": "untamedwilds:material_antler"
+    },
+    "T": {
+      "item": "minecraft:torch"
+    }
+  },
+  "result": {
+    "item": "untamedwilds:antler_chandelier"
+  }
+}

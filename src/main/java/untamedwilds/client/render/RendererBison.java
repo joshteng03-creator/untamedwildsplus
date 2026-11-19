@@ -12,6 +12,7 @@ import untamedwilds.client.model.ModelBisonCalf;
 import untamedwilds.entity.mammal.EntityBison;
 
 import javax.annotation.Nonnull;
+import untamedwilds.client.render.layer.SaddleLayer;
 
 public class RendererBison extends MobRenderer<EntityBison, EntityModel<EntityBison>> {
 
@@ -20,6 +21,7 @@ public class RendererBison extends MobRenderer<EntityBison, EntityModel<EntityBi
 
     public RendererBison(EntityRendererProvider.Context renderManager) {
         super(renderManager, BISON_MODEL, 1F);
+        this.addLayer(new SaddleLayer<>(this, "bison"));
     }
 
     @Override

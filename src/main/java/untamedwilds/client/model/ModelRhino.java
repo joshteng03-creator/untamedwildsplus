@@ -161,6 +161,60 @@ public class ModelRhino extends AdvancedEntityModel<EntityRhino> {
     private void animate(IAnimatedEntity entityIn) {
         EntityRhino rhino = (EntityRhino) entityIn;
         animator.update(rhino);
+        // <gen:idle-poses> 2.8.0: SOLVED by scripts/pose_reach.py against this model's own boxes (muzzle to the grass / the
+        // water line beyond the bank, every head part and horn family clear of the ground, nothing through the torso).
+        // Regenerate, never hand-edit: python scripts/gen_keyframes.py rhino
+        // EAT (40t, GrazeGoal's mouthful): head down to the grass, a cropping lift, back down
+        animator.setAnimation(EntityRhino.EAT);
+        animator.startKeyframe(10);
+        this.rotate(animator, head_neck, 14.6F, 0.0F, 0.0F);
+        this.rotate(animator, head_face, 2.3F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 3.6F, 0.0F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, head_neck, 14.6F, 0.0F, 0.0F);
+        this.rotate(animator, head_face, -3.7F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 3.6F, 0.0F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, head_neck, 14.6F, 0.0F, 0.0F);
+        this.rotate(animator, head_face, 2.3F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 3.6F, 0.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(10);
+        animator.resetKeyframe(10);
+        // DRINK (100t, DrinkGoal): muzzle to the water past the bank edge, two swallows lifting the head
+        animator.setAnimation(EntityRhino.DRINK);
+        animator.startKeyframe(15);
+        this.rotate(animator, head_neck, 16.3F, 0.0F, 0.0F);
+        this.rotate(animator, head_face, 3.0F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 4.4F, 0.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(20);
+        animator.startKeyframe(5);
+        this.rotate(animator, head_neck, 16.3F, 0.0F, 0.0F);
+        this.rotate(animator, head_face, -2.0F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 4.4F, 0.0F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, head_neck, 16.3F, 0.0F, 0.0F);
+        this.rotate(animator, head_face, 3.0F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 4.4F, 0.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(20);
+        animator.startKeyframe(5);
+        this.rotate(animator, head_neck, 16.3F, 0.0F, 0.0F);
+        this.rotate(animator, head_face, -2.0F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 4.4F, 0.0F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, head_neck, 16.3F, 0.0F, 0.0F);
+        this.rotate(animator, head_face, 3.0F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 4.4F, 0.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(10);
+        animator.resetKeyframe(15);
+        // </gen:idle-poses>
 
         animator.setAnimation(EntityRhino.ATTACK_THREATEN);
         for (int i = 0; i < 2; i++) {

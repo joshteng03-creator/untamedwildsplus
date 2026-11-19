@@ -1,0 +1,22 @@
+{
+    "name": "Doedicurus",
+    "icon": "untamedwilds:textures/icon/glyptodont/doedicurus.png",
+    "category": "untamedwilds:glyptodont_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Doedicurus",
+            "text": "The Doedicurus ($(o)Doedicurus clavicaudatus$()) is an extinct glyptodont that lived in the grasslands of southern South America during the Pleistocene.$(br2)It was one of the largest glyptodonts, with a high, rigid shell of fused bony plates that could exceed a metre and a half in length.$(br2)Its armoured tail ended in a heavy, mace-like club of solid bone, making it one of the best-defended herbivores of its time."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:glyptodont{Variant: 1, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Doedicurus",
+            "text": "Relative Size: ★★★★☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 12 Days"
+        }
+    ]
+}

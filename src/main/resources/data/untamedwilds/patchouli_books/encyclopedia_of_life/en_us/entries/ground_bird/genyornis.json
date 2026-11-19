@@ -1,0 +1,22 @@
+{
+    "name": "Genyornis",
+    "icon": "untamedwilds:textures/icon/ground_bird/genyornis.png",
+    "category": "untamedwilds:ground_bird_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Genyornis",
+            "text": "$(o)Genyornis$() ($(o)Genyornis newtoni$()) was the last of the mihirungs, a family of giant flightless birds more closely related to ducks and geese than to emus.$(br2)Standing a little over 2 metres tall, it had a massive, deep beak and hoof-like toes, and browsed the woodlands and plains of Australia.$(br2)It died out around 47,000 years ago, not long after people reached the continent."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:ground_bird{Variant: 2, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Genyornis",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 8 Days"
+        }
+    ]
+}

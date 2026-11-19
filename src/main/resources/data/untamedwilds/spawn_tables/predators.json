@@ -8,6 +8,12 @@
       "size_max": 2
     },
     {
+      "type": "untamedwilds:mustelid",
+      "weight": 3,
+      "size_min": 1,
+      "size_max": 2
+    },
+    {
       "type": "untamedwilds:big_cat",
       "weight": 8,
       "size_min": 1,
@@ -34,6 +40,18 @@
     {
       "type": "untamedwilds:monitor",
       "weight": 4,
+      "size_min": 1,
+      "size_max": 2
+    },
+    {
+      "type": "untamedwilds:giant_monitor",
+      "weight": 3,
+      "size_min": 1,
+      "size_max": 1
+    },
+    {
+      "type": "untamedwilds:crocodilian",
+      "weight": 3,
       "size_min": 1,
       "size_max": 2
     }

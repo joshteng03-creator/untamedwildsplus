@@ -1,0 +1,2023 @@
+{
+  "parent": "block/block",
+  "ambientocclusion": false,
+  "textures": {
+    "particle": "untamedwilds:block/antler",
+    "antler": "untamedwilds:block/antler",
+    "wood": "minecraft:block/dark_oak_planks",
+    "chain": "minecraft:block/chain",
+    "candle": "minecraft:block/candle_lit"
+  },
+  "elements": [
+    {
+      "name": "chain_a",
+      "from": [
+        6.5,
+        11,
+        8
+      ],
+      "to": [
+        9.5,
+        16,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            3,
+            5
+          ],
+          "texture": "#chain"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            3,
+            5
+          ],
+          "texture": "#chain"
+        }
+      },
+      "rotation": {
+        "angle": 45,
+        "axis": "y",
+        "origin": [
+          8,
+          8,
+          8
+        ]
+      }
+    },
+    {
+      "name": "chain_b",
+      "from": [
+        8,
+        11,
+        6.5
+      ],
+      "to": [
+        8,
+        16,
+        9.5
+      ],
+      "faces": {
+        "east": {
+          "uv": [
+            3,
+            0,
+            6,
+            5
+          ],
+          "texture": "#chain"
+        },
+        "west": {
+          "uv": [
+            3,
+            0,
+            6,
+            5
+          ],
+          "texture": "#chain"
+        }
+      },
+      "rotation": {
+        "angle": 45,
+        "axis": "y",
+        "origin": [
+          8,
+          8,
+          8
+        ]
+      }
+    },
+    {
+      "name": "plate",
+      "from": [
+        4,
+        10,
+        4
+      ],
+      "to": [
+        12,
+        11,
+        12
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            4,
+            7,
+            12,
+            8
+          ],
+          "texture": "#wood"
+        },
+        "south": {
+          "uv": [
+            4,
+            7,
+            12,
+            8
+          ],
+          "texture": "#wood"
+        },
+        "east": {
+          "uv": [
+            4,
+            7,
+            12,
+            8
+          ],
+          "texture": "#wood"
+        },
+        "west": {
+          "uv": [
+            4,
+            7,
+            12,
+            8
+          ],
+          "texture": "#wood"
+        },
+        "up": {
+          "uv": [
+            4,
+            4,
+            12,
+            12
+          ],
+          "texture": "#wood"
+        },
+        "down": {
+          "uv": [
+            4,
+            4,
+            12,
+            12
+          ],
+          "texture": "#wood"
+        }
+      }
+    },
+    {
+      "name": "hub",
+      "from": [
+        6.5,
+        8.5,
+        6.5
+      ],
+      "to": [
+        9.5,
+        10,
+        9.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            6,
+            6,
+            9,
+            7.5
+          ],
+          "texture": "#wood"
+        },
+        "south": {
+          "uv": [
+            6,
+            6,
+            9,
+            7.5
+          ],
+          "texture": "#wood"
+        },
+        "east": {
+          "uv": [
+            6,
+            6,
+            9,
+            7.5
+          ],
+          "texture": "#wood"
+        },
+        "west": {
+          "uv": [
+            6,
+            6,
+            9,
+            7.5
+          ],
+          "texture": "#wood"
+        },
+        "up": {
+          "uv": [
+            6,
+            6,
+            9,
+            9
+          ],
+          "texture": "#wood"
+        },
+        "down": {
+          "uv": [
+            6,
+            6,
+            9,
+            9
+          ],
+          "texture": "#wood"
+        }
+      }
+    },
+    {
+      "name": "candle_0",
+      "from": [
+        4.5,
+        11,
+        4.5
+      ],
+      "to": [
+        6.5,
+        15,
+        6.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            8,
+            2,
+            12
+          ],
+          "texture": "#candle"
+        },
+        "south": {
+          "uv": [
+            0,
+            8,
+            2,
+            12
+          ],
+          "texture": "#candle"
+        },
+        "east": {
+          "uv": [
+            0,
+            8,
+            2,
+            12
+          ],
+          "texture": "#candle"
+        },
+        "west": {
+          "uv": [
+            0,
+            8,
+            2,
+            12
+          ],
+          "texture": "#candle"
+        },
+        "up": {
+          "uv": [
+            0,
+            6,
+            2,
+            8
+          ],
+          "texture": "#candle"
+        }
+      }
+    },
+    {
+      "name": "wick_0a",
+      "from": [
+        5.0,
+        15,
+        5.5
+      ],
+      "to": [
+        6.0,
+        16,
+        5.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            5,
+            1,
+            6
+          ],
+          "texture": "#candle"
+        },
+        "south": {
+          "uv": [
+            0,
+            5,
+            1,
+            6
+          ],
+          "texture": "#candle"
+        }
+      },
+      "rotation": {
+        "angle": 45,
+        "axis": "y",
+        "origin": [
+          5.5,
+          15,
+          5.5
+        ]
+      }
+    },
+    {
+      "name": "wick_0b",
+      "from": [
+        5.0,
+        15,
+        5.5
+      ],
+      "to": [
+        6.0,
+        16,
+        5.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            5,
+            1,
+            6
+          ],
+          "texture": "#candle"
+        },
+        "south": {
+          "uv": [
+            0,
+            5,
+            1,
+            6
+          ],
+          "texture": "#candle"
+        }
+      },
+      "rotation": {
+        "angle": -45,
+        "axis": "y",
+        "origin": [
+          5.5,
+          15,
+          5.5
+        ]
+      }
+    },
+    {
+      "name": "candle_1",
+      "from": [
+        9.5,
+        11,
+        4.5
+      ],
+      "to": [
+        11.5,
+        15,
+        6.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            8,
+            2,
+            12
+          ],
+          "texture": "#candle"
+        },
+        "south": {
+          "uv": [
+            0,
+            8,
+            2,
+            12
+          ],
+          "texture": "#candle"
+        },
+        "east": {
+          "uv": [
+            0,
+            8,
+            2,
+            12
+          ],
+          "texture": "#candle"
+        },
+        "west": {
+          "uv": [
+            0,
+            8,
+            2,
+            12
+          ],
+          "texture": "#candle"
+        },
+        "up": {
+          "uv": [
+            0,
+            6,
+            2,
+            8
+          ],
+          "texture": "#candle"
+        }
+      }
+    },
+    {
+      "name": "wick_1a",
+      "from": [
+        10.0,
+        15,
+        5.5
+      ],
+      "to": [
+        11.0,
+        16,
+        5.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            5,
+            1,
+            6
+          ],
+          "texture": "#candle"
+        },
+        "south": {
+          "uv": [
+            0,
+            5,
+            1,
+            6
+          ],
+          "texture": "#candle"
+        }
+      },
+      "rotation": {
+        "angle": 45,
+        "axis": "y",
+        "origin": [
+          10.5,
+          15,
+          5.5
+        ]
+      }
+    },
+    {
+      "name": "wick_1b",
+      "from": [
+        10.0,
+        15,
+        5.5
+      ],
+      "to": [
+        11.0,
+        16,
+        5.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            5,
+            1,
+            6
+          ],
+          "texture": "#candle"
+        },
+        "south": {
+          "uv": [
+            0,
+            5,
+            1,
+            6
+          ],
+          "texture": "#candle"
+        }
+      },
+      "rotation": {
+        "angle": -45,
+        "axis": "y",
+        "origin": [
+          10.5,
+          15,
+          5.5
+        ]
+      }
+    },
+    {
+      "name": "candle_2",
+      "from": [
+        4.5,
+        11,
+        9.5
+      ],
+      "to": [
+        6.5,
+        15,
+        11.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            8,
+            2,
+            12
+          ],
+          "texture": "#candle"
+        },
+        "south": {
+          "uv": [
+            0,
+            8,
+            2,
+            12
+          ],
+          "texture": "#candle"
+        },
+        "east": {
+          "uv": [
+            0,
+            8,
+            2,
+            12
+          ],
+          "texture": "#candle"
+        },
+        "west": {
+          "uv": [
+            0,
+            8,
+            2,
+            12
+          ],
+          "texture": "#candle"
+        },
+        "up": {
+          "uv": [
+            0,
+            6,
+            2,
+            8
+          ],
+          "texture": "#candle"
+        }
+      }
+    },
+    {
+      "name": "wick_2a",
+      "from": [
+        5.0,
+        15,
+        10.5
+      ],
+      "to": [
+        6.0,
+        16,
+        10.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            5,
+            1,
+            6
+          ],
+          "texture": "#candle"
+        },
+        "south": {
+          "uv": [
+            0,
+            5,
+            1,
+            6
+          ],
+          "texture": "#candle"
+        }
+      },
+      "rotation": {
+        "angle": 45,
+        "axis": "y",
+        "origin": [
+          5.5,
+          15,
+          10.5
+        ]
+      }
+    },
+    {
+      "name": "wick_2b",
+      "from": [
+        5.0,
+        15,
+        10.5
+      ],
+      "to": [
+        6.0,
+        16,
+        10.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            5,
+            1,
+            6
+          ],
+          "texture": "#candle"
+        },
+        "south": {
+          "uv": [
+            0,
+            5,
+            1,
+            6
+          ],
+          "texture": "#candle"
+        }
+      },
+      "rotation": {
+        "angle": -45,
+        "axis": "y",
+        "origin": [
+          5.5,
+          15,
+          10.5
+        ]
+      }
+    },
+    {
+      "name": "candle_3",
+      "from": [
+        9.5,
+        11,
+        9.5
+      ],
+      "to": [
+        11.5,
+        15,
+        11.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            8,
+            2,
+            12
+          ],
+          "texture": "#candle"
+        },
+        "south": {
+          "uv": [
+            0,
+            8,
+            2,
+            12
+          ],
+          "texture": "#candle"
+        },
+        "east": {
+          "uv": [
+            0,
+            8,
+            2,
+            12
+          ],
+          "texture": "#candle"
+        },
+        "west": {
+          "uv": [
+            0,
+            8,
+            2,
+            12
+          ],
+          "texture": "#candle"
+        },
+        "up": {
+          "uv": [
+            0,
+            6,
+            2,
+            8
+          ],
+          "texture": "#candle"
+        }
+      }
+    },
+    {
+      "name": "wick_3a",
+      "from": [
+        10.0,
+        15,
+        10.5
+      ],
+      "to": [
+        11.0,
+        16,
+        10.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            5,
+            1,
+            6
+          ],
+          "texture": "#candle"
+        },
+        "south": {
+          "uv": [
+            0,
+            5,
+            1,
+            6
+          ],
+          "texture": "#candle"
+        }
+      },
+      "rotation": {
+        "angle": 45,
+        "axis": "y",
+        "origin": [
+          10.5,
+          15,
+          10.5
+        ]
+      }
+    },
+    {
+      "name": "wick_3b",
+      "from": [
+        10.0,
+        15,
+        10.5
+      ],
+      "to": [
+        11.0,
+        16,
+        10.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            5,
+            1,
+            6
+          ],
+          "texture": "#candle"
+        },
+        "south": {
+          "uv": [
+            0,
+            5,
+            1,
+            6
+          ],
+          "texture": "#candle"
+        }
+      },
+      "rotation": {
+        "angle": -45,
+        "axis": "y",
+        "origin": [
+          10.5,
+          15,
+          10.5
+        ]
+      }
+    },
+    {
+      "name": "burr_e",
+      "from": [
+        9.5,
+        8,
+        7.0
+      ],
+      "to": [
+        11.5,
+        9.5,
+        9.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            13,
+            2.0,
+            14.5
+          ],
+          "texture": "#antler"
+        },
+        "south": {
+          "uv": [
+            2,
+            13,
+            4.0,
+            14.5
+          ],
+          "texture": "#antler"
+        },
+        "east": {
+          "uv": [
+            1,
+            13,
+            3.0,
+            14.5
+          ],
+          "texture": "#antler"
+        },
+        "west": {
+          "uv": [
+            3,
+            13,
+            5.0,
+            14.5
+          ],
+          "texture": "#antler"
+        },
+        "up": {
+          "uv": [
+            4,
+            13,
+            6.0,
+            15.0
+          ],
+          "texture": "#antler"
+        },
+        "down": {
+          "uv": [
+            5,
+            13,
+            7.0,
+            15.0
+          ],
+          "texture": "#antler"
+        }
+      }
+    },
+    {
+      "name": "beam_e",
+      "from": [
+        11,
+        8.25,
+        7.25
+      ],
+      "to": [
+        15.75,
+        9.5,
+        8.75
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            7,
+            4.75,
+            8.25
+          ],
+          "texture": "#antler"
+        },
+        "south": {
+          "uv": [
+            2,
+            7,
+            6.75,
+            8.25
+          ],
+          "texture": "#antler"
+        },
+        "east": {
+          "uv": [
+            1,
+            7,
+            2.5,
+            8.25
+          ],
+          "texture": "#antler"
+        },
+        "west": {
+          "uv": [
+            3,
+            7,
+            4.5,
+            8.25
+          ],
+          "texture": "#antler"
+        },
+        "up": {
+          "uv": [
+            3.25,
+            7,
+            8.0,
+            8.5
+          ],
+          "texture": "#antler"
+        },
+        "down": {
+          "uv": [
+            3.25,
+            7,
+            8.0,
+            8.5
+          ],
+          "texture": "#antler"
+        }
+      },
+      "rotation": {
+        "angle": 22.5,
+        "axis": "z",
+        "origin": [
+          11,
+          8.75,
+          8
+        ]
+      }
+    },
+    {
+      "name": "tip_e",
+      "from": [
+        14.75,
+        9.75,
+        7.25
+      ],
+      "to": [
+        16.25,
+        14.5,
+        8.75
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            1.5,
+            4.75
+          ],
+          "texture": "#antler"
+        },
+        "south": {
+          "uv": [
+            2,
+            0,
+            3.5,
+            4.75
+          ],
+          "texture": "#antler"
+        },
+        "east": {
+          "uv": [
+            1,
+            0,
+            2.5,
+            4.75
+          ],
+          "texture": "#antler"
+        },
+        "west": {
+          "uv": [
+            3,
+            0,
+            4.5,
+            4.75
+          ],
+          "texture": "#antler"
+        },
+        "up": {
+          "uv": [
+            4,
+            0,
+            5.5,
+            1.5
+          ],
+          "texture": "#antler"
+        },
+        "down": {
+          "uv": [
+            5,
+            0,
+            6.5,
+            1.5
+          ],
+          "texture": "#antler"
+        }
+      },
+      "rotation": {
+        "angle": -22.5,
+        "axis": "z",
+        "origin": [
+          15.5,
+          9.75,
+          8.0
+        ]
+      }
+    },
+    {
+      "name": "tine_e",
+      "from": [
+        13,
+        9.25,
+        7.5
+      ],
+      "to": [
+        14,
+        12.5,
+        8.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            2,
+            1,
+            5.25
+          ],
+          "texture": "#antler"
+        },
+        "south": {
+          "uv": [
+            2,
+            2,
+            3,
+            5.25
+          ],
+          "texture": "#antler"
+        },
+        "east": {
+          "uv": [
+            1,
+            2,
+            2.0,
+            5.25
+          ],
+          "texture": "#antler"
+        },
+        "west": {
+          "uv": [
+            3,
+            2,
+            4.0,
+            5.25
+          ],
+          "texture": "#antler"
+        },
+        "up": {
+          "uv": [
+            4,
+            2,
+            5,
+            3.0
+          ],
+          "texture": "#antler"
+        },
+        "down": {
+          "uv": [
+            5,
+            2,
+            6,
+            3.0
+          ],
+          "texture": "#antler"
+        }
+      },
+      "rotation": {
+        "angle": -22.5,
+        "axis": "z",
+        "origin": [
+          13.5,
+          9.25,
+          8.0
+        ]
+      }
+    },
+    {
+      "name": "burr_w",
+      "from": [
+        4.5,
+        8,
+        7.0
+      ],
+      "to": [
+        6.5,
+        9.5,
+        9.0
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            13,
+            2.0,
+            14.5
+          ],
+          "texture": "#antler"
+        },
+        "south": {
+          "uv": [
+            2,
+            13,
+            4.0,
+            14.5
+          ],
+          "texture": "#antler"
+        },
+        "east": {
+          "uv": [
+            1,
+            13,
+            3.0,
+            14.5
+          ],
+          "texture": "#antler"
+        },
+        "west": {
+          "uv": [
+            3,
+            13,
+            5.0,
+            14.5
+          ],
+          "texture": "#antler"
+        },
+        "up": {
+          "uv": [
+            4,
+            13,
+            6.0,
+            15.0
+          ],
+          "texture": "#antler"
+        },
+        "down": {
+          "uv": [
+            5,
+            13,
+            7.0,
+            15.0
+          ],
+          "texture": "#antler"
+        }
+      }
+    },
+    {
+      "name": "beam_w",
+      "from": [
+        0.25,
+        8.25,
+        7.25
+      ],
+      "to": [
+        5,
+        9.5,
+        8.75
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            7,
+            4.75,
+            8.25
+          ],
+          "texture": "#antler"
+        },
+        "south": {
+          "uv": [
+            2,
+            7,
+            6.75,
+            8.25
+          ],
+          "texture": "#antler"
+        },
+        "east": {
+          "uv": [
+            1,
+            7,
+            2.5,
+            8.25
+          ],
+          "texture": "#antler"
+        },
+        "west": {
+          "uv": [
+            3,
+            7,
+            4.5,
+            8.25
+          ],
+          "texture": "#antler"
+        },
+        "up": {
+          "uv": [
+            3.25,
+            7,
+            8.0,
+            8.5
+          ],
+          "texture": "#antler"
+        },
+        "down": {
+          "uv": [
+            3.25,
+            7,
+            8.0,
+            8.5
+          ],
+          "texture": "#antler"
+        }
+      },
+      "rotation": {
+        "angle": -22.5,
+        "axis": "z",
+        "origin": [
+          5,
+          8.75,
+          8
+        ]
+      }
+    },
+    {
+      "name": "tip_w",
+      "from": [
+        -0.25,
+        9.75,
+        7.25
+      ],
+      "to": [
+        1.25,
+        14.5,
+        8.75
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            1.5,
+            4.75
+          ],
+          "texture": "#antler"
+        },
+        "south": {
+          "uv": [
+            2,
+            0,
+            3.5,
+            4.75
+          ],
+          "texture": "#antler"
+        },
+        "east": {
+          "uv": [
+            1,
+            0,
+            2.5,
+            4.75
+          ],
+          "texture": "#antler"
+        },
+        "west": {
+          "uv": [
+            3,
+            0,
+            4.5,
+            4.75
+          ],
+          "texture": "#antler"
+        },
+        "up": {
+          "uv": [
+            4,
+            0,
+            5.5,
+            1.5
+          ],
+          "texture": "#antler"
+        },
+        "down": {
+          "uv": [
+            5,
+            0,
+            6.5,
+            1.5
+          ],
+          "texture": "#antler"
+        }
+      },
+      "rotation": {
+        "angle": 22.5,
+        "axis": "z",
+        "origin": [
+          0.5,
+          9.75,
+          8.0
+        ]
+      }
+    },
+    {
+      "name": "tine_w",
+      "from": [
+        2,
+        9.25,
+        7.5
+      ],
+      "to": [
+        3,
+        12.5,
+        8.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            2,
+            1,
+            5.25
+          ],
+          "texture": "#antler"
+        },
+        "south": {
+          "uv": [
+            2,
+            2,
+            3,
+            5.25
+          ],
+          "texture": "#antler"
+        },
+        "east": {
+          "uv": [
+            1,
+            2,
+            2.0,
+            5.25
+          ],
+          "texture": "#antler"
+        },
+        "west": {
+          "uv": [
+            3,
+            2,
+            4.0,
+            5.25
+          ],
+          "texture": "#antler"
+        },
+        "up": {
+          "uv": [
+            4,
+            2,
+            5,
+            3.0
+          ],
+          "texture": "#antler"
+        },
+        "down": {
+          "uv": [
+            5,
+            2,
+            6,
+            3.0
+          ],
+          "texture": "#antler"
+        }
+      },
+      "rotation": {
+        "angle": 22.5,
+        "axis": "z",
+        "origin": [
+          2.5,
+          9.25,
+          8.0
+        ]
+      }
+    },
+    {
+      "name": "burr_s",
+      "from": [
+        7.0,
+        8,
+        9.5
+      ],
+      "to": [
+        9.0,
+        9.5,
+        11.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            13,
+            2.0,
+            14.5
+          ],
+          "texture": "#antler"
+        },
+        "south": {
+          "uv": [
+            2,
+            13,
+            4.0,
+            14.5
+          ],
+          "texture": "#antler"
+        },
+        "east": {
+          "uv": [
+            1,
+            13,
+            3.0,
+            14.5
+          ],
+          "texture": "#antler"
+        },
+        "west": {
+          "uv": [
+            3,
+            13,
+            5.0,
+            14.5
+          ],
+          "texture": "#antler"
+        },
+        "up": {
+          "uv": [
+            4,
+            13,
+            6.0,
+            15.0
+          ],
+          "texture": "#antler"
+        },
+        "down": {
+          "uv": [
+            5,
+            13,
+            7.0,
+            15.0
+          ],
+          "texture": "#antler"
+        }
+      }
+    },
+    {
+      "name": "beam_s",
+      "from": [
+        7.25,
+        8.25,
+        11
+      ],
+      "to": [
+        8.75,
+        9.5,
+        15.75
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            7,
+            1.5,
+            8.25
+          ],
+          "texture": "#antler"
+        },
+        "south": {
+          "uv": [
+            2,
+            7,
+            3.5,
+            8.25
+          ],
+          "texture": "#antler"
+        },
+        "east": {
+          "uv": [
+            1,
+            7,
+            5.75,
+            8.25
+          ],
+          "texture": "#antler"
+        },
+        "west": {
+          "uv": [
+            3,
+            7,
+            7.75,
+            8.25
+          ],
+          "texture": "#antler"
+        },
+        "up": {
+          "uv": [
+            4,
+            7,
+            5.5,
+            11.75
+          ],
+          "texture": "#antler"
+        },
+        "down": {
+          "uv": [
+            5,
+            7,
+            6.5,
+            11.75
+          ],
+          "texture": "#antler"
+        }
+      },
+      "rotation": {
+        "angle": -22.5,
+        "axis": "x",
+        "origin": [
+          8,
+          8.75,
+          11
+        ]
+      }
+    },
+    {
+      "name": "tip_s",
+      "from": [
+        7.25,
+        9.75,
+        14.75
+      ],
+      "to": [
+        8.75,
+        14.5,
+        16.25
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            1.5,
+            4.75
+          ],
+          "texture": "#antler"
+        },
+        "south": {
+          "uv": [
+            2,
+            0,
+            3.5,
+            4.75
+          ],
+          "texture": "#antler"
+        },
+        "east": {
+          "uv": [
+            1,
+            0,
+            2.5,
+            4.75
+          ],
+          "texture": "#antler"
+        },
+        "west": {
+          "uv": [
+            3,
+            0,
+            4.5,
+            4.75
+          ],
+          "texture": "#antler"
+        },
+        "up": {
+          "uv": [
+            4,
+            0,
+            5.5,
+            1.5
+          ],
+          "texture": "#antler"
+        },
+        "down": {
+          "uv": [
+            5,
+            0,
+            6.5,
+            1.5
+          ],
+          "texture": "#antler"
+        }
+      },
+      "rotation": {
+        "angle": 22.5,
+        "axis": "x",
+        "origin": [
+          8.0,
+          9.75,
+          15.5
+        ]
+      }
+    },
+    {
+      "name": "tine_s",
+      "from": [
+        7.5,
+        9.25,
+        13
+      ],
+      "to": [
+        8.5,
+        12.5,
+        14
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            2,
+            1.0,
+            5.25
+          ],
+          "texture": "#antler"
+        },
+        "south": {
+          "uv": [
+            2,
+            2,
+            3.0,
+            5.25
+          ],
+          "texture": "#antler"
+        },
+        "east": {
+          "uv": [
+            1,
+            2,
+            2,
+            5.25
+          ],
+          "texture": "#antler"
+        },
+        "west": {
+          "uv": [
+            3,
+            2,
+            4,
+            5.25
+          ],
+          "texture": "#antler"
+        },
+        "up": {
+          "uv": [
+            4,
+            2,
+            5.0,
+            3
+          ],
+          "texture": "#antler"
+        },
+        "down": {
+          "uv": [
+            5,
+            2,
+            6.0,
+            3
+          ],
+          "texture": "#antler"
+        }
+      },
+      "rotation": {
+        "angle": 22.5,
+        "axis": "x",
+        "origin": [
+          8.0,
+          9.25,
+          13.5
+        ]
+      }
+    },
+    {
+      "name": "burr_n",
+      "from": [
+        7.0,
+        8,
+        4.5
+      ],
+      "to": [
+        9.0,
+        9.5,
+        6.5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            13,
+            2.0,
+            14.5
+          ],
+          "texture": "#antler"
+        },
+        "south": {
+          "uv": [
+            2,
+            13,
+            4.0,
+            14.5
+          ],
+          "texture": "#antler"
+        },
+        "east": {
+          "uv": [
+            1,
+            13,
+            3.0,
+            14.5
+          ],
+          "texture": "#antler"
+        },
+        "west": {
+          "uv": [
+            3,
+            13,
+            5.0,
+            14.5
+          ],
+          "texture": "#antler"
+        },
+        "up": {
+          "uv": [
+            4,
+            13,
+            6.0,
+            15.0
+          ],
+          "texture": "#antler"
+        },
+        "down": {
+          "uv": [
+            5,
+            13,
+            7.0,
+            15.0
+          ],
+          "texture": "#antler"
+        }
+      }
+    },
+    {
+      "name": "beam_n",
+      "from": [
+        7.25,
+        8.25,
+        0.25
+      ],
+      "to": [
+        8.75,
+        9.5,
+        5
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            7,
+            1.5,
+            8.25
+          ],
+          "texture": "#antler"
+        },
+        "south": {
+          "uv": [
+            2,
+            7,
+            3.5,
+            8.25
+          ],
+          "texture": "#antler"
+        },
+        "east": {
+          "uv": [
+            1,
+            7,
+            5.75,
+            8.25
+          ],
+          "texture": "#antler"
+        },
+        "west": {
+          "uv": [
+            3,
+            7,
+            7.75,
+            8.25
+          ],
+          "texture": "#antler"
+        },
+        "up": {
+          "uv": [
+            4,
+            7,
+            5.5,
+            11.75
+          ],
+          "texture": "#antler"
+        },
+        "down": {
+          "uv": [
+            5,
+            7,
+            6.5,
+            11.75
+          ],
+          "texture": "#antler"
+        }
+      },
+      "rotation": {
+        "angle": 22.5,
+        "axis": "x",
+        "origin": [
+          8,
+          8.75,
+          5
+        ]
+      }
+    },
+    {
+      "name": "tip_n",
+      "from": [
+        7.25,
+        9.75,
+        -0.25
+      ],
+      "to": [
+        8.75,
+        14.5,
+        1.25
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            1.5,
+            4.75
+          ],
+          "texture": "#antler"
+        },
+        "south": {
+          "uv": [
+            2,
+            0,
+            3.5,
+            4.75
+          ],
+          "texture": "#antler"
+        },
+        "east": {
+          "uv": [
+            1,
+            0,
+            2.5,
+            4.75
+          ],
+          "texture": "#antler"
+        },
+        "west": {
+          "uv": [
+            3,
+            0,
+            4.5,
+            4.75
+          ],
+          "texture": "#antler"
+        },
+        "up": {
+          "uv": [
+            4,
+            0,
+            5.5,
+            1.5
+          ],
+          "texture": "#antler"
+        },
+        "down": {
+          "uv": [
+            5,
+            0,
+            6.5,
+            1.5
+          ],
+          "texture": "#antler"
+        }
+      },
+      "rotation": {
+        "angle": -22.5,
+        "axis": "x",
+        "origin": [
+          8.0,
+          9.75,
+          0.5
+        ]
+      }
+    },
+    {
+      "name": "tine_n",
+      "from": [
+        7.5,
+        9.25,
+        2
+      ],
+      "to": [
+        8.5,
+        12.5,
+        3
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            2,
+            1.0,
+            5.25
+          ],
+          "texture": "#antler"
+        },
+        "south": {
+          "uv": [
+            2,
+            2,
+            3.0,
+            5.25
+          ],
+          "texture": "#antler"
+        },
+        "east": {
+          "uv": [
+            1,
+            2,
+            2,
+            5.25
+          ],
+          "texture": "#antler"
+        },
+        "west": {
+          "uv": [
+            3,
+            2,
+            4,
+            5.25
+          ],
+          "texture": "#antler"
+        },
+        "up": {
+          "uv": [
+            4,
+            2,
+            5.0,
+            3
+          ],
+          "texture": "#antler"
+        },
+        "down": {
+          "uv": [
+            5,
+            2,
+            6.0,
+            3
+          ],
+          "texture": "#antler"
+        }
+      },
+      "rotation": {
+        "angle": -22.5,
+        "axis": "x",
+        "origin": [
+          8.0,
+          9.25,
+          2.5
+        ]
+      }
+    }
+  ]
+}

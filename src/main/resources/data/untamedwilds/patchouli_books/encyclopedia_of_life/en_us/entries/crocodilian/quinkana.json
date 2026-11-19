@@ -1,0 +1,22 @@
+{
+    "name": "Quinkana",
+    "icon": "untamedwilds:textures/icon/crocodilian/quinkana.png",
+    "category": "untamedwilds:crocodilian_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Quinkana",
+            "text": "$(o)Quinkana$() ($(o)Quinkana fortirostrum$()) was a land-hunting crocodile of Pleistocene Australia.$(br2)It had longer legs held under its body and a deep snout lined with blade-like teeth, built for hunting on land rather than in the water.$(br2)It disappeared around 40,000 years ago."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:crocodilian{Variant: 4, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Quinkana",
+            "text": "Relative Size: ★★★☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 3$(br2)Growth time: 8 Days"
+        }
+    ]
+}

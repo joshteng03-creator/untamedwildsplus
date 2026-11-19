@@ -1,0 +1,6 @@
+{
+    "name": "Proboscideans",
+    "description": "Proboscideans are large herbivore Mammals, and include elephants, mammoths, mastodons and gomphotheres. $(br2)Common characteristics include huge bodies on pillar-like legs, a long muscular trunk and tusks formed from enlarged incisor teeth. $(br2)They can be found in a wide range of biomes, from frozen steppes to tropical forests.",
+    "icon": "untamedwilds:textures/icon/mammoth/category.png",
+    "parent": "untamedwilds:taxon_mammal"
+}

@@ -132,9 +132,12 @@ public class MeleeAttackCircleHerd extends Goal {
         this.attacker.getNavigation().stop();
     }
 
+    /** 2.8.0: parity-proof replacement for a tickCount % 200 gate (see GoalTimer). */
+    private final untamedwilds.util.GoalTimer cycleTimer = new untamedwilds.util.GoalTimer(200, false);
+
     public void tick() {
         LivingEntity livingentity = this.attacker.getTarget();
-        if (this.attacker.tickCount % 200 == 0) {
+        if (this.cycleTimer.ready(this.attacker)) {
             this.offset = this.attacker.getRandom().nextInt(10);
         }
         /* `herd` is null until the entity's aiStep gets around to calling IPackEntity.initPack, and it

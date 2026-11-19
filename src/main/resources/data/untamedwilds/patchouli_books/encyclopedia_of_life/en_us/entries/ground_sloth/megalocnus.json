@@ -1,0 +1,22 @@
+{
+    "name": "Megalocnus",
+    "icon": "untamedwilds:textures/icon/ground_sloth/megalocnus.png",
+    "category": "untamedwilds:ground_sloth_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Megalocnus",
+            "text": "The Megalocnus ($(o)Megalocnus rodens$()) is an extinct ground sloth that lived on the island of Cuba during the Pleistocene and survived into the Holocene.$(br2)It was the largest of the Caribbean sloths, though far smaller than its giant relatives on the mainland.$(br2)Its name refers to its large, gnawing front teeth, which resembled those of a rodent. Island sloths like Megalocnus outlived the mainland ground sloths by several thousand years."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:ground_sloth{Variant: 3, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Megalocnus",
+            "text": "Relative Size: ★★★☆☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 14 Days"
+        }
+    ]
+}

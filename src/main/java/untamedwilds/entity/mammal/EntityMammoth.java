@@ -42,6 +42,7 @@ import untamedwilds.util.EcologyTags;
 import untamedwilds.entity.ai.target.DefendHerdMateTarget;
 import untamedwilds.entity.ai.target.SmartHurtByTargetGoal;
 import untamedwilds.entity.ai.RetreatWhenRoutedGoal;
+import untamedwilds.entity.MountProfile;
 
 public class EntityMammoth extends ComplexMobTerrestrial implements INewSkins, ISpecies, IPackEntity, INeedsPostUpdate {
 
@@ -52,10 +53,19 @@ public class EntityMammoth extends ComplexMobTerrestrial implements INewSkins, I
      * three: the extinct proboscideans keep a small ear, Elephas maximus has a medium one, and
      * Loxodonta africana's is the huge fan the genus is known for. */
     private static final EntityDataAccessor<Integer> EAR_SIZE = SynchedEntityData.defineId(EntityMammoth.class, EntityDataSerializers.INT);
+    // Rebuilt rig (2026-11-15): per-species FAMILIES. 0 is always the mammoth form, so a species without the flag is a mammoth.
+    //   headShape 0 DOME / 1 TWIN / 2 SLOPE / 3 CREST / 4 FLAT;  backShape 0 SLOPE / 1 DIP / 2 ARCH / 3 LEVEL;
+    //   tuskShape 0 SPIRAL / 1 FORWARD / 2 STRAIGHT / 3 UPCURVE / 4 TWIST / 5 SMALL
+    private static final EntityDataAccessor<Integer> HEAD_SHAPE = SynchedEntityData.defineId(EntityMammoth.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> BACK_SHAPE = SynchedEntityData.defineId(EntityMammoth.class, EntityDataSerializers.INT);
+    // species scales of the July mesh, by variant -- only for rescaling pre-rebuild saves (see readAdditionalSaveData)
+    private static final float[] PRE_REBUILD_SCALE = {1.0F, 1.278F, 1.381F, 1.0F, 1.312F, 0.8F, 1.05F, 0.9F, 0.95F, 1.554F, 0.55F, 0.45F};
+    private static final EntityDataAccessor<Integer> TUSK_SHAPE = SynchedEntityData.defineId(EntityMammoth.class, EntityDataSerializers.INT);
 
     public static final Animation ATTACK_THREATEN = Animation.create(50);
     public static final Animation ATTACK_GORE = Animation.create(14);
     public static final Animation EAT = Animation.create(40); // matches GrazeGoal's 40-tick eatingGrassTimer
+    public static final Animation DRINK = Animation.create(100);   // 2.8.0 idle pose (gen_keyframes.py)
 
     public EntityMammoth(EntityType<? extends ComplexMob> type, Level worldIn) {
         super(type, worldIn);
@@ -69,6 +79,9 @@ public class EntityMammoth extends ComplexMobTerrestrial implements INewSkins, I
         this.entityData.define(LARGE_TUSKS, false);
         this.entityData.define(FLAT_BACK, false);
         this.entityData.define(EAR_SIZE, 0);
+        this.entityData.define(HEAD_SHAPE, 0);
+        this.entityData.define(BACK_SHAPE, 0);
+        this.entityData.define(TUSK_SHAPE, 0);
     }
 
     public void registerGoals() {
@@ -81,6 +94,7 @@ public class EntityMammoth extends ComplexMobTerrestrial implements INewSkins, I
         this.goalSelector.addGoal(2, new SmartMeleeAttackGoal(this, 1.6D, false));
         this.goalSelector.addGoal(3, new SmartMateGoal(this, 0.8D));
         this.goalSelector.addGoal(3, new GrazeGoal(this, 10));
+        this.goalSelector.addGoal(3, new DrinkGoal(this));   // 2.8.0 cosmetic waterhole visits (trunk drink)
         /* Density dependence, expressed as MOVEMENT rather than as a cap on births: a herd that
          * has eaten its range out, or that is standing in an overcrowded neighbourhood, shifts
          * ground, and surplus young adults disperse to found herds elsewhere. Runs on the herd
@@ -174,7 +188,7 @@ public class EntityMammoth extends ComplexMobTerrestrial implements INewSkins, I
     }
 
     protected void playStepSound(BlockPos pos, BlockState blockIn) {
-        this.playSound(SoundEvents.RAVAGER_STEP, 0.15F, 1.0F);
+        this.playFootstep(SoundEvents.RAVAGER_STEP, 0.15F, 1.0F);   // 2.8.0 heavy steps (JSON "step")
     }
 
     private Animation chooseAttackAnimation() {
@@ -210,8 +224,14 @@ public class EntityMammoth extends ComplexMobTerrestrial implements INewSkins, I
     }
 
     @Override
+    public Animation getAnimationDrink() { return DRINK; }
+    // 2.8.0 solved DRINK reach (gen_keyframes.py): muzzle 44.1 units in front of the centre at size 1
+    @Override
+    public double getDrinkReach() { return 2.755D * this.getMobSize(); }
+
+    @Override
     public Animation[] getAnimations() {
-        return new Animation[]{NO_ANIMATION, ATTACK_THREATEN, ATTACK_GORE, EAT};
+        return new Animation[]{NO_ANIMATION, ATTACK_THREATEN, ATTACK_GORE, EAT, DRINK};
     }
 
     public Animation getAnimationEat() { return EAT; }
@@ -223,6 +243,9 @@ public class EntityMammoth extends ComplexMobTerrestrial implements INewSkins, I
     public int getEarSize(){ return (this.entityData.get(EAR_SIZE)); }
     private void setEarSize(int size){ this.entityData.set(EAR_SIZE, size); }
     public boolean hasFlatBack(){ return (this.entityData.get(FLAT_BACK)); }
+    public int getHeadShape(){ return this.entityData.get(HEAD_SHAPE); }
+    public int getBackShape(){ return this.entityData.get(BACK_SHAPE); }
+    public int getTuskShape(){ return this.entityData.get(TUSK_SHAPE); }
     private void setFlatBack(boolean flat){ this.entityData.set(FLAT_BACK, flat); }
 
     public void addAdditionalSaveData(CompoundTag compound){
@@ -231,6 +254,9 @@ public class EntityMammoth extends ComplexMobTerrestrial implements INewSkins, I
         compound.putBoolean("hasLargeTusks", this.hasLargeTusks());
         compound.putBoolean("flatBack", this.hasFlatBack());
         compound.putInt("earSize", this.getEarSize());
+        compound.putInt("headShape", this.getHeadShape());
+        compound.putInt("backShape", this.getBackShape());
+        compound.putInt("tuskShape", this.getTuskShape());
     }
 
     public void readAdditionalSaveData(CompoundTag compound){
@@ -239,17 +265,64 @@ public class EntityMammoth extends ComplexMobTerrestrial implements INewSkins, I
         this.setLargeTusks(compound.getBoolean("hasLargeTusks"));
         this.setFlatBack(compound.getBoolean("flatBack"));
         this.setEarSize(compound.getInt("earSize"));
+        // A save from before the 2026-11-15 rebuild has no shape tags. Its Size was rolled against the July mesh, which was
+        // 45u tall where the new one is 48-54u, so carried over unchanged every old mammoth would render ~12% oversized.
+        // Rescale by new/old species scale; the individual's own variation survives.
+        if (!compound.contains("headShape") && getEntityData(this.getType()) != null) {
+            int v = this.getVariant();
+            if (v >= 0 && v < PRE_REBUILD_SCALE.length) {
+                this.setMobSize(this.getMobSize() * this.getModelScale() / PRE_REBUILD_SCALE[v]);
+            }
+        }
+        // Shapes are species constants, so they come from the species data -- an elephant saved before the rebuild has no
+        // shape tags and would otherwise load as a mammoth. The ear size is refreshed for the same reason (the rebuild
+        // gave the Palaeoloxodon species medium ears).
+        this.applyShapeFlags();
+    }
+
+    private void applyShapeFlags() {
+        if (getEntityData(this.getType()) == null) {
+            return;
+        }
+        this.entityData.set(HEAD_SHAPE, getEntityData(this.getType()).getFlags(this.getVariant(), "headShape"));
+        this.entityData.set(BACK_SHAPE, getEntityData(this.getType()).getFlags(this.getVariant(), "backShape"));
+        this.entityData.set(TUSK_SHAPE, getEntityData(this.getType()).getFlags(this.getVariant(), "tuskShape"));
+        this.setEarSize(getEntityData(this.getType()).getFlags(this.getVariant(), "earSize"));
+        this.setLargeTusks(getEntityData(this.getType()).getFlags(this.getVariant(), "hasLargeTusks") == 1);
     }
 
     @Override
     public void updateAttributes() {
         this.applySpeciesSpeed();
-        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getAttack());
-        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getHealth());
+        this.applySpeciesHealthAndAttack();
         this.setHealth(this.getMaxHealth());
         this.setWoollyCoat(getEntityData(this.getType()).getFlags(this.getVariant(), "hasWoollyCoat") == 1);
         this.setLargeTusks(getEntityData(this.getType()).getFlags(this.getVariant(), "hasLargeTusks") == 1);
         this.setFlatBack(getEntityData(this.getType()).getFlags(this.getVariant(), "flatBack") == 1);
         this.setEarSize(getEntityData(this.getType()).getFlags(this.getVariant(), "earSize"));
+        this.applyShapeFlags();
+    }
+
+    // Seat height (2026-11-15 rebuild): the saddle lies on the mid-back box, whose top depends on the back shape (model units,
+    // measured in proboscidean_spec.py); a woolly coat's mane lifts it 5.2u. The rider sits at 0.89 of that, the diprotodont
+    // convention. The fixed 2.6-block hitbox put every rider at ~2.5 blocks, from the 1.7 m pygmy to the 4.5 m namadicus.
+    private static final float[] SEAT_TOP = {44.6F, 45.2F, 49.9F, 47.5F};   // SLOPE, DIP, ARCH, LEVEL
+    private static final float COAT_SEAT = 5.2F;
+    /** Below this species scale (the 1.0 m Sicilian dwarf, 0.33) a proboscidean is too small to ride. */
+    private static final float MIN_MOUNT_SCALE = 0.45F;
+
+    @Override
+    public MountProfile getMountProfile() {
+        return this.getModelScale() >= MIN_MOUNT_SCALE ? MountProfile.PROBOSCIDEAN : null;
+    }
+
+    @Override
+    public double getPassengersRidingOffset() {
+        if (!this.isSaddled()) {
+            return super.getPassengersRidingOffset();
+        }
+        int back = Math.max(0, Math.min(3, this.getBackShape()));
+        float top = SEAT_TOP[back] + (this.hasWoollyCoat() ? COAT_SEAT : 0.0F);
+        return this.getMobSize() * this.getScale() * top / 16.0F * 0.89F;
     }
 }

@@ -1,0 +1,20 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "untamedwilds:item/wooden_spear"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "untamedwilds:trim": 0.5
+      },
+      "model": "untamedwilds:item/wooden_spear_tooth"
+    },
+    {
+      "predicate": {
+        "untamedwilds:trim": 1.0
+      },
+      "model": "untamedwilds:item/wooden_spear_antler"
+    }
+  ]
+}

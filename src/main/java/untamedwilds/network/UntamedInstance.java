@@ -2,14 +2,18 @@ package untamedwilds.network;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 import untamedwilds.UntamedWilds;
 
 public class UntamedInstance {
 
-    private static final String PROTOCOL_VERSION = "1";
+    // "2" (2.8.0): full species-data sync + tracking-only animation packets. A mismatched client/server
+    // pair now refuses to connect with a clear message instead of desyncing.
+    private static final String PROTOCOL_VERSION = "2";
     public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(UntamedWilds.MOD_ID, "main"),
             () -> PROTOCOL_VERSION,
@@ -25,10 +29,25 @@ public class UntamedInstance {
                 .decoder(SyncTextureData::new)
                 .consumer(SyncTextureData::handle)
                 .add();
+        INSTANCE.messageBuilder(SyncEntityData.class, ID++)
+                .encoder(SyncEntityData::toBytes)
+                .decoder(SyncEntityData::new)
+                .consumer(SyncEntityData::handle)
+                .add();
+        INSTANCE.messageBuilder(AnimationStartPacket.class, ID++)
+                .encoder(AnimationStartPacket::toBytes)
+                .decoder(AnimationStartPacket::new)
+                .consumer(AnimationStartPacket::handle)
+                .add();
     }
 
     public static void sendToClient(Object packet, ServerPlayer player) {
         INSTANCE.sendTo(packet, player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+    }
+
+    /** Every player currently tracking {@code entity} (i.e. who has it loaded on their client). */
+    public static void sendToTracking(Object packet, Entity entity) {
+        INSTANCE.send(PacketDistributor.TRACKING_ENTITY.with(() -> entity), packet);
     }
 
     public static void sendToServer(Object packet) {

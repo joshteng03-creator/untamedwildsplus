@@ -54,7 +54,8 @@ minecraft {
         }
 
         server {
-            workingDirectory project.file('run')
+            workingDirectory project.file('run-server')
+            args '--nogui'
 
             // Recommended logging data for a userdev environment
             // The markers can be added/remove as needed separated by commas.
@@ -68,6 +69,32 @@ minecraft {
             // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
             property 'forge.logging.console.level', 'debug'
 
+            mods {
+                examplemod {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        // Headless GameTests (2.8.0 harness): ./gradlew runGameTestServer -- exits non-zero when a required test fails.
+        gameTestServer {
+            workingDirectory project.file('run-gametest')
+            property 'forge.logging.console.level', 'info'
+            property 'forge.enabledGameTestNamespaces', 'untamedwilds'
+            mods {
+                examplemod {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        // Unattended client smoke test: joins a local dedicated server as SmokeBot (scripts/soak/client_smoke.py drives it).
+        clientSmoke {
+            parent runs.client
+            workingDirectory project.file('run-smoke')
+            property 'forge.logging.console.level', 'info'
+            property 'untamedwilds.smoke', 'true'
+            args '--username', 'SmokeBot', '--server', 'localhost', '--port', '25565'
             mods {
                 examplemod {
                     source sourceSets.main
@@ -106,6 +133,7 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories{
+    mavenCentral()
     maven {
         name = "CurseForge"
         url = "https://minecraft.curseforge.com/api/maven/"
@@ -139,11 +167,19 @@ dependencies {
     compileOnly fg.deobf("curse.maven:crash-utilities-371813:3808085")
     runtimeOnly fg.deobf("curse.maven:crash-utilities-371813:3808085")
     compileOnly "curse.maven:citadel4-331936:3681528"
-    runtimeOnly "curse.maven:citadel4-331936:3681528"
+    runtimeOnly fg.deobf("curse.maven:citadel4-331936:3681528")
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+}
+
+test {
+    useJUnitPlatform()
 }
 
 // Example for how to get properties into the manifest for reading at runtime.
 jar {
+    exclude 'untamedwilds/gametest/**'
+    exclude 'data/untamedwilds/structures/gametest/**'
     manifest {
         attributes([
                 "Specification-Title": "untamedwilds",

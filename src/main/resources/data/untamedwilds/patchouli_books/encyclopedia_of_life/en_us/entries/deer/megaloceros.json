@@ -1,0 +1,22 @@
+{
+    "name": "Irish Elk",
+    "icon": "untamedwilds:textures/icon/deer/megaloceros.png",
+    "category": "untamedwilds:deer_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Irish Elk",
+            "text": "The Irish elk ($(o)Megaloceros giganteus$()), or giant deer, is an extinct deer that lived across Eurasia, from Ireland to Siberia, during the Pleistocene and earliest Holocene.$(br2)Despite its name, it was neither exclusively Irish nor an elk; its closest living relatives are the fallow deer.$(br2)Males carried the largest antlers of any known deer, spanning up to 3.6 metres from tip to tip."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:deer{Variant: 0, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Irish Elk",
+            "text": "Relative Size: ★★★★☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

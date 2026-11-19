@@ -1,0 +1,22 @@
+{
+    "name": "Bearded Seal",
+    "icon": "untamedwilds:textures/icon/pinniped/bearded_seal.png",
+    "category": "untamedwilds:pinniped_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Bearded Seal",
+            "text": "The bearded seal ($(o)Erignathus barbatus$()) is a large Arctic seal named for its long, pale whiskers.$(br2)It lives on drifting pack ice over shallow seas, diving to feed on clams, crabs and bottom-dwelling fish.$(br2)Males sing long, eerie underwater songs during the breeding season."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:pinniped{Variant: 1, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Bearded Seal",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Raw Cod$(br2)Number of Offspring: 1$(br2)Growth time: 8 Days"
+        }
+    ]
+}

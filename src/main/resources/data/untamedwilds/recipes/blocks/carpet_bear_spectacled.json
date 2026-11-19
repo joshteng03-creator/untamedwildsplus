@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "carpet",
+  "pattern": [
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "untamedwilds:hide_bear_spectacled"
+    }
+  },
+  "result": {
+    "item": "untamedwilds:carpet_bear_spectacled",
+    "count": 6
+  }
+}

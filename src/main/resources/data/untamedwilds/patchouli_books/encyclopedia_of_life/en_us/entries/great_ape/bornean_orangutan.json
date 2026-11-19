@@ -1,0 +1,22 @@
+{
+    "name": "Bornean Orangutan",
+    "icon": "untamedwilds:textures/icon/great_ape/bornean_orangutan.png",
+    "category": "untamedwilds:great_ape_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Bornean Orangutan",
+            "text": "The $(o)Bornean Orangutan$() ($(o)Pongo pygmaeus$()) is a great ape of the rainforests of Borneo, with a long, shaggy coat of red-brown hair and very long arms.$(br2)It spends most of its life in the trees, eating fruit, leaves and bark, and adult males grow large cheek pads and a throat sac for their long calls.$(br2)On the ground it walks on all fours, resting on its fists. It is the closest living relative of Gigantopithecus."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:great_ape{Variant: 1, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Bornean Orangutan",
+            "text": "Relative Size: ★★☆☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Melon Slice$(br2)Number of Offspring: 1$(br2)Growth time: 12 Days"
+        }
+    ]
+}

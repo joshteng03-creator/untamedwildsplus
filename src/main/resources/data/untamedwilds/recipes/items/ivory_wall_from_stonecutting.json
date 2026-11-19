@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "untamedwilds:ivory_block"
+  },
+  "result": "untamedwilds:ivory_wall",
+  "count": 1
+}

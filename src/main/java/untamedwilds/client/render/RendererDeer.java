@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import untamedwilds.client.model.ModelDeer;
 import untamedwilds.entity.mammal.EntityDeer;
+import untamedwilds.client.render.layer.SaddleLayer;
 
 public class RendererDeer extends MobRenderer<EntityDeer, EntityModel<EntityDeer>> {
 
@@ -15,6 +16,7 @@ public class RendererDeer extends MobRenderer<EntityDeer, EntityModel<EntityDeer
 
     public RendererDeer(EntityRendererProvider.Context renderManager) {
         super(renderManager, MODEL, 1F);
+        this.addLayer(new SaddleLayer<>(this, "deer"));
     }
 
     protected void scale(EntityDeer entity, PoseStack matrixStackIn, float partialTickTime) {

@@ -1,0 +1,22 @@
+{
+    "name": "Giraffe",
+    "icon": "untamedwilds:textures/icon/giraffid/giraffe.png",
+    "category": "untamedwilds:giraffid_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Giraffe",
+            "text": "The giraffe ($(o)Giraffa camelopardalis$()) is a large African mammal that lives in the savannas and open woodlands of sub-Saharan Africa.$(br2)It is the tallest living land animal, though its long neck contains only seven vertebrae, the same number as most other mammals.$(br2)Giraffes browse on the leaves of tall trees such as acacias, stripping them with a long, dark prehensile tongue, and both sexes bear skin-covered horns called ossicones."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:giraffid{Variant: 0, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Giraffe",
+            "text": "Relative Size: ★★★★☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 12 Days"
+        }
+    ]
+}

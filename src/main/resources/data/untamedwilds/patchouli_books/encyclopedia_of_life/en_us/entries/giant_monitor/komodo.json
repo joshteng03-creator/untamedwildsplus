@@ -1,0 +1,22 @@
+{
+    "name": "Komodo Dragon",
+    "icon": "untamedwilds:textures/icon/giant_monitor/komodo.png",
+    "category": "untamedwilds:giant_monitor_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Komodo Dragon",
+            "text": "The Komodo dragon ($(o)Varanus komodoensis$()) is the largest living lizard, found on a few islands of Indonesia.$(br2)It reaches about 2.5 to 3 metres long. It ambushes deer, pigs and water buffalo, and its venomous bite causes blood loss and shock.$(br2)Adults are a plain dusky grey-brown, while the young are banded and spend their first years in trees."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:giant_monitor{Variant: 1, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Komodo Dragon",
+            "text": "Relative Size: ★★☆☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 2$(br2)Growth time: 12 Days"
+        }
+    ]
+}

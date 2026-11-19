@@ -1,0 +1,147 @@
+{
+  "name": "kangaroo",
+  "breeding": "EARLY_SUMMER",
+  "growing_time": 8,
+  "offspring": 1,
+  "activityType": "crepuscular",
+  "favourite_food": "minecraft:wheat",
+  "sounds":{
+    "ambient":"untamedwilds:entity.kangaroo.ambient",
+    "hurt":"untamedwilds:entity.kangaroo.hurt",
+    "death":"untamedwilds:entity.kangaroo.death",
+    "alarm":"untamedwilds:entity.kangaroo.alarm",
+    "threat":"untamedwilds:entity.kangaroo.threat"
+  },
+  "flags": {
+    "groupCount": 6
+  },
+  "ecology": {
+    "tags": [
+      "grazer"
+    ]
+  },
+  "species": [
+    {
+      "name": "red",
+      "variant": 0,
+      "scale": 0.924,
+      "rarity": 3,
+      "attack": 5,
+      "health": 28,
+      "flags": {
+        "groupCount": 8
+      },
+      "spawnBiomes": [
+        [
+          "category|desert"
+        ],
+        [
+          "category|savanna"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.3
+      }
+    },
+    {
+      "name": "eastern_grey",
+      "variant": 1,
+      "scale": 0.862,
+      "rarity": 3,
+      "attack": 4,
+      "health": 24,
+      "flags": {
+        "groupCount": 8
+      },
+      "spawnBiomes": [
+        [
+          "category|forest"
+        ],
+        [
+          "category|savanna"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.29
+      }
+    },
+    {
+      "name": "procoptodon",
+      "variant": 2,
+      "scale": 1.232,
+      "rarity": 2,
+      "attack": 8,
+      "health": 46,
+      "flags": {
+        "groupCount": 4
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.24,
+        "tags": [
+          "browser"
+        ]
+      }
+    },
+    {
+      "name": "sthenurus",
+      "variant": 3,
+      "scale": 0.986,
+      "rarity": 2,
+      "attack": 6,
+      "health": 34,
+      "flags": {
+        "groupCount": 4
+      },
+      "spawnBiomes": [
+        [
+          "category|forest"
+        ],
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.25,
+        "tags": [
+          "browser"
+        ]
+      }
+    },
+    {
+      "name": "protemnodon",
+      "variant": 4,
+      "scale": 0.862,
+      "rarity": 2,
+      "attack": 5,
+      "health": 32,
+      "flags": {
+        "groupCount": 4
+      },
+      "spawnBiomes": [
+        [
+          "category|forest"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.24
+      }
+    }
+  ]
+}

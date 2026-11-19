@@ -1,0 +1,22 @@
+{
+    "name": "American Mastodon",
+    "icon": "untamedwilds:textures/icon/mammoth/mastodon.png",
+    "category": "untamedwilds:mammoth_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "American Mastodon",
+            "text": "The American mastodon ($(o)Mammut americanum$()) is an extinct proboscidean that lived across North America during the Pleistocene, disappearing at its end.$(br2)Mastodons were not true elephants or mammoths, but belonged to a separate family. They were shorter and stockier than mammoths, with long, upward-curving tusks.$(br2)Their molars bore cone-shaped cusps suited to browsing, and they fed on twigs, leaves and shrubs in forests and wetlands."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:mammoth{Variant: 3, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "American Mastodon",
+            "text": "Relative Size: ★★★★★$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Hay Bale$(br2)Number of Offspring: 1$(br2)Growth time: 16 Days"
+        }
+    ]
+}

@@ -7,6 +7,7 @@ import net.minecraft.world.level.Level;
 import untamedwilds.config.ConfigGamerules;
 import untamedwilds.entity.ComplexMob;
 import untamedwilds.entity.INestingMob;
+import untamedwilds.util.PerfCounters;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -98,9 +99,15 @@ public class SmartMateGoal extends Goal {
             if (this.world.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)) {
                 this.world.addFreshEntity(new ExperienceOrb(this.world, this.taskOwner.getX(), this.taskOwner.getY(), this.taskOwner.getZ(), this.taskOwner.getRandom().nextInt(7) + 1));
             }
-            // Positive Growing Age is used as pregnancy counter (handled in ComplexMob)
-            this.taskOwner.setAge(this.taskOwner.getPregnancyTime());
-            this.targetMate.setAge(this.taskOwner.getPregnancyTime());
+            /* Positive Growing Age is used as pregnancy counter (handled in ComplexMob). Only the FEMALE carries
+             * it (2026-10-24): the male used to be locked out for the whole pregnancy too, which capped births
+             * at the number of males -- a herd thinned of bulls stopped calving. He gets a short refractory
+             * period instead. With gendered breeding off, both partners keep the old timer. */
+            int pregnancy = this.taskOwner.getPregnancyTime();
+            int refractory = Math.max(1, ConfigGamerules.maleRefractoryTicks.get());
+            boolean gendered = ConfigGamerules.genderedBreeding.get();
+            this.taskOwner.setAge(gendered && this.taskOwner.isMale() ? refractory : pregnancy);
+            this.targetMate.setAge(gendered && this.targetMate.isMale() ? refractory : pregnancy);
             if (this.taskOwner instanceof INestingMob nestingMob && nestingMob.isEggLayer()) {
                 if (!this.taskOwner.isMale() || !ConfigGamerules.genderedBreeding.get())
                     ((INestingMob)this.taskOwner).setEggStatus(true);
@@ -126,12 +133,26 @@ public class SmartMateGoal extends Goal {
          * goal's own 1-in-120 roll, so the wide scan is rare. */
         int wide = ConfigGamerules.solitaryMateSearchRadius.get();
         boolean solitary = this.taskOwner.herd == null || this.taskOwner.herd.getMaxSize() <= 1;
-        if (mate == null && solitary && wide > ConfigGamerules.mateSearchRadius.get()) {
+        if (mate == null && solitary && wide > ConfigGamerules.mateSearchRadius.get()
+                && this.world.getGameTime() >= this.nextWideSearch) {
+            PerfCounters.inc(PerfCounters.Counter.MATE_SCAN);
             mate = this.findMate(wide);
             this.longRange = mate != null;
+            /* 2.8.0: a lone animal with no partner within 96 blocks repeated that search on every successful
+             * roll for its whole season. After a miss it now waits 480, 960, 1920, then 2400 ticks; finding a
+             * partner resets it. The near search above is unaffected. */
+            if (mate == null) {
+                this.wideFails = Math.min(this.wideFails + 1, 4);
+                this.nextWideSearch = this.world.getGameTime() + Math.min(240L << this.wideFails, 2400L);
+            } else {
+                this.wideFails = 0;
+            }
         }
         return mate;
     }
+
+    private long nextWideSearch;
+    private int wideFails;
 
     private ComplexMob findMate(double radius) {
         /* The old 8-block box meant a species had to be crowded to breed at all. Predators are sparse and

@@ -1,0 +1,22 @@
+{
+    "name": "Black Wildebeest",
+    "icon": "untamedwilds:textures/icon/wildebeest/black_wildebeest.png",
+    "category": "untamedwilds:wildebeest_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Black Wildebeest",
+            "text": "The black wildebeest ($(o)Connochaetes gnou$()), or white-tailed gnu, lives on the open grasslands of southern Africa.$(br2)It is dark brown, with an upright bristly mane, a long white tail and horns that hook forward and down before curving up.$(br2)Hunted almost to extinction in the 1800s, it survived on a few farms and has since recovered."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:wildebeest{Variant: 1, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Black Wildebeest",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 7 Days"
+        }
+    ]
+}

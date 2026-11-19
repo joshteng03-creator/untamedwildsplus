@@ -408,17 +408,27 @@ public abstract class EntityUtils {
         return Mth.clamp(i, 0, size);
     }
 
-    // Takes the skin from the TEXTURES_COMMON or TEXTURES_RARE array
+    // Takes the skin from the TEXTURES_COMMON or TEXTURES_RARE array. 2.8.0: null-safe -- a client that has not
+    // received a type's species data yet renders the missing texture for a moment instead of crashing.
     public static ResourceLocation getSkinFromEntity(ComplexMob entityIn) {
         if (entityIn.getType().getRegistryName() != null) {
             String name = entityIn.getType().getRegistryName().getPath();
-            if (entityIn.getSkin() > 99 && ComplexMob.TEXTURES_RARE.get(name).containsKey(entityIn.getVariant())) {
-                return ComplexMob.TEXTURES_RARE.get(name).get(entityIn.getVariant()).get(Math.min(entityIn.getSkin() - 100, ComplexMob.TEXTURES_RARE.get(name).get(entityIn.getVariant()).size() - 1));
+            int variant = entityIn.getVariant();
+            HashMap<Integer, ArrayList<ResourceLocation>> rare = ComplexMob.TEXTURES_RARE.get(name);
+            if (entityIn.getSkin() > 99 && rare != null) {
+                ArrayList<ResourceLocation> list = rare.get(variant);
+                if (list != null && !list.isEmpty()) {
+                    return list.get(Mth.clamp(entityIn.getSkin() - 100, 0, list.size() - 1));
+                }
             }
-            if (entityIn.getVariant() >= 0)
-                return ComplexMob.TEXTURES_COMMON.get(name).get(entityIn.getVariant()).get(Math.min(entityIn.getSkin(), ComplexMob.TEXTURES_COMMON.get(name).get(entityIn.getVariant()).size() - 1));
+            HashMap<Integer, ArrayList<ResourceLocation>> common = ComplexMob.TEXTURES_COMMON.get(name);
+            if (variant >= 0 && common != null) {
+                ArrayList<ResourceLocation> list = common.get(variant);
+                if (list != null && !list.isEmpty()) {
+                    return list.get(Mth.clamp(entityIn.getSkin(), 0, list.size() - 1));
+                }
+            }
         }
-        //UntamedWilds.LOGGER.warn("No Skin found for entity: " + entityIn.getType().getRegistryName());
         return new ResourceLocation("missing");
     }
 

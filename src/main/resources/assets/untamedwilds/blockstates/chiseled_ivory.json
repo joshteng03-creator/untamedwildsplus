@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "untamedwilds:block/chiseled_ivory"
+    },
+    "axis=z": {
+      "model": "untamedwilds:block/chiseled_ivory_horizontal",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "untamedwilds:block/chiseled_ivory_horizontal",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

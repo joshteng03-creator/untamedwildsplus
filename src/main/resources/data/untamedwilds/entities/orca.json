@@ -1,0 +1,91 @@
+{
+  "name": "orca",
+  "breeding": "EARLY_SUMMER",
+  "growing_time": 12,
+  "offspring": 1,
+  "activityType": "cathemeral",
+  "favourite_food": "minecraft:salmon",
+  "sounds": {
+    "ambient": "entity.dolphin.ambient_water",
+    "hurt": "entity.dolphin.hurt",
+    "death": "entity.dolphin.death",
+    "threat": "entity.dolphin.attack",
+    "call": "entity.dolphin.play"
+  },
+  "flags": {
+    "groupCount": 5,
+    "finScale": 0
+  },
+  "ecology": {
+    "tags": [
+      "carnivore",
+      "aquatic",
+      "megafauna"
+    ],
+    "diet": [
+      "aquatic"
+    ]
+  },
+  "species": [
+    {
+      "name": "orca",
+      "variant": 0,
+      "scale": 1.937,
+      "rarity": 2,
+      "attack": 12,
+      "health": 80,
+      "spawnBiomes": [
+        [
+          "resource|minecraft:cold_ocean"
+        ],
+        [
+          "resource|minecraft:deep_cold_ocean"
+        ],
+        [
+          "resource|minecraft:frozen_ocean"
+        ],
+        [
+          "resource|minecraft:deep_frozen_ocean"
+        ],
+        [
+          "resource|minecraft:ocean"
+        ],
+        [
+          "resource|minecraft:deep_ocean"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.9
+      }
+    },
+    {
+      "name": "false_killer_whale",
+      "variant": 1,
+      "scale": 1.383,
+      "rarity": 1,
+      "attack": 9,
+      "health": 55,
+      "flags": {
+        "groupCount": 8,
+        "finScale": 450
+      },
+      "spawnBiomes": [
+        [
+          "resource|minecraft:deep_warm_ocean"
+        ],
+        [
+          "resource|minecraft:deep_lukewarm_ocean"
+        ],
+        [
+          "resource|minecraft:lukewarm_ocean"
+        ],
+        [
+          "resource|minecraft:warm_ocean"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.95
+      }
+    }
+  ]
+}

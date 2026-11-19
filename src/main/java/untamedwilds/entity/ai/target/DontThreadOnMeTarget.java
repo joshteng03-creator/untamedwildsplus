@@ -46,6 +46,9 @@ public class DontThreadOnMeTarget<T extends LivingEntity> extends TargetGoal {
     public boolean canUse() {
         if (!ConfigGamerules.contactAgression.get()) {
             return false;
+        } else if (this.mob.getRandom().nextInt(reducedTickDelay(5)) != 0) {
+            // 2.8.0: ~5-tick random interval instead of an entity search on every evaluation.
+            return false;
         } else {
             List<T> list = this.mob.level.getEntitiesOfClass(this.targetClass, this.mob.getBoundingBox().inflate(1F), this.targetEntitySelector);
             if (list.isEmpty()) {

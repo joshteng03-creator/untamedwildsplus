@@ -16,6 +16,22 @@ import untamedwilds.item.debug.*;
 import untamedwilds.util.ModCreativeModeTab;
 
 import java.util.function.Supplier;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
+import untamedwilds.item.ModArmorMaterials;
+import untamedwilds.item.SerratedArrowItem;
+import untamedwilds.item.HerdingHornItem;
+import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.ChatFormatting;
+import untamedwilds.item.SpearItem;
+import untamedwilds.item.CarapaceShieldItem;
+import untamedwilds.item.MountedSpecimenItem;
+import java.util.List;
+import untamedwilds.item.FieldGuideItem;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(modid = UntamedWilds.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -53,6 +69,38 @@ public class ModItems {
     public static RegistryObject<Item> MEAT_TURTLE_COOKED = createItem("food_turtle_cooked", () -> new Item(new Item.Properties().food((new FoodProperties.Builder()).nutrition(6).saturationMod(0.6F).meat().build()).tab(CreativeModeTab.TAB_FOOD)));
     public static RegistryObject<Item> MEAT_HIPPO_RAW = createItem("food_pachyderm_raw", () -> new Item(new Item.Properties().food((new FoodProperties.Builder()).nutrition(3).saturationMod(0.7F).meat().build()).tab(CreativeModeTab.TAB_FOOD)));
     public static RegistryObject<Item> MEAT_HIPPO_COOKED = createItem("food_pachyderm_cooked", () -> new Item(new Item.Properties().food((new FoodProperties.Builder()).nutrition(7).saturationMod(1.1F).meat().build()).tab(CreativeModeTab.TAB_FOOD)));
+    public static RegistryObject<Item> MATERIAL_IVORY = createItem("material_ivory", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> MATERIAL_WOOLLY_FUR = createItem("material_woolly_fur", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> MATERIAL_ANTLER = createItem("material_antler", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> MATERIAL_SCUTE = createItem("material_scute", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> MATERIAL_HORN = createItem("material_horn", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> MATERIAL_SHARK_TOOTH = createItem("material_shark_tooth", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> MEAT_CETACEAN_RAW = createItem("food_cetacean_raw", () -> new Item(new Item.Properties().food((new FoodProperties.Builder()).nutrition(3).saturationMod(0.3F).meat().build()).tab(CreativeModeTab.TAB_FOOD)));
+    public static RegistryObject<Item> MEAT_CETACEAN_COOKED = createItem("food_cetacean_cooked", () -> new Item(new Item.Properties().food((new FoodProperties.Builder()).nutrition(8).saturationMod(0.8F).meat().build()).tab(CreativeModeTab.TAB_FOOD)));
+    public static RegistryObject<Item> FUR_HELMET = createItem("fur_helmet", () -> new ArmorItem(ModArmorMaterials.FUR, EquipmentSlot.HEAD, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
+    public static RegistryObject<Item> FUR_CHESTPLATE = createItem("fur_chestplate", () -> new ArmorItem(ModArmorMaterials.FUR, EquipmentSlot.CHEST, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
+    public static RegistryObject<Item> FUR_LEGGINGS = createItem("fur_leggings", () -> new ArmorItem(ModArmorMaterials.FUR, EquipmentSlot.LEGS, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
+    public static RegistryObject<Item> FUR_BOOTS = createItem("fur_boots", () -> new ArmorItem(ModArmorMaterials.FUR, EquipmentSlot.FEET, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
+    public static RegistryObject<Item> CARAPACE_HELMET = createItem("carapace_helmet", () -> new ArmorItem(ModArmorMaterials.CARAPACE, EquipmentSlot.HEAD, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
+    public static RegistryObject<Item> CARAPACE_CHESTPLATE = createItem("carapace_chestplate", () -> new ArmorItem(ModArmorMaterials.CARAPACE, EquipmentSlot.CHEST, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
+    public static RegistryObject<Item> CARAPACE_LEGGINGS = createItem("carapace_leggings", () -> new ArmorItem(ModArmorMaterials.CARAPACE, EquipmentSlot.LEGS, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
+    public static RegistryObject<Item> CARAPACE_BOOTS = createItem("carapace_boots", () -> new ArmorItem(ModArmorMaterials.CARAPACE, EquipmentSlot.FEET, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
+    public static RegistryObject<Item> SERRATED_ARROW = createItem("serrated_arrow", () -> new SerratedArrowItem(new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
+    public static RegistryObject<Item> HERDING_HORN = createItem("herding_horn", () -> new HerdingHornItem(new Item.Properties().stacksTo(1).tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> WOODEN_SPEAR = createItem("wooden_spear", () -> new SpearItem(Tiers.WOOD, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
+    public static RegistryObject<Item> STONE_SPEAR = createItem("stone_spear", () -> new SpearItem(Tiers.STONE, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
+    public static RegistryObject<Item> IRON_SPEAR = createItem("iron_spear", () -> new SpearItem(Tiers.IRON, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
+    public static RegistryObject<Item> GOLDEN_SPEAR = createItem("golden_spear", () -> new SpearItem(Tiers.GOLD, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
+    public static RegistryObject<Item> DIAMOND_SPEAR = createItem("diamond_spear", () -> new SpearItem(Tiers.DIAMOND, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT)));
+    public static RegistryObject<Item> NETHERITE_SPEAR = createItem("netherite_spear", () -> new SpearItem(Tiers.NETHERITE, new Item.Properties().tab(CreativeModeTab.TAB_COMBAT).fireResistant()));
+    public static RegistryObject<Item> CARAPACE_SHIELD = createItem("carapace_shield", () -> new CarapaceShieldItem(new Item.Properties().durability(504).tab(CreativeModeTab.TAB_COMBAT)));
+    public static RegistryObject<Item> TAXIDERMY_KIT = createItem("taxidermy_kit", () -> new Item(new Item.Properties().stacksTo(16).tab(ModCreativeModeTab.untamedwilds_items)) {
+        public void appendHoverText(ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+            tooltip.add(new TranslatableComponent("item.untamedwilds.taxidermy_kit.desc").withStyle(ChatFormatting.GRAY));
+        }
+    });
+    public static RegistryObject<Item> MOUNTED_SPECIMEN = createItem("mounted_specimen", () -> new MountedSpecimenItem(new Item.Properties().stacksTo(1)));
+    public static RegistryObject<Item> FIELD_GUIDE = createItem("field_guide", () -> new FieldGuideItem(new Item.Properties().stacksTo(1).tab(ModCreativeModeTab.untamedwilds_items)));
     public static RegistryObject<Item> FOOD_TURTLE_SOUP = createItem("food_turtle_soup", () -> new BowlFoodItem(new Item.Properties().food((new FoodProperties.Builder()).nutrition(8).saturationMod(0.6F).build()).tab(CreativeModeTab.TAB_FOOD).stacksTo(1)));
     public static RegistryObject<Item> FOOD_PEMMICAN = createItem("food_pemmican", () -> new Item(new Item.Properties().food((new FoodProperties.Builder()).nutrition(6).saturationMod(1.0F).build()).tab(CreativeModeTab.TAB_FOOD)));
     public static RegistryObject<Item> VEGETABLE_AARDVARK_CUCUMBER = createItem("food_aardvark_cucumber", () -> new Item(new Item.Properties().food((new FoodProperties.Builder()).nutrition(3).saturationMod(0.2F).build()).tab(CreativeModeTab.TAB_FOOD)));
@@ -70,6 +118,23 @@ public class ModItems {
     public static RegistryObject<Item> HIDE_BIGCAT_PUMA = createItem("hide_bigcat_puma", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
     public static RegistryObject<Item> HIDE_BIGCAT_SNOW_LEOPARD = createItem("hide_bigcat_snow_leopard", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
     public static RegistryObject<Item> HIDE_BIGCAT_TIGER = createItem("hide_bigcat_tiger", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> HIDE_BEAR_CAVE = createItem("hide_bear_cave", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> HIDE_BEAR_PANDA = createItem("hide_bear_panda", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> HIDE_BEAR_SPECTACLED = createItem("hide_bear_spectacled", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> HIDE_BEAR_SUN = createItem("hide_bear_sun", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> HIDE_BEAR_SHORT_FACED = createItem("hide_bear_short_faced", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> HIDE_BEAR_ARCTOTHERIUM = createItem("hide_bear_arctotherium", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> HIDE_BIGCAT_CAVE_LION = createItem("hide_bigcat_cave_lion", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> HIDE_BIGCAT_AMERICAN_LION = createItem("hide_bigcat_american_lion", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> HIDE_BIGCAT_BARBARY_LION = createItem("hide_bigcat_barbary_lion", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> HIDE_BIGCAT_HOMOTHERIUM = createItem("hide_bigcat_homotherium", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> HIDE_BIGCAT_MARSUPIAL_LION = createItem("hide_bigcat_marsupial_lion", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> HIDE_BIGCAT_SABERTOOTH = createItem("hide_bigcat_sabertooth", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> HIDE_BIGCAT_CHEETAH = createItem("hide_bigcat_cheetah", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> HIDE_BIGCAT_AMERICAN_CHEETAH = createItem("hide_bigcat_american_cheetah", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> HIDE_BIGCAT_CASPIAN_TIGER = createItem("hide_bigcat_caspian_tiger", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> HIDE_BIGCAT_THYLACOSMILUS = createItem("hide_bigcat_thylacosmilus", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
+    public static RegistryObject<Item> HIDE_BIGCAT_SMILODON_FATALIS = createItem("hide_bigcat_smilodon_fatalis", () -> new Item(new Item.Properties().tab(ModCreativeModeTab.untamedwilds_items)));
 
     // Item Blocks
     public static RegistryObject<Item> SEED_TITAN_ARUM = createItem("flora_titan_arum_corm", () -> new ItemNameBlockItem(ModBlock.TITAN_ARUM.get(), new Item.Properties().tab(CreativeModeTab.TAB_DECORATIONS)));

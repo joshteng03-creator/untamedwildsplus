@@ -1,0 +1,78 @@
+{
+  "parent": "block/block",
+  "textures": {
+    "particle": "untamedwilds:block/salt_lick",
+    "salt": "untamedwilds:block/salt_lick"
+  },
+  "elements": [
+    {
+      "name": "lick",
+      "from": [
+        5,
+        0,
+        5
+      ],
+      "to": [
+        11,
+        4,
+        11
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            5,
+            12,
+            11,
+            16
+          ],
+          "texture": "#salt"
+        },
+        "south": {
+          "uv": [
+            5,
+            12,
+            11,
+            16
+          ],
+          "texture": "#salt"
+        },
+        "east": {
+          "uv": [
+            5,
+            12,
+            11,
+            16
+          ],
+          "texture": "#salt"
+        },
+        "west": {
+          "uv": [
+            5,
+            12,
+            11,
+            16
+          ],
+          "texture": "#salt"
+        },
+        "up": {
+          "uv": [
+            5,
+            5,
+            11,
+            11
+          ],
+          "texture": "#salt"
+        },
+        "down": {
+          "uv": [
+            5,
+            5,
+            11,
+            11
+          ],
+          "texture": "#salt"
+        }
+      }
+    }
+  ]
+}

@@ -52,6 +52,7 @@ public class EntityBoar extends ComplexMobTerrestrial implements ISpecies, INewS
     public static final Animation WORK_DIG = Animation.create(48);
     public static final Animation ATTACK = Animation.create(18);
     public static final Animation TALK = Animation.create(20);
+    public static final Animation DRINK = Animation.create(100);   // 2.8.0 idle pose (gen_keyframes.py)
 
     public EntityBoar(EntityType<? extends ComplexMob> type, Level worldIn) {
         super(type, worldIn);
@@ -67,6 +68,7 @@ public class EntityBoar extends ComplexMobTerrestrial implements ISpecies, INewS
         this.goalSelector.addGoal(2, new SmartMateGoal(this, 1D));
         this.goalSelector.addGoal(2, new SmartAvoidGoal<>(this, LivingEntity.class, 16, 1.2D, 1.6D, input -> getEcoLevel(input) > getEcoLevel(this)));
         this.goalSelector.addGoal(3, new GotoSleepGoal(this, 1));
+        this.goalSelector.addGoal(4, new DrinkGoal(this));   // 2.8.0 cosmetic waterhole visits
         this.goalSelector.addGoal(5, new SmartWanderGoal(this, 1D, 120, 20, true));
         this.goalSelector.addGoal(6, new SmartLookAtGoal(this, LivingEntity.class, 10.0F));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)));
@@ -200,8 +202,14 @@ public class EntityBoar extends ComplexMobTerrestrial implements ISpecies, INewS
     }
 
     @Override
+    public Animation getAnimationDrink() { return DRINK; }
+    // 2.8.0 solved DRINK reach (gen_keyframes.py): muzzle 14.9 units in front of the centre at size 1
+    @Override
+    public double getDrinkReach() { return 0.930D * this.getMobSize(); }
+
+    @Override
     public Animation[] getAnimations() {
-        return new Animation[]{NO_ANIMATION, WORK_DIG, ATTACK, TALK};
+        return new Animation[]{NO_ANIMATION, WORK_DIG, ATTACK, TALK, DRINK};
     }
 
     public Animation getAnimationEat() { return WORK_DIG; }

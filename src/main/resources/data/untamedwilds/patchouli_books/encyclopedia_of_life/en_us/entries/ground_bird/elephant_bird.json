@@ -1,0 +1,22 @@
+{
+    "name": "Elephant Bird",
+    "icon": "untamedwilds:textures/icon/ground_bird/elephant_bird.png",
+    "category": "untamedwilds:ground_bird_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Elephant Bird",
+            "text": "The $(o)Elephant Bird$() ($(o)Aepyornis maximus$()) of Madagascar was among the heaviest birds ever to have lived, standing about 3 metres tall.$(br2)It laid the largest eggs known from any animal, with a volume over 150 times that of a chicken egg, and their shells are still found on the island today.$(br2)It browsed the island's forests and disappeared around 1,000 years ago."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:ground_bird{Variant: 1, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Elephant Bird",
+            "text": "Relative Size: ★★★★☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 8 Days"
+        }
+    ]
+}

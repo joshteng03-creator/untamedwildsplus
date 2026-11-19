@@ -1,0 +1,6 @@
+{
+    "name": "Canids",
+    "description": "Canids are carnivorous Mammals of the dog family, including wolves, coyotes, dholes and wild dogs.$(br2)Common characteristics include long legs built for endurance running, a long muzzle, keen hearing and smell, and non-retractable claws. The thylacine, a marsupial, is grouped here for its strikingly dog-like form.$(br2)Canids can be found in nearly every biome, from frozen tundra to tropical forest.",
+    "icon": "untamedwilds:textures/icon/dire_wolf/category.png",
+    "parent": "untamedwilds:taxon_mammal"
+}

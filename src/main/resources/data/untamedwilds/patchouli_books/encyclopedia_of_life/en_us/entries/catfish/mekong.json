@@ -1,0 +1,22 @@
+{
+    "name": "Mekong Giant Catfish",
+    "icon": "untamedwilds:textures/icon/catfish/mekong.png",
+    "category": "untamedwilds:catfish_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Mekong Giant Catfish",
+            "text": "The Mekong giant catfish ($(o)Pangasianodon gigas$()) lives in the Mekong River of Southeast Asia.$(br2)It is a plain grey and white fish with a broad head, small low-set eyes and, as an adult, no whiskers or teeth. It grows up to 3 metres long and feeds mainly on algae.$(br2)A 293-kilogram female caught in Thailand in 2005 is one of the largest freshwater fish ever recorded. It is now critically endangered."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:catfish{Variant: 6, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Mekong Giant Catfish",
+            "text": "Relative Size: ★★★☆☆$(br2)Always active$(br2)1 Color$(br2)Favourite Food: Chum$(br2)Number of Offspring: 5$(br2)Growth time: 6 Days"
+        }
+    ]
+}

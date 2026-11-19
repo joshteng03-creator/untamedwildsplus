@@ -28,6 +28,11 @@ public class FindItemsGoal extends Goal {
         this(entityIn, distance, 100, false, false);
     }
 
+    /** Hunger at or below which a carnivore bothers with dropped food (2026-10-24; everything else: 80). */
+    private static final int CARNIVORE_HUNGER_LIMIT = 60;
+    /** Meat younger than this is a fresh kill's drop, already paid for by the carcass pool. */
+    private static final int FRESH_KILL_DROP_TICKS = 600;
+
     public FindItemsGoal(ComplexMobTerrestrial entityIn, int distance, boolean hyperCarnivore) {
         this(entityIn, distance, 100, hyperCarnivore, false);
     }
@@ -43,7 +48,10 @@ public class FindItemsGoal extends Goal {
     }
 
     public boolean canUse() {
-        if (this.taskOwner.getHunger() > 80 || this.taskOwner.isBaby() || this.taskOwner.isSleeping()) {
+        /* Carnivores (2026-10-24): only when properly hungry, and never the meat their own kills just dropped --
+         * that food is already in the carcass pool, and bears used to eat it twice over. */
+        boolean carnivore = this.taskOwner.isCarnivore();
+        if (this.taskOwner.getHunger() > (carnivore ? CARNIVORE_HUNGER_LIMIT : 80) || this.taskOwner.isBaby() || this.taskOwner.isSleeping()) {
             return false;
         }
         if (this.taskOwner.getRandom().nextInt(this.executionChance) != 0) {
@@ -52,6 +60,9 @@ public class FindItemsGoal extends Goal {
         List<ItemEntity> list = this.taskOwner.level.getEntitiesOfClass(ItemEntity.class, this.getTargettableArea(distance));
 
         list.removeIf((ItemEntity item) -> !item.getItem().isEdible());
+        if (carnivore) {
+            list.removeIf((ItemEntity item) -> item.getAge() < FRESH_KILL_DROP_TICKS && isMeat(item.getItem().getItem()));
+        }
         if (!list.isEmpty()) {
             if (this.hyperCarnivore) {
                 list.removeIf((ItemEntity item) -> !isMeat(item.getItem().getItem()));
@@ -98,7 +109,8 @@ public class FindItemsGoal extends Goal {
     public void tick() {
         double distance = Math.sqrt(Math.pow(this.taskOwner.getX() - this.targetItem.getX(), 2.0D) + Math.pow(this.taskOwner.getZ() - this.targetItem.getZ(), 2.0D));
         if (distance < 1.5D) {
-            this.taskOwner.addHunger(Math.max(targetItemStack.getNutrition() * 10, 10));
+            int perNutrition = this.taskOwner.isCarnivore() ? 5 : 10;   // scraps, not a meal, for a predator
+            this.taskOwner.addHunger(Math.max(targetItemStack.getNutrition() * perNutrition, 10));
             this.targetItem.getItem().shrink(1);
             this.taskOwner.setAnimation(taskOwner.getAnimationEat());
         }

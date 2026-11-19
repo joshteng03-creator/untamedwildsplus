@@ -1,0 +1,22 @@
+{
+    "name": "Giant Warthog",
+    "icon": "untamedwilds:textures/icon/boar/giant_warthog.png",
+    "category": "untamedwilds:boar_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Giant Warthog",
+            "text": "The giant warthog ($(o)Metridiochoerus$()) is an extinct genus of pig that lived in Africa during the Pliocene and Pleistocene.$(br2)As its name suggests, it was a much larger relative of the living warthogs, with some species several times their size.$(br2)Like modern warthogs, it had high-crowned teeth suited to grazing on tough grasses, and long, upward-curving tusks."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:boar{Variant: 4, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Giant Warthog",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Nighttime$(br2)1 Color$(br2)Favourite Food: Beetroot$(br2)Number of Offspring: 5$(br2)Growth time: 4 Days"
+        }
+    ]
+}

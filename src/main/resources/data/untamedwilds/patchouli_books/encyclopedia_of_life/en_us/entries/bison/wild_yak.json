@@ -1,0 +1,22 @@
+{
+    "name": "Wild Yak",
+    "icon": "untamedwilds:textures/icon/bison/wild_yak.png",
+    "category": "untamedwilds:bison_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Wild Yak",
+            "text": "The wild yak ($(o)Bos mutus$()) is a large wild bovine native to the Tibetan Plateau, where it lives in cold alpine steppe and tundra at high altitude.$(br2)It is the wild ancestor of the domestic yak, and wild bulls are much larger than domestic animals.$(br2)Its long, shaggy coat hangs almost to the ground over a dense woolly undercoat, protecting it from the extreme cold of its mountain home."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:bison{Variant: 7, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Wild Yak",
+            "text": "Relative Size: ★★★★☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Junegrass$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

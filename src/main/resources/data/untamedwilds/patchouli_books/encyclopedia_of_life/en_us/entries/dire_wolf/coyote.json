@@ -1,0 +1,22 @@
+{
+    "name": "Coyote",
+    "icon": "untamedwilds:textures/icon/dire_wolf/coyote.png",
+    "category": "untamedwilds:dire_wolf_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Coyote",
+            "text": "The coyote ($(o)Canis latrans$()) is a canid native to North and Central America, found in prairies, deserts, forests and even large cities.$(br2)It is smaller than its relative the gray wolf, and is a highly adaptable omnivore, eating anything from rodents and deer to fruit and carrion.$(br2)Coyotes have greatly expanded their range over the last century, spreading across most of the continent."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:dire_wolf{Variant: 7, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Coyote",
+            "text": "Relative Size: ★☆☆☆☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 3$(br2)Growth time: 5 Days"
+        }
+    ]
+}

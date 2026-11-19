@@ -85,6 +85,26 @@
           "resource|terraforged:warm_beach"
         ]
       ]
+    },
+    {
+      "name":"crocea",
+      "variant":4,
+      "scale":0.45,
+      "rarity":2,
+      "spawnBiomes":[
+        [
+          "resource|minecraft:warm_ocean"
+        ],
+        [
+          "resource|minecraft:lukewarm_ocean"
+        ],
+        [
+          "resource|minecraft:deep_warm_ocean"
+        ],
+        [
+          "resource|terraforged:warm_beach"
+        ]
+      ]
     }
   ],
   "ecology":{

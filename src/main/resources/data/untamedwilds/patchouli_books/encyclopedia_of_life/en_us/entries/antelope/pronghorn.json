@@ -1,0 +1,22 @@
+{
+    "name": "Pronghorn",
+    "icon": "untamedwilds:textures/icon/antelope/pronghorn.png",
+    "category": "untamedwilds:antelope_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Pronghorn",
+            "text": "The pronghorn ($(o)Antilocapra americana$()) is a hoofed mammal of the open grasslands and deserts of western North America.$(br2)Although often called an antelope, it is the last surviving member of its own family, the Antilocapridae. Its forked horn sheaths are shed and regrown every year.$(br2)Pronghorn are the fastest land mammals in the Western Hemisphere, and can sustain high speeds over long distances."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:antelope{Variant: 1, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Pronghorn",
+            "text": "Relative Size: ★★☆☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 6 Days"
+        }
+    ]
+}

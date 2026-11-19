@@ -1,0 +1,22 @@
+{
+    "name": "Harlan's Ground Sloth",
+    "icon": "untamedwilds:textures/icon/ground_sloth/paramylodon.png",
+    "category": "untamedwilds:ground_sloth_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Harlan's Ground Sloth",
+            "text": "Harlan's ground sloth ($(o)Paramylodon harlani$()) lived across North America, from Washington State to Mexico, during the Pleistocene.$(br2)It weighed over a tonne, with a long, broad-fronted snout, big claws for digging and a thick tail. Its hide was studded with small, pebble-like bones.$(br2)Fossil footprints it left at Carson City, Nevada, were at first claimed to be the tracks of giant humans. It died out about 12,000 years ago."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:ground_sloth{Variant: 6, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Harlan's Ground Sloth",
+            "text": "Relative Size: ★★★★☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 14 Days"
+        }
+    ]
+}

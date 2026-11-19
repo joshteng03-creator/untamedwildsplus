@@ -1,0 +1,22 @@
+{
+    "name": "Xenorhinotherium",
+    "icon": "untamedwilds:textures/icon/macrauchenia/xenorhinotherium.png",
+    "category": "untamedwilds:macrauchenia_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Xenorhinotherium",
+            "text": "The Xenorhinotherium ($(o)Xenorhinotherium bahiense$()) is an extinct litoptern that lived in the tropical lowlands of northeastern Brazil and Venezuela during the Late Pleistocene.$(br2)A close relative of Macrauchenia, it shared the same long neck, long legs and three-toed feet.$(br2)Its name means \"strange-nosed beast\", after its nasal opening, which sat far back on top of the skull rather than at the tip of the snout."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:macrauchenia{Variant: 1, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Xenorhinotherium",
+            "text": "Relative Size: ★★★★☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Hay Bale$(br2)Number of Offspring: 1$(br2)Growth time: 11 Days"
+        }
+    ]
+}

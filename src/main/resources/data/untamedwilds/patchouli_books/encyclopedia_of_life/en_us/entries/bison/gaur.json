@@ -1,0 +1,22 @@
+{
+    "name": "Gaur",
+    "icon": "untamedwilds:textures/icon/bison/gaur.png",
+    "category": "untamedwilds:bison_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Gaur",
+            "text": "The gaur ($(o)Bos gaurus$()) is a wild bovine native to South and Southeast Asia, where it lives in forests and the grassy clearings around them.$(br2)It is the largest living wild bovine, with bulls standing up to two metres at the shoulder.$(br2)Gaur have a prominent muscular ridge along the back and pale lower legs that look like white stockings. They live in small herds led by adult cows."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:bison{Variant: 6, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Gaur",
+            "text": "Relative Size: ★★★★☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

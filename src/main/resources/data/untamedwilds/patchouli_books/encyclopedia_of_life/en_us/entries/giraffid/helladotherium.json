@@ -1,0 +1,22 @@
+{
+    "name": "Helladotherium",
+    "icon": "untamedwilds:textures/icon/giraffid/helladotherium.png",
+    "category": "untamedwilds:giraffid_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Helladotherium",
+            "text": "Helladotherium ($(o)Helladotherium duvernoyi$()) is an extinct giraffid that lived in southern Europe and western Asia during the Late Miocene, and is best known from fossils found at Pikermi in Greece.$(br2)It was a large, robust animal with a relatively short neck, more like an outsized okapi than a modern giraffe.$(br2)Wear on its teeth shows that it was a browser, feeding on the leaves of trees and shrubs."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:giraffid{Variant: 5, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Helladotherium",
+            "text": "Relative Size: ★★★★☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 12 Days"
+        }
+    ]
+}

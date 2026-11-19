@@ -1,0 +1,22 @@
+{
+    "name": "Alpine Ibex",
+    "icon": "untamedwilds:textures/icon/caprine/alpine_ibex.png",
+    "category": "untamedwilds:caprine_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Alpine Ibex",
+            "text": "The Alpine ibex ($(o)Capra ibex$()) is a wild goat of the European Alps, living on steep slopes above the tree line.$(br2)Males carry huge, backswept horns marked with raised ridges, which they use in clashes during the rut.$(br2)Ibex are astonishing climbers, able to stand on near-vertical rock faces and even on dam walls."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:caprine{Variant: 0, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Alpine Ibex",
+            "text": "Relative Size: ★★☆☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 7 Days"
+        }
+    ]
+}

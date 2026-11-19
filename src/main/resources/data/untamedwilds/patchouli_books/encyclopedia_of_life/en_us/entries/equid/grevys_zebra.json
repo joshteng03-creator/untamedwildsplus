@@ -1,0 +1,22 @@
+{
+    "name": "Grévy's Zebra",
+    "icon": "untamedwilds:textures/icon/equid/grevys_zebra.png",
+    "category": "untamedwilds:equid_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Grévy's Zebra",
+            "text": "Grévy's zebra ($(o)Equus grevyi$()) is the largest living wild equid, found in the semi-arid grasslands and scrublands of Kenya and Ethiopia.$(br2)It is distinguished by its narrow, closely spaced stripes, white belly and large, rounded ears.$(br2)Grévy's zebra can go several days without drinking, and it is now endangered, with only a few thousand left in the wild."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:equid{Variant: 3, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Grévy's Zebra",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

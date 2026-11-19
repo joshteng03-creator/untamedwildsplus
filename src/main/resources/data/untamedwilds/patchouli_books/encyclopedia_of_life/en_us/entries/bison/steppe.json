@@ -1,0 +1,22 @@
+{
+    "name": "Steppe Bison",
+    "icon": "untamedwilds:textures/icon/bison/steppe.png",
+    "category": "untamedwilds:bison_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Steppe Bison",
+            "text": "The steppe bison ($(o)Bison priscus$()) is an extinct bison that roamed the cold mammoth steppe of Europe, northern Asia and northern North America during the Pleistocene.$(br2)It was a large grazer with a pronounced shoulder hump and long, forward-curving horns.$(br2)Steppe bison are among the animals most often painted in Ice Age caves such as Lascaux and Altamira, and a frozen mummy nicknamed Blue Babe was found in Alaska."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:bison{Variant: 2, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Steppe Bison",
+            "text": "Relative Size: ★★★★☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Junegrass$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

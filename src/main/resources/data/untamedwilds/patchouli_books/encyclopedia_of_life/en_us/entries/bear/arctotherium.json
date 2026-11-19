@@ -1,0 +1,22 @@
+{
+    "name": "Arctotherium",
+    "icon": "untamedwilds:textures/icon/bear/arctotherium.png",
+    "category": "untamedwilds:bear_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Arctotherium",
+            "text": "$(o)Arctotherium$() ($(o)Arctotherium angustidens$()) is an extinct short-faced bear that lived on the pampas of South America during the Pleistocene, roughly one million years ago.$(br2)Its ancestors reached South America from the north during the Great American Interchange.$(br2)It is among the largest bears ever known, with the biggest individuals estimated to have weighed well over a tonne."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:bear{Variant: 9, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Arctotherium",
+            "text": "Relative Size: ★★★★☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 1$(br2)Growth time: 8 Days"
+        }
+    ]
+}

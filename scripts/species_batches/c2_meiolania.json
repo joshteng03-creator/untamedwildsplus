@@ -1,0 +1,6 @@
+[
+  {"type": "tortoise", "name": "meiolania", "display": "Meiolania", "sciname": "Meiolania platyceps",
+   "entry": {"scale": 1.5, "rarity": 2, "attack": 4, "health": 35, "flags": {"meiolania": 1},
+             "spawnBiomes": [["category|forest"], ["category|beach"], ["category|plains"]],
+             "ecology": {"tags": ["megafauna"]}}}
+]

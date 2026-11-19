@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "untamedwilds:ivory_block",
+    "untamedwilds:ivory_slab",
+    "untamedwilds:ivory_stairs",
+    "untamedwilds:ivory_wall",
+    "untamedwilds:chiseled_ivory",
+    "untamedwilds:display_plinth",
+    "untamedwilds:salt_lick"
+  ]
+}

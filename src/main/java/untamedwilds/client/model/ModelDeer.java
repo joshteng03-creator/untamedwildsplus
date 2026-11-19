@@ -471,6 +471,88 @@ public class ModelDeer extends AdvancedEntityModel<EntityDeer> {
     private void animate(IAnimatedEntity entityIn) {
         EntityDeer deer = (EntityDeer) entityIn;
         animator.update(deer);
+        // <gen:idle-poses> 2.8.0: SOLVED by scripts/pose_reach.py against this model's own boxes (muzzle to the grass / the
+        // water line beyond the bank, every head part and horn family clear of the ground, nothing through the torso).
+        // Regenerate, never hand-edit: python scripts/gen_keyframes.py deer
+        // EAT (40t, GrazeGoal's mouthful): head down to the grass, a cropping lift, back down
+        animator.setAnimation(EntityDeer.EAT);
+        animator.startKeyframe(10);
+        this.rotate(animator, neck_lower, 50.0F, 0.0F, 0.0F);
+        this.rotate(animator, neck_upper, 16.4F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, 1.8F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, 1.3F, 0.0F, 0.0F);
+        animator.move(neck_lower, 0.0F, 1.7F, -2.5F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_lower, 50.0F, 0.0F, 0.0F);
+        this.rotate(animator, neck_upper, 16.4F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, -4.2F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, 1.3F, 0.0F, 0.0F);
+        animator.move(neck_lower, 0.0F, 1.7F, -2.5F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_lower, 50.0F, 0.0F, 0.0F);
+        this.rotate(animator, neck_upper, 16.4F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, 1.8F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, 1.3F, 0.0F, 0.0F);
+        animator.move(neck_lower, 0.0F, 1.7F, -2.5F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(10);
+        animator.resetKeyframe(10);
+        // DRINK (100t, DrinkGoal): muzzle to the water past the bank edge, two swallows lifting the head
+        animator.setAnimation(EntityDeer.DRINK);
+        animator.startKeyframe(15);
+        this.rotate(animator, neck_lower, 45.9F, 0.0F, 0.0F);
+        this.rotate(animator, neck_upper, 15.7F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, 1.7F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, -1.7F, 0.0F, 0.0F);
+        animator.move(neck_lower, 0.0F, 4.2F, -2.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(20);
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_lower, 45.9F, 0.0F, 0.0F);
+        this.rotate(animator, neck_upper, 15.7F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, -3.3F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, -1.7F, 0.0F, 0.0F);
+        animator.move(neck_lower, 0.0F, 4.2F, -2.0F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_lower, 45.9F, 0.0F, 0.0F);
+        this.rotate(animator, neck_upper, 15.7F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, 1.7F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, -1.7F, 0.0F, 0.0F);
+        animator.move(neck_lower, 0.0F, 4.2F, -2.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(20);
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_lower, 45.9F, 0.0F, 0.0F);
+        this.rotate(animator, neck_upper, 15.7F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, -3.3F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, -1.7F, 0.0F, 0.0F);
+        animator.move(neck_lower, 0.0F, 4.2F, -2.0F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_lower, 45.9F, 0.0F, 0.0F);
+        this.rotate(animator, neck_upper, 15.7F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, 1.7F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, -1.7F, 0.0F, 0.0F);
+        animator.move(neck_lower, 0.0F, 4.2F, -2.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(10);
+        animator.resetKeyframe(15);
+        // ALERT (40t, AlertGoal): head raised, ears up, staring at the threat; repeats while the alert lasts
+        animator.setAnimation(EntityDeer.ALERT);
+        animator.startKeyframe(8);
+        this.rotate(animator, neck_lower, -35.0F, 0.0F, 0.0F);
+        this.rotate(animator, neck_upper, -8.8F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, 11.8F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, 12.0F, 0.0F, 0.0F);
+        this.rotate(animator, ear_left, -25.0F, 0.0F, 0.0F);
+        this.rotate(animator, ear_right, -25.0F, 0.0F, 0.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(24);
+        animator.resetKeyframe(8);
+        // </gen:idle-poses>
 
         // ATTACK_THREATEN (50t) -- head lowered, rack presented, weight rocking side to side.
         animator.setAnimation(EntityDeer.ATTACK_THREATEN);
@@ -519,21 +601,21 @@ public class ModelDeer extends AdvancedEntityModel<EntityDeer> {
 
         // ---- per-species toggles, read straight from the species data (ModelBison pattern) ----
         int variant = deer.getVariant();
-        boolean palmate = ComplexMob.getEntityData(deer.getType()).getFlags(variant, "palmate") == 1;
+        boolean palmate = ComplexMob.speciesFlag(deer, "palmate") == 1;
         // showModel, NOT setScale: a scale of 0 does not reach children unless
         // setShouldScaleChildren(true) is set, which would fight the antler sizing below.
         this.palm_beam_left.showModel = palmate;
         this.palm_beam_right.showModel = palmate;
         this.beam_low_left.showModel = !palmate;
         this.beam_low_right.showModel = !palmate;
-        this.throat_bell.showModel = ComplexMob.getEntityData(deer.getType()).getFlags(variant, "throatBell") == 1;
+        this.throat_bell.showModel = ComplexMob.speciesFlag(deer, "throatBell") == 1;
 
         // One scale on the shared pedicle drives the whole rack. Each value is span /
         // (1.725 * species scale), calibrated off wapiti (0.887 @ scale 0.817 = a 1.25 m span).
         // getFlags returns an Integer -- there is no float flag path -- so antlerScale is
         // authored in PER-MILLE, which the shipped values (0.434, 0.407, ...) need to survive
         // the round trip exactly.
-        float rack = ComplexMob.getEntityData(deer.getType()).getFlags(variant, "antlerScale") / 1000F;
+        float rack = ComplexMob.speciesFlag(deer, "antlerScale") / 1000F;
         this.pedicle_left.setShouldScaleChildren(true);
         this.pedicle_right.setShouldScaleChildren(true);
         this.pedicle_left.setScale(rack, rack, rack);

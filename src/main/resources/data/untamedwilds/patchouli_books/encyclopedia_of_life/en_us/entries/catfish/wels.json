@@ -1,0 +1,22 @@
+{
+    "name": "Wels Catfish",
+    "icon": "untamedwilds:textures/icon/catfish/wels.png",
+    "category": "untamedwilds:catfish_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Wels Catfish",
+            "text": "The wels catfish ($(o)Silurus glanis$()) lives in the large rivers and lakes of central and eastern Europe and western Asia.$(br2)It has a broad, flat head with a huge mouth, two long and four short whiskers, a tiny back fin and a very long fin under its tapering tail. It is mottled olive above and pale below.$(br2)In the River Tarn in France, some wels lunge onto the bank to catch pigeons, then slide back into the water."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:catfish{Variant: 7, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Wels Catfish",
+            "text": "Relative Size: ★★☆☆☆$(br2)Always active$(br2)1 Color$(br2)Favourite Food: Chum$(br2)Number of Offspring: 5$(br2)Growth time: 6 Days"
+        }
+    ]
+}

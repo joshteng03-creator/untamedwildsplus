@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import untamedwilds.client.model.ModelEquid;
 import untamedwilds.entity.mammal.EntityEquid;
+import untamedwilds.client.render.layer.SaddleLayer;
 
 public class RendererEquid extends MobRenderer<EntityEquid, EntityModel<EntityEquid>> {
 
@@ -15,6 +16,7 @@ public class RendererEquid extends MobRenderer<EntityEquid, EntityModel<EntityEq
 
     public RendererEquid(EntityRendererProvider.Context renderManager) {
         super(renderManager, MODEL, 1F);
+        this.addLayer(new SaddleLayer<>(this, "equid"));
     }
 
     protected void scale(EntityEquid entity, PoseStack matrixStackIn, float partialTickTime) {

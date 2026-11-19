@@ -1,0 +1,22 @@
+{
+    "name": "Megalonyx",
+    "icon": "untamedwilds:textures/icon/ground_sloth/megalonyx.png",
+    "category": "untamedwilds:ground_sloth_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Megalonyx",
+            "text": "The Megalonyx ($(o)Megalonyx jeffersonii$()), or Jefferson's ground sloth, is an extinct ground sloth that lived across North America during the Pleistocene, ranging as far north as Alaska and the Yukon.$(br2)Its fossils were described by Thomas Jefferson in 1797, and the species was later named in his honour.$(br2)Megalonyx, meaning \"giant claw\", was a browser roughly three metres long, with large claws on its forelimbs."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:ground_sloth{Variant: 2, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Megalonyx",
+            "text": "Relative Size: ★★★★☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 14 Days"
+        }
+    ]
+}

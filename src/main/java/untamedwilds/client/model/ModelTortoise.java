@@ -6,6 +6,7 @@ import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import com.github.alexthe666.citadel.client.model.ModelAnimator;
 import com.github.alexthe666.citadel.client.model.basic.BasicModelPart;
 import com.google.common.collect.ImmutableList;
+import untamedwilds.entity.ComplexMob;
 import untamedwilds.entity.reptile.EntityTortoise;
 
 public class ModelTortoise extends AdvancedEntityModel<EntityTortoise> {
@@ -20,11 +21,61 @@ public class ModelTortoise extends AdvancedEntityModel<EntityTortoise> {
     public AdvancedModelBox body_tail;
     public AdvancedModelBox head;
     public AdvancedModelBox shape8;
+    // 2.9.0 Meiolania (flag "meiolania"): cow-like horns off the back of the skull and a long armoured tail ending in a
+    // spiked club. Packed into texels EVERY shipped tortoise skin leaves transparent (rows 0-1 at u 46, rows 25-30 from
+    // u 14), so they are invisible on the other species even before showModel hides them.
+    public AdvancedModelBox horn_left;
+    public AdvancedModelBox horn_right;
+    public AdvancedModelBox tail_1;
+    public AdvancedModelBox tail_2;
+    public AdvancedModelBox tail_club;
+    public AdvancedModelBox club_spike_left;
+    public AdvancedModelBox club_spike_right;
+    public AdvancedModelBox club_horn_left;
+    public AdvancedModelBox club_horn_right;
     private final ModelAnimator animator;
 
     public ModelTortoise() {
         this.texWidth = 64;
         this.texHeight = 32;
+
+        this.horn_left = new AdvancedModelBox(this, 46, 0);
+        this.horn_left.setRotationPoint(1.2F, -1.0F, -0.6F);
+        this.horn_left.addBox(0.0F, -0.5F, -0.5F, 3, 1, 1, 0.0F);
+        this.setRotateAngle(horn_left, 0.0F, -0.6109F, -0.2618F);
+        this.horn_right = new AdvancedModelBox(this, 46, 0);
+        this.horn_right.mirror = true;
+        this.horn_right.setRotationPoint(-1.2F, -1.0F, -0.6F);
+        this.horn_right.addBox(-3.0F, -0.5F, -0.5F, 3, 1, 1, 0.0F);
+        this.setRotateAngle(horn_right, 0.0F, 0.6109F, 0.2618F);
+        this.tail_1 = new AdvancedModelBox(this, 14, 25);
+        this.tail_1.setRotationPoint(0.0F, 0.6F, 4.6F);
+        this.tail_1.addBox(-1.0F, -1.0F, 0.0F, 2, 2, 4, 0.0F);
+        this.setRotateAngle(tail_1, -0.1500F, 0.0F, 0.0F);   // SOLVED: the club rides 0.42 off the ground
+        this.tail_2 = new AdvancedModelBox(this, 26, 25);
+        this.tail_2.setRotationPoint(0.0F, 0.0F, 3.6F);
+        this.tail_2.addBox(-0.5F, -0.5F, 0.0F, 1, 1, 3, 0.0F);
+        this.tail_club = new AdvancedModelBox(this, 34, 25);
+        this.tail_club.setRotationPoint(0.0F, 0.0F, 2.6F);
+        this.tail_club.addBox(-1.5F, -1.0F, 0.0F, 3, 2, 3, 0.0F);
+        this.club_spike_left = new AdvancedModelBox(this, 46, 25);
+        this.club_spike_left.setRotationPoint(1.3F, 0.0F, 1.2F);
+        this.club_spike_left.addBox(0.0F, -0.5F, -0.5F, 1, 1, 1, 0.0F);
+        this.setRotateAngle(club_spike_left, 0.0F, -0.6109F, 0.0F);
+        this.club_spike_right = new AdvancedModelBox(this, 46, 25);
+        this.club_spike_right.mirror = true;
+        this.club_spike_right.setRotationPoint(-1.3F, 0.0F, 1.2F);
+        this.club_spike_right.addBox(-1.0F, -0.5F, -0.5F, 1, 1, 1, 0.0F);
+        this.setRotateAngle(club_spike_right, 0.0F, 0.6109F, 0.0F);
+        this.club_horn_left = new AdvancedModelBox(this, 50, 25);
+        this.club_horn_left.setRotationPoint(0.9F, -0.8F, 2.2F);
+        this.club_horn_left.addBox(-0.5F, -2.0F, -0.5F, 1, 2, 1, 0.0F);
+        this.setRotateAngle(club_horn_left, -0.6981F, 0.0F, 0.3491F);
+        this.club_horn_right = new AdvancedModelBox(this, 50, 25);
+        this.club_horn_right.mirror = true;
+        this.club_horn_right.setRotationPoint(-0.9F, -0.8F, 2.2F);
+        this.club_horn_right.addBox(-0.5F, -2.0F, -0.5F, 1, 2, 1, 0.0F);
+        this.setRotateAngle(club_horn_right, -0.6981F, 0.0F, -0.3491F);
 
         this.leg_right = new AdvancedModelBox(this, 0, 10);
         this.leg_right.setRotationPoint(-2.4F, -0.4F, 3.9F);
@@ -76,6 +127,15 @@ public class ModelTortoise extends AdvancedEntityModel<EntityTortoise> {
         this.body_main.addChild(this.leg_left);
         this.body_main.addChild(this.hand_right);
         this.body_main.addChild(this.hand_left);
+        this.head.addChild(this.horn_left);
+        this.head.addChild(this.horn_right);
+        this.body_main.addChild(this.tail_1);
+        this.tail_1.addChild(this.tail_2);
+        this.tail_2.addChild(this.tail_club);
+        this.tail_club.addChild(this.club_spike_left);
+        this.tail_club.addChild(this.club_spike_right);
+        this.tail_club.addChild(this.club_horn_left);
+        this.tail_club.addChild(this.club_horn_right);
         animator = ModelAnimator.create();
         updateDefaultPose();
     }
@@ -118,7 +178,16 @@ public class ModelTortoise extends AdvancedEntityModel<EntityTortoise> {
                 leg_left,
                 body_tail,
                 head,
-                shape8
+                shape8,
+                horn_left,
+                horn_right,
+                tail_1,
+                tail_2,
+                tail_club,
+                club_spike_left,
+                club_spike_right,
+                club_horn_left,
+                club_horn_right
         );
         }
         return this.allParts;
@@ -132,6 +201,17 @@ public class ModelTortoise extends AdvancedEntityModel<EntityTortoise> {
         float globalDegree = 2f;
         //limbSwingAmount = 0.5F;
         //limbSwing = tortoise.tickCount;
+
+        // Meiolania (2.9.0): horns + club tail instead of the stub. showModel on the chain roots hides their children too;
+        // written every frame, because the model instance is shared by every tortoise.
+        boolean meiolania = ComplexMob.speciesFlag(tortoise, "meiolania") == 1;
+        this.horn_left.showModel = meiolania;
+        this.horn_right.showModel = meiolania;
+        this.tail_1.showModel = meiolania;
+        this.body_tail.showModel = !meiolania;
+        if (meiolania) {
+            swing(tail_1, globalSpeed / 2, globalDegree * 0.12F, false, 0.5F, 0F, limbSwing / 2, limbSwingAmount);
+        }
 
         // Head Tracking Animation
         if (!tortoise.isSitting()) {
@@ -166,6 +246,9 @@ public class ModelTortoise extends AdvancedEntityModel<EntityTortoise> {
             this.progressRotation(leg_right, tortoise.sitProgress, (float) Math.toRadians(10.43F), (float) Math.toRadians(-5.22F), (float) Math.toRadians(-80.87F), 20);
             this.progressPosition(leg_left, tortoise.sitProgress, 4.4F, -0.4F, 3.9F, 20);
             this.progressRotation(leg_left, tortoise.sitProgress, (float) Math.toRadians(10.43F), (float) Math.toRadians(5.22F), (float) Math.toRadians(80.87F), 20);
+            // SOLVED (scripts/tortoise_meiolania_check.py): with the body 2.6 down, a 0.2705 rad lift rests the club just
+            // off the ground. progressRotation ADDS (target - default), so the target is the rest droop + the lift.
+            this.progressRotation(tail_1, tortoise.sitProgress, -0.1500F + 0.2705F, 0, 0, 20);
         }
     }
 }

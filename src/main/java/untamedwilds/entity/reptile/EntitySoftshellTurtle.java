@@ -216,6 +216,18 @@ public class EntitySoftshellTurtle extends ComplexMobAmphibious implements ISpec
         this.setEggStatus(compound.getBoolean("has_egg"));
     }
 
+    /**
+     * 2.8.0: a softshell squaring up to something that attacked it (or a player) hisses first. Never when it targets
+     * prey: an ambush hunter does not announce itself to a fish.
+     */
+    @Override
+    public void setTarget(@Nullable LivingEntity target) {
+        if (target != null && (target == this.getLastHurtByMob() || target instanceof Player)) {
+            this.threatCallOnNewTarget(target);
+        }
+        super.setTarget(target);
+    }
+
     /* These predators had no doHurtTarget override at all, so nothing ever restored their hunger and
      * HuntMobTarget let them re-hunt the moment the cooldown lapsed -- one animal per cooldown,
      * forever. Satiating on a kill is what makes the hunger gate actually bite. */

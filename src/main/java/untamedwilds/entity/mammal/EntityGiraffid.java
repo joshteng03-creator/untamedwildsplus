@@ -43,6 +43,9 @@ public class EntityGiraffid extends ComplexMobTerrestrial implements INewSkins, 
 
     public static final Animation ATTACK_THREATEN = Animation.create(50);
     public static final Animation ATTACK_GORE = Animation.create(14);
+    public static final Animation EAT = Animation.create(40);   // 2.8.0 idle pose (gen_keyframes.py)
+    public static final Animation DRINK = Animation.create(100);   // 2.8.0 idle pose (gen_keyframes.py)
+    public static final Animation ALERT = Animation.create(40);   // 2.8.0 idle pose (gen_keyframes.py)
 
     public EntityGiraffid(EntityType<? extends ComplexMob> type, Level worldIn) {
         super(type, worldIn);
@@ -60,9 +63,11 @@ public class EntityGiraffid extends ComplexMobTerrestrial implements INewSkins, 
          * passes that on to every other herbivore nearby -- so a giraffe spotting a lion is what saves
          * the zebras. This is the one place sentinel_detect_bonus is used. */
         this.goalSelector.addGoal(2, new HerdFleeGoal<>(this, LivingEntity.class, 20, 1.6D, 2.0D, EcologyTags::isPredator, ConfigGamerules.sentinelDetectBonus.get()));
+        this.goalSelector.addGoal(3, new AlertGoal(this));   // 2.8.0 vigilance (below flight, never equal)
         this.goalSelector.addGoal(2, new SmartMeleeAttackGoal(this, 1.6D, false));
         this.goalSelector.addGoal(3, new SmartMateGoal(this, 0.8D));
         this.goalSelector.addGoal(3, new GrazeGoal(this, 10));
+        this.goalSelector.addGoal(3, new DrinkGoal(this));   // 2.8.0 cosmetic waterhole visits
         /* Density dependence, expressed as MOVEMENT rather than as a cap on births: a herd that
          * has eaten its range out, or that is standing in an overcrowded neighbourhood, shifts
          * ground, and surplus young adults disperse to found herds elsewhere. Runs on the herd
@@ -154,7 +159,7 @@ public class EntityGiraffid extends ComplexMobTerrestrial implements INewSkins, 
     }
 
     protected void playStepSound(BlockPos pos, BlockState blockIn) {
-        this.playSound(SoundEvents.RAVAGER_STEP, 0.15F, 1.0F);
+        this.playFootstep(SoundEvents.RAVAGER_STEP, 0.15F, 1.0F);   // 2.8.0 heavy steps (JSON "step")
     }
 
     private Animation chooseAttackAnimation() {
@@ -183,17 +188,25 @@ public class EntityGiraffid extends ComplexMobTerrestrial implements INewSkins, 
     }
 
     @Override
+    public Animation getAnimationDrink() { return DRINK; }
+    @Override
+    public Animation getAnimationAlert() { return ALERT; }
+
+    // 2.8.0 solved DRINK reach (gen_keyframes.py): muzzle 31.2 units in front of the centre at size 1
+    @Override
+    public double getDrinkReach() { return 1.949D * this.getMobSize(); }
+
+    @Override
     public Animation[] getAnimations() {
-        return new Animation[]{NO_ANIMATION, ATTACK_THREATEN, ATTACK_GORE};
+        return new Animation[]{NO_ANIMATION, ATTACK_THREATEN, ATTACK_GORE, EAT, DRINK, ALERT};
     }
 
-    public Animation getAnimationEat() { return NO_ANIMATION; }
+    public Animation getAnimationEat() { return EAT; }
 
     @Override
     public void updateAttributes() {
         this.applySpeciesSpeed();
-        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getAttack());
-        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getHealth());
+        this.applySpeciesHealthAndAttack();
         this.setHealth(this.getMaxHealth());
     }
 }

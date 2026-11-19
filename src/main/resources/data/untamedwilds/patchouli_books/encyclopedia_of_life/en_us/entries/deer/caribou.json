@@ -1,0 +1,22 @@
+{
+    "name": "Caribou",
+    "icon": "untamedwilds:textures/icon/deer/caribou.png",
+    "category": "untamedwilds:deer_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Caribou",
+            "text": "The caribou ($(o)Rangifer tarandus$()), known as the reindeer in Eurasia, is a deer of the Arctic tundra and boreal forests of North America, Europe and Asia.$(br2)It is the only deer in which both males and females regularly grow antlers.$(br2)Some caribou herds make the longest overland migrations of any land mammal, and in winter they survive largely on lichens dug out from beneath the snow."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:deer{Variant: 9, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Caribou",
+            "text": "Relative Size: ★★★☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

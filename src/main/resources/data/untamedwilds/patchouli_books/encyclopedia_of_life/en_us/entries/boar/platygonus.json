@@ -1,0 +1,22 @@
+{
+    "name": "Flat-Headed Peccary",
+    "icon": "untamedwilds:textures/icon/boar/platygonus.png",
+    "category": "untamedwilds:boar_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Flat-Headed Peccary",
+            "text": "The flat-headed peccary ($(o)Platygonus compressus$()) is an extinct peccary that lived across much of North America during the Pleistocene, until about 11,000 years ago.$(br2)It was larger and longer-legged than living peccaries, built for travelling across open country.$(br2)Many skeletons are often found together in caves in Kentucky, Missouri and Texas, suggesting that it lived in herds that included both sexes and all ages."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:boar{Variant: 8, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Flat-Headed Peccary",
+            "text": "Relative Size: ★★☆☆☆$(br2)Active during Nighttime$(br2)1 Color$(br2)Favourite Food: Beetroot$(br2)Number of Offspring: 5$(br2)Growth time: 4 Days"
+        }
+    ]
+}

@@ -1,0 +1,6 @@
+{
+    "name": "Wild Goats and Sheep",
+    "description": "Wild goats and sheep are hoofed Mammals of the bovid family, built for life on steep, rocky ground.$(br2)They have stocky bodies, short sturdy legs and hooves with soft, grippy pads, and both sexes usually carry horns. Rival males settle disputes by clashing horns, sometimes for hours.$(br2)They live in mountains, cliffs and rugged uplands, where their agility keeps them safe from most predators.",
+    "icon": "untamedwilds:textures/icon/caprine/category.png",
+    "parent": "untamedwilds:taxon_mammal"
+}

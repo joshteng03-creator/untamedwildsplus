@@ -106,6 +106,36 @@
     }
   };
 
+  // 2.9.0 new species (colours from scratch/new_species_research.json, both reconstructions)
+  // Bison antiquus -- ancestor of the plains bison: a warm CINNAMON body clearly lighter than plains, under a darker
+  // CHOCOLATE cape, beard and forelegs (not steppe's red-under-black), shorter cape, black horns.
+  SPECIES.antiquus = {
+    back: '#5e3a22', flank: '#7a4d2c', belly: '#8e6040',
+    maneCol: '#2e1f15', maneAmt: 0.75,
+    muzzle: '#221a15', muzzleAmt: 0.40,
+    hoof: '#1a1612',
+    horn: '#1e1a17', hornTip: '#3a342e', hornRidge: 0.05,
+    legCol: '#2a1d14', legAmt: 0.60,
+    shadeLo: 0.15, shadeHi: 0.95,
+    hairScale: 0.9, hairAmt: 0.18, grizzleAmt: 0.08,
+    strandAmt: 0.25, clumpCol: '#8a5a36', clumpAmt: 0.30, clumpScale: 0.9,
+    tufts: true
+  };
+  // Bootherium bombifrons -- the helmeted musk ox: dark WARM brown (redder than the shipped musk ox), a slightly paler
+  // brown saddle along the back, PALE cream-grey lower legs and muzzle, dark grey horns with pale tips.
+  SPECIES.bootherium = {
+    back: '#3e2618', flank: '#4f3020', belly: '#5a3a28',
+    maneCol: '#6e4c34', maneAmt: 0.40, maneParts: [], maneTop: true, maneTopLo: 16.0, maneTopHi: 21.0,
+    muzzle: '#b9ae9a', muzzleAmt: 0.55,
+    hoof: '#1a1612',
+    horn: '#3a3a38', hornTip: '#a8a49a', hornRidge: 0.10,
+    legCol: '#b0a696', legAmt: 0.55,
+    shadeLo: 0.15, shadeHi: 0.95,
+    hairScale: 1.0, hairAmt: 0.20, grizzleAmt: 0.08,
+    strandAmt: 0.30, clumpCol: '#5e3c26', clumpAmt: 0.30, clumpScale: 0.9,
+    tufts: true
+  };
+
   var name = window.SPEC_NAME;
   var S = SPECIES[name];
   var c = BISON.paint(S);

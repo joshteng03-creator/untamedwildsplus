@@ -1,0 +1,22 @@
+{
+    "name": "Ethiopian Wolf",
+    "icon": "untamedwilds:textures/icon/dire_wolf/ethiopian_wolf.png",
+    "category": "untamedwilds:dire_wolf_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Ethiopian Wolf",
+            "text": "The Ethiopian wolf ($(o)Canis simensis$()) lives only in the Afroalpine grasslands of the Ethiopian highlands, above 3,000 metres.$(br2)It is a slender, long-legged wolf with a long, narrow muzzle, a bright ginger-red coat, a white throat, chest and belly, and a black-tipped tail.$(br2)Packs share a territory, but each wolf hunts alone, mostly for giant mole-rats. With fewer than 500 adults left, it is Africa's most endangered carnivore."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:dire_wolf{Variant: 11, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Ethiopian Wolf",
+            "text": "Relative Size: ★☆☆☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 3$(br2)Growth time: 5 Days"
+        }
+    ]
+}

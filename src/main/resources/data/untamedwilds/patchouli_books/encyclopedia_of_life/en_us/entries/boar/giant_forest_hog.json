@@ -1,0 +1,22 @@
+{
+    "name": "Giant Forest Hog",
+    "icon": "untamedwilds:textures/icon/boar/giant_forest_hog.png",
+    "category": "untamedwilds:boar_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Giant Forest Hog",
+            "text": "The giant forest hog ($(o)Hylochoerus meinertzhageni$()) is a wild pig native to the forests of West and Central Africa and parts of East Africa.$(br2)It is the largest living wild member of the pig family, covered in long, coarse black hair.$(br2)Giant forest hogs live in family groups called sounders, usually made up of a boar, several sows and their young. They were unknown to science until 1904."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:boar{Variant: 5, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Giant Forest Hog",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Nighttime$(br2)1 Color$(br2)Favourite Food: Beetroot$(br2)Number of Offspring: 5$(br2)Growth time: 4 Days"
+        }
+    ]
+}

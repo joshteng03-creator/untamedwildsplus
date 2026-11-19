@@ -7,6 +7,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.level.biome.Biome;
 import untamedwilds.config.ConfigGamerules;
+import untamedwilds.util.EntityDataHolder;
 import untamedwilds.util.SpeciesDataHolder;
 
 import java.util.ArrayList;
@@ -52,7 +53,13 @@ public interface ISpecies {
     }
 
     default String getRawSpeciesName(int i) {
-        return ComplexMob.getEntityData(((ComplexMob)this).getType()).getSpeciesData().get(i).getName().toLowerCase();
+        EntityDataHolder data = ComplexMob.getEntityData(((ComplexMob)this).getType());
+        if (data != null && i >= 0 && i < data.getSpeciesData().size()) {
+            return data.getSpeciesData().get(i).getName().toLowerCase();
+        }
+        // No data yet (a client before the species sync arrives): use the synced name, never crash a render.
+        String name = untamedwilds.util.EntityUtils.getVariantName(((ComplexMob)this).getType(), i);
+        return name == null || name.isEmpty() ? "unknown" : name.toLowerCase();
     }
 
     default String getSpeciesName(int i) {

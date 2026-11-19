@@ -20,6 +20,7 @@ import untamedwilds.entity.amphibian.EntityGiantSalamander;
 import untamedwilds.entity.amphibian.EntityNewt;
 import untamedwilds.entity.arthropod.EntityKingCrab;
 import untamedwilds.entity.arthropod.EntityTarantula;
+import untamedwilds.entity.bird.EntityGroundBird;
 import untamedwilds.entity.fish.*;
 import untamedwilds.entity.mammal.*;
 import untamedwilds.entity.mollusk.EntityGiantClam;
@@ -29,10 +30,24 @@ import untamedwilds.item.UntamedSpawnEggItem;
 import untamedwilds.world.FaunaHandler;
 
 import java.util.List;
+import untamedwilds.entity.ProjectileSerratedArrow;
+import untamedwilds.client.render.RendererSerratedArrow;
+import untamedwilds.entity.ProjectileThrownSpear;
+import untamedwilds.entity.EntityMountedSpecimen;
+import untamedwilds.client.render.RendererThrownSpear;
+import untamedwilds.client.render.RendererMountedSpecimen;
+import untamedwilds.client.render.SpeciesPlacardRenderer;
+import untamedwilds.init.ModBlock;
 
 @Mod.EventBusSubscriber(modid = UntamedWilds.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModEntity {
     public final static DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, UntamedWilds.MOD_ID);
+    /* Tracking-range size classes (see trackingRange). Declared BEFORE the entity fields: static initialisers run
+     * in textual order and every createEntity(...) below reads these. */
+    private static final java.util.Set<String> TRACK_FISH = java.util.Set.of("trevally", "arowana", "football_fish", "triggerfish", "catfish", "spadefish");
+    private static final java.util.Set<String> TRACK_TINY = java.util.Set.of("tarantula", "king_crab", "snake", "softshell_turtle", "tortoise",
+            "newt", "opossum", "giant_clam", "giant_salamander");
+    private static final java.util.Set<String> TRACK_HUGE = java.util.Set.of("mammoth", "giraffid", "baleen_whale", "whale_shark", "orca");
     //public static Map<RegistryObject<EntityType<? extends Mob>>, EntityRendererProvider<?>> map = Collections.emptyMap(); 
     
     // Arthropods
@@ -52,6 +67,7 @@ public class ModEntity {
 
     // Mammals
     public static RegistryObject<EntityType<EntityBear>> BEAR = createEntity(EntityBear::new, "bear", 1.3F, 1.3F, 0x20130B, 0x564C45);
+    public static RegistryObject<EntityType<EntityMustelid>> MUSTELID = createEntity(EntityMustelid::new, "mustelid", 0.7F, 0.6F, 0x3B2A1E, 0xB58E5C);
     public static RegistryObject<EntityType<EntityBigCat>> BIG_CAT = createEntity(EntityBigCat::new, "big_cat", 1.2F, 1.0F, 0xC59F45,0x383121);
     public static RegistryObject<EntityType<EntityHippo>> HIPPO = createEntity(EntityHippo::new, "hippo", 1.8F, 1.8F, 0x463A31, 0x956761);
     public static RegistryObject<EntityType<EntityAardvark>> AARDVARK = createEntity(EntityAardvark::new, "aardvark", 0.9F, 0.9F, 0x463A31, 0x956761);
@@ -81,13 +97,39 @@ public class ModEntity {
     // species (palorchestes 1.35 m, megatapirus 1.30 m) sit just above it while the
     // living tapirs sit just under. Hitboxes are per-TYPE, not per-species.
     public static RegistryObject<EntityType<EntityTapir>> TAPIR = createEntity(EntityTapir::new, "tapir", 1.3F, 1.2F, 0x6B5B4A, 0x33291F);
+    // 2.9.0: giant ground birds. 1.0 wide x 2.0 tall covers body + raised head at the elephant bird's scale 1.0;
+    // the moa and Genyornis are a little smaller than it (hitboxes are per TYPE).
+    public static RegistryObject<EntityType<EntityGroundBird>> GROUND_BIRD = createEntity(EntityGroundBird::new, "ground_bird", 1.0F, 2.0F, 0x5A4632, 0xA08B6A);
+    // 2.9.0: great apes. 1.2 x 1.8 covers Gigantopithecus (scale 0.865); the orangutan sits well inside it (per TYPE).
+    public static RegistryObject<EntityType<EntityGreatApe>> GREAT_APE = createEntity(EntityGreatApe::new, "great_ape", 1.2F, 1.8F, 0x8A4A22, 0x3A2416);
     public static RegistryObject<EntityType<EntityToxodon>> TOXODON = createEntity(EntityToxodon::new, "toxodon", 1.7F, 1.5F, 0x6B5A47, 0x3A2E22);
     public static RegistryObject<EntityType<EntityGroundSloth>> GROUND_SLOTH = createEntity(EntityGroundSloth::new, "ground_sloth", 1.6F, 2.2F, 0x7A5A3A, 0x3E2C1C);
     public static RegistryObject<EntityType<EntityAntelope>> ANTELOPE = createEntity(EntityAntelope::new, "antelope", 1.0F, 1.2F, 0xC79A5B, 0x6E5230);
     public static RegistryObject<EntityType<EntityGlyptodont>> GLYPTODONT = createEntity(EntityGlyptodont::new, "glyptodont", 2.2F, 1.8F, 0x7A6E52, 0x3E3626);
+    // 2.0 x 2.0: calibrated 1 block = 1 m at the shoulder; Diprotodon (1.80 m, 3.9 m nose to rump)
+    // is the largest species. Hitboxes are per-TYPE, not per-species (Phase 4.1, 2026-10-09).
+    public static RegistryObject<EntityType<EntityDiprotodont>> DIPROTODONT = createEntity(EntityDiprotodont::new, "diprotodont", 2.0F, 2.0F, 0x6E5A44, 0x3A2C20);
+    // 0.9 x 1.8: calibrated 1 block = 1 m to the top of the head standing at rest; Procoptodon (2.0 m) is the
+    // largest species. Hitboxes are per-TYPE, not per-species (Phase 4.2, 2026-10-10).
+    public static RegistryObject<EntityType<EntityKangaroo>> KANGAROO = createEntity(EntityKangaroo::new, "kangaroo", 0.9F, 1.8F, 0xA8613A, 0xE2D3B8);
+    // 1.4 x 1.0: Megalania (5 m nose to tail, back ~0.65 m) is the largest species; the legacy monitor's 1.3 x 0.6
+    // could not carry it. Hitboxes are per-TYPE (Phase 4.3, 2026-10-10).
+    public static RegistryObject<EntityType<EntityGiantMonitor>> GIANT_MONITOR = createEntity(EntityGiantMonitor::new, "giant_monitor", 1.4F, 1.0F, 0x4A4A36, 0xA89A62);
+    // 1.6 x 1.0: the walrus (3.2 m nose to flipper tip, lying prone) is the largest species. Per-TYPE hitbox
+    // (Phase 4.4, 2026-10-10).
+    public static RegistryObject<EntityType<EntityPinniped>> PINNIPED = createEntity(EntityPinniped::new, "pinniped", 1.6F, 1.0F, 0x86563F, 0xB9BCBC);
+    // 1.0 x 1.3: argali (1.15 m at the shoulder, horns above) is the largest species. Per-TYPE hitbox (Phase 4.5).
+    public static RegistryObject<EntityType<EntityCaprine>> CAPRINE = createEntity(EntityCaprine::new, "caprine", 1.0F, 1.3F, 0x7A6650, 0xE6E0D2);
+    // 1.0 x 0.9: Neochoerus (0.85 m at the shoulder) is the largest species. Per-TYPE hitbox (Phase 4.6).
+    public static RegistryObject<EntityType<EntityLargeRodent>> LARGE_RODENT = createEntity(EntityLargeRodent::new, "large_rodent", 1.0F, 0.9F, 0x7A5536, 0x2E2824);
+    // 1.2 x 1.5: Megalotragus (1.5 m at the shoulder) is the largest species. Per-TYPE hitbox (Phase 4.7).
+    public static RegistryObject<EntityType<EntityWildebeest>> WILDEBEEST = createEntity(EntityWildebeest::new, "wildebeest", 1.2F, 1.5F, 0x4C5154, 0x1A1918);
+    // 1.5 x 0.9: a 4.5 m crocodile is long and low; a square hitbox cannot follow its length. Per-TYPE hitbox (Phase 4.8).
+    public static RegistryObject<EntityType<EntityCrocodilian>> CROCODILIAN = createEntity(EntityCrocodilian::new, "crocodilian", 1.5F, 0.9F, 0x6A5D36, 0xDCCDA0);
     public static RegistryObject<EntityType<EntityCamel>> CAMEL = createEntity(EntityCamel::new, "camel", 1.8F, 2F, 0xE0B989, 0x976B3D);
     public static RegistryObject<EntityType<EntityManatee>> MANATEE = createEntity(EntityManatee::new, "manatee", 1.8F, 2F, 0x4A4040, 0x787676);
     public static RegistryObject<EntityType<EntityBaleenWhale>> BALEEN_WHALE = createEntity(EntityBaleenWhale::new, "baleen_whale", 2.6F, 1.6F, 0x12141E, 0x5B6168);
+    public static RegistryObject<EntityType<EntityOrca>> ORCA = createEntity(EntityOrca::new, "orca", 2.0F, 1.4F, 0x15161A, 0xE6E6E0);
     public static RegistryObject<EntityType<EntityOpossum>> OPOSSUM = createEntity(EntityOpossum::new, "opossum", 0.9F, 0.9F, 0xABA29B, 0x383735);
 
     // Fish
@@ -110,6 +152,14 @@ public class ModEntity {
 
     // Projectiles
     public static RegistryObject<EntityType<ProjectileSpit>> SPIT = createProjectile(ProjectileSpit::new, "spit", 64, 1, true,0.6F, 0.3f);
+    public static RegistryObject<EntityType<ProjectileSerratedArrow>> SERRATED_ARROW = createProjectile(ProjectileSerratedArrow::new, "serrated_arrow", 4, 20, true, 0.5F, 0.5F);
+    public static RegistryObject<EntityType<ProjectileThrownSpear>> THROWN_SPEAR = createProjectile(ProjectileThrownSpear::new, "thrown_spear", 4, 20, true, 0.5F, 0.5F);
+    // Taxidermy display piece: a plain entity, not a mob, so it has no spawn egg and no attributes.
+    public static RegistryObject<EntityType<EntityMountedSpecimen>> MOUNTED_SPECIMEN = ENTITIES.register("mounted_specimen", () -> EntityType.Builder.<EntityMountedSpecimen>of(EntityMountedSpecimen::new, MobCategory.MISC)
+            .sized(0.5F, 0.5F).fireImmune().clientTrackingRange(10).updateInterval(20).build("mounted_specimen"));
+    // 2.8.0 carcass: a plain entity like the specimen. Lies still, so it rarely needs updates; 6-chunk tracking.
+    public static RegistryObject<EntityType<untamedwilds.entity.EntityCarcass>> CARCASS = ENTITIES.register("carcass", () -> EntityType.Builder.<untamedwilds.entity.EntityCarcass>of(untamedwilds.entity.EntityCarcass::new, MobCategory.MISC)
+            .sized(1.0F, 0.6F).clientTrackingRange(6).updateInterval(40).build("carcass"));
 
     private static <T extends Projectile> RegistryObject<EntityType<T>> createProjectile(EntityType.EntityFactory<T> factory, String name, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates, float sizeX, float sizeY) {
         RegistryObject<EntityType<T>> type = ENTITIES.register(name, () -> EntityType.Builder.of(factory, MobCategory.MISC)
@@ -122,7 +172,18 @@ public class ModEntity {
     }
 
     private static <T extends Mob> RegistryObject<EntityType<T>> createEntity(EntityType.EntityFactory<T> factory, String name, float sizeX, float sizeY, int baseColor, int overlayColor) {
-        return createEntity(factory, MobCategory.CREATURE, name, 64, 1, true, sizeX, sizeY, baseColor, overlayColor);
+        return createEntity(factory, MobCategory.CREATURE, name, trackingRange(name), 1, true, sizeX, sizeY, baseColor, overlayColor);
+    }
+
+    /* 2.8.0: every type used to register a 64-CHUNK tracking range, so each animal was streamed to every
+     * player within the server's whole view distance -- but the client never even draws an entity farther
+     * than ~64 x its bounding-box size (about 166 blocks for a mammoth, 26 for a tarantula). Size classes,
+     * in chunks, on the vanilla scale (vanilla animals 10, fish 4), times performance.tracking_range_multiplier.
+     * The name sets live at the TOP of the class: the RegistryObject fields call this during static init. */
+    private static int trackingRange(String name) {
+        int chunks = TRACK_FISH.contains(name) ? 4 : TRACK_TINY.contains(name) ? 6 : TRACK_HUGE.contains(name) ? 14 : 10;
+        double scale = untamedwilds.config.ConfigPerformance.trackingRangeMultiplier.get();
+        return Math.max(2, (int) Math.round(chunks * scale));
     }
 
     private static <T extends Mob> RegistryObject<EntityType<T>> createEntity(EntityType.EntityFactory<T> factory, MobCategory classification, String name, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates, float sizeX, float sizeY, int maincolor, int backcolor) {
@@ -150,6 +211,7 @@ public class ModEntity {
         event.put(GIANT_CLAM.get(), EntityGiantClam.registerAttributes().build());
 
         event.put(BEAR.get(), EntityBear.registerAttributes().build());
+        event.put(MUSTELID.get(), EntityMustelid.registerAttributes().build());
         event.put(BIG_CAT.get(), EntityBigCat.registerAttributes().build());
         event.put(HIPPO.get(), EntityHippo.registerAttributes().build());
         event.put(AARDVARK.get(), EntityAardvark.registerAttributes().build());
@@ -164,13 +226,24 @@ public class ModEntity {
         event.put(GIRAFFID.get(), EntityGiraffid.registerAttributes().build());
         event.put(MACRAUCHENIA.get(), EntityMacrauchenia.registerAttributes().build());
         event.put(TAPIR.get(), EntityTapir.registerAttributes().build());
+        event.put(GROUND_BIRD.get(), EntityGroundBird.registerAttributes().build());
+        event.put(GREAT_APE.get(), EntityGreatApe.registerAttributes().build());
         event.put(TOXODON.get(), EntityToxodon.registerAttributes().build());
         event.put(GROUND_SLOTH.get(), EntityGroundSloth.registerAttributes().build());
         event.put(ANTELOPE.get(), EntityAntelope.registerAttributes().build());
         event.put(GLYPTODONT.get(), EntityGlyptodont.registerAttributes().build());
+        event.put(DIPROTODONT.get(), EntityDiprotodont.registerAttributes().build());
+        event.put(KANGAROO.get(), EntityKangaroo.registerAttributes().build());
+        event.put(GIANT_MONITOR.get(), EntityGiantMonitor.registerAttributes().build());
+        event.put(PINNIPED.get(), EntityPinniped.registerAttributes().build());
+        event.put(CAPRINE.get(), EntityCaprine.registerAttributes().build());
+        event.put(LARGE_RODENT.get(), EntityLargeRodent.registerAttributes().build());
+        event.put(WILDEBEEST.get(), EntityWildebeest.registerAttributes().build());
+        event.put(CROCODILIAN.get(), EntityCrocodilian.registerAttributes().build());
         event.put(CAMEL.get(), EntityCamel.registerAttributes().build());
         event.put(MANATEE.get(), EntityManatee.registerAttributes().build());
         event.put(BALEEN_WHALE.get(), EntityBaleenWhale.registerAttributes().build());
+        event.put(ORCA.get(), EntityOrca.registerAttributes().build());
         event.put(OPOSSUM.get(), EntityOpossum.registerAttributes().build());
 
         event.put(SUNFISH.get(), EntitySunfish.registerAttributes().build());
@@ -203,6 +276,7 @@ public class ModEntity {
         event.registerEntityRenderer(ModEntity.GIANT_CLAM.get(), RendererGiantClam::new);
 
         event.registerEntityRenderer(ModEntity.BEAR.get(), RendererBear::new);
+        event.registerEntityRenderer(ModEntity.MUSTELID.get(), RendererMustelid::new);
         event.registerEntityRenderer(ModEntity.BIG_CAT.get(), RendererBigCat::new);
         event.registerEntityRenderer(ModEntity.HIPPO.get(), RendererHippo::new);
         event.registerEntityRenderer(ModEntity.AARDVARK.get(), RendererAardvark::new);
@@ -217,13 +291,24 @@ public class ModEntity {
         event.registerEntityRenderer(ModEntity.GIRAFFID.get(), RendererGiraffid::new);
         event.registerEntityRenderer(ModEntity.MACRAUCHENIA.get(), RendererMacrauchenia::new);
         event.registerEntityRenderer(ModEntity.TAPIR.get(), RendererTapir::new);
+        event.registerEntityRenderer(ModEntity.GROUND_BIRD.get(), RendererGroundBird::new);
+        event.registerEntityRenderer(ModEntity.GREAT_APE.get(), RendererGreatApe::new);
         event.registerEntityRenderer(ModEntity.TOXODON.get(), RendererToxodon::new);
         event.registerEntityRenderer(ModEntity.GROUND_SLOTH.get(), RendererGroundSloth::new);
         event.registerEntityRenderer(ModEntity.ANTELOPE.get(), RendererAntelope::new);
         event.registerEntityRenderer(ModEntity.GLYPTODONT.get(), RendererGlyptodont::new);
+        event.registerEntityRenderer(ModEntity.DIPROTODONT.get(), RendererDiprotodont::new);
+        event.registerEntityRenderer(ModEntity.KANGAROO.get(), RendererKangaroo::new);
+        event.registerEntityRenderer(ModEntity.GIANT_MONITOR.get(), RendererGiantMonitor::new);
+        event.registerEntityRenderer(ModEntity.PINNIPED.get(), RendererPinniped::new);
+        event.registerEntityRenderer(ModEntity.CAPRINE.get(), RendererCaprine::new);
+        event.registerEntityRenderer(ModEntity.LARGE_RODENT.get(), RendererLargeRodent::new);
+        event.registerEntityRenderer(ModEntity.WILDEBEEST.get(), RendererWildebeest::new);
+        event.registerEntityRenderer(ModEntity.CROCODILIAN.get(), RendererCrocodilian::new);
         event.registerEntityRenderer(ModEntity.CAMEL.get(), RendererCamel::new);
         event.registerEntityRenderer(ModEntity.MANATEE.get(), RendererManatee::new);
         event.registerEntityRenderer(ModEntity.BALEEN_WHALE.get(), RendererBaleenWhale::new);
+        event.registerEntityRenderer(ModEntity.ORCA.get(), RendererOrca::new);
         event.registerEntityRenderer(ModEntity.OPOSSUM.get(), RendererOpossum::new);
 
         event.registerEntityRenderer(ModEntity.SUNFISH.get(), RendererSunfish::new);
@@ -242,6 +327,11 @@ public class ModEntity {
         event.registerEntityRenderer(ModEntity.SPITTER.get(), RendererSpitter::new);
 
         event.registerEntityRenderer(ModEntity.SPIT.get(), RendererProjectileSpit::new);
+        event.registerEntityRenderer(ModEntity.SERRATED_ARROW.get(), RendererSerratedArrow::new);
+        event.registerEntityRenderer(ModEntity.THROWN_SPEAR.get(), RendererThrownSpear::new);
+        event.registerEntityRenderer(ModEntity.MOUNTED_SPECIMEN.get(), RendererMountedSpecimen::new);
+        event.registerEntityRenderer(ModEntity.CARCASS.get(), untamedwilds.client.render.RendererCarcass::new);
+        event.registerBlockEntityRenderer(ModBlock.TILE_ENTITY_PLACARD.get(), SpeciesPlacardRenderer::new);
     }
 
     public static void addWorldSpawn(EntityType<?> entityClass, int weightedProb, FaunaHandler.animalType type, int groupCount) {

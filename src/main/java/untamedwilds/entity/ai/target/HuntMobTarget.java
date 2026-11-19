@@ -8,10 +8,12 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.phys.AABB;
 import untamedwilds.config.ConfigGamerules;
+import untamedwilds.config.ConfigPerformance;
 import untamedwilds.config.EcologyMode;
 import untamedwilds.entity.ComplexMob;
 import untamedwilds.entity.HerdEntity;
 import untamedwilds.util.EcologyTags;
+import untamedwilds.util.PerfCounters;
 
 import javax.annotation.Nullable;
 import java.util.Comparator;
@@ -29,6 +31,9 @@ public class HuntMobTarget<T extends LivingEntity> extends TargetGoal {
     protected Predicate<? super T> targetEntitySelector;
     protected final int threshold;
     private final boolean isCannibal;
+    /** 2.8.0 search backoff state: consecutive empty scans and the game time before which no new scan runs. */
+    private int emptyScans;
+    private long nextScanTime;
 
     /* Default threshold is 30 ("only hunt when hungry"), NOT the old 200 ("always hunt"). Every call
      * site that wanted gated hunting had to remember to pass 30 explicitly, and the three that forgot
@@ -108,7 +113,10 @@ public class HuntMobTarget<T extends LivingEntity> extends TargetGoal {
          * and glyptodont (2) sat permanently at or under the floor and could not be hunted by anything
          * at all. Compare against the species' configured maximum, not the current membership, or a
          * genuine herd that has been thinned would lose its protection at exactly the wrong moment. */
-        if (prey.herd.getMaxSize() <= floor) {
+        /* Only TRULY solitary species (groupCount 1) are exempt (2026-10-24). The exemption used to be
+         * groupCount <= floor, which also caught glyptodonts (pairs): never floor-protected, no herd term to
+         * speak of, and they crashed. Their pairs are protected now, and the carapace covers the rest. */
+        if (prey.herd.getMaxSize() <= 1) {
             return false;
         }
         int living = 0;
@@ -130,8 +138,12 @@ public class HuntMobTarget<T extends LivingEntity> extends TargetGoal {
         if (this.mob instanceof ComplexMob hunter) {
             // Zoo mode pulls the threshold down to "starving only" rather than removing predation, so
             // the hunger and feeding systems still mean something in an exhibit.
-            if (hunter.isTame() || hunter.getHunger() > EcologyMode.huntHungerThreshold(hunter, this.threshold))
+            if (hunter.isTame() || hunter.getHunger() > EcologyMode.huntHungerThreshold(hunter, this.threshold)) {
+                // Fed (or just made a kill): the next hungry spell starts searching at the normal rate again.
+                this.emptyScans = 0;
+                this.nextScanTime = 0L;
                 return false;
+            }
             /* Re-acquire the animal this predator is still committed to, ignoring the cooldown. A
              * retaliation goal outranks this one and takes the target slot the moment the prey bites
              * back; when that goal later expires it nulls the target, and the cooldown charged at hunt
@@ -150,6 +162,12 @@ public class HuntMobTarget<T extends LivingEntity> extends TargetGoal {
              * ~10-tick random interval; re-acquiring a committed victim (above) stays immediate. */
             if (this.mob.getRandom().nextInt(reducedTickDelay(10)) != 0)
                 return false;
+            /* 2.8.0 backoff: a hungry predator on empty ground kept paying a follow-range entity scan every
+             * ~10 ticks for as long as it stayed hungry. After each empty scan it now waits 10, 20, 40 ...
+             * up to hunt_scan_backoff_max_ticks. Starving predators skip the wait -- they search at the old
+             * rate, as they should -- and being fed resets it (above). */
+            if (this.isFoodHunt() && !hunter.isStarving() && this.mob.level.getGameTime() < this.nextScanTime)
+                return false;
             /* Do not START a fight the group cannot win. Checked here and NOT in canContinueToUse: a
              * predator already committed would otherwise abandon its quarry the instant the first
              * defender turned up, which is every hunt. Once committed, the commitment timer and the
@@ -159,12 +177,34 @@ public class HuntMobTarget<T extends LivingEntity> extends TargetGoal {
             }
         }
 
+        if (this.isFoodHunt()) {
+            PerfCounters.inc(PerfCounters.Counter.HUNT_SCAN);
+            if (this.mob instanceof ComplexMob counted) {
+                counted.perfHuntScans++;
+            }
+        }
         List<T> list = this.mob.level.getEntitiesOfClass(this.targetClass, this.getTargettableArea(this.getFollowDistance()), this.targetEntitySelector);
-        if (list.isEmpty())
+        if (list.isEmpty()) {
+            if (this.isFoodHunt()) {
+                PerfCounters.inc(PerfCounters.Counter.HUNT_SCAN_EMPTY);
+                this.emptyScans = Math.min(this.emptyScans + 1, 16);
+                this.nextScanTime = this.mob.level.getGameTime() + backoffTicks(this.emptyScans, ConfigPerformance.huntScanBackoffMaxTicks.get());
+            }
             return false;
-
+        }
+        this.emptyScans = 0;
+        this.nextScanTime = 0L;
         this.targetMob = this.sorter.best(list);
         return true;
+    }
+
+    /** 10, 20, 40 ... ticks after the 1st, 2nd, 3rd ... empty scan in a row, capped at {@code max}. */
+    public static int backoffTicks(int emptyScans, int max) {
+        if (emptyScans <= 0) {
+            return 0;
+        }
+        long ticks = 10L << Math.min(emptyScans - 1, 20);
+        return (int) Math.min(ticks, Math.max(0, max));
     }
 
     AABB getTargettableArea(double targetDistance) {

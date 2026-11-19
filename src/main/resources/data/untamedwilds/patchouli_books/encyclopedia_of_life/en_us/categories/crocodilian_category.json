@@ -1,0 +1,6 @@
+{
+    "name": "Crocodilians",
+    "description": "Crocodilians are large semi-aquatic carnivore Reptiles: crocodiles, alligators and caimans.$(br2)They wait almost hidden in rivers and swamps, with only their eyes and nostrils above the water, and ambush animals that come to drink or cross.$(br2)They lay their eggs in nests on land, and the mother guards them until they hatch.",
+    "icon": "untamedwilds:textures/icon/crocodilian/category.png",
+    "parent": "untamedwilds:taxon_reptile"
+}

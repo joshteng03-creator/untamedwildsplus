@@ -1,0 +1,22 @@
+{
+    "name": "Western Horse",
+    "icon": "untamedwilds:textures/icon/equid/western_horse.png",
+    "category": "untamedwilds:equid_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Western Horse",
+            "text": "The western horse ($(o)Equus scotti$()) is an extinct horse that lived across the grasslands of North America during the Pleistocene, with its youngest remains dating to around 12,000 years ago.$(br2)It was a true caballine horse, closely related to the modern horse, and is known from several skeletons found together in Texas.$(br2)Horses vanished from the Americas at the end of the Pleistocene and only returned with European colonists."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:equid{Variant: 0, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Western Horse",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

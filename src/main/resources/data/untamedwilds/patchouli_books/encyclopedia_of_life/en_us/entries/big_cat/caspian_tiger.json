@@ -1,0 +1,22 @@
+{
+    "name": "Caspian Tiger",
+    "icon": "untamedwilds:textures/icon/big_cat/caspian_tiger.png",
+    "category": "untamedwilds:big_cat_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Caspian Tiger",
+            "text": "The Caspian tiger ($(o)Panthera tigris virgata$()) is a population of tiger that once ranged from Turkey and the Caucasus through Iran to Central Asia and western China.$(br2)It lived mainly in dense riverside forests and reed beds, hunting wild boar and deer.$(br2)It was wiped out by the 1970s. Genetic studies show it was nearly identical to the living Siberian tiger."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:big_cat{Variant: 14, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Caspian Tiger",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Nighttime$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 3$(br2)Growth time: 6 Days"
+        }
+    ]
+}

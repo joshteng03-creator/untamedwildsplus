@@ -42,6 +42,20 @@
       shadeLo: 0.12, shadeHi: 0.88,
       hairScale: 1.3, hairAmt: 0.16, grizzleAmt: 0.14,
       mudCol: '#a8905f', mudAmt: 0.20
+    },
+    // Platygonus compressus (quick-win batch, 2026-10-02) -- the long-legged flat-headed
+    // peccary of Ice Age North America. Peccary conventions (no crest, no visible tusks); told
+    // apart from the dark white-lipped peccary by a grizzled GREY-brown coat, long dark legs and
+    // the pale shoulder collar of its living relative, the collared peccary.
+    platygonus: {
+      hasCrest: false, hasTusks: false,
+      back: '#4a4238', flank: '#665c4e', belly: '#7f7464',
+      snout: '#3a3129', snoutAmt: 0.50,
+      collarCol: '#d2c7b0', collarAmt: 0.80, collarZ: -5.5, collarW: 2.0,
+      legCol: '#2c2620', legAmt: 0.50,
+      shadeLo: 0.12, shadeHi: 0.88,
+      hairScale: 1.6, hairAmt: 0.12, grizzleAmt: 0.22,
+      mudCol: '#6b5a3e', mudAmt: 0.15
     }
   };
 

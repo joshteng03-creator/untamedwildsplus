@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "untamedwilds:block/ivory_block"
+    },
+    "axis=z": {
+      "model": "untamedwilds:block/ivory_block_horizontal",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "untamedwilds:block/ivory_block_horizontal",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

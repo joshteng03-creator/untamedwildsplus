@@ -1,0 +1,22 @@
+{
+    "name": "Merck's Rhinoceros",
+    "icon": "untamedwilds:textures/icon/rhino/mercks.png",
+    "category": "untamedwilds:rhino_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Merck's Rhinoceros",
+            "text": "The Merck's rhinoceros ($(o)Stephanorhinus kirchbergensis$()) is an extinct rhinoceros that lived across Eurasia, from western Europe to East Asia, during the Middle and Late Pleistocene.$(br2)It was a large two-horned rhino that mainly browsed on trees and shrubs.$(br2)It favoured temperate woodlands and was most widespread in Europe during warm interglacial periods. Its closest relatives include the woolly rhinoceros and the living Sumatran rhinoceros."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:rhino{Variant: 7, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Merck's Rhinoceros",
+            "text": "Relative Size: ★★★★★$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Melon Slice$(br2)Number of Offspring: 1$(br2)Growth time: 12 Days"
+        }
+    ]
+}

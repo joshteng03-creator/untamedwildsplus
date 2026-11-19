@@ -40,6 +40,11 @@ import untamedwilds.entity.mammal.EntityTapir;
  *     modelled rather than left for the skin to fake.
  */
 public class ModelTapir extends AdvancedEntityModel<EntityTapir> {
+    // body-fit scales, see setupAnim
+    private static final float CHEST_DEPTH = 0.85F;
+    private static final float SHOULDER_W = 0.6F;
+    private static final float SHOULDER_H = 0.8F;
+
 
     private final AdvancedModelBox body_barrel;
     private final AdvancedModelBox body_withers;
@@ -134,7 +139,7 @@ public class ModelTapir extends AdvancedEntityModel<EntityTapir> {
         this.crest.setRotationPoint(0.0F, -2.9000F, -1.5000F);
         this.crest.addBox(-1.1000F, -3.0F, -3.7000F, 2.2000F, 4.2000F, 8.7000F, 0.0F);
         this.fore_left_shoulder = new AdvancedModelBox(this, 137, 27);
-        this.fore_left_shoulder.setRotationPoint(5.7000F, 4.0518F, 1.0F);
+        this.fore_left_shoulder.setRotationPoint(4.5000F, 4.0518F, 1.0F);
         this.fore_left_shoulder.addBox(-3.3000F, -1.2000F, -3.4000F, 6.6000F, 5.6000F, 6.2000F, 0.0F);
         this.setRotateAngle(fore_left_shoulder, -0.2793F, 0.0F, 0.0F);
         this.fore_left_forearm = new AdvancedModelBox(this, 0, 42);
@@ -153,7 +158,7 @@ public class ModelTapir extends AdvancedEntityModel<EntityTapir> {
         this.claw_left.setRotationPoint(0.0F, 0.4482F, -2.8000F);
         this.claw_left.addBox(-1.7000F, -0.9000F, -2.8000F, 3.4000F, 1.9000F, 3.4000F, 0.0F);
         this.fore_right_shoulder = new AdvancedModelBox(this, 163, 27);
-        this.fore_right_shoulder.setRotationPoint(-5.7000F, 4.0518F, 1.0F);
+        this.fore_right_shoulder.setRotationPoint(-4.5000F, 4.0518F, 1.0F);
         this.fore_right_shoulder.addBox(-3.3000F, -1.2000F, -3.4000F, 6.6000F, 5.6000F, 6.2000F, 0.0F);
         this.setRotateAngle(fore_right_shoulder, -0.2793F, 0.0F, 0.0F);
         this.fore_right_forearm = new AdvancedModelBox(this, 19, 42);
@@ -306,6 +311,92 @@ public class ModelTapir extends AdvancedEntityModel<EntityTapir> {
     private void animate(IAnimatedEntity entityIn) {
         EntityTapir tapir = (EntityTapir) entityIn;
         animator.update(tapir);
+        // <gen:idle-poses> 2.8.0: SOLVED by scripts/pose_reach.py against this model's own boxes (muzzle to the grass / the
+        // water line beyond the bank, every head part and horn family clear of the ground, nothing through the torso).
+        // Regenerate, never hand-edit: python scripts/gen_keyframes.py tapir
+        // EAT (40t, GrazeGoal's mouthful): head down to the grass, a cropping lift, back down
+        animator.setAnimation(EntityTapir.EAT);
+        animator.startKeyframe(10);
+        this.rotate(animator, neck, 5.6F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, 1.9F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, -0.3F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_1, -0.4F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_2, 0.4F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 1.4F, -0.1F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck, 5.6F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, -4.1F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, -0.3F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_1, -0.4F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_2, 0.4F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 1.4F, -0.1F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck, 5.6F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, 1.9F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, -0.3F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_1, -0.4F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_2, 0.4F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 1.4F, -0.1F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(10);
+        animator.resetKeyframe(10);
+        // DRINK (100t, DrinkGoal): muzzle to the water past the bank edge, two swallows lifting the head
+        animator.setAnimation(EntityTapir.DRINK);
+        animator.startKeyframe(15);
+        this.rotate(animator, neck, 8.6F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, 4.5F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, 1.0F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_1, 1.8F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 1.3F, -1.1F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(20);
+        animator.startKeyframe(5);
+        this.rotate(animator, neck, 8.6F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, -0.5F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, 1.0F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_1, 1.8F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 1.3F, -1.1F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck, 8.6F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, 4.5F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, 1.0F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_1, 1.8F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 1.3F, -1.1F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(20);
+        animator.startKeyframe(5);
+        this.rotate(animator, neck, 8.6F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, -0.5F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, 1.0F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_1, 1.8F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 1.3F, -1.1F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck, 8.6F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, 4.5F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, 1.0F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_1, 1.8F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 1.3F, -1.1F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(10);
+        animator.resetKeyframe(15);
+        // ALERT (40t, AlertGoal): head raised, ears up, staring at the threat; repeats while the alert lasts
+        animator.setAnimation(EntityTapir.ALERT);
+        animator.startKeyframe(8);
+        this.rotate(animator, neck, -35.0F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, -20.9F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, 12.0F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_1, 12.0F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_2, 12.0F, 0.0F, 0.0F);
+        this.rotate(animator, ear_left, 25.0F, 0.0F, 0.0F);
+        this.rotate(animator, ear_right, 25.0F, 0.0F, 0.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(24);
+        animator.resetKeyframe(8);
+        // </gen:idle-poses>
 
         // ATTACK_THREATEN (50t) -- a tapir has no horns, no tusks and no reach, so the
         // display is bulk and noise: the head drops, the forehand swings side to side and
@@ -371,7 +462,13 @@ public class ModelTapir extends AdvancedEntityModel<EntityTapir> {
         // ---- idle ----
         float breath = (float) (Math.sin(ageInTicks / 20) * 0.05F);
         this.body_barrel.setScale(1.0F + breath, 1.0F + breath, 1.0F);
-        this.body_chest.setScale(1.0F + breath, 1.0F + breath, 1.0F);
+        // "Big bust" fix (user, 2026-10-09): the 6.6-wide shoulder blocks stood out past the withers on
+        // both sides and the chest hung ~1u below the belly line. Both are fixed with setScale (UV-safe,
+        // so the 7 shipped skins are untouched) plus the shoulder pivots tucked 5.7 -> 4.5 in the
+        // constructor. scaleChildren is off, so only the boxes shrink -- the legs keep their length.
+        this.body_chest.setScale(1.0F + breath, (1.0F + breath) * CHEST_DEPTH, 1.0F);
+        this.fore_left_shoulder.setScale(SHOULDER_W, SHOULDER_H, SHOULDER_H);
+        this.fore_right_shoulder.setScale(SHOULDER_W, SHOULDER_H, SHOULDER_H);
         bob(body_barrel, 0.4F * globalSpeed, 0.1F, false, ageInTicks / 20, 2);
         walk(neck, 0.32f * globalSpeed, 0.04f, false, 2.8F, 0.03F, ageInTicks / 20, 2);
         // The proboscis is soft tissue and constantly in motion -- a tapir uses it the way

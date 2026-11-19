@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#",
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "untamedwilds:ivory_slab"
+    }
+  },
+  "result": {
+    "item": "untamedwilds:chiseled_ivory",
+    "count": 1
+  }
+}

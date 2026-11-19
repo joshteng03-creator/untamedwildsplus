@@ -1,0 +1,22 @@
+{
+    "name": "Samotherium",
+    "icon": "untamedwilds:textures/icon/giraffid/samotherium.png",
+    "category": "untamedwilds:giraffid_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Samotherium",
+            "text": "Samotherium ($(o)Samotherium boissieri$()) is an extinct giraffid that lived around the eastern Mediterranean during the Late Miocene, named after the Greek island of Samos where it was first found.$(br2)It had a neck intermediate in length between that of the okapi and the giraffe, and a pair of upward-pointing ossicones that curved backwards.$(br2)Its rounded muzzle and tooth wear suggest it grazed in open grasslands."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:giraffid{Variant: 3, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Samotherium",
+            "text": "Relative Size: ★★★★☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 12 Days"
+        }
+    ]
+}

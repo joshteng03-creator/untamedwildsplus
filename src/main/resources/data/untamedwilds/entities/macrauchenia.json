@@ -5,10 +5,11 @@
   "offspring": 1,
   "activityType": "diurnal",
   "favourite_food": "minecraft:hay_block",
-  "sounds": {
-    "ambient": "minecraft:entity.cow.ambient",
-    "hurt": "minecraft:entity.cow.hurt",
-    "death": "minecraft:entity.cow.death"
+  "sounds":{
+    "ambient":"untamedwilds:entity.macrauchenia.ambient",
+    "hurt":"untamedwilds:entity.macrauchenia.hurt",
+    "death":"untamedwilds:entity.macrauchenia.death",
+    "alarm":"untamedwilds:entity.macrauchenia.alarm"
   },
   "flags": {
     "groupCount": 3

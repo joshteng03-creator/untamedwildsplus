@@ -1,0 +1,22 @@
+{
+    "name": "Red Deer",
+    "icon": "untamedwilds:textures/icon/deer/red_deer.png",
+    "category": "untamedwilds:deer_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Red Deer",
+            "text": "The red deer ($(o)Cervus elaphus$()) is a large deer native to Europe, western Asia and the Atlas Mountains of north-west Africa.$(br2)Stags grow branching antlers and roar loudly during the autumn rut, competing to gather and defend groups of hinds.$(br2)Red deer live in woodland, moorland and mountain habitats, and outside the breeding season males and females usually live in separate herds."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:deer{Variant: 4, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Red Deer",
+            "text": "Relative Size: ★★★☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

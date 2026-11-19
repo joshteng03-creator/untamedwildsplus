@@ -61,6 +61,7 @@ public class SpeciesDataHolder {
     private final EcologyDataHolder ecology;
     private final List<List<String>> spawnBiomes;
     private final List<List<BiomeTestHolder>> spawnBiomeData;
+    private final boolean coldAdapted;
 
     public SpeciesDataHolder(String p_i232114_1_, int variant, float p_i232114_2_, int p_i232114_3_, float attack, float health, ComplexMobTerrestrial.ActivityType activityType, String favourite_food, int growing_time, int offspring, int skins, String breeding_season, Map<String, SoundEvent> sounds, Map<String, Integer> flags, EcologyDataHolder ecology, List<List<String>> spawn_biomes) {
         this.name = p_i232114_1_;
@@ -97,6 +98,36 @@ public class SpeciesDataHolder {
             }
             this.spawnBiomeData.add(subsublist);
         }
+        this.coldAdapted = computeColdAdapted(flags, spawn_biomes);
+    }
+
+    /**
+     * Cold-adapted for the climate effects (no extra hunger in snow or a temperate winter). An explicit
+     * {@code coldAdapted} flag (0/1) wins; otherwise a woolly coat, or any non-inverted spawn condition in
+     * the icy or taiga categories, counts -- so the woolly mammoth, musk ox, caribou, snow leopard, polar
+     * bear and cave lion are covered without touching a single species JSON.
+     */
+    private static boolean computeColdAdapted(Map<String, Integer> flags, List<List<String>> biomes) {
+        if (flags != null && flags.containsKey("coldAdapted")) {
+            return flags.get("coldAdapted") == 1;
+        }
+        if (flags != null && flags.getOrDefault("hasWoollyCoat", 0) == 1) {
+            return true;
+        }
+        if (biomes != null) {
+            for (List<String> group : biomes) {
+                for (String condition : group) {
+                    if (!condition.contains("!") && (condition.endsWith("|icy") || condition.endsWith("|taiga"))) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean isColdAdapted() {
+        return this.coldAdapted;
     }
 
     public String getString() {

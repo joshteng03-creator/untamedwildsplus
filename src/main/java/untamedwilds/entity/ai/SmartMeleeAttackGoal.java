@@ -132,6 +132,9 @@ public class SmartMeleeAttackGoal extends Goal {
         this.attacker.getNavigation().stop();
     }
 
+    /** 2.8.0: parity-proof replacement for a tickCount % 12 gate (see GoalTimer). */
+    private final untamedwilds.util.GoalTimer swimTimer = new untamedwilds.util.GoalTimer(12, true);
+
     public void tick() {
         LivingEntity livingentity = this.attacker.getTarget();
         this.attacker.getLookControl().setLookAt(Vec3.atCenterOf(livingentity.blockPosition()));
@@ -140,7 +143,7 @@ public class SmartMeleeAttackGoal extends Goal {
         --this.delayCounter;
 
         // This piece of code fixes mobs in water being unable to chase upwards
-        if (this.attacker.isInWater() && this.attacker.tickCount % 12 == 0) {
+        if (this.attacker.isInWater() && this.swimTimer.ready(this.attacker)) {
             if ((livingentity.getBoundingBox().minY - 2) > this.attacker.getY()) {
                 this.attacker.getJumpControl().jump();
             }

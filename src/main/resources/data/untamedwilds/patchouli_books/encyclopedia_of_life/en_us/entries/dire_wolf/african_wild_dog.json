@@ -1,0 +1,22 @@
+{
+    "name": "African Wild Dog",
+    "icon": "untamedwilds:textures/icon/dire_wolf/african_wild_dog.png",
+    "category": "untamedwilds:dire_wolf_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "African Wild Dog",
+            "text": "The African wild dog ($(o)Lycaon pictus$()), also called the painted wolf, is a canid native to the savannas and woodlands of sub-Saharan Africa.$(br2)Its mottled coat of black, brown, yellow and white is unique to each individual, and unlike other canids it has only four toes on its forefeet.$(br2)Wild dogs live in close-knit packs that hunt together and feed their pups by regurgitating meat."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:dire_wolf{Variant: 3, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "African Wild Dog",
+            "text": "Relative Size: ★★☆☆☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 3$(br2)Growth time: 5 Days"
+        }
+    ]
+}

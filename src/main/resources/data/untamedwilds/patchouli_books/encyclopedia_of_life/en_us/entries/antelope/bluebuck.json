@@ -1,0 +1,22 @@
+{
+    "name": "Bluebuck",
+    "icon": "untamedwilds:textures/icon/antelope/bluebuck.png",
+    "category": "untamedwilds:antelope_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Bluebuck",
+            "text": "The bluebuck ($(o)Hippotragus leucophaeus$()) is an extinct antelope that lived in the southwestern Cape of South Africa until around 1800.$(br2)It was a smaller relative of the roan and sable antelope, named for the bluish-grey sheen of its coat.$(br2)Already confined to a small range after the end of the Ice Age, it was hunted to extinction by European settlers, the first large African mammal lost in historical times."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:antelope{Variant: 8, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Bluebuck",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 6 Days"
+        }
+    ]
+}

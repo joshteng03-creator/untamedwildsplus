@@ -1,19 +1,26 @@
 package untamedwilds.util;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.server.ServerLifecycleHooks;
 import untamedwilds.UntamedWilds;
 import untamedwilds.entity.ComplexMob;
 import untamedwilds.init.ModEntity;
-import untamedwilds.network.SyncTextureData;
+import untamedwilds.network.SyncEntityData;
 import untamedwilds.network.UntamedInstance;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Mod.EventBusSubscriber(modid = UntamedWilds.MOD_ID)
@@ -63,7 +70,8 @@ public class EntityDataListenerEvent {
         registerData();
     }
 
-    private static void registerData() {
+    /** Registers every type's parsed species data. Public for the GameTests (2.8.0). */
+    public static void registerData() {
         TARANTULA = registerEntityData(ModEntity.TARANTULA.get());
         KING_CRAB = registerEntityData(ModEntity.KING_CRAB.get());
 
@@ -102,21 +110,74 @@ public class EntityDataListenerEvent {
         OPOSSUM = registerEntityData(ModEntity.OPOSSUM.get());
 
         SPITTER = registerEntityData(ModEntity.SPITTER.get());
-    }
 
-    @SubscribeEvent
-    public static void onPlayerLogIn(PlayerEvent.PlayerLoggedInEvent event) {
-        UntamedWilds.LOGGER.info("Firing player login event");
-        registerData();
-
-        for (EntityType<?> types : ComplexMob.ENTITY_DATA_HASH.keySet()) {
-            ResourceLocation entityName = types.getRegistryName();
-            int size = 0;
-
-            for (SpeciesDataHolder speciesData : ComplexMob.ENTITY_DATA_HASH.get(types).getSpeciesData()) {
-                UntamedInstance.sendToClient(new SyncTextureData(entityName, speciesData.getName(), speciesData.getSkins(), size++), (ServerPlayer) event.getPlayer());
+        /* 2.8.0: every OTHER type the loader parsed. The named fields above only ever covered the original 32;
+         * the 19 types added since (dire_wolf, mammoth, deer ... crocodilian) were only registered lazily the
+         * first time server code asked, so the login sync never included them and a dedicated-server client
+         * crashed on its first per-species model flag. */
+        for (Map.Entry<ResourceLocation, EntityDataHolder> entry : ENTITY_DATA_HOLDERS.getAllData().entrySet()) {
+            if (!UntamedWilds.MOD_ID.equals(entry.getKey().getNamespace())) {
+                continue;
+            }
+            EntityType<?> type = ForgeRegistries.ENTITIES.getValue(entry.getKey());
+            if (type != null && entry.getKey().equals(type.getRegistryName())) {
+                processData(entry.getValue(), type);
             }
         }
+    }
+
+    /**
+     * Fires when a player joins (player set) and after {@code /reload} (player null = everyone). Re-registers
+     * every type from the freshly loaded data and sends each client the complete species data, so a client
+     * on a dedicated server holds the same EntityDataHolders single player does.
+     */
+    @SubscribeEvent
+    public static void onDatapackSync(OnDatapackSyncEvent event) {
+        registerData();
+        List<ServerPlayer> targets = new ArrayList<>();
+        if (event.getPlayer() != null) {
+            targets.add(event.getPlayer());
+        } else {
+            targets.addAll(event.getPlayerList().getPlayers());
+        }
+        if (targets.isEmpty()) {
+            return;
+        }
+        List<SyncEntityData> packets = new ArrayList<>();
+        for (Map.Entry<EntityType<?>, EntityDataHolder> entry : ComplexMob.ENTITY_DATA_HASH.entrySet()) {
+            if (entry.getValue() == null) {
+                continue;
+            }
+            SyncEntityData packet = SyncEntityData.of(entry.getKey(), entry.getValue());
+            if (packet == null) {
+                UntamedWilds.LOGGER.error("Could not encode species data for {}; clients will miss it", entry.getKey().getRegistryName());
+            } else {
+                packets.add(packet);
+            }
+        }
+        for (ServerPlayer player : targets) {
+            for (SyncEntityData packet : packets) {
+                UntamedInstance.sendToClient(packet, player);
+            }
+        }
+    }
+
+    /**
+     * Client side of {@link SyncEntityData}. Skipped while an integrated server runs in this JVM: single player
+     * and a LAN host already share these static maps with their own server, and writing them from the client
+     * thread would race the server thread.
+     */
+    public static void installSyncedData(ResourceLocation typeName, CompoundTag tag) {
+        if (ServerLifecycleHooks.getCurrentServer() != null || tag == null) {
+            return;
+        }
+        EntityType<?> type = ForgeRegistries.ENTITIES.getValue(typeName);
+        if (type == null) {
+            return;
+        }
+        EntityDataHolder.CODEC.parse(NbtOps.INSTANCE, tag)
+                .resultOrPartial(err -> UntamedWilds.LOGGER.error("Bad synced species data for {}: {}", typeName, err))
+                .ifPresent(data -> processData(data, type));
     }
 
     public static EntityDataHolder registerEntityData(EntityType<?> typeIn) {

@@ -1,0 +1,22 @@
+{
+    "name": "Baird's Tapir",
+    "icon": "untamedwilds:textures/icon/tapir/bairds.png",
+    "category": "untamedwilds:tapir_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Baird's Tapir",
+            "text": "Baird's tapir ($(o)Tapirus bairdii$()) is a tapir found in the forests and wetlands of Central America, from southern Mexico to northwestern Colombia.$(br2)It is the largest native land mammal of Central America, and the national animal of Belize.$(br2)Baird's tapirs are herbivores that browse on leaves and fruit and often wallow in water. The species is listed as Endangered."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:tapir{Variant: 2, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Baird's Tapir",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Nighttime$(br2)1 Color$(br2)Favourite Food: Apple$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

@@ -1,0 +1,100 @@
+{
+  "name": "ground_bird",
+  "breeding": "EARLY_SPRING",
+  "growing_time": 8,
+  "offspring": 1,
+  "activityType": "diurnal",
+  "favourite_food": "minecraft:sweet_berries",
+  "sounds": {
+    "ambient": "untamedwilds:entity.crocodilian.ambient",
+    "hurt": "untamedwilds:entity.crocodilian.hurt",
+    "death": "untamedwilds:entity.crocodilian.death",
+    "threat": "untamedwilds:entity.crocodilian.threat",
+    "call": "untamedwilds:entity.crocodilian.call"
+  },
+  "flags": {
+    "groupCount": 3,
+    "deepBeak": 0
+  },
+  "ecology": {
+    "tags": [
+      "browser",
+      "grazer"
+    ]
+  },
+  "species": [
+    {
+      "name": "giant_moa",
+      "variant": 0,
+      "scale": 0.886,
+      "rarity": 2,
+      "attack": 6,
+      "health": 40,
+      "flags": {
+        "groupCount": 3
+      },
+      "spawnBiomes": [
+        [
+          "category|forest"
+        ],
+        [
+          "category|plains"
+        ],
+        [
+          "category|extreme_hills"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.22
+      }
+    },
+    {
+      "name": "elephant_bird",
+      "variant": 1,
+      "scale": 1.0,
+      "rarity": 2,
+      "attack": 8,
+      "health": 55,
+      "flags": {
+        "groupCount": 2
+      },
+      "spawnBiomes": [
+        [
+          "category|jungle"
+        ],
+        [
+          "category|forest"
+        ],
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.2
+      }
+    },
+    {
+      "name": "genyornis",
+      "variant": 2,
+      "scale": 0.715,
+      "rarity": 2,
+      "attack": 6,
+      "health": 38,
+      "flags": {
+        "groupCount": 4,
+        "deepBeak": 1
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.24
+      }
+    }
+  ]
+}

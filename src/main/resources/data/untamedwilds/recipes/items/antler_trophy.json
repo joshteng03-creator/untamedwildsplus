@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "A A",
+    " P "
+  ],
+  "key": {
+    "A": {
+      "item": "untamedwilds:material_antler"
+    },
+    "P": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "result": {
+    "item": "untamedwilds:antler_trophy"
+  }
+}

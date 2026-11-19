@@ -1,0 +1,22 @@
+{
+    "name": "Giant Buffalo",
+    "icon": "untamedwilds:textures/icon/bison/giant_buffalo.png",
+    "category": "untamedwilds:bison_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Giant Buffalo",
+            "text": "The giant buffalo ($(o)Syncerus antiquus$()) is an extinct African buffalo that lived across much of Africa during the Pleistocene, and possibly into the Holocene.$(br2)It was a large grazer and a close relative of the living African buffalo.$(br2)Its horns were its most striking feature, with spans that could reach well over two metres. It is depicted in the ancient rock art of the Sahara."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:bison{Variant: 5, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Giant Buffalo",
+            "text": "Relative Size: ★★★★☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Junegrass$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

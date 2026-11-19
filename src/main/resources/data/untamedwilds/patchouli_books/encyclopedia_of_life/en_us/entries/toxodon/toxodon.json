@@ -1,0 +1,22 @@
+{
+    "name": "Toxodon",
+    "icon": "untamedwilds:textures/icon/toxodon/toxodon.png",
+    "category": "untamedwilds:toxodon_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Toxodon",
+            "text": "The Toxodon ($(o)Toxodon platensis$()) is an extinct notoungulate that lived in South America during the Pleistocene, disappearing at its end.$(br2)It was a heavy, rhinoceros-sized herbivore with short legs and a broad head. Its name, meaning \"bow tooth\", refers to its curved, ever-growing teeth.$(br2)The first Toxodon skull known to science was obtained by Charles Darwin in Uruguay during the voyage of the Beagle."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:toxodon{Variant: 0, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Toxodon",
+            "text": "Relative Size: ★★★★☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Hay Bale$(br2)Number of Offspring: 1$(br2)Growth time: 12 Days"
+        }
+    ]
+}

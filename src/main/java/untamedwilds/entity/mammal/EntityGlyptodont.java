@@ -49,6 +49,8 @@ public class EntityGlyptodont extends ComplexMobTerrestrial implements INewSkins
 
     public static final Animation ATTACK_THREATEN = Animation.create(50);
     public static final Animation ATTACK_GORE = Animation.create(14);
+    public static final Animation EAT = Animation.create(40);   // 2.8.0 idle pose (gen_keyframes.py)
+    public static final Animation DRINK = Animation.create(100);   // 2.8.0 idle pose (gen_keyframes.py)
 
     public EntityGlyptodont(EntityType<? extends ComplexMob> type, Level worldIn) {
         super(type, worldIn);
@@ -83,6 +85,7 @@ public class EntityGlyptodont extends ComplexMobTerrestrial implements INewSkins
         this.goalSelector.addGoal(2, new SmartMeleeAttackGoal(this, 1.6D, false));
         this.goalSelector.addGoal(3, new SmartMateGoal(this, 0.8D));
         this.goalSelector.addGoal(3, new GrazeGoal(this, 10));
+        this.goalSelector.addGoal(3, new DrinkGoal(this));   // 2.8.0 cosmetic waterhole visits
         /* Density dependence, expressed as MOVEMENT rather than as a cap on births: a herd that
          * has eaten its range out, or that is standing in an overcrowded neighbourhood, shifts
          * ground, and surplus young adults disperse to found herds elsewhere. Runs on the herd
@@ -175,7 +178,7 @@ public class EntityGlyptodont extends ComplexMobTerrestrial implements INewSkins
     }
 
     protected void playStepSound(BlockPos pos, BlockState blockIn) {
-        this.playSound(SoundEvents.RAVAGER_STEP, 0.15F, 1.0F);
+        this.playFootstep(SoundEvents.RAVAGER_STEP, 0.15F, 1.0F);   // 2.8.0 heavy steps (JSON "step")
     }
 
     private Animation chooseAttackAnimation() {
@@ -204,17 +207,28 @@ public class EntityGlyptodont extends ComplexMobTerrestrial implements INewSkins
     }
 
     @Override
+    public Animation getAnimationDrink() { return DRINK; }
+    // 2.8.0 solved DRINK reach (gen_keyframes.py): muzzle 27.7 units in front of the centre at size 1
+    @Override
+    public double getDrinkReach() { return 1.731D * this.getMobSize(); }
+
+    @Override
     public Animation[] getAnimations() {
-        return new Animation[]{NO_ANIMATION, ATTACK_THREATEN, ATTACK_GORE};
+        return new Animation[]{NO_ANIMATION, ATTACK_THREATEN, ATTACK_GORE, EAT, DRINK};
     }
 
-    public Animation getAnimationEat() { return NO_ANIMATION; }
+    public Animation getAnimationEat() { return EAT; }
+
+    /** The carapace (2026-10-24): glyptodont herds are pairs, too small for herd defence to protect them. */
+    @Override
+    protected float getCarapaceReduction() {
+        return untamedwilds.config.ConfigGamerules.carapaceDamageReduction.get().floatValue();
+    }
 
     @Override
     public void updateAttributes() {
         this.applySpeciesSpeed();
-        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getAttack());
-        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getHealth());
+        this.applySpeciesHealthAndAttack();
         this.setHealth(this.getMaxHealth());
         this.setTailClub(getEntityData(this.getType()).getFlags(this.getVariant(), "hasTailClub") == 1);
     }

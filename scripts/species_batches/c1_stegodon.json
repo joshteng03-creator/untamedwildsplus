@@ -1,0 +1,10 @@
+[
+  {"type": "mammoth", "name": "stegodon_orientalis", "display": "Oriental Stegodon", "sciname": "Stegodon orientalis",
+   "entry": {"scale": 0.867, "rarity": 3, "attack": 10, "health": 95,
+             "flags": {"groupCount": 8, "hasLargeTusks": 1, "headShape": 0, "backShape": 3, "tuskShape": 6, "earSize": 1},
+             "spawnBiomes": [["category|jungle"], ["category|forest"]], "ecology": {"speed": 0.14}}},
+  {"type": "mammoth", "name": "stegodon_florensis", "display": "Flores Stegodon", "sciname": "Stegodon florensis",
+   "entry": {"scale": 0.433, "rarity": 3, "attack": 5, "health": 40,
+             "flags": {"groupCount": 6, "headShape": 0, "backShape": 3, "tuskShape": 6, "earSize": 1},
+             "spawnBiomes": [["category|savanna"], ["category|plains"], ["category|jungle"]], "ecology": {"speed": 0.18}}}
+]

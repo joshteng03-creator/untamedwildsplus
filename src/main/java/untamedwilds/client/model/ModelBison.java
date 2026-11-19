@@ -211,6 +211,60 @@ public class ModelBison extends AdvancedEntityModel<EntityBison> {
     private void animate(IAnimatedEntity entityIn) {
         EntityBison bison = (EntityBison) entityIn;
         animator.update(bison);
+        // <gen:idle-poses> 2.8.0: SOLVED by scripts/pose_reach.py against this model's own boxes (muzzle to the grass / the
+        // water line beyond the bank, every head part and horn family clear of the ground, nothing through the torso).
+        // Regenerate, never hand-edit: python scripts/gen_keyframes.py bison
+        // EAT (40t, GrazeGoal's mouthful): head down to the grass, a cropping lift, back down
+        animator.setAnimation(EntityBison.EAT);
+        animator.startKeyframe(10);
+        this.rotate(animator, head_neck, 37.5F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, 14.6F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 1.4F, -1.3F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, head_neck, 37.5F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, 8.6F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 1.4F, -1.3F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, head_neck, 37.5F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, 14.6F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 1.4F, -1.3F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(10);
+        animator.resetKeyframe(10);
+        // DRINK (100t, DrinkGoal): muzzle to the water past the bank edge, two swallows lifting the head
+        animator.setAnimation(EntityBison.DRINK);
+        animator.startKeyframe(15);
+        this.rotate(animator, head_neck, 17.0F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, 4.5F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 5.1F, -2.2F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(20);
+        animator.startKeyframe(5);
+        this.rotate(animator, head_neck, 17.0F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, -0.5F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 5.1F, -2.2F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, head_neck, 17.0F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, 4.5F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 5.1F, -2.2F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(20);
+        animator.startKeyframe(5);
+        this.rotate(animator, head_neck, 17.0F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, -0.5F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 5.1F, -2.2F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, head_neck, 17.0F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, 4.5F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 5.1F, -2.2F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(10);
+        animator.resetKeyframe(15);
+        // </gen:idle-poses>
 
         animator.setAnimation(EntityBison.ATTACK_THREATEN);
         for (int i = 0; i < 2; i++) {
@@ -266,11 +320,11 @@ public class ModelBison extends AdvancedEntityModel<EntityBison> {
         // Per-species toggles read straight from the species data. long_horned = longer horns;
         // aurochs/giant_buffalo = cattle/buffalo, so hide the shaggy bison hair. Shared model instance,
         // so set on BOTH branches every frame.
-        boolean longHorns = ComplexMob.getEntityData(bison.getType()).getFlags(bison.getVariant(), "longHorns") == 1;
+        boolean longHorns = ComplexMob.speciesFlag(bison, "longHorns") == 1;
         float hornLen = longHorns ? 2.0F : 1.0F;
         this.head_horn_left.setScale(hornLen, 1.0F, 1.0F);
         this.head_horn_right.setScale(hornLen, 1.0F, 1.0F);
-        boolean lessHair = ComplexMob.getEntityData(bison.getType()).getFlags(bison.getVariant(), "lessHair") == 1;
+        boolean lessHair = ComplexMob.speciesFlag(bison, "lessHair") == 1;
         this.body_hair.showModel = !lessHair;
         this.head_beard.showModel = !lessHair;
         this.arm_left_fur.showModel = !lessHair;

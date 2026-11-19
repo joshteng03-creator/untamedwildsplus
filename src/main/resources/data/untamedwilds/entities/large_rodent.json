@@ -1,0 +1,138 @@
+{
+  "name": "large_rodent",
+  "breeding": "LATE_SPRING",
+  "growing_time": 6,
+  "offspring": 2,
+  "activityType": "crepuscular",
+  "favourite_food": "minecraft:sugar_cane",
+  "sounds":{
+    "ambient":"untamedwilds:entity.large_rodent.ambient",
+    "hurt":"untamedwilds:entity.large_rodent.hurt",
+    "death":"untamedwilds:entity.large_rodent.death",
+    "alarm":"untamedwilds:entity.large_rodent.alarm"
+  },
+  "flags": {
+    "groupCount": 6
+  },
+  "ecology": {
+    "tags": [
+      "small_game"
+    ]
+  },
+  "species": [
+    {
+      "name": "capybara",
+      "variant": 0,
+      "scale": 0.816,
+      "rarity": 3,
+      "attack": 3,
+      "health": 20,
+      "flags": {
+        "groupCount": 10
+      },
+      "spawnBiomes": [
+        [
+          "category|swamp"
+        ],
+        [
+          "category|jungle"
+        ],
+        [
+          "category|river"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.24
+      }
+    },
+    {
+      "name": "neochoerus",
+      "variant": 1,
+      "scale": 1.196,
+      "rarity": 2,
+      "attack": 5,
+      "health": 34,
+      "flags": {
+        "groupCount": 6
+      },
+      "spawnBiomes": [
+        [
+          "category|swamp"
+        ],
+        [
+          "category|river"
+        ],
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.23,
+        "tags": [
+          "small_game",
+          "grazer"
+        ]
+      }
+    },
+    {
+      "name": "castoroides",
+      "variant": 2,
+      "scale": 1.056,
+      "rarity": 2,
+      "attack": 5,
+      "health": 32,
+      "flags": {
+        "groupCount": 3
+      },
+      "spawnBiomes": [
+        [
+          "category|river"
+        ],
+        [
+          "category|swamp"
+        ],
+        [
+          "category|forest"
+        ],
+        [
+          "category|taiga"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.2,
+        "tags": [
+          "small_game",
+          "grazer"
+        ]
+      }
+    },
+    {
+      "name": "beaver",
+      "variant": 3,
+      "scale": 0.45,
+      "rarity": 3,
+      "attack": 2,
+      "health": 14,
+      "flags": {
+        "groupCount": 4
+      },
+      "spawnBiomes": [
+        [
+          "category|river"
+        ],
+        [
+          "category|swamp"
+        ],
+        [
+          "category|forest"
+        ],
+        [
+          "category|taiga"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.2
+      }
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+    "name": "Honey Badger",
+    "icon": "untamedwilds:textures/icon/mustelid/honey_badger.png",
+    "category": "untamedwilds:mustelid_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Honey Badger",
+            "text": "The $(o)Honey Badger$() ($(o)Mellivora capensis$()), or ratel, is a stocky, short-legged mustelid of Africa, the Middle East and India.$(br2)It is renowned for its fearlessness, defending itself against animals many times its size with its sharp claws and its thick, loose skin, which is hard to bite through.$(br2)It eats almost anything, from insects and honey to snakes and small mammals, and has a striking silver-white mantle over a black body."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:mustelid{Variant: 1, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Honey Badger",
+            "text": "Relative Size: ★☆☆☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Raw Rabbit$(br2)Number of Offspring: 2$(br2)Growth time: 6 Days"
+        }
+    ]
+}

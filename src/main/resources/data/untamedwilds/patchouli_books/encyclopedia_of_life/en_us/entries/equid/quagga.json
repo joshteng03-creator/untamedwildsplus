@@ -1,0 +1,22 @@
+{
+    "name": "Quagga",
+    "icon": "untamedwilds:textures/icon/equid/quagga.png",
+    "category": "untamedwilds:equid_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Quagga",
+            "text": "The quagga ($(o)Equus quagga quagga$()) is an extinct subspecies of the plains zebra that lived on the grasslands of the Karoo and southern Free State of South Africa.$(br2)It was striped only on the head, neck and forequarters, fading to a plain brown on the rear of its body.$(br2)Hunted heavily by settlers, it vanished in the wild in the 1870s, and the last known quagga died at Amsterdam Zoo in 1883."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:equid{Variant: 4, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Quagga",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

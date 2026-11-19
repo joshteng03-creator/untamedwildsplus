@@ -40,11 +40,15 @@ import untamedwilds.util.EcologyTags;
 import untamedwilds.entity.ai.target.DefendHerdMateTarget;
 import untamedwilds.entity.ai.target.SmartHurtByTargetGoal;
 import untamedwilds.entity.ai.RetreatWhenRoutedGoal;
+import untamedwilds.entity.MountProfile;
 
 public class EntityCamel extends ComplexMobTerrestrial implements INewSkins, ISpecies, IPackEntity {
 
     public static final Animation IDLE_TALK = Animation.create(20);
     public static final Animation ATTACK_SPIT = Animation.create(20);
+    public static final Animation EAT = Animation.create(40);   // 2.8.0 idle pose (gen_keyframes.py)
+    public static final Animation DRINK = Animation.create(100);   // 2.8.0 idle pose (gen_keyframes.py)
+    public static final Animation ALERT = Animation.create(40);   // 2.8.0 idle pose (gen_keyframes.py)
 
     public EntityCamel(EntityType<? extends ComplexMob> type, Level worldIn) {
         super(type, worldIn);
@@ -62,10 +66,12 @@ public class EntityCamel extends ComplexMobTerrestrial implements INewSkins, ISp
         // Whole-herd flight. Fires before the attack goal, so a bitten animal runs with the
         // herd instead of turning to fight -- unless it is cornered and no escape path exists.
         this.goalSelector.addGoal(2, new HerdFleeGoal<>(this, LivingEntity.class, 20, 1.6D, 2.0D, EcologyTags::isPredator));
+        this.goalSelector.addGoal(3, new AlertGoal(this));   // 2.8.0 vigilance (below flight, never equal)
         this.goalSelector.addGoal(2, new SmartMeleeAttackGoal(this, 1.6D, false));
         //this.goalSelector.addGoal(2, new RangedAttackGoal(this, 1.25D, 40, 20.0F));
         this.goalSelector.addGoal(3, new SmartMateGoal(this, 0.8D));
         this.goalSelector.addGoal(3, new GrazeGoal(this, 10));
+        this.goalSelector.addGoal(3, new DrinkGoal(this));   // 2.8.0 cosmetic waterhole visits
         /* Density dependence, expressed as MOVEMENT rather than as a cap on births: a herd that
          * has eaten its range out, or that is standing in an overcrowded neighbourhood, shifts
          * ground, and surplus young adults disperse to found herds elsewhere. Runs on the herd
@@ -197,11 +203,19 @@ public class EntityCamel extends ComplexMobTerrestrial implements INewSkins, ISp
     }
 
     @Override
+    public Animation getAnimationDrink() { return DRINK; }
+    @Override
+    public Animation getAnimationAlert() { return ALERT; }
+    // 2.8.0 solved DRINK reach (gen_keyframes.py): muzzle 23.4 units in front of the centre at size 1
+    @Override
+    public double getDrinkReach() { return 1.461D * this.getMobSize(); }
+
+    @Override
     public Animation[] getAnimations() {
-        return new Animation[]{NO_ANIMATION, IDLE_TALK, ATTACK_SPIT};
+        return new Animation[]{NO_ANIMATION, IDLE_TALK, ATTACK_SPIT, EAT, DRINK, ALERT};
     }
 
-    public Animation getAnimationEat() { return NO_ANIMATION; }
+    public Animation getAnimationEat() { return EAT; }
 
     public void performRangedAttack(LivingEntity entityIn, float p_33318_) {
         /* Zero damage, deliberately. A camel spit is a warning, not an attack: it must not be able to
@@ -219,5 +233,10 @@ public class EntityCamel extends ComplexMobTerrestrial implements INewSkins, ISp
             this.level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.LLAMA_SPIT, this.getSoundSource(), 1.0F, 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F);
         }
         this.level.addFreshEntity(camel_spit);
+    }
+
+    @Override
+    public MountProfile getMountProfile() {
+        return MountProfile.CAMELID;
     }
 }

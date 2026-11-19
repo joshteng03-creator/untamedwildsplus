@@ -1,0 +1,22 @@
+{
+    "name": "Aldabra Giant Tortoise",
+    "icon": "untamedwilds:textures/icon/tortoise/aldabra.png",
+    "category": "untamedwilds:tortoise_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Aldabra Giant Tortoise",
+            "text": "The Aldabra giant tortoise ($(o)Aldabrachelys gigantea$()) lives on Aldabra Atoll in the Seychelles, in the Indian Ocean.$(br2)It has a high, domed, dark brown shell, thick scaly legs and a long neck, and large males can weigh over 250 kilograms.$(br2)About 100,000 live on Aldabra, and some have been released on small islands off Mauritius to take the place of its extinct giant tortoises."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:tortoise{Variant: 6, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Aldabra Giant Tortoise",
+            "text": "Relative Size: ★★★☆☆$(br2)Always active$(br2)1 Color$(br2)Favourite Food: Apple$(br2)Number of Offspring: 5$(br2)Growth time: 6 Days"
+        }
+    ]
+}

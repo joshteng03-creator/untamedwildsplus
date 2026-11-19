@@ -1,0 +1,22 @@
+{
+    "name": "Kiang",
+    "icon": "untamedwilds:textures/icon/equid/kiang.png",
+    "category": "untamedwilds:equid_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Kiang",
+            "text": "The kiang ($(o)Equus kiang$()) is the largest wild ass, living on the high grasslands of the Tibetan Plateau.$(br2)Its coat is rich chestnut, with white legs, belly, chest and muzzle, a dark stripe down its back and a short, upright mane.$(br2)Kiangs graze at heights of up to 5,300 metres, and in winter they sometimes gather in herds of several hundred."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:equid{Variant: 9, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Kiang",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

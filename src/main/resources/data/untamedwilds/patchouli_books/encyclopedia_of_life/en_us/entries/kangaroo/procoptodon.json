@@ -1,0 +1,22 @@
+{
+    "name": "Giant Short-faced Kangaroo",
+    "icon": "untamedwilds:textures/icon/kangaroo/procoptodon.png",
+    "category": "untamedwilds:kangaroo_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Giant Short-faced Kangaroo",
+            "text": "$(o)Procoptodon$() ($(o)Procoptodon goliah$()) was the largest kangaroo known, standing about 2 metres tall. It lived in Australia during the Pleistocene.$(br2)It had a short, flat face and long arms with two long clawed fingers, which it probably used to pull down branches to browse.$(br2)Its hind feet each carried a single large toe, like a hoof."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:kangaroo{Variant: 2, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Giant Short-faced Kangaroo",
+            "text": "Relative Size: ★★★☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 8 Days"
+        }
+    ]
+}

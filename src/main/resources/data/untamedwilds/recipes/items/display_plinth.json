@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "P",
+    "S"
+  ],
+  "key": {
+    "P": {
+      "item": "minecraft:oak_slab"
+    },
+    "S": {
+      "item": "minecraft:smooth_stone"
+    }
+  },
+  "result": {
+    "item": "untamedwilds:display_plinth",
+    "count": 1
+  }
+}

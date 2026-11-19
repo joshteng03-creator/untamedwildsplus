@@ -1,0 +1,22 @@
+{
+    "name": "Cave Hyena",
+    "icon": "untamedwilds:textures/icon/hyena/cave_hyena.png",
+    "category": "untamedwilds:hyena_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Cave Hyena",
+            "text": "The cave hyena ($(o)Crocuta crocuta spelaea$()) is an extinct form of the spotted hyena that lived across Europe and northern Asia during the Pleistocene.$(br2)It was larger than the living spotted hyena, and both hunted and scavenged large Ice Age animals such as horses and woolly rhinoceroses.$(br2)Cave hyenas used caves as dens, where they gathered huge accumulations of gnawed bones."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:hyena{Variant: 5, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Cave Hyena",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Nighttime$(br2)1 Color$(br2)Favourite Food: Rotten Flesh$(br2)Number of Offspring: 2$(br2)Growth time: 4 Days"
+        }
+    ]
+}

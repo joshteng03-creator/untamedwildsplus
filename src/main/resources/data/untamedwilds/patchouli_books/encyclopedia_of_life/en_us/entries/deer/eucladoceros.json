@@ -1,0 +1,22 @@
+{
+    "name": "Schomburgk's Deer",
+    "icon": "untamedwilds:textures/icon/deer/eucladoceros.png",
+    "category": "untamedwilds:deer_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Schomburgk's Deer",
+            "text": "Schomburgk's deer ($(o)Rucervus schomburgki$()) is an extinct deer that lived on the swampy, grassy plains of the Chao Phraya River valley in central Thailand.$(br2)Males grew striking basket-like antlers with many branching tines, while females had none.$(br2)It was driven to extinction by hunting and by the conversion of its swamps to rice fields; the last wild deer was killed by 1932, and the last captive one in 1938."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:deer{Variant: 13, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Schomburgk's Deer",
+            "text": "Relative Size: ★★★☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

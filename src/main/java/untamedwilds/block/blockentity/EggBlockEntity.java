@@ -50,7 +50,8 @@ public class EggBlockEntity extends BlockEntity {
                         }
                         if (spawn instanceof ComplexMob entitySpawn) {
                             entitySpawn.setVariant(EntityUtils.getClampedNumberOfSpecies(this.variant, this.entityType));
-                            entitySpawn.setAge(ComplexMob.getEntityData(this.entityType).getGrowingTime(this.variant) * ConfigGamerules.cycleLength.get() * -2);
+                            // the species' real maturity time (2026-11-14): the old raw growing_time x cycle x 2 ignored maturity_multiplier
+                            entitySpawn.setAge(-entitySpawn.getAdulthoodTime());
                             entitySpawn.setBaby(true);
                             entitySpawn.setGender(worldIn.getRandom().nextInt(2));
                             entitySpawn.setRandomMobSize();
@@ -62,6 +63,7 @@ public class EggBlockEntity extends BlockEntity {
                         spawnParticles(worldIn, spawn.getX(), spawn.getY(), spawn.getZ(), new BlockParticleOption(ParticleTypes.BLOCK, Blocks.TURTLE_EGG.defaultBlockState()));
                         worldIn.destroyBlock(this.getBlockPos(), false);
                         worldIn.addFreshEntityWithPassengers(spawn);
+                        if (spawn instanceof ComplexMob hatched) untamedwilds.util.EcoStats.recordBirth(hatched);
                         this.setCanSpawn(false);
                         setChanged();
                     }

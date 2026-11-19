@@ -1,0 +1,22 @@
+{
+    "name": "Sthenurus",
+    "icon": "untamedwilds:textures/icon/kangaroo/sthenurus.png",
+    "category": "untamedwilds:kangaroo_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Sthenurus",
+            "text": "$(o)Sthenurus$() ($(o)Sthenurus stirlingi$()) was a large short-faced kangaroo that lived in southern Australia during the Pleistocene.$(br2)Like its relative Procoptodon, it browsed on shrubs and trees using its long arms.$(br2)Studies of its skeleton suggest it may have walked upright on its hind legs, one foot at a time, rather than hopping."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:kangaroo{Variant: 3, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Sthenurus",
+            "text": "Relative Size: ★★★☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 8 Days"
+        }
+    ]
+}

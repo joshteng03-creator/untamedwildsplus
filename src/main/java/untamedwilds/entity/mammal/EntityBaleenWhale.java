@@ -123,8 +123,13 @@ public class EntityBaleenWhale extends ComplexMobAquatic implements ISpecies, IN
             this.ringBuffer[ringBufferIndex][1] = this.getY();
             Vector3d[] avector3d = new Vector3d[this.whale_parts.length];
 
+            /* 2.8.0: on the client the body parts only need to push the local player; pushing server-controlled
+             * entities there does nothing, so the per-part entity search is skipped unless a player is near. */
+            boolean partCollisions = !this.level.isClientSide || this.level.hasNearbyAlivePlayer(this.getX(), this.getY(), this.getZ(), 16.0D);
             for (int j = 0; j < this.whale_parts.length; ++j) {
-                this.whale_parts[j].collideWithNearbyEntities();
+                if (partCollisions) {
+                    this.whale_parts[j].collideWithNearbyEntities();
+                }
                 avector3d[j] = new Vector3d(this.whale_parts[j].getX(), this.whale_parts[j].getY(), this.whale_parts[j].getZ());
             }
             float f15 = (float) (this.getMovementOffsets(5, 1.0F)[1] - this.getMovementOffsets(10, 1.0F)[1]) * 10.0F * ((float) Math.PI / 180F);

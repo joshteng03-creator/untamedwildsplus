@@ -70,13 +70,16 @@ public class HerdMigrationGoal extends Goal {
     /** How often the (expensive) range assessment is allowed to run. */
     private static final int ASSESS_INTERVAL = 100;
 
+    /** 2.8.0: parity-proof replacement for a tickCount % ASSESS_INTERVAL gate (see GoalTimer). */
+    private final untamedwilds.util.GoalTimer assessTimer = new untamedwilds.util.GoalTimer(ASSESS_INTERVAL, true);
+
     @Override
     public boolean canUse() {
         /* Throttled FIRST and hard. GoalSelector calls canUse every tick on every goal that is not
          * running, and both halves of the decision below scan a large box -- the crowding check sweeps
          * 96x32x96 for entities and the range score samples blocks. At once every five seconds this is
          * negligible; at once a tick it would be the most expensive thing in the mod. */
-        if (this.taskOwner.tickCount % ASSESS_INTERVAL != 0) {
+        if (!this.assessTimer.ready(this.taskOwner)) {
             return false;
         }
         HerdEntity herd = this.taskOwner.herd;

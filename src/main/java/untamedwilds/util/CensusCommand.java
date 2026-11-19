@@ -50,7 +50,7 @@ import java.util.concurrent.CompletableFuture;
  * "predator and prey counts oscillate within bounds instead of one going to zero", which cannot be
  * judged from AnalyzerItem readouts of single animals.
  *
- *   /untamedwilds census               one snapshot: chat summary + rows appended to logs/uw_census.csv
+ *   /untamedwilds census               one snapshot: chat summary + rows appended to logs/uw_census_v2.csv
  *   /untamedwilds census auto <min>   snapshot every <min> real minutes (0 stops) -- for AFK soak tests
  *   /untamedwilds census <species>    status report for one species (type:species), a whole type (type),
  *                                     or a bare species name if unique; Tab lists them, matching anywhere
@@ -61,11 +61,30 @@ import java.util.concurrent.CompletableFuture;
 @Mod.EventBusSubscriber(modid = UntamedWilds.MOD_ID)
 public class CensusCommand {
 
-    private static final String HEADER = "game_time,day,dimension,type,species,diet,adults,juveniles,mean_condition,starving,senescent\n";
+    /* v2 (2026-10-24): births and deaths by cause since the previous row, from EcoStats. A new file name, so
+     * an old logs/uw_census.csv keeps its own header and columns instead of being appended to misaligned. */
+    private static final String HEADER = "game_time,day,dimension,type,species,diet,adults,juveniles,mean_condition,starving,senescent,"
+            + "births,deaths_predation,deaths_starvation,deaths_old_age,deaths_other\n";
+    private static final String CSV_NAME = "uw_census_v2.csv";
     private static int autoIntervalTicks = 0;
     private static int ticksUntilNext = 0;
     /* Last population seen per species query, so a report can show the trend since the previous look. */
     private static final Map<String, Integer> LAST_COUNT = new HashMap<>();
+
+    /** One line of climate context for the census: season (Serene Seasons), local weather, regrowth factor. */
+    private static String climateLine(CommandSourceStack source) {
+        net.minecraft.server.level.ServerLevel level = source.getLevel();
+        net.minecraft.core.BlockPos pos = new net.minecraft.core.BlockPos(source.getPosition());
+        untamedwilds.compat.CompatSereneSeasons.Season season = untamedwilds.compat.CompatSereneSeasons.season(level);
+        String sub = untamedwilds.compat.CompatSereneSeasons.subSeason(level);
+        String seasonText = season == untamedwilds.compat.CompatSereneSeasons.Season.NONE ? "no seasons"
+                : (sub != null ? sub.toLowerCase(Locale.ROOT).replace('_', ' ') : season.name().toLowerCase(Locale.ROOT))
+                + (untamedwilds.world.ClimateHelper.seasonAt(level, pos) == untamedwilds.compat.CompatSereneSeasons.Season.NONE ? " (tropical here)" : "");
+        String weather = untamedwilds.world.ClimateHelper.isSnowingAt(level, pos) ? "snowing"
+                : level.isThundering() ? "thunderstorm" : untamedwilds.world.ClimateHelper.isRainingAt(level, pos) ? "raining" : "clear";
+        return String.format(Locale.ROOT, "Climate: %s, %s here, forage regrowth x%.2f",
+                seasonText, weather, untamedwilds.world.ClimateHelper.forageRegrowthFactor(level, pos));
+    }
 
     @SubscribeEvent
     public static void onRegisterCommands(RegisterCommandsEvent event) {
@@ -77,6 +96,7 @@ public class CensusCommand {
                 .requires(source -> source.hasPermission(2))
                 .then(Commands.literal("census")
                         .executes(ctx -> {
+                            ctx.getSource().sendSuccess(new TextComponent(climateLine(ctx.getSource())), false);
                             List<String> summary = snapshot(ctx.getSource().getServer());
                             summary.forEach(line -> ctx.getSource().sendSuccess(new TextComponent(line), false));
                             return summary.size();
@@ -89,7 +109,7 @@ public class CensusCommand {
                                             ticksUntilNext = 0;
                                             ctx.getSource().sendSuccess(new TextComponent(minutes == 0
                                                     ? "Census auto-logging stopped"
-                                                    : "Census logging to logs/uw_census.csv every " + minutes + " min"), true);
+                                                    : "Census logging to logs/uw_census_v2.csv every " + minutes + " min"), true);
                                             return minutes;
                                         })))
                         /* A sibling of the "auto" literal: Brigadier prefers a literal that matches the
@@ -289,6 +309,8 @@ public class CensusCommand {
         Map<String, int[]> perType = new TreeMap<>();   // type -> {adults, juveniles}
         long gameTime = server.overworld().getGameTime();
         long day = server.overworld().getDayTime() / 24000L;
+        Map<String, int[]> events = EcoStats.drain();
+        int preyAdults = 0, predatorAdults = 0;
 
         for (ServerLevel level : server.getAllLevels()) {
             Map<String, Tally> groups = new TreeMap<>();
@@ -300,14 +322,23 @@ public class CensusCommand {
                 t.add(mob);
                 int[] sum = perType.computeIfAbsent(type, k -> new int[2]);
                 sum[mob.isBaby() ? 1 : 0]++;
+                if (!mob.isBaby() && !mob.isTame()) {
+                    if (mob.isCarnivore()) predatorAdults++; else preyAdults++;
+                }
             }
             String dim = level.dimension().location().toString();
             groups.forEach((key, t) -> csv.append(gameTime).append(',').append(day).append(',').append(dim).append(',')
                     .append(key).append(',').append(t.diet).append(',').append(t.adults).append(',').append(t.juveniles).append(',')
                     .append(String.format(java.util.Locale.ROOT, "%.3f", t.conditionSum / Math.max(1, t.adults + t.juveniles))).append(',')
-                    .append(t.starving).append(',').append(t.senescent).append('\n'));
+                    .append(t.starving).append(',').append(t.senescent).append(',')
+                    .append(eventColumns(events.remove(key))).append('\n'));
         }
 
+        // Species with births/deaths since the last row but none left alive here (a local extinction) still get a row.
+        for (Map.Entry<String, int[]> e : events.entrySet()) {
+            csv.append(gameTime).append(',').append(day).append(",-,").append(e.getKey()).append(",-,0,0,0.000,0,0,")
+                    .append(eventColumns(e.getValue())).append('\n');
+        }
         write(csv.toString());
 
         List<String> summary = new ArrayList<>();
@@ -324,12 +355,15 @@ public class CensusCommand {
         if (line.length() > 0) {
             summary.add(line.toString());
         }
-        summary.add("Rows appended to logs/uw_census.csv");
+        summary.add(String.format(Locale.ROOT, "Prey per predator (adults): %.1f  (%d herbivores / %d carnivores; target ~%.0f)",
+                preyAdults / (float) Math.max(1, predatorAdults), preyAdults, predatorAdults,
+                untamedwilds.config.ConfigGamerules.predatorBreedRatio.get()));
+        summary.add("Rows appended to logs/" + CSV_NAME);
         return summary;
     }
 
     private static void write(String rows) {
-        Path file = FMLPaths.GAMEDIR.get().resolve("logs").resolve("uw_census.csv");
+        Path file = FMLPaths.GAMEDIR.get().resolve("logs").resolve(CSV_NAME);
         try {
             Files.createDirectories(file.getParent());
             if (!Files.exists(file)) {
@@ -339,6 +373,14 @@ public class CensusCommand {
         } catch (IOException e) {
             UntamedWilds.LOGGER.error("Could not write census file " + file, e);
         }
+    }
+
+    private static String eventColumns(int[] counts) {
+        if (counts == null) {
+            return "0,0,0,0,0";
+        }
+        return counts[EcoStats.BIRTHS] + "," + counts[EcoStats.PREDATION] + "," + counts[EcoStats.STARVATION] + ","
+                + counts[EcoStats.OLD_AGE] + "," + counts[EcoStats.OTHER];
     }
 
     private static final class Tally {

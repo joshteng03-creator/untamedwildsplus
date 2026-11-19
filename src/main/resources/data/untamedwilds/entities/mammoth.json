@@ -1,36 +1,44 @@
 {
-  "name":"mammoth",
-  "breeding":"EARLY_SUMMER",
-  "growing_time":16,
-  "offspring":1,
-  "activityType":"cathemeral",
-  "favourite_food":"minecraft:hay_block",
+  "name": "mammoth",
+  "breeding": "EARLY_SUMMER",
+  "growing_time": 16,
+  "offspring": 1,
+  "activityType": "cathemeral",
+  "favourite_food": "minecraft:hay_block",
   "sounds":{
-    "ambient":"minecraft:entity.ravager.ambient",
-    "hurt":"minecraft:entity.ravager.hurt",
-    "death":"minecraft:entity.ravager.death"
+    "ambient":"untamedwilds:entity.mammoth.ambient",
+    "hurt":"untamedwilds:entity.mammoth.hurt",
+    "death":"untamedwilds:entity.mammoth.death",
+    "threat":"untamedwilds:entity.mammoth.threat",
+    "alarm":"untamedwilds:entity.mammoth.alarm",
+    "call":"untamedwilds:entity.mammoth.call",
+    "step":"untamedwilds:entity.megafauna.step"
   },
-  "flags":{
-    "groupCount":4,
-    "hasWoollyCoat":0,
-    "hasLargeTusks":0,
-    "flatBack":0,
-    "earSize":0
+  "flags": {
+    "groupCount": 4,
+    "hasWoollyCoat": 0,
+    "hasLargeTusks": 0,
+    "flatBack": 0,
+    "earSize": 0
   },
-  "species":[
+  "species": [
     {
-      "name":"woolly",
-      "variant":0,
-      "scale":1.0,
-      "rarity":4,
-      "attack":10,
-      "health":90,
-      "flags":{
-        "groupCount":10,
-        "hasWoollyCoat":1,
-        "hasLargeTusks":1
+      "name": "woolly",
+      "variant": 0,
+      "scale": 0.889,
+      "rarity": 4,
+      "attack": 10,
+      "health": 90,
+      "flags": {
+        "groupCount": 10,
+        "hasWoollyCoat": 1,
+        "hasLargeTusks": 1,
+        "headShape": 0,
+        "backShape": 0,
+        "tuskShape": 0,
+        "earSize": 0
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|icy"
         ],
@@ -38,43 +46,51 @@
           "category|taiga"
         ]
       ],
-      "ecology":{
-        "speed":0.14
+      "ecology": {
+        "speed": 0.14
       }
     },
     {
-      "name":"columbian",
-      "variant":1,
-      "scale":1.15,
-      "rarity":3,
-      "attack":11,
-      "health":110,
-      "flags":{
-        "groupCount":10,
-        "hasLargeTusks":1
+      "name": "columbian",
+      "variant": 1,
+      "scale": 1.126,
+      "rarity": 3,
+      "attack": 11,
+      "health": 110,
+      "flags": {
+        "groupCount": 10,
+        "hasLargeTusks": 1,
+        "headShape": 0,
+        "backShape": 0,
+        "tuskShape": 0,
+        "earSize": 0
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|plains"
         ]
       ],
-      "ecology":{
-        "speed":0.14
+      "ecology": {
+        "speed": 0.14
       }
     },
     {
-      "name":"steppe_mammoth",
-      "variant":2,
-      "scale":1.2,
-      "rarity":2,
-      "attack":12,
-      "health":120,
-      "flags":{
-        "groupCount":9,
-        "hasWoollyCoat":1,
-        "hasLargeTusks":1
+      "name": "steppe_mammoth",
+      "variant": 2,
+      "scale": 1.185,
+      "rarity": 2,
+      "attack": 12,
+      "health": 120,
+      "flags": {
+        "groupCount": 9,
+        "hasWoollyCoat": 1,
+        "hasLargeTusks": 1,
+        "headShape": 0,
+        "backShape": 0,
+        "tuskShape": 0,
+        "earSize": 0
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|taiga"
         ],
@@ -82,23 +98,27 @@
           "category|extreme_hills"
         ]
       ],
-      "ecology":{
-        "speed":0.14
+      "ecology": {
+        "speed": 0.14
       }
     },
     {
-      "name":"mastodon",
-      "variant":3,
-      "scale":1.0,
-      "rarity":3,
-      "attack":10,
-      "health":95,
-      "flags":{
-        "groupCount":6,
-        "hasLargeTusks":1,
-        "flatBack":1
+      "name": "mastodon",
+      "variant": 3,
+      "scale": 0.933,
+      "rarity": 3,
+      "attack": 10,
+      "health": 95,
+      "flags": {
+        "groupCount": 6,
+        "hasLargeTusks": 1,
+        "flatBack": 1,
+        "headShape": 4,
+        "backShape": 3,
+        "tuskShape": 3,
+        "earSize": 0
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|forest"
         ],
@@ -106,103 +126,120 @@
           "category|swamp"
         ]
       ],
-      "ecology":{
-        "speed":0.14
+      "ecology": {
+        "speed": 0.14
       }
     },
     {
-      "name":"straight_tusked",
-      "variant":4,
-      "scale":1.15,
-      "rarity":2,
-      "attack":11,
-      "health":105,
-      "flags":{
-        "groupCount":8,
-        "hasLargeTusks":1
+      "name": "straight_tusked",
+      "variant": 4,
+      "scale": 1.333,
+      "rarity": 2,
+      "attack": 11,
+      "health": 105,
+      "flags": {
+        "groupCount": 8,
+        "hasLargeTusks": 1,
+        "headShape": 3,
+        "backShape": 3,
+        "tuskShape": 2,
+        "earSize": 1
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|forest"
         ]
       ],
-      "ecology":{
-        "speed":0.14
+      "ecology": {
+        "speed": 0.14
       }
     },
     {
-      "name":"cuvieronius",
-      "variant":5,
-      "scale":0.8,
-      "rarity":2,
-      "attack":8,
-      "health":70,
-      "flags":{
-        "groupCount":6,
-        "flatBack":1
+      "name": "cuvieronius",
+      "variant": 5,
+      "scale": 0.767,
+      "rarity": 2,
+      "attack": 8,
+      "health": 70,
+      "flags": {
+        "groupCount": 6,
+        "flatBack": 1,
+        "headShape": 4,
+        "backShape": 3,
+        "tuskShape": 4,
+        "earSize": 0
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|jungle"
         ]
       ],
-      "ecology":{
-        "speed":0.15
+      "ecology": {
+        "speed": 0.15
       }
     },
     {
-      "name":"african_elephant",
-      "variant":6,
-      "scale":1.05,
-      "rarity":4,
-      "attack":10,
-      "health":100,
-      "flags":{
-        "earSize":2,
-        "groupCount":10
+      "name": "african_elephant",
+      "variant": 6,
+      "scale": 1.067,
+      "rarity": 4,
+      "attack": 10,
+      "health": 100,
+      "flags": {
+        "earSize": 2,
+        "groupCount": 10,
+        "headShape": 2,
+        "backShape": 1,
+        "tuskShape": 1
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|savanna"
         ]
       ],
-      "ecology":{
-        "speed":0.15
+      "ecology": {
+        "speed": 0.15
       }
     },
     {
-      "name":"asian_elephant",
-      "variant":7,
-      "scale":0.9,
-      "rarity":4,
-      "attack":9,
-      "health":90,
-      "flags":{
-        "earSize":1,
-        "groupCount":9
+      "name": "asian_elephant",
+      "variant": 7,
+      "scale": 0.941,
+      "rarity": 4,
+      "attack": 9,
+      "health": 90,
+      "flags": {
+        "earSize": 1,
+        "groupCount": 9,
+        "headShape": 1,
+        "backShape": 2,
+        "tuskShape": 5
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|jungle"
         ]
       ],
-      "ecology":{
-        "speed":0.14
+      "ecology": {
+        "speed": 0.14
       }
     },
     {
-      "name":"notiomastodon",
-      "variant":8,
-      "scale":0.95,
-      "rarity":2,
-      "attack":10,
-      "health":88,
-      "flags":{
-        "groupCount":6,
-        "hasLargeTusks":1,
-        "flatBack":1
+      "name": "notiomastodon",
+      "variant": 8,
+      "scale": 0.9,
+      "rarity": 2,
+      "attack": 10,
+      "health": 88,
+      "flags": {
+        "groupCount": 6,
+        "flatBack": 1,
+        "headShape": 4,
+        "backShape": 3,
+        "tuskShape": 3,
+        "earSize": 0
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|savanna"
         ],
@@ -210,23 +247,26 @@
           "category|plains"
         ]
       ],
-      "ecology":{
-        "speed":0.14
+      "ecology": {
+        "speed": 0.14
       }
     },
     {
-      "name":"paleoloxodon_namadicus",
-      "variant":9,
-      "scale":1.45,
-      "rarity":1,
-      "attack":14,
-      "health":150,
-      "flags":{
-        "groupCount":6,
-        "hasLargeTusks":1,
-        "earSize":1
+      "name": "paleoloxodon_namadicus",
+      "variant": 9,
+      "scale": 1.5,
+      "rarity": 1,
+      "attack": 14,
+      "health": 150,
+      "flags": {
+        "groupCount": 6,
+        "hasLargeTusks": 1,
+        "earSize": 1,
+        "headShape": 3,
+        "backShape": 3,
+        "tuskShape": 2
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|jungle"
         ],
@@ -234,21 +274,25 @@
           "category|savanna"
         ]
       ],
-      "ecology":{
-        "speed":0.13
+      "ecology": {
+        "speed": 0.13
       }
     },
     {
-      "name":"pygmy_mammoth",
-      "variant":10,
-      "scale":0.55,
-      "rarity":2,
-      "attack":5,
-      "health":40,
-      "flags":{
-        "groupCount":8
+      "name": "pygmy_mammoth",
+      "variant": 10,
+      "scale": 0.504,
+      "rarity": 2,
+      "attack": 5,
+      "health": 40,
+      "flags": {
+        "groupCount": 8,
+        "headShape": 0,
+        "backShape": 0,
+        "tuskShape": 0,
+        "earSize": 0
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|forest"
         ],
@@ -256,21 +300,25 @@
           "category|plains"
         ]
       ],
-      "ecology":{
-        "speed":0.18
+      "ecology": {
+        "speed": 0.18
       }
     },
     {
-      "name":"cretan_dwarf",
-      "variant":11,
-      "scale":0.45,
-      "rarity":1,
-      "attack":4,
-      "health":30,
-      "flags":{
-        "groupCount":8
+      "name": "cretan_dwarf",
+      "variant": 11,
+      "scale": 0.333,
+      "rarity": 1,
+      "attack": 4,
+      "health": 30,
+      "flags": {
+        "groupCount": 8,
+        "headShape": 3,
+        "backShape": 3,
+        "tuskShape": 2,
+        "earSize": 1
       },
-      "spawnBiomes":[
+      "spawnBiomes": [
         [
           "category|extreme_hills"
         ],
@@ -278,13 +326,69 @@
           "category|savanna"
         ]
       ],
-      "ecology":{
-        "speed":0.19
+      "ecology": {
+        "speed": 0.19
+      }
+    },
+    {
+      "name": "stegodon_orientalis",
+      "variant": 12,
+      "scale": 0.867,
+      "rarity": 3,
+      "attack": 10,
+      "health": 95,
+      "flags": {
+        "groupCount": 8,
+        "hasLargeTusks": 1,
+        "headShape": 0,
+        "backShape": 3,
+        "tuskShape": 6,
+        "earSize": 1
+      },
+      "spawnBiomes": [
+        [
+          "category|jungle"
+        ],
+        [
+          "category|forest"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.14
+      }
+    },
+    {
+      "name": "stegodon_florensis",
+      "variant": 13,
+      "scale": 0.433,
+      "rarity": 3,
+      "attack": 5,
+      "health": 40,
+      "flags": {
+        "groupCount": 6,
+        "headShape": 0,
+        "backShape": 3,
+        "tuskShape": 6,
+        "earSize": 1
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|plains"
+        ],
+        [
+          "category|jungle"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.18
       }
     }
   ],
-  "ecology":{
-    "tags":[
+  "ecology": {
+    "tags": [
       "megafauna"
     ]
   }

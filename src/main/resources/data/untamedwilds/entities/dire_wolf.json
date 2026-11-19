@@ -5,11 +5,13 @@
   "offspring": 3,
   "activityType": "cathemeral",
   "favourite_food": "minecraft:beef",
-  "sounds": {
-    "ambient": "minecraft:entity.wolf.ambient",
-    "hurt": "minecraft:entity.wolf.hurt",
-    "death": "minecraft:entity.wolf.death",
-    "threat": "minecraft:entity.wolf.growl"
+  "sounds":{
+    "ambient":"untamedwilds:entity.dire_wolf.ambient",
+    "hurt":"untamedwilds:entity.dire_wolf.hurt",
+    "death":"untamedwilds:entity.dire_wolf.death",
+    "threat":"untamedwilds:entity.dire_wolf.threat",
+    "alarm":"untamedwilds:entity.dire_wolf.alarm",
+    "call":"untamedwilds:entity.dire_wolf.call"
   },
   "species": [
     {
@@ -92,7 +94,7 @@
     {
       "name": "african_wild_dog",
       "variant": 3,
-      "scale": 0.6,
+      "scale": 0.7,
       "rarity": 3,
       "attack": 6,
       "health": 24,
@@ -136,12 +138,13 @@
     {
       "name": "thylacine",
       "variant": 5,
-      "scale": 0.5,
+      "scale": 0.6,
       "rarity": 2,
       "attack": 5,
       "health": 20,
       "flags": {
-        "groupCount": 2
+        "groupCount": 2,
+        "stiffTail": 1
       },
       "spawnBiomes": [
         [
@@ -274,6 +277,60 @@
       "ecology": {
         "speed": 0.24
       }
+    },
+    {
+      "name": "ethiopian_wolf",
+      "variant": 11,
+      "scale": 0.58,
+      "rarity": 3,
+      "attack": 4,
+      "health": 16,
+      "activityType": "diurnal",
+      "flags": {
+        "groupCount": 6,
+        "legLength": 1080,
+        "legThickness": 900
+      },
+      "spawnBiomes": [
+        [
+          "category|extreme_hills"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.27,
+        "diet": [
+          "small_game"
+        ]
+      }
+    },
+    {
+      "name": "golden_jackal",
+      "variant": 12,
+      "scale": 0.45,
+      "rarity": 4,
+      "attack": 3,
+      "health": 12,
+      "activityType": "crepuscular",
+      "flags": {
+        "groupCount": 3
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|desert"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.28,
+        "diet": [
+          "small_game"
+        ]
+      }
     }
   ],
   "ecology": {
@@ -288,6 +345,7 @@
   },
   "flags": {
     "legLength": 1000,
-    "legThickness": 1000
+    "legThickness": 1000,
+    "stiffTail": 0
   }
 }

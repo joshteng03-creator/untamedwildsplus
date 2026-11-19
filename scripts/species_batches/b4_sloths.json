@@ -1,0 +1,12 @@
+[
+  {"type": "ground_sloth", "name": "lestodon", "display": "Lestodon", "sciname": "Lestodon armatus",
+   "entry": {"scale": 0.92, "rarity": 3, "attack": 9, "health": 100, "flags": {"groupCount": 3, "headShape": 1},
+             "spawnBiomes": [["category|plains"], ["category|savanna"]], "ecology": {"speed": 0.12}}},
+  {"type": "ground_sloth", "name": "paramylodon", "display": "Harlan's Ground Sloth", "sciname": "Paramylodon harlani",
+   "entry": {"scale": 0.72, "rarity": 3, "attack": 7, "health": 70, "flags": {"groupCount": 1, "headShape": 1},
+             "spawnBiomes": [["category|plains"], ["category|forest"], ["category|savanna"]], "ecology": {"speed": 0.13}}},
+  {"type": "ground_sloth", "name": "nothrotheriops", "display": "Shasta Ground Sloth", "sciname": "Nothrotheriops shastensis",
+   "entry": {"scale": 0.42, "rarity": 3, "attack": 4, "health": 35, "activityType": "crepuscular",
+             "flags": {"groupCount": 1, "headShape": 0},
+             "spawnBiomes": [["category|desert"], ["category|mesa"], ["category|savanna"]], "ecology": {"speed": 0.15}}}
+]

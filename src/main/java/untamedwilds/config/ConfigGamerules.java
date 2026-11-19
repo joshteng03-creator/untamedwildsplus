@@ -95,6 +95,35 @@ public class ConfigGamerules {
     public static ForgeConfigSpec.IntValue forageRichDensity;
     public static ForgeConfigSpec.IntValue forageRegrowthInterval;
     public static ForgeConfigSpec.IntValue forageRegrowthAttempts;
+    public static ForgeConfigSpec.BooleanValue climateEffects;
+    public static ForgeConfigSpec.DoubleValue rainRegrowthBoost;
+    public static ForgeConfigSpec.DoubleValue springRegrowthBoost;
+    public static ForgeConfigSpec.DoubleValue winterRegrowthFactor;
+    public static ForgeConfigSpec.IntValue coldHungerDrain;
+    public static ForgeConfigSpec.BooleanValue weatherHerdBehaviour;
+    public static ForgeConfigSpec.IntValue wildebeestTrekInterval;
+    public static ForgeConfigSpec.IntValue wildebeestTrekDistance;
+    public static ForgeConfigSpec.IntValue migrationPredatorFollow;
+    // ---- self-regulating ecosystem (2026-10-24)
+    public static ForgeConfigSpec.IntValue maleRefractoryTicks;
+    public static ForgeConfigSpec.DoubleValue nursingFraction;
+    public static ForgeConfigSpec.DoubleValue carapaceDamageReduction;
+    public static ForgeConfigSpec.DoubleValue predatorRearingFraction;
+    public static ForgeConfigSpec.DoubleValue lactationDrainFactor;
+    public static ForgeConfigSpec.DoubleValue fullLitterCondition;
+    public static ForgeConfigSpec.IntValue maxScavengers;
+    public static ForgeConfigSpec.IntValue carrionFoodPerHealth;
+    public static ForgeConfigSpec.IntValue ratioRadius;
+    public static ForgeConfigSpec.DoubleValue predatorBreedRatio;
+    public static ForgeConfigSpec.DoubleValue predatorRelocateRatio;
+    public static ForgeConfigSpec.DoubleValue rarePredatorBreedRatio;
+    public static ForgeConfigSpec.DoubleValue rarePredatorCondition;
+    public static ForgeConfigSpec.IntValue predatorStarvationGrace;
+    public static ForgeConfigSpec.BooleanValue immigrationEnabled;
+    public static ForgeConfigSpec.IntValue immigrationInterval;
+    public static ForgeConfigSpec.DoubleValue immigrationPredatorShare;
+    public static ForgeConfigSpec.IntValue immigrationLocalCap;
+    public static ForgeConfigSpec.DoubleValue predatorLifespanMultiplier;
 
     ConfigGamerules(final ForgeConfigSpec.Builder builder) {
         builder.comment("Options pertaining to global Gamerules");
@@ -217,12 +246,12 @@ public class ConfigGamerules {
          * else here raises the KILL RATE, which is bounded by the hunger gate and the kill cooldown, but
          * more predators reaching adulthood means more animals each running their own hunger clock. If
          * herds start shrinking, pull predator_hunger_drain down first, then raise predator_herd_floor. */
-        predatorGestationMultiplier = builder.comment("Scales carnivore pregnancy length on top of gestation_multiplier. Lower values mean predators reproduce faster.",
-                "Predators are sparse, slow to mature and the only animals that can die doing their job, so at the shared rate their populations shrink to nothing over a long world.").defineInRange("gamerules.predator_gestation_multiplier", 0.33, 0.01, 2.0);
+        predatorGestationMultiplier = builder.comment("Scales carnivore pregnancy length on top of gestation_multiplier. Lower values mean predators reproduce faster. Default 1.0 since 2026-10-24: the old 0.33 (with 0.33 maturity and +2 litters) let predators out-breed their prey 3-6x; predator numbers are now held up by the numerical response and its rare-predator safety net instead.",
+                "Predators are sparse, slow to mature and the only animals that can die doing their job, so at the shared rate their populations shrink to nothing over a long world.").defineInRange("gamerules.predator_gestation_multiplier", 1.0, 0.01, 2.0);
         predatorMaturityMultiplier = builder.comment("Scales how long carnivore young take to reach adulthood, on top of maturity_multiplier. Lower values mean packs and prides replenish faster.",
-                "Cubs count for only BABY_ECO_FACTOR of an adult's eco level and are barred from every attack goal, so a long juvenile period is time a pack spends carrying members that cannot hunt.").defineInRange("gamerules.predator_maturity_multiplier", 0.33, 0.01, 2.0);
+                "Cubs count for only BABY_ECO_FACTOR of an adult's eco level and are barred from every attack goal, so a long juvenile period is time a pack spends carrying members that cannot hunt.").defineInRange("gamerules.predator_maturity_multiplier", 1.0, 0.01, 2.0);
         predatorLitterBonus = builder.comment("Added to a carnivore's litter size from the species JSON. The realised litter is 1 to (offspring + 1), so this widens the top of that range.",
-                "Worth knowing that the spotted hyena ships with offspring:1, the smallest litter of any predator in the mod despite a clan size of 20, which is much of why they vanish from old worlds. Set to 0 to disable.").defineInRange("gamerules.predator_litter_bonus", 2, 0, 6);
+                "Worth knowing that the spotted hyena ships with offspring:1, the smallest litter of any predator in the mod despite a clan size of 20, which is much of why they vanish from old worlds. Set to 0 to disable.").defineInRange("gamerules.predator_litter_bonus", 0, 0, 6);
 
         /* ---------------------------------------------------------------------------------------------
          * Ecosystem simulation. Everything below exists to answer one structural problem: predators were
@@ -336,5 +365,43 @@ public class ConfigGamerules {
                 "This is the other half of grazer_griefing: a herd eats a patch to dirt, moves on, and the range regrows behind it. Set to 0 to disable regrowth entirely.").defineInRange("gamerules.forage_regrowth_interval", 200, 0, 24000);
         forageRegrowthAttempts = builder.comment("Regrowth attempts per player per pass. Each attempt probes one random surface column near a player: dirt beside grass becomes grass again, and bare grass regrows short grass or fern.",
                 "Sampling follows players because Minecraft only ticks loaded chunks, so that is the only ground where a herd could have eaten anything in the first place. At the defaults this restores roughly what one large herd consumes; raise it if ranges stay bare, lower it if grazing leaves no visible mark.").defineInRange("gamerules.forage_regrowth_attempts", 32, 0, 512);
+        climateEffects = builder.comment("Climate and weather effects on animals (Ecosystem mode only): rain speeds forage regrowth, snow stops it, and animals that are not cold-adapted burn extra hunger in snow. With Serene Seasons installed, seasons also scale regrowth and a temperate winter counts as cold.",
+                "Breeding is never affected -- it runs all year regardless of season.").define("gamerules.climate_effects", true);
+        rainRegrowthBoost = builder.comment("Forage regrowth multiplier while it is raining on a player's surroundings.").defineInRange("gamerules.rain_regrowth_boost", 2.0D, 1.0D, 10.0D);
+        springRegrowthBoost = builder.comment("Forage regrowth multiplier in spring (Serene Seasons, temperate biomes only).").defineInRange("gamerules.spring_regrowth_boost", 1.5D, 1.0D, 10.0D);
+        winterRegrowthFactor = builder.comment("Forage regrowth multiplier in winter (Serene Seasons, temperate biomes only). Snowfall stops regrowth outright regardless.").defineInRange("gamerules.winter_regrowth_factor", 0.5D, 0.0D, 1.0D);
+        coldHungerDrain = builder.comment("Extra hunger lost every 1000 ticks by an animal that is not cold-adapted while snow is falling on it or during a temperate winter (Serene Seasons). Herbivores normally lose 10 per 1000 ticks.",
+                "Cold-adapted = a woolly coat, an icy or taiga spawn biome, or the species flag coldAdapted:1. Tamed animals and babies are exempt. Set to 0 to disable cold stress.").defineInRange("gamerules.cold_hunger_drain", 5, 0, 100);
+        weatherHerdBehaviour = builder.comment("Herds bunch up around their leader during thunderstorms, and herds near a lightning strike bolt away from it. Behaviour only, so it runs in Zoo mode too.").define("gamerules.weather_herd_behaviour", true);
+        wildebeestTrekInterval = builder.comment("The great migration: ticks between the long treks a wildebeest herd sets off on (72000 = 3 in-game days; a random third is added). With Serene Seasons a trek starts on every season change instead. Set to 0 to disable treks (herds still shift range when they run out of food).").defineInRange("gamerules.wildebeest_trek_interval", 72000, 0, 720000);
+        wildebeestTrekDistance = builder.comment("How far a wildebeest trek heads, in blocks. Shortened automatically when the target is unloaded or water; entities only tick in loaded chunks, so very long treks only happen near players.").defineInRange("gamerules.wildebeest_trek_distance", 160, 48, 512);
+        migrationPredatorFollow = builder.comment("Hungry predators within this many blocks of a trekking wildebeest herd follow it at a distance. Set to 0 to disable.").defineInRange("gamerules.migration_predator_follow", 48, 0, 96);
+
+        /* ---------------------------------------------------------------------------------------------
+         * Self-regulating ecosystem (2026-10-24). A 2-hour soak ended with ~780 bears against ~330
+         * herbivores: predators bred 3-6x faster than their prey, cubs cost nothing, carcasses fed every
+         * scavenger in range without limit, and nothing tied a litter to how much prey there was. The fix
+         * is a NUMERICAL RESPONSE -- a predator breeds only while local prey per predator is above
+         * predator_breed_ratio -- on top of realistic life cycles, finite carcasses, prey-seeking movement
+         * and slow immigration. Full design: docs/plans/2026-10-24-ecosystem-self-regulation.md. */
+        maleRefractoryTicks = builder.comment("Ticks a male waits after mating before it may mate again. Males used to be locked out for the whole of the female's pregnancy, which capped births at the number of males -- so a herd that predators had thinned of bulls stopped calving.").defineInRange("gamerules.male_refractory_ticks", 1200, 0, 72000);
+        nursingFraction = builder.comment("Share of babyhood spent nursing: no hunger drain and no starvation (the mother feeds it). After that the young are weaned -- calves graze for themselves and predator cubs must eat at kills or starve, which is the realistic check on predator numbers.").defineInRange("gamerules.nursing_fraction", 0.4, 0.0, 1.0);
+        carapaceDamageReduction = builder.comment("Fraction of predator damage an armoured herbivore (glyptodonts) ignores. Their herds are pairs, too small for herd defence or a herd term to protect them, so the shell has to.").defineInRange("gamerules.carapace_damage_reduction", 0.35, 0.0, 0.9);
+        predatorRearingFraction = builder.comment("After giving birth a predator mother cannot conceive for this share of her species' maturity time -- the cub-rearing interval. Real large carnivores breed every two to three years, not every few months.").defineInRange("gamerules.predator_rearing_fraction", 0.5, 0.0, 2.0);
+        lactationDrainFactor = builder.comment("Hunger drain multiplier for a predator mother while she is rearing cubs. Cubs cost their mother food, so a mother on poor ground loses condition instead of raising litter after litter for free.").defineInRange("gamerules.lactation_drain_factor", 1.5, 1.0, 4.0);
+        fullLitterCondition = builder.comment("Body condition a predator mother needs for a full litter (1 to offspring+1). Below it she bears a single cub.").defineInRange("gamerules.full_litter_condition", 0.7, 0.0, 1.0);
+        maxScavengers = builder.comment("Most scavengers that can feed from one carcass. A kill used to pay +60 to EVERY bear and hyena within 16 blocks however many there were, which fed whole populations off single kills.").defineInRange("gamerules.max_scavengers", 3, 0, 16);
+        carrionFoodPerHealth = builder.comment("Food in a carcass left by an animal that died of anything but a predator, per point of its max health, shared by at most max_scavengers (each still capped at carrion_hunger). Deaths of the scavenger's own species and of babies are not eaten.").defineInRange("gamerules.carrion_food_per_health", 4, 0, 32);
+        ratioRadius = builder.comment("Radius, in blocks, over which a predator judges local prey per predator for breeding and relocation. Re-counted at most every 600 ticks per predator.").defineInRange("gamerules.ratio_radius", 64, 16, 128);
+        predatorBreedRatio = builder.comment("The numerical response: a predator breeds only while there are at least this many prey (adults, plus half per juvenile) per predator sharing its diet within ratio_radius. Predators then grow until they reach about this ratio and stop -- the lag from gestation and maturity is what produces predator/prey cycles. Lower = more predators.").defineInRange("gamerules.predator_breed_ratio", 30.0, 0.0, 500.0);
+        predatorRelocateRatio = builder.comment("A hungry predator whose local prey per predator stays below this for predator_relocate_ticks moves to look for better ground, instead of eating its range out. Was: only when there was no prey at all.").defineInRange("gamerules.predator_relocate_ratio", 15.0, 0.0, 500.0);
+        rarePredatorBreedRatio = builder.comment("Safety net against predator crashes: a predator with no other adult of its kind within ratio_radius (a mate aside) breeds at this lower ratio...").defineInRange("gamerules.rare_predator_breed_ratio", 15.0, 0.0, 500.0);
+        rarePredatorCondition = builder.comment("...and at this lower body condition, so a population that has been knocked down can always climb back.").defineInRange("gamerules.rare_predator_condition", 0.45, 0.0, 1.0);
+        predatorStarvationGrace = builder.comment("Starvation grace period, in ticks, for ADULT predators (starvation_grace_ticks still applies to everything else). Longer, so a lean spell costs weaned cubs before it costs the breeding adults.").defineInRange("gamerules.predator_starvation_grace", 4800, 0, 72000);
+        immigrationEnabled = builder.comment("Slow immigration: now and then a small group of a native species walks in near a player when it is locally absent from a suitable biome, so a local extinction is not permanent and cycles can restart. Ecosystem mode only.").define("gamerules.immigration_enabled", true);
+        immigrationInterval = builder.comment("Ticks between immigration attempts per player.").defineInRange("gamerules.immigration_interval", 12000, 600, 720000);
+        immigrationPredatorShare = builder.comment("Share of immigration attempts that try a predator rather than a herbivore. A predator only immigrates where local prey per predator is at least predator_breed_ratio.").defineInRange("gamerules.immigration_predator_share", 0.15, 0.0, 1.0);
+        immigrationLocalCap = builder.comment("Immigration is skipped when more than this many Untamed Wilds animals are already within 128 blocks.").defineInRange("gamerules.immigration_local_cap", 150, 0, 2000);
+        predatorLifespanMultiplier = builder.comment("A CARNIVORE's natural lifespan as a multiple of its time to adulthood (lifespan_multiplier covers everything else). Real large carnivores live about 3-5x their age at maturity, against ~8x for big herbivores; with predator_maturity_multiplier at a realistic 1.0, sharing the herbivores' 8 had tripled predator lifespans and left a surplus population with weeks to live. At 5 a female still raises about three litters (eco_equilibrium.py).").defineInRange("gamerules.predator_lifespan_multiplier", 5.0, 1.0, 32.0);
     }
 }

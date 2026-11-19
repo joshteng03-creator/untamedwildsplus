@@ -1,0 +1,22 @@
+{
+    "name": "False Killer Whale",
+    "icon": "untamedwilds:textures/icon/orca/false_killer_whale.png",
+    "category": "untamedwilds:orca_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "False Killer Whale",
+            "text": "The $(o)False Killer Whale$() ($(o)Pseudorca crassidens$()) is a large, slender, all-dark dolphin of warm, deep oceans, growing to about 6 metres.$(br2)It travels in large, sociable groups and hunts big fish such as tuna and mahi-mahi, often sharing its catch with others in the group.$(br2)Despite its name it is more closely related to pilot whales and Risso's dolphin than to the orca, which it resembles only in the shape of its skull."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:orca{Variant: 1, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "False Killer Whale",
+            "text": "Relative Size: ★★★★☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Raw Salmon$(br2)Number of Offspring: 1$(br2)Growth time: 12 Days"
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "name": "Glyptotherium",
+    "icon": "untamedwilds:textures/icon/glyptodont/glyptotherium.png",
+    "category": "untamedwilds:glyptodont_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Glyptotherium",
+            "text": "The Glyptotherium ($(o)Glyptotherium texanum$()) is an extinct glyptodont that lived in southern North America and Central America during the Pliocene and early Pleistocene.$(br2)Its ancestors came from South America, and it was one of the few glyptodonts to spread north after the two continents were joined by land.$(br2)Like its relatives, it carried a domed shell of fused bony plates and fed on low-growing plants."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:glyptodont{Variant: 3, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Glyptotherium",
+            "text": "Relative Size: ★★★★☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 12 Days"
+        }
+    ]
+}

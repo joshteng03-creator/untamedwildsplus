@@ -1,0 +1,22 @@
+{
+    "name": "Glyptodon",
+    "icon": "untamedwilds:textures/icon/glyptodont/glyptodon.png",
+    "category": "untamedwilds:glyptodont_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Glyptodon",
+            "text": "The Glyptodon ($(o)Glyptodon clavipes$()) is an extinct armoured mammal that lived in South America during the Pleistocene, disappearing at its end.$(br2)A distant relative of armadillos, it was roughly the size of a small car, protected by a rigid domed shell made of more than a thousand fused bony plates.$(br2)Glyptodon was a herbivore that grazed on grasses and low plants, and its tail was encased in rings of bone."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:glyptodont{Variant: 0, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Glyptodon",
+            "text": "Relative Size: ★★★★★$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 12 Days"
+        }
+    ]
+}

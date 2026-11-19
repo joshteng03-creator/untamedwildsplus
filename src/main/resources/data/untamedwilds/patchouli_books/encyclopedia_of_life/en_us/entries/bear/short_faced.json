@@ -1,0 +1,22 @@
+{
+    "name": "Short-Faced Bear",
+    "icon": "untamedwilds:textures/icon/bear/short_faced.png",
+    "category": "untamedwilds:bear_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Short-Faced Bear",
+            "text": "The short-faced bear ($(o)Arctodus simus$()) is an extinct bear that lived across North America during the Pleistocene, until about 12,000 years ago.$(br2)It was one of the largest carnivorous land mammals of the Ice Age, with long legs that gave it great height at the shoulder.$(br2)Despite its name, its snout was not unusually short; its deep muzzle only made it look that way. Its closest living relative is the spectacled bear."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:bear{Variant: 8, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Short-Faced Bear",
+            "text": "Relative Size: ★★★★☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 1$(br2)Growth time: 8 Days"
+        }
+    ]
+}

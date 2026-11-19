@@ -51,8 +51,12 @@ def ctor_body(src, name):
     come from the same bad parse.
     """
     start = src.index("public %s()" % name)
-    end = src.index("animator = ModelAnimator.create()", start)
-    return src[start:end]
+    # Juvenile models (cubs/calves/piglets) have no animator; their constructor ends at updateDefaultPose.
+    for marker in ("animator = ModelAnimator.create()", "this.updateDefaultPose()", "\n    }\n"):
+        end = src.find(marker, start)
+        if end != -1:
+            return src[start:end]
+    raise ValueError("no constructor end in " + name)
 
 
 def parse(name):

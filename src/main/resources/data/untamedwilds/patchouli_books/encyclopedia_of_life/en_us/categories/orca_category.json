@@ -1,0 +1,6 @@
+{
+    "name": "Toothed Whales",
+    "description": "Toothed whales are the predatory Cetaceans: the dolphins, porpoises and sperm whales, which hunt with teeth and echolocation rather than filtering the sea like the baleen whales.$(br2)The largest dolphins, the orca and its relatives, live in close family groups called pods that hunt together, and pass their hunting techniques from one generation to the next.$(br2)They are found in every ocean, from the polar ice to the tropics.",
+    "icon": "untamedwilds:textures/icon/orca/category.png",
+    "parent": "untamedwilds:taxon_mammal"
+}

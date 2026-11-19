@@ -1,0 +1,22 @@
+{
+    "name": "Walrus",
+    "icon": "untamedwilds:textures/icon/pinniped/walrus.png",
+    "category": "untamedwilds:pinniped_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Walrus",
+            "text": "The walrus ($(o)Odobenus rosmarus$()) is a huge Arctic pinniped, instantly recognised by its long ivory tusks and bristly moustache.$(br2)It uses its sensitive whiskers to find clams on the sea floor, and its tusks to haul itself onto ice and to fight rivals.$(br2)Walruses gather in large herds, and an adult is too big and dangerous for most polar bears to attack."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:pinniped{Variant: 0, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Walrus",
+            "text": "Relative Size: ★★★★☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Raw Cod$(br2)Number of Offspring: 1$(br2)Growth time: 8 Days"
+        }
+    ]
+}

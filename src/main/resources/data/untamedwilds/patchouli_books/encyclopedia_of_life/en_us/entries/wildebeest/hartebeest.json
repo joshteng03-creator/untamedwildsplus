@@ -1,0 +1,22 @@
+{
+    "name": "Hartebeest",
+    "icon": "untamedwilds:textures/icon/wildebeest/hartebeest.png",
+    "category": "untamedwilds:wildebeest_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Hartebeest",
+            "text": "The hartebeest ($(o)Alcelaphus buselaphus$()) is a red-brown antelope of the African savanna.$(br2)It has a very long, narrow face, and its ringed horns grow from a bony base on top of the skull and bend sharply backwards.$(br2)Bulls defend small territories, often standing guard on a termite mound."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:wildebeest{Variant: 3, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Hartebeest",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 7 Days"
+        }
+    ]
+}

@@ -1,0 +1,76 @@
+{
+  "name": "giant_monitor",
+  "breeding": "LATE_SPRING",
+  "growing_time": 12,
+  "offspring": 2,
+  "activityType": "diurnal",
+  "favourite_food": "minecraft:beef",
+  "sounds":{
+    "ambient":"minecraft:entity.turtle.ambient_land",
+    "hurt":"untamedwilds:entity.giant_monitor.hurt",
+    "death":"minecraft:entity.turtle.death",
+    "threat":"untamedwilds:entity.giant_monitor.threat"
+  },
+  "flags": {
+    "groupCount": 1
+  },
+  "ecology": {
+    "tags": [
+      "carnivore"
+    ],
+    "diet": [
+      "small_game",
+      "grazer",
+      "browser"
+    ]
+  },
+  "species": [
+    {
+      "name": "megalania",
+      "variant": 0,
+      "scale": 0.971,
+      "rarity": 1,
+      "attack": 14,
+      "health": 80,
+      "flags": {
+        "groupCount": 1
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|desert"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.2
+      }
+    },
+    {
+      "name": "komodo",
+      "variant": 1,
+      "scale": 0.505,
+      "rarity": 2,
+      "attack": 8,
+      "health": 40,
+      "flags": {
+        "groupCount": 1
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|jungle"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.2
+      }
+    }
+  ]
+}

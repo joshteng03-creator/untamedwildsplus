@@ -1,0 +1,158 @@
+{
+  "name": "pinniped",
+  "breeding": "EARLY_SPRING",
+  "growing_time": 8,
+  "offspring": 1,
+  "activityType": "diurnal",
+  "favourite_food": "minecraft:cod",
+  "sounds":{
+    "ambient":"untamedwilds:entity.pinniped.ambient",
+    "hurt":"untamedwilds:entity.pinniped.hurt",
+    "death":"untamedwilds:entity.pinniped.death",
+    "threat":"untamedwilds:entity.pinniped.threat",
+    "call":"untamedwilds:entity.pinniped.call"
+  },
+  "flags": {
+    "groupCount": 6
+  },
+  "ecology": {
+    "tags": [
+      "aquatic",
+      "small_game"
+    ]
+  },
+  "species": [
+    {
+      "name": "walrus",
+      "variant": 0,
+      "scale": 1.353,
+      "rarity": 2,
+      "attack": 9,
+      "health": 70,
+      "flags": {
+        "groupCount": 8
+      },
+      "spawnBiomes": [
+        [
+          "category|icy"
+        ],
+        [
+          "resource|minecraft:frozen_ocean"
+        ],
+        [
+          "resource|minecraft:snowy_beach"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.13,
+        "tags": [
+          "aquatic",
+          "megafauna"
+        ]
+      }
+    },
+    {
+      "name": "bearded_seal",
+      "variant": 1,
+      "scale": 1.015,
+      "rarity": 2,
+      "attack": 4,
+      "health": 34,
+      "flags": {
+        "groupCount": 3
+      },
+      "spawnBiomes": [
+        [
+          "category|icy"
+        ],
+        [
+          "resource|minecraft:frozen_ocean"
+        ],
+        [
+          "resource|minecraft:snowy_beach"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.14
+      }
+    },
+    {
+      "name": "ringed_seal",
+      "variant": 2,
+      "scale": 0.592,
+      "rarity": 3,
+      "attack": 2,
+      "health": 18,
+      "flags": {
+        "groupCount": 4
+      },
+      "spawnBiomes": [
+        [
+          "category|icy"
+        ],
+        [
+          "resource|minecraft:frozen_ocean"
+        ],
+        [
+          "resource|minecraft:snowy_beach"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.15
+      }
+    },
+    {
+      "name": "harp_seal",
+      "variant": 3,
+      "scale": 0.761,
+      "rarity": 3,
+      "attack": 3,
+      "health": 24,
+      "flags": {
+        "groupCount": 10
+      },
+      "spawnBiomes": [
+        [
+          "category|icy"
+        ],
+        [
+          "resource|minecraft:frozen_ocean"
+        ],
+        [
+          "resource|minecraft:snowy_beach"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.15
+      }
+    },
+    {
+      "name": "steller_sea_lion",
+      "variant": 4,
+      "scale": 1.268,
+      "rarity": 2,
+      "attack": 7,
+      "health": 55,
+      "flags": {
+        "groupCount": 10
+      },
+      "spawnBiomes": [
+        [
+          "resource|minecraft:stony_shore"
+        ],
+        [
+          "resource|minecraft:snowy_beach"
+        ],
+        [
+          "resource|minecraft:cold_ocean"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.17,
+        "tags": [
+          "aquatic"
+        ]
+      }
+    }
+  ]
+}

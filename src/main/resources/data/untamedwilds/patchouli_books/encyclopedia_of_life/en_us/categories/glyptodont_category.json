@@ -1,0 +1,6 @@
+{
+    "name": "Glyptodonts",
+    "description": "Glyptodonts are extinct armoured herbivore Mammals, close relatives of modern armadillos. $(br2)Most carried a rigid, domed shell of fused bony plates, along with an armoured cap on the head and a protected tail. This group also includes the pampatheres, whose shells had movable bands like an armadillo's. $(br2)They lived in the grasslands and woodlands of the Americas.",
+    "icon": "untamedwilds:textures/icon/glyptodont/category.png",
+    "parent": "untamedwilds:taxon_mammal"
+}

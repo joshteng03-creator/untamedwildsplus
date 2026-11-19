@@ -1,0 +1,22 @@
+{
+    "name": "Virginia Opossum",
+    "icon": "untamedwilds:textures/icon/opossum/virginia.png",
+    "category": "untamedwilds:opossum_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Virginia Opossum",
+            "text": "The Virginia opossum ($(o)Didelphis virginiana$()) is a marsupial found from southern Canada through the United States and Mexico into Central America.$(br2)It is the only marsupial native to North America north of Mexico. Like other marsupials, females raise their young in a pouch.$(br2)The Virginia opossum is an omnivore with a prehensile tail and 50 teeth. When threatened, it may play dead, a behaviour known as \"playing possum\"."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:opossum{Variant: 0, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Virginia Opossum",
+            "text": "Relative Size: ★☆☆☆☆$(br2)Active during Nighttime$(br2)1 Color$(br2)Favourite Food: Raw Chicken$(br2)Number of Offspring: 12$(br2)Growth time: 3 Days"
+        }
+    ]
+}

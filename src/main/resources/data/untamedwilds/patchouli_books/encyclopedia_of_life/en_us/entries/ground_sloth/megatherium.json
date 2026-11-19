@@ -1,0 +1,22 @@
+{
+    "name": "Megatherium",
+    "icon": "untamedwilds:textures/icon/ground_sloth/megatherium.png",
+    "category": "untamedwilds:ground_sloth_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Megatherium",
+            "text": "The Megatherium ($(o)Megatherium americanum$()) is an extinct giant ground sloth that lived in South America during the Pleistocene, disappearing at its end.$(br2)It was one of the largest land mammals of its time, reaching about six metres from head to tail and weighing as much as an elephant.$(br2)Megatherium could rear up on its hind legs, bracing itself on its thick tail, to reach high branches with its long, clawed forelimbs."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:ground_sloth{Variant: 0, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Megatherium",
+            "text": "Relative Size: ★★★★★$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 14 Days"
+        }
+    ]
+}

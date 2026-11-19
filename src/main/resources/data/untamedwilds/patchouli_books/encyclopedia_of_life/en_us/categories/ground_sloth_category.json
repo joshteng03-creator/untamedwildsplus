@@ -1,0 +1,6 @@
+{
+    "name": "Ground Sloths",
+    "description": "Ground sloths are extinct herbivore Mammals, relatives of the tree sloths living today. $(br2)Unlike their small modern cousins, many were enormous, with heavy bodies, thick tails and long, curved claws used to gather plants. $(br2)They lived throughout the Americas, from grasslands to forests.",
+    "icon": "untamedwilds:textures/icon/ground_sloth/category.png",
+    "parent": "untamedwilds:taxon_mammal"
+}

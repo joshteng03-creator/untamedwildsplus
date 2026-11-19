@@ -149,13 +149,19 @@ def main():
     L.append("        return ImmutableList.of(this.body_main);")
     L.append("    }")
     L.append("")
+    # Built once: getAllParts() runs every frame (matches the hand-cached ModelDireWolf.java; 2.8.0).
+    L.append("    private ImmutableList<AdvancedModelBox> allParts;")
+    L.append("")
     L.append("    @Override")
     L.append("    public Iterable<AdvancedModelBox> getAllParts() {")
     names = [p["name"] for p in parts]
-    L.append("        return ImmutableList.of(")
+    L.append("        if (this.allParts == null) {")
+    L.append("            this.allParts = ImmutableList.of(")
     for i in range(0, len(names), 5):
         chunk = ", ".join(names[i:i + 5])
         L.append(f"            {chunk}" + ("," if i + 5 < len(names) else ");"))
+    L.append("        }")
+    L.append("        return this.allParts;")
     L.append("    }")
 
     L.append(ANIMATE)

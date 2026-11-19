@@ -1,0 +1,22 @@
+{
+    "name": "European Wild Ass",
+    "icon": "untamedwilds:textures/icon/equid/european_wild_ass.png",
+    "category": "untamedwilds:equid_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "European Wild Ass",
+            "text": "The European wild ass ($(o)Equus hydruntinus$()) is an extinct equid that lived across Europe, western Asia and the Middle East during the Middle and Late Pleistocene, surviving into the Holocene.$(br2)It was a small, slender animal adapted to open, dry steppes.$(br2)Ancient DNA shows it was closely related to the Asiatic wild ass, and it disappeared only a few thousand years ago, after people had begun farming in its range."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:equid{Variant: 8, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "European Wild Ass",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "name": "Vero Tapir",
+    "icon": "untamedwilds:textures/icon/tapir/vero_tapir.png",
+    "category": "untamedwilds:tapir_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Vero Tapir",
+            "text": "The Vero tapir ($(o)Tapirus veroensis$()) is an extinct tapir that lived in southeastern North America during the Pleistocene, disappearing at its end.$(br2)It was named after Vero Beach in Florida, where its fossils were first described.$(br2)Similar in size and build to living tapirs, it inhabited forests and wetlands, browsing on leaves and other vegetation."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:tapir{Variant: 5, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Vero Tapir",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Nighttime$(br2)1 Color$(br2)Favourite Food: Apple$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

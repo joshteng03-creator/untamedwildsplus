@@ -1,0 +1,27 @@
+[
+ ["B3", "dire_wolf", "call", "dire_wolf/fs-500646", 1.5, 9.5, "grey wolf solitary howl (Wrangell-St. Elias NP, recorded by betchkal)"],
+ ["B3", "dire_wolf", "call", "dire_wolf/commons-206870", 5.0, 13.0, "grey wolf group howls (Commons, public domain)"],
+ ["B3", "dire_wolf", "threat", "dire_wolf/fs-122183", 4.4, 7.4, "dog growl/snarl (stand-in for wolf growl)"],
+ ["B3", "dire_wolf", "threat", "dire_wolf/fs-122183", 23.0, 25.8, "dog growl/snarl (stand-in for wolf growl)"],
+ ["B3", "dire_wolf", "alarm", "dire_wolf/fs-122183", 45.3, 46.3, "dog growl-bark burst (stand-in for wolf alarm bark)"],
+ ["B3", "dire_wolf", "hurt", "dire_wolf/fs-160477", 4.9, 6.5, "dog yelping (stand-in)"],
+ ["B3", "dire_wolf", "hurt", "dire_wolf/fs-184808", 17.4, 18.8, "dog whine-yelp (stand-in)"],
+ ["B3", "dire_wolf", "death", "dire_wolf/fs-160477", 0.0, 1.7, "dog falling yelp (stand-in)"],
+ ["B3", "dire_wolf", "ambient", "dire_wolf/fs-184808", 4.8, 6.5, "dog whine/whimper (stand-in for wolf whine)"],
+ ["B3", "dire_wolf", "ambient", "dire_wolf/fs-184808", 6.9, 8.3, "dog whine/whimper (stand-in for wolf whine)"],
+
+ ["B3", "crocodilian", "threat", "crocodilian/fs-675513", 0.7, 3.7, "large alligator hiss (vintage library, craigsmith)"],
+ ["B3", "crocodilian", "threat", "crocodilian/fs-675513", 13.0, 16.0, "large alligator hiss-growl (vintage library)"],
+ ["B3", "crocodilian", "hurt", "crocodilian/fs-527844", 0.8, 3.1, "alligator growl"],
+ ["B3", "crocodilian", "hurt", "crocodilian/fs-527844", 7.2, 9.7, "alligator growl"],
+ ["B3", "crocodilian", "death", "crocodilian/fs-527844", 4.4, 6.8, "alligator growl, long"],
+ ["B3", "crocodilian", "ambient", "crocodilian/nps-alligator-ever1", 8.0, 11.0, "American alligator low growl (NPS Everglades)", {"hp": 40}],
+
+ ["B3", "giant_monitor", "threat", "crocodilian/fs-675513", 3.6, 5.6, "alligator hiss tail (stand-in for monitor hiss)"],
+ ["B3", "giant_monitor", "threat", "crocodilian/fs-675513", 16.0, 18.4, "alligator hiss (stand-in for monitor hiss)"],
+ ["B3", "giant_monitor", "hurt", "monitor/fs-846337", 0.0, null, "Mexican black kingsnake short hiss (stand-in)"],
+ ["B3", "monitor", "threat", "monitor/fs-846337", 0.0, null, "Mexican black kingsnake short hiss (stand-in for monitor hiss)"],
+
+ ["B3", "tortoise", "ambient", "tortoise/fs-871251", 0.0, null, "sulcata tortoise male breeding honk"],
+ ["B3", "tortoise", "ambient", "tortoise/fs-850006", 0.0, null, "sulcata tortoise male breeding croak"]
+]

@@ -1,0 +1,22 @@
+{
+    "name": "Chamois",
+    "icon": "untamedwilds:textures/icon/caprine/chamois.png",
+    "category": "untamedwilds:caprine_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Chamois",
+            "text": "The chamois ($(o)Rupicapra rupicapra$()) is a small goat-antelope of the mountains of Europe and the Caucasus.$(br2)It has short, black horns that curve back into a hook, and a pale face crossed by dark stripes running through the eyes.$(br2)Chamois are swift and agile on steep, broken ground, and can leap remarkable distances."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:caprine{Variant: 4, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Chamois",
+            "text": "Relative Size: ★★☆☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 7 Days"
+        }
+    ]
+}

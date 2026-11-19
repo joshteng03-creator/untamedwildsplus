@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import untamedwilds.client.model.ModelCamel;
 import untamedwilds.client.model.ModelCamelCalf;
 import untamedwilds.entity.mammal.EntityCamel;
+import untamedwilds.client.render.layer.SaddleLayer;
 
 public class RendererCamel extends MobRenderer<EntityCamel, EntityModel<EntityCamel>> {
 
@@ -18,6 +19,7 @@ public class RendererCamel extends MobRenderer<EntityCamel, EntityModel<EntityCa
 
     public RendererCamel(EntityRendererProvider.Context renderManager) {
         super(renderManager, CAMEL_MODEL, 1F);
+        this.addLayer(new SaddleLayer<>(this, "camel"));
     }
 
     @Override

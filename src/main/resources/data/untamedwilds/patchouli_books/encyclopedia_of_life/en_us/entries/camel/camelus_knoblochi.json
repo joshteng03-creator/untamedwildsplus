@@ -1,0 +1,22 @@
+{
+    "name": "Giant Camel",
+    "icon": "untamedwilds:textures/icon/camel/camelus_knoblochi.png",
+    "category": "untamedwilds:camel_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Giant Camel",
+            "text": "The giant camel ($(o)Camelus knoblochi$()) is an extinct camel that lived across the steppes of Central Asia, Siberia, Mongolia and northern China during the Pleistocene, until about 27,000 years ago.$(br2)It was the largest member of the modern camel genus, roughly twice the weight of living wild camels.$(br2)Its last populations shared their range with early humans, and its extinction coincided with the drying of the Asian steppe."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:camel{Variant: 8, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Giant Camel",
+            "text": "Relative Size: ★★★★☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Cactus$(br2)Number of Offspring: 1$(br2)Growth time: 13 Days"
+        }
+    ]
+}

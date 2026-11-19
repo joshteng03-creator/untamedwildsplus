@@ -1,0 +1,69 @@
+{
+  "name": "great_ape",
+  "breeding": "EARLY_SUMMER",
+  "growing_time": 12,
+  "offspring": 1,
+  "activityType": "diurnal",
+  "favourite_food": "minecraft:melon_slice",
+  "sounds": {
+    "ambient": "entity.polar_bear.ambient",
+    "hurt": "entity.polar_bear.hurt",
+    "death": "entity.polar_bear.death",
+    "threat": "entity.polar_bear.warning"
+  },
+  "flags": {
+    "groupCount": 2
+  },
+  "ecology": {
+    "tags": [
+      "browser"
+    ]
+  },
+  "species": [
+    {
+      "name": "gigantopithecus",
+      "variant": 0,
+      "scale": 0.865,
+      "rarity": 2,
+      "attack": 11,
+      "health": 80,
+      "flags": {
+        "groupCount": 2
+      },
+      "spawnBiomes": [
+        [
+          "category|jungle"
+        ],
+        [
+          "category|forest"
+        ]
+      ],
+      "ecology": {
+        "tags": [
+          "browser",
+          "megafauna"
+        ],
+        "speed": 0.2
+      }
+    },
+    {
+      "name": "bornean_orangutan",
+      "variant": 1,
+      "scale": 0.432,
+      "rarity": 2,
+      "attack": 5,
+      "health": 30,
+      "flags": {
+        "groupCount": 1
+      },
+      "spawnBiomes": [
+        [
+          "category|jungle"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.18
+      }
+    }
+  ]
+}

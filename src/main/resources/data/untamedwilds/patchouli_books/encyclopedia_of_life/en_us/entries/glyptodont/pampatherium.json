@@ -1,0 +1,22 @@
+{
+    "name": "Pampatherium",
+    "icon": "untamedwilds:textures/icon/glyptodont/pampatherium.png",
+    "category": "untamedwilds:glyptodont_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Pampatherium",
+            "text": "The Pampatherium ($(o)Pampatherium humboldtii$()) is an extinct pampathere that lived in South America during the Pleistocene.$(br2)Pampatheres were close relatives of both glyptodonts and armadillos. Unlike the rigid shells of glyptodonts, its armour included movable bands across the middle, much like a modern armadillo.$(br2)Much larger than any living armadillo, Pampatherium was a herbivore that grazed on coarse vegetation."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:glyptodont{Variant: 2, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Pampatherium",
+            "text": "Relative Size: ★★★☆☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 12 Days"
+        }
+    ]
+}

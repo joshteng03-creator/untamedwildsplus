@@ -41,7 +41,8 @@ public class SmartWanderGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        if (!this.creature.canMove() || !this.creature.getNavigation().isDone() || this.creature.getCommandInt() != 0 || this.creature.getRandom().nextInt(this.executionChance) != 0) {
+        if (!this.creature.canMove() || !this.creature.getNavigation().isDone() || this.creature.getCommandInt() != 0
+                || this.creature.isAlert() || this.creature.getRandom().nextInt(this.executionChance) != 0) {
             return false;
         }
 

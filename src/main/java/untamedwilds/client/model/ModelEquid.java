@@ -331,6 +331,79 @@ public class ModelEquid extends AdvancedEntityModel<EntityEquid> {
     private void animate(IAnimatedEntity entityIn) {
         EntityEquid equid = (EntityEquid) entityIn;
         animator.update(equid);
+        // <gen:idle-poses> 2.8.0: SOLVED by scripts/pose_reach.py against this model's own boxes (muzzle to the grass / the
+        // water line beyond the bank, every head part and horn family clear of the ground, nothing through the torso).
+        // Regenerate, never hand-edit: python scripts/gen_keyframes.py equid
+        // EAT (40t, GrazeGoal's mouthful): head down to the grass, a cropping lift, back down
+        animator.setAnimation(EntityEquid.EAT);
+        animator.startKeyframe(10);
+        this.rotate(animator, neck, 69.6F, 0.0F, 0.0F);
+        this.rotate(animator, head, -11.6F, 0.0F, 0.0F);
+        this.rotate(animator, muzzle, -7.1F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 6.0F, -2.5F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck, 69.6F, 0.0F, 0.0F);
+        this.rotate(animator, head, -17.6F, 0.0F, 0.0F);
+        this.rotate(animator, muzzle, -7.1F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 6.0F, -2.5F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck, 69.6F, 0.0F, 0.0F);
+        this.rotate(animator, head, -11.6F, 0.0F, 0.0F);
+        this.rotate(animator, muzzle, -7.1F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 6.0F, -2.5F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(10);
+        animator.resetKeyframe(10);
+        // DRINK (100t, DrinkGoal): muzzle to the water past the bank edge, two swallows lifting the head
+        animator.setAnimation(EntityEquid.DRINK);
+        animator.startKeyframe(15);
+        this.rotate(animator, neck, 75.8F, 0.0F, 0.0F);
+        this.rotate(animator, head, -16.8F, 0.0F, 0.0F);
+        this.rotate(animator, muzzle, -9.6F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 6.0F, -2.7F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(20);
+        animator.startKeyframe(5);
+        this.rotate(animator, neck, 75.8F, 0.0F, 0.0F);
+        this.rotate(animator, head, -21.8F, 0.0F, 0.0F);
+        this.rotate(animator, muzzle, -9.6F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 6.0F, -2.7F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck, 75.8F, 0.0F, 0.0F);
+        this.rotate(animator, head, -16.8F, 0.0F, 0.0F);
+        this.rotate(animator, muzzle, -9.6F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 6.0F, -2.7F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(20);
+        animator.startKeyframe(5);
+        this.rotate(animator, neck, 75.8F, 0.0F, 0.0F);
+        this.rotate(animator, head, -21.8F, 0.0F, 0.0F);
+        this.rotate(animator, muzzle, -9.6F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 6.0F, -2.7F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck, 75.8F, 0.0F, 0.0F);
+        this.rotate(animator, head, -16.8F, 0.0F, 0.0F);
+        this.rotate(animator, muzzle, -9.6F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 6.0F, -2.7F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(10);
+        animator.resetKeyframe(15);
+        // ALERT (40t, AlertGoal): head raised, ears up, staring at the threat; repeats while the alert lasts
+        animator.setAnimation(EntityEquid.ALERT);
+        animator.startKeyframe(8);
+        this.rotate(animator, neck, -35.0F, 0.0F, 0.0F);
+        this.rotate(animator, head, 3.0F, 0.0F, 0.0F);
+        this.rotate(animator, muzzle, 12.0F, 0.0F, 0.0F);
+        this.rotate(animator, ear_left, 25.0F, 0.0F, 0.0F);
+        this.rotate(animator, ear_right, 25.0F, 0.0F, 0.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(24);
+        animator.resetKeyframe(8);
+        // </gen:idle-poses>
 
         // Threat: REARING. This is what a horse actually does when it squares up -- rock back onto the
         // hindquarters, haul both forelegs up and paw the air, ears pinned back. Negative X on the
@@ -399,9 +472,10 @@ public class ModelEquid extends AdvancedEntityModel<EntityEquid> {
         // Hippidion was a short-legged, heavy-bodied South American equid with famously enlarged nasal
         // bones; the tarpan was a light, compact wild horse. Written on EVERY branch every frame,
         // because the model instance is shared across all equids.
+        // 2.9.0: Haringtonhippus (10), the "stilt-legged" horse, gets a slim torso on the same legs so it reads leggy.
         int variant = equid.getVariant();
-        float girth = variant == 1 ? 1.08F : (variant == 2 ? 0.97F : 1.0F);
-        float depth = variant == 1 ? 1.05F : 1.0F;
+        float girth = variant == 1 ? 1.08F : (variant == 2 ? 0.97F : (variant == 10 ? 0.9F : 1.0F));
+        float depth = variant == 1 ? 1.05F : (variant == 10 ? 0.94F : 1.0F);
         this.body_chest.setScale(girth, depth, 1.0F);
         this.body_croup.setScale(girth, depth, 1.0F);
         this.muzzle.setScale(variant == 1 ? 1.12F : 1.0F, 1.0F, variant == 1 ? 1.1F : 1.0F);

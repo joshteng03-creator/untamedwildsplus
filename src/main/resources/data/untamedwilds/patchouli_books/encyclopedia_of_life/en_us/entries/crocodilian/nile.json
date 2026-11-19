@@ -1,0 +1,22 @@
+{
+    "name": "Nile Crocodile",
+    "icon": "untamedwilds:textures/icon/crocodilian/nile.png",
+    "category": "untamedwilds:crocodilian_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Nile Crocodile",
+            "text": "The Nile crocodile ($(o)Crocodylus niloticus$()) lives in the rivers, lakes and swamps of Africa.$(br2)It is an ambush hunter that waits for wildebeest, zebras and antelope crossing rivers, then drags its prey under with a spinning death roll.$(br2)Nile crocodiles often bask together on sandbanks with their mouths open to cool down."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:crocodilian{Variant: 0, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Nile Crocodile",
+            "text": "Relative Size: ★★★☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 3$(br2)Growth time: 8 Days"
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "name": "Onager",
+    "icon": "untamedwilds:textures/icon/equid/onager.png",
+    "category": "untamedwilds:equid_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Onager",
+            "text": "The onager ($(o)Equus hemionus$()), or Asiatic wild ass, is a wild equid that lives in the deserts and dry steppes of Asia, from Iran and India to Mongolia.$(br2)It is one of the fastest mammals, capable of running at around 64 to 70 kilometres per hour.$(br2)Onagers have a sandy coat with a dark stripe along the back, and they are well adapted to surviving on sparse vegetation in harsh, arid land."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:equid{Variant: 7, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Onager",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

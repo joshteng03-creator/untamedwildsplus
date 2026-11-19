@@ -1,0 +1,22 @@
+{
+    "name": "Stag-Moose",
+    "icon": "untamedwilds:textures/icon/deer/stag_moose.png",
+    "category": "untamedwilds:deer_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Stag-Moose",
+            "text": "The stag-moose ($(o)Cervalces scotti$()) is an extinct deer that lived in North America during the Late Pleistocene, disappearing around 11,000 years ago.$(br2)About the size of a modern moose, it had longer legs and a narrower, elk-like head.$(br2)Males bore elaborate palmate antlers with more branching than those of the moose, and the species favoured wetlands, bogs and the edges of spruce forests."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:deer{Variant: 1, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Stag-Moose",
+            "text": "Relative Size: ★★★★☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

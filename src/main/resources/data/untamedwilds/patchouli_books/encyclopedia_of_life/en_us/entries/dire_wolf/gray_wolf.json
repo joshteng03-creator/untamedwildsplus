@@ -1,0 +1,22 @@
+{
+    "name": "Gray Wolf",
+    "icon": "untamedwilds:textures/icon/dire_wolf/gray_wolf.png",
+    "category": "untamedwilds:dire_wolf_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Gray Wolf",
+            "text": "The gray wolf ($(o)Canis lupus$()) is a canid native to the wilderness of Eurasia and North America, from Arctic tundra to forests and deserts.$(br2)It is the largest wild member of the dog family. Most wolves live in packs made up of a breeding pair and their offspring, which hunt large prey together.$(br2)The domestic dog descends from an ancient population of wolves."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:dire_wolf{Variant: 6, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Gray Wolf",
+            "text": "Relative Size: ★★☆☆☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 3$(br2)Growth time: 5 Days"
+        }
+    ]
+}

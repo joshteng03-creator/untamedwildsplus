@@ -162,8 +162,7 @@ public class EntityShark extends ComplexMobAquatic implements ISpecies, IAnimate
     @Override
     public void updateAttributes() {
         this.applySpeciesSpeed();
-        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getAttack());
-        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getHealth());
+        this.applySpeciesHealthAndAttack();
         this.setHealth(this.getMaxHealth());
         this.setShortFins(getEntityData(this.getType()).getFlags(this.getVariant(), "shortFins") == 1);
     }

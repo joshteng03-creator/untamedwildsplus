@@ -9,10 +9,15 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.AABB;
 import untamedwilds.UntamedWilds;
+import untamedwilds.config.ConfigAmbience;
+import untamedwilds.config.ConfigPerformance;
 import untamedwilds.entity.ComplexMob;
 import untamedwilds.util.EcologyTags;
+import untamedwilds.util.PerfCounters;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.function.Predicate;
@@ -79,10 +84,18 @@ public class SmartAvoidGoal <T extends LivingEntity> extends AvoidEntityGoal<T> 
         return 40;
     }
 
+    /** 2.8.0: whether a threat seen just beyond flight range puts this animal on alert (herd prey) or is ignored. */
+    protected boolean alertsInBand() {
+        return false;
+    }
+
     /** When true, an existing combat target does not block flight -- the mob drops it and runs. */
     protected boolean shouldAbandonTarget() {
         return false;
     }
+
+    /** 2.8.0: parity-proof replacement for a tickCount % 40 gate (see GoalTimer). */
+    private final untamedwilds.util.GoalTimer scanTimer = new untamedwilds.util.GoalTimer(40, true);
 
     @Override
     public boolean canUse() {
@@ -92,7 +105,7 @@ public class SmartAvoidGoal <T extends LivingEntity> extends AvoidEntityGoal<T> 
          * whole reason cubs stood still and died. See SmartHurtByTargetGoal. */
         boolean juvenile = this.taskOwner.isBaby();
         int interval = juvenile ? Math.min(10, this.getScanInterval()) : this.getScanInterval();
-        if (this.taskOwner.tickCount % interval != 0) {
+        if (!this.scanReady(interval)) {
             return false;
         }
         if ((this.taskOwner.getTarget() != null && !this.shouldAbandonTarget() && !juvenile) || this.taskOwner.isSleeping() || this.taskOwner.getCommandInt() != 0 || this.taskOwner.isTame()) {
@@ -100,7 +113,24 @@ public class SmartAvoidGoal <T extends LivingEntity> extends AvoidEntityGoal<T> 
         }
 
         double detect = this.detectDistance();
-        List<T> list = this.taskOwner.level.getNearbyEntities(avoidClass, this.builtTargetSelector, this.taskOwner, this.taskOwner.getBoundingBox().inflate(detect, 4f, detect));
+        /* 2.8.0 vigilance: ONE search out to the alert band; inside flight range the animal flees exactly as before,
+         * in the band beyond it the herd goes on alert (AlertGoal) instead of ignoring the predator. */
+        boolean vigilant = this.alertsInBand() && ConfigAmbience.herbivoreAlert.get();
+        List<T> list = this.findThreats(vigilant ? detect * ConfigAmbience.alertRangeScale.get() : detect);
+        if (vigilant && !list.isEmpty()) {
+            AABB fleeBox = this.taskOwner.getBoundingBox().inflate(detect, 4f, detect);
+            List<T> close = new ArrayList<>();
+            for (T threat : list) {
+                if (threat.getBoundingBox().intersects(fleeBox)) {
+                    close.add(threat);
+                }
+            }
+            if (close.isEmpty()) {
+                this.taskOwner.raiseAlert(list.get(0), true);
+                return false;
+            }
+            list = close;
+        }
         if (list.isEmpty()) {
             return false;
         } else {
@@ -115,6 +145,59 @@ public class SmartAvoidGoal <T extends LivingEntity> extends AvoidEntityGoal<T> 
                 return this.path != null;
             }
         }
+    }
+
+    /** Herd-synchronised window used while the shared scan is on (see {@link #scanReady}). */
+    private final untamedwilds.util.GoalTimer herdScanTimer = new untamedwilds.util.GoalTimer(40, false);
+
+    private boolean sharesHerdScan() {
+        return ConfigPerformance.sharedHerdThreatScan.get() && this.taskOwner.herd != null && this.taskOwner.herd.creatureList.size() > 1;
+    }
+
+    /**
+     * Whether this evaluation should look around. With the shared herd scan on, every member of a herd uses the
+     * same window (game time + the herd's key), so they all ask within the same two ticks and one entity search
+     * serves the whole herd. Otherwise each animal keeps its own staggered window.
+     */
+    private boolean scanReady(int interval) {
+        if (this.sharesHerdScan()) {
+            return this.herdScanTimer.readyAt(this.taskOwner.level.getGameTime() + this.taskOwner.herd.threatScanKey(), interval);
+        }
+        return this.scanTimer.ready(this.taskOwner, interval);
+    }
+
+    /**
+     * Everything worth running from within {@code detect}. Identical results with and without the shared herd
+     * scan: the shared search only replaces WHERE the candidates come from; this animal's own box and its own
+     * targeting conditions (range, line of sight, selector) are applied to them exactly as getNearbyEntities would.
+     */
+    public List<T> findThreats(double detect) {
+        this.taskOwner.perfFleeScans++;
+        AABB own = this.taskOwner.getBoundingBox().inflate(detect, 4f, detect);
+        if (this.sharesHerdScan()) {
+            List<T> shared = this.taskOwner.herd.sharedThreatCandidates(this.avoidClass, own, this.avoidDistance * MAX_DETECT_SCALE, this.taskOwner.level);
+            if (shared != null) {
+                List<T> out = new ArrayList<>();
+                for (T candidate : shared) {
+                    if (candidate.getBoundingBox().intersects(own) && this.builtTargetSelector.test(this.taskOwner, candidate)) {
+                        out.add(candidate);
+                    }
+                }
+                return out;
+            }
+        }
+        PerfCounters.inc(PerfCounters.Counter.FLEE_SCAN);
+        return this.taskOwner.level.getNearbyEntities(this.avoidClass, this.builtTargetSelector, this.taskOwner, own);
+    }
+
+    /** The per-member scan, regardless of the toggle (GameTest equivalence check). */
+    public List<T> findThreatsUnshared(double detect) {
+        return this.taskOwner.level.getNearbyEntities(this.avoidClass, this.builtTargetSelector, this.taskOwner,
+                this.taskOwner.getBoundingBox().inflate(detect, 4f, detect));
+    }
+
+    public double currentDetectDistance() {
+        return this.detectDistance();
     }
 
     /**

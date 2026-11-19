@@ -1,0 +1,73 @@
+{
+  "name": "mustelid",
+  "breeding": "EARLY_SPRING",
+  "growing_time": 6,
+  "offspring": 2,
+  "activityType": "crepuscular",
+  "favourite_food": "minecraft:rabbit",
+  "sounds": {
+    "ambient": "entity.fox.ambient",
+    "hurt": "entity.fox.hurt",
+    "death": "entity.fox.death",
+    "threat": "entity.fox.aggro"
+  },
+  "flags": {
+    "groupCount": 1
+  },
+  "ecology": {
+    "tags": [
+      "carnivore"
+    ],
+    "diet": [
+      "small_game",
+      "grazer",
+      "browser"
+    ]
+  },
+  "species": [
+    {
+      "name": "wolverine",
+      "variant": 0,
+      "scale": 0.8,
+      "rarity": 2,
+      "attack": 5,
+      "health": 22,
+      "spawnBiomes": [
+        [
+          "category|taiga"
+        ],
+        [
+          "category|icy"
+        ],
+        [
+          "category|extreme_hills"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.22
+      }
+    },
+    {
+      "name": "honey_badger",
+      "variant": 1,
+      "scale": 0.495,
+      "rarity": 2,
+      "attack": 4,
+      "health": 16,
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|desert"
+        ],
+        [
+          "category|mesa"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.2
+      }
+    }
+  ]
+}

@@ -55,6 +55,81 @@ public class HerdEntity {
     /** Set when a migration search found nowhere better. The ONLY thing that suppresses breeding. */
     public boolean migrationFailed;
 
+    // ---------------------------------------------------------------------------------------------
+    // Shared threat scan (2.8.0, performance.shared_herd_threat_scan)
+    // ---------------------------------------------------------------------------------------------
+
+    /** The water this herd last drank at (2.8.0 cosmetic waterhole visits); forgotten after three failed visits. */
+    @Nullable
+    public BlockPos waterhole;
+    public int waterholeMisses;
+
+    /** Game time of this herd's last alarm call (2.8.0 vigilance), so a herd calls once, not once per member. */
+    public long lastAlarmTick = Long.MIN_VALUE / 2;
+
+    /** Per-herd phase for the shared scan window, so herds loaded together do not all search in one tick. */
+    private final int threatScanKey = new Random().nextInt(1 << 16);
+    private final Map<Class<?>, ThreatScan> threatScans = new HashMap<>();
+    /** Herds strung out wider than this scan per member as before: one box would cover too much empty ground. */
+    private static final double SHARED_SCAN_MAX_SPAN = 48.0D;
+
+    private static final class ThreatScan {
+        final long time;
+        final net.minecraft.world.phys.AABB box;
+        final List<? extends LivingEntity> candidates;
+
+        ThreatScan(long time, net.minecraft.world.phys.AABB box, List<? extends LivingEntity> candidates) {
+            this.time = time;
+            this.box = box;
+            this.candidates = candidates;
+        }
+    }
+
+    public int threatScanKey() {
+        return this.threatScanKey;
+    }
+
+    /**
+     * One entity search for the whole herd, reused by every member that asks within the next tick. Returns the
+     * raw candidates (class + box only); each member still applies its OWN range box, targeting selector and
+     * line of sight, so who spots what is the same as with per-member scans. Null when this herd cannot share
+     * (too spread out, or the asker needs a box the shared one does not cover) -- the caller then scans itself.
+     *
+     * @param need  the asker's own search box
+     * @param reach the widest detection radius any member of this herd could ask for
+     */
+    @Nullable
+    @SuppressWarnings("unchecked")
+    public <T extends LivingEntity> List<T> sharedThreatCandidates(Class<T> type, net.minecraft.world.phys.AABB need, double reach, net.minecraft.world.level.Level level) {
+        long now = level.getGameTime();
+        ThreatScan scan = this.threatScans.get(type);
+        if (scan != null && now - scan.time <= 1L && contains(scan.box, need)) {
+            return (List<T>) scan.candidates;
+        }
+        net.minecraft.world.phys.AABB bounds = null;
+        for (ComplexMob member : this.creatureList) {
+            if (member.isAlive()) {
+                bounds = bounds == null ? member.getBoundingBox() : bounds.minmax(member.getBoundingBox());
+            }
+        }
+        if (bounds == null || bounds.getXsize() > SHARED_SCAN_MAX_SPAN || bounds.getZsize() > SHARED_SCAN_MAX_SPAN) {
+            return null;
+        }
+        net.minecraft.world.phys.AABB box = bounds.inflate(reach, 4.0D, reach);
+        if (!contains(box, need)) {
+            return null;
+        }
+        untamedwilds.util.PerfCounters.inc(untamedwilds.util.PerfCounters.Counter.SHARED_THREAT_SCAN);
+        List<T> candidates = level.getEntitiesOfClass(type, box);
+        this.threatScans.put(type, new ThreatScan(now, box, candidates));
+        return candidates;
+    }
+
+    private static boolean contains(net.minecraft.world.phys.AABB outer, net.minecraft.world.phys.AABB inner) {
+        return outer.minX <= inner.minX && outer.minY <= inner.minY && outer.minZ <= inner.minZ
+                && outer.maxX >= inner.maxX && outer.maxY >= inner.maxY && outer.maxZ >= inner.maxZ;
+    }
+
     public HerdEntity(ComplexMob creature, int maxSize) {
         this.openToCombine = true;
         this.rand = new Random();
@@ -429,8 +504,14 @@ public class HerdEntity {
             }
 
             List<ComplexMob> toRemove = new ArrayList<>();
+            /* 2.8.0: the combine/rejoin sweep (a 34x26x34 entity search) ran every HERD_TICK for every herd.
+             * Herds merging or a stray calf rejoining a few seconds later changes nothing, so it now runs every
+             * fourth HERD_TICK, staggered by the leader's id so herds loaded together do not all sweep at once. */
+            boolean sweep = this.getLeader().tickCount % (HERD_TICK * 4) == (this.getLeader().getId() & 3) * HERD_TICK;
             // Babies always rejoin, even when the herd is full and therefore closed to combining.
-            List<ComplexMob> list = this.getLeader().getLevel().getEntitiesOfClass(ComplexMob.class, this.getLeader().getBoundingBox().inflate(16.0D, 12.0D, 16.0D));
+            List<ComplexMob> list = sweep
+                    ? this.getLeader().getLevel().getEntitiesOfClass(ComplexMob.class, this.getLeader().getBoundingBox().inflate(16.0D, 12.0D, 16.0D))
+                    : java.util.Collections.emptyList();
             for (ComplexMob creature : list) {
                 if (creature.isBaby() && !this.containsCreature(creature) && creature.herd != null
                         && creature.herd != this && creature.getClass().equals(this.getLeader().getClass())) {
@@ -447,6 +528,13 @@ public class HerdEntity {
                     }
                 }
             }
+
+            /* Thunderstorms (2026-10-06): a herd of grazers draws in tight around its leader, the way
+             * cattle and wildebeest bunch up in bad weather. Behaviour only, so it runs in Zoo mode
+             * too. Pulled to within half the herd radius; predators keep their normal spacing. */
+            boolean storm = ConfigGamerules.weatherHerdBehaviour.get() && this.leader != null && !this.leader.isCarnivore()
+                    && this.leader.getLevel().isThundering() && this.leader.getLevel().canSeeSky(this.leader.blockPosition());
+            double bunch = (this.radius * 0.5D) * (this.radius * 0.5D);
 
             ComplexMob creature;
             for (ComplexMob complexMob : this.creatureList) {
@@ -475,6 +563,10 @@ public class HerdEntity {
                         else if (this.migrating && creature.getTarget() == null && creature.fleeCooldown <= 0 && creature.canMove()
                                 && followerNeedsRepath(creature)) {
                             creature.getNavigation().moveTo(this.leader.getX(), this.leader.getY(), this.leader.getZ(), 1.1D);
+                        }
+                        if (storm && creature.distanceToSqr(this.leader) > bunch && creature.getTarget() == null
+                                && creature.fleeCooldown <= 0 && creature.canMove() && creature.getNavigation().isDone()) {
+                            creature.getNavigation().moveTo(this.leader.getX(), this.leader.getY(), this.leader.getZ(), 1.0D);
                         }
                     }
                 } else {

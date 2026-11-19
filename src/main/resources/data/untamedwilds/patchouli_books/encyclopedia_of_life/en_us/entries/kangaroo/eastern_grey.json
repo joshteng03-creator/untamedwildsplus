@@ -1,0 +1,22 @@
+{
+    "name": "Eastern Grey Kangaroo",
+    "icon": "untamedwilds:textures/icon/kangaroo/eastern_grey.png",
+    "category": "untamedwilds:kangaroo_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Eastern Grey Kangaroo",
+            "text": "The eastern grey kangaroo ($(o)Macropus giganteus$()) lives in the open forests and grasslands of eastern Australia and Tasmania.$(br2)It has a soft grey-brown coat and lives in groups called mobs, grazing mostly at dawn, dusk and night.$(br2)It is one of the fastest kangaroos, reaching over 60 km/h in short bursts."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:kangaroo{Variant: 1, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Eastern Grey Kangaroo",
+            "text": "Relative Size: ★★☆☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 8 Days"
+        }
+    ]
+}

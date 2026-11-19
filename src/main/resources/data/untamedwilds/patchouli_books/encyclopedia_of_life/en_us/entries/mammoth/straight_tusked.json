@@ -1,0 +1,22 @@
+{
+    "name": "Straight-Tusked Elephant",
+    "icon": "untamedwilds:textures/icon/mammoth/straight_tusked.png",
+    "category": "untamedwilds:mammoth_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Straight-Tusked Elephant",
+            "text": "The straight-tusked elephant ($(o)Palaeoloxodon antiquus$()) is an extinct elephant that lived in Europe and western Asia during the Middle and Late Pleistocene.$(br2)It was one of the largest land mammals of the Pleistocene, with large males standing around four metres at the shoulder, and was named for its long, only gently curved tusks.$(br2)It thrived in warm temperate forests during the interglacial periods, browsing on trees and shrubs."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:mammoth{Variant: 4, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Straight-Tusked Elephant",
+            "text": "Relative Size: ★★★★★$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Hay Bale$(br2)Number of Offspring: 1$(br2)Growth time: 16 Days"
+        }
+    ]
+}

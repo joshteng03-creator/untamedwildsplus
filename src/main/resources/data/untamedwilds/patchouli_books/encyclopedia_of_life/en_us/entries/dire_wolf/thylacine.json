@@ -1,0 +1,22 @@
+{
+    "name": "Thylacine",
+    "icon": "untamedwilds:textures/icon/dire_wolf/thylacine.png",
+    "category": "untamedwilds:dire_wolf_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Thylacine",
+            "text": "The thylacine ($(o)Thylacinus cynocephalus$()), also known as the Tasmanian tiger or Tasmanian wolf, is an extinct carnivorous marsupial from Australia, Tasmania and New Guinea.$(br2)It vanished from mainland Australia thousands of years ago, and the last known individual died in Hobart Zoo in 1936.$(br2)Though dog-like in shape, it was not a canid. Both sexes had a pouch, and dark stripes ran across its lower back."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:dire_wolf{Variant: 5, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Thylacine",
+            "text": "Relative Size: ★★☆☆☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 3$(br2)Growth time: 5 Days"
+        }
+    ]
+}

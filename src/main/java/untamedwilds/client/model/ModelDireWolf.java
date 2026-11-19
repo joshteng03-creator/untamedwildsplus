@@ -447,7 +447,6 @@ public class ModelDireWolf extends AdvancedEntityModel<EntityDireWolf> {
         this.resetToDefaultPose();
         animate(wolf);
         float globalSpeed = 2.8f;
-        float globalDegree = 1f;
         limbSwingAmount = Math.min(0.6F, limbSwingAmount * 2);
         limbSwing *= 0.5F;
 
@@ -488,10 +487,8 @@ public class ModelDireWolf extends AdvancedEntityModel<EntityDireWolf> {
         // OWN frame -- narrow on x/z, long on y, with no shear at any joint. The chain is
         // then re-closed by hand: a child's rotation point is an offset in its PARENT's
         // local frame, so it takes the parent's own factors, or the segments detach.
-        float legLong = ComplexMob.getEntityData(wolf.getType())
-                .getFlags(wolf.getVariant(), "legLength") / 1000F;
-        float legThin = ComplexMob.getEntityData(wolf.getType())
-                .getFlags(wolf.getVariant(), "legThickness") / 1000F;
+        float legLong = ComplexMob.speciesFlag(wolf, "legLength") / 1000F;
+        float legThin = ComplexMob.speciesFlag(wolf, "legThickness") / 1000F;
         if (legLong != 1.0F || legThin != 1.0F) {
             stretchLimb(this.arm_left_upper, this.arm_left_lower, this.arm_left_foot,
                     this.arm_left_paw, legLong, legThin);
@@ -520,49 +517,114 @@ public class ModelDireWolf extends AdvancedEntityModel<EntityDireWolf> {
         }
 
         // Movement Animation
-        float newZ = Mth.lerp(0.4F, this.tailX, this.tail_1.defaultRotationX + (float)wolf.getCurrentSpeed() * 2);
+        // Per-species: stiffTail (thylacine, user 2026-10-09). A thylacine's tail is thick where it leaves
+        // the body, tapers EVENLY (3.25 -> 2.7 -> 2.2 wide) and is carried out low and nearly rigid -- not a
+        // canid's hanging brush. Box scales (scaleChildren off, UV-safe), tail_2/tail_3 pivots pushed back
+        // so the tail is ~10% longer, a slight downward curve, and only a small lift with speed. The first
+        // pass (base 1.6x, tip 0.7x) read as a bee stinger. Written on BOTH branches: resetToDefaultPose
+        // does not restore scale and the model is shared.
+        boolean stiff = ComplexMob.speciesFlag(wolf, "stiffTail") == 1;
+        this.tail_1.setScale(stiff ? 1.2F : 1.0F, stiff ? 1.2F : 1.0F, stiff ? 1.1F : 1.0F);
+        this.tail_2.setScale(stiff ? 0.85F : 1.0F, stiff ? 0.85F : 1.0F, stiff ? 1.15F : 1.0F);
+        this.tail_3.setScale(stiff ? 0.95F : 1.0F, stiff ? 0.95F : 1.0F, stiff ? 1.3F : 1.0F);
+        float tailBase = this.tail_1.defaultRotationX;
+        float tailLift = 2.0F;
+        if (stiff) {
+            this.tail_2.rotationPointZ += 0.5F;
+            this.tail_3.rotationPointZ += 0.6F;
+            this.tail_2.rotateAngleX += -0.1F - this.tail_2.defaultRotationX;
+            this.tail_3.rotateAngleX += -0.1F - this.tail_3.defaultRotationX;
+            tailBase = -0.4F;
+            tailLift = 0.5F;
+        }
+        float newZ = Mth.lerp(0.4F, this.tailX, tailBase + (float)wolf.getCurrentSpeed() * tailLift);
         this.tail_1.rotateAngleX = newZ;
         this.tailX = newZ;
         if (wolf.canMove()) {
-            if (wolf.getCurrentSpeed() > 0.06f || wolf.isAngry()) { // Running animation
-                bob(body_main, 0.3F * globalSpeed, 0.5F, false, limbSwing, limbSwingAmount);
-                walk(body_main, 0.3f * globalSpeed, 0.5f * globalDegree, true, 0.5F, 0f, limbSwing, limbSwingAmount);
-                walk(head_neck, 0.3f * globalSpeed, -0.5f * globalDegree, true, 0.5F, 0f, limbSwing, limbSwingAmount);
-                bob(arm_right_upper, 0.3F * globalSpeed, 0.8F, false, limbSwing, limbSwingAmount);
-                walk(arm_right_upper, 0.3f * globalSpeed, globalDegree, true, 0F, 0f, limbSwing, limbSwingAmount);
-                walk(arm_right_lower, 0.3f * globalSpeed, 0.6f * globalDegree, true, 0.2F, 0.2f, limbSwing, limbSwingAmount);
-                walk(arm_right_foot, 0.3f * globalSpeed, 0.4f * globalDegree, true, 0.4F, 0.2f, limbSwing, limbSwingAmount);
-                bob(arm_left_upper, 0.3F * globalSpeed, 0.8F, false, limbSwing, limbSwingAmount);
-                walk(arm_left_upper, 0.3f * globalSpeed, globalDegree, true, 0.6F, 0f, limbSwing, limbSwingAmount);
-                walk(arm_left_lower, 0.3f * globalSpeed, 0.6f * globalDegree, true, 0.8F, 0.2f, limbSwing, limbSwingAmount);
-                walk(arm_left_foot, 0.3f * globalSpeed, 0.4f * globalDegree, true, 1.0F, 0.2f, limbSwing, limbSwingAmount);
-                bob(leg_right_upper, 0.3F * globalSpeed, 0.8F, false, limbSwing, limbSwingAmount);
-                walk(leg_right_upper, 0.3f * globalSpeed, globalDegree, true, 1.4F, 0f, limbSwing, limbSwingAmount);
-                walk(leg_right_lower, 0.3f * globalSpeed, 0.6f * globalDegree, true, 1.6F, 0.2f, limbSwing, limbSwingAmount);
-                walk(leg_right_foot, 0.3f * globalSpeed, 0.4f * globalDegree, true, 1.8F, 0.2f, limbSwing, limbSwingAmount);
-                bob(leg_left_upper, 0.3F * globalSpeed, 0.8F, false, limbSwing, limbSwingAmount);
-                walk(leg_left_upper, 0.3f * globalSpeed, globalDegree, true, 2F, 0f, limbSwing, limbSwingAmount);
-                walk(leg_left_lower, 0.3f * globalSpeed, 0.6f * globalDegree, true, 2.2F, 0.2f, limbSwing, limbSwingAmount);
-                walk(leg_left_foot, 0.3f * globalSpeed, 0.4f * globalDegree, true, 2.4F, 0.2f, limbSwing, limbSwingAmount);
-            } else { // Walking Animation
-                bob(body_main, 0.5F * globalSpeed, 0.2F, false, limbSwing, limbSwingAmount);
-                walk(body_main, 0.5f * globalSpeed, 0.2f * globalDegree, true, 0.5F, 0f, limbSwing, limbSwingAmount);
-                walk(head_neck, 0.5f * globalSpeed, -0.2f * globalDegree, true, 0.5F, 0f, limbSwing, limbSwingAmount);
-
-                walk(arm_right_upper, 0.5f * globalSpeed, 0.6f * globalDegree, false, 2F, 0f, limbSwing, limbSwingAmount);
-                walk(arm_right_lower, 0.5f * globalSpeed, 0.6f * globalDegree, false, 0F, -0.8f, limbSwing, limbSwingAmount * 1.2f);
-                walk(arm_right_foot, 0.5f * globalSpeed, 0.35f * globalDegree, false, 5.4F, 0f, limbSwing, limbSwingAmount);
-                walk(arm_left_upper, 0.5f * globalSpeed, 0.6f * globalDegree, false, 5.0F, 0f, limbSwing, limbSwingAmount);
-                walk(arm_left_lower, 0.5f * globalSpeed, 0.6f * globalDegree, false, 3F, -0.8f, limbSwing, limbSwingAmount * 1.2f);
-                walk(arm_left_foot, 0.5f * globalSpeed, 0.35f * globalDegree, false, 2.2F, 0f, limbSwing, limbSwingAmount);
-                bob(leg_right_upper, 0.5F * globalSpeed, 0.6F, false, limbSwing, limbSwingAmount);
-                walk(leg_right_upper, 0.5f * globalSpeed, 0.8F * globalDegree, true, 1F, 0f, limbSwing, limbSwingAmount);
-                walk(leg_right_lower, 0.5f * globalSpeed, 0.4f * globalDegree, true, 1.2F, 0.2f, limbSwing, limbSwingAmount);
-                walk(leg_right_foot, 0.5f * globalSpeed, 0.3f * globalDegree, true, 1.4F, 0.1f, limbSwing, limbSwingAmount);
-                bob(leg_left_upper, 0.5F * globalSpeed, 0.6F, false, limbSwing, limbSwingAmount);
-                walk(leg_left_upper, 0.5f * globalSpeed, 0.8F * globalDegree, true, 3.4F, 0f, limbSwing, limbSwingAmount);
-                walk(leg_left_lower, 0.5f * globalSpeed, 0.4f * globalDegree, true, 3.6F, 0.2f, limbSwing, limbSwingAmount);
-                walk(leg_left_foot, 0.5f * globalSpeed, 0.3f * globalDegree, true, 3.8F, 0.1f, limbSwing, limbSwingAmount);
+            // Gait FITTED to the rebuilt four-segment legs by scripts/wolf_gait.py (2026-10-07); the old
+            // calls were the hyena's cycle and dug the paws in while sliding them ~2.4x too far per step.
+            // Each joint is two walk() terms (cycle + second harmonic), which is what lets a paw stay flat
+            // on the floor through the stance. Walk = lateral sequence (LH, LF, RH, RF); run = rotary
+            // gallop (hind pair, then fore pair). The phase is divided by the RENDER scale so a planted paw
+            // keeps pace with the ground for every species size (maned wolf 0.55 .. dire wolf 0.9) and for
+            // pups. The body settles a little while moving: the near-straight rest-pose legs cannot reach
+            // the floor at the ends of a stride otherwise.
+            float gait = limbSwing * 2.0F / Math.max(0.2F, wolf.getMobSize() * wolf.getScale());
+            float stride = Math.min(1.0F, limbSwingAmount / 0.6F);
+            // 0.1 blocks/tick of tracked speed: wandering (x1.0) stays below it and walks; following,
+            // fleeing and hunting (x1.25..x1.6) run. The old 0.06 sent plain wandering into the run cycle.
+            boolean running = wolf.getCurrentSpeed() > 0.1F || wolf.isAngry();
+            if (!running) {
+                // walk: fitted by scripts/wolf_gait.py (K=2.10 units/rad, duty 0.62)
+                this.body_main.rotationPointY += (0.850F + 0.200F * Mth.sin(gait * 3.8095F + 0.0000F)) * stride;
+                walk(arm_left_upper, 1.9048F, 0.3500F, false, 0.0998F, -0.2014F, gait, stride);
+                walk(arm_left_upper, 3.8095F, 0.0907F, false, 0.4066F, 0F, gait, stride);
+                walk(arm_left_lower, 1.9048F, 0.4000F, false, 1.9427F, 0.2968F, gait, stride);
+                walk(arm_left_lower, 3.8095F, -0.0440F, false, 4.2900F, 0F, gait, stride);
+                walk(arm_left_foot, 1.9048F, 0.8500F, false, 2.9324F, -0.3000F, gait, stride);
+                walk(arm_left_foot, 3.8095F, 0.3000F, false, 2.8074F, 0F, gait, stride);
+                walk(arm_left_paw, 1.9048F, 0.3000F, false, 4.2799F, -0.3000F, gait, stride);
+                walk(arm_left_paw, 3.8095F, 0.1500F, false, 2.3789F, 0F, gait, stride);
+                walk(arm_right_upper, 1.9048F, 0.3500F, false, 3.2413F, -0.2014F, gait, stride);
+                walk(arm_right_upper, 3.8095F, 0.0907F, false, 0.4065F, 0F, gait, stride);
+                walk(arm_right_lower, 1.9048F, 0.4000F, false, 5.0843F, 0.2968F, gait, stride);
+                walk(arm_right_lower, 3.8095F, -0.0440F, false, 4.2902F, 0F, gait, stride);
+                walk(arm_right_foot, 1.9048F, 0.8500F, false, 6.0739F, -0.3000F, gait, stride);
+                walk(arm_right_foot, 3.8095F, 0.3000F, false, 2.8076F, 0F, gait, stride);
+                walk(arm_right_paw, 1.9048F, 0.3000F, false, 1.1384F, -0.3000F, gait, stride);
+                walk(arm_right_paw, 3.8095F, 0.1500F, false, 2.3786F, 0F, gait, stride);
+                walk(leg_left_upper, 1.9048F, 0.3408F, false, 2.6050F, -0.3000F, gait, stride);
+                walk(leg_left_upper, 3.8095F, -0.0445F, false, 1.7907F, 0F, gait, stride);
+                walk(leg_left_lower, 1.9048F, 0.2641F, false, 1.8974F, 0.2412F, gait, stride);
+                walk(leg_left_lower, 3.8095F, -0.1500F, false, 5.2881F, 0F, gait, stride);
+                walk(leg_left_foot, 1.9048F, 0.7976F, false, 5.0734F, 0.1875F, gait, stride);
+                walk(leg_left_foot, 3.8095F, 0.3000F, false, 4.6416F, 0F, gait, stride);
+                walk(leg_left_paw, 1.9048F, 0.3000F, false, 1.4245F, -0.1563F, gait, stride);
+                walk(leg_left_paw, 3.8095F, -0.1500F, false, 4.2632F, 0F, gait, stride);
+                walk(leg_right_upper, 1.9048F, 0.3408F, false, 5.7466F, -0.3000F, gait, stride);
+                walk(leg_right_upper, 3.8095F, -0.0445F, false, 1.7907F, 0F, gait, stride);
+                walk(leg_right_lower, 1.9048F, 0.2641F, false, 5.0390F, 0.2412F, gait, stride);
+                walk(leg_right_lower, 3.8095F, -0.1500F, false, 5.2881F, 0F, gait, stride);
+                walk(leg_right_foot, 1.9048F, 0.7976F, false, 1.9318F, 0.1875F, gait, stride);
+                walk(leg_right_foot, 3.8095F, 0.3000F, false, 4.6416F, 0F, gait, stride);
+                walk(leg_right_paw, 1.9048F, 0.3000F, false, 4.5661F, -0.1563F, gait, stride);
+                walk(leg_right_paw, 3.8095F, -0.1500F, false, 4.2632F, 0F, gait, stride);
+            } else {
+                // run: fitted by scripts/wolf_gait.py (K=6.00 units/rad, duty 0.36)
+                this.body_main.rotationPointY += (1.700F + 0.700F * Mth.sin(gait * 0.9467F + 0.0000F)) * stride;
+                walk(body_main, 0.9467F, 0.0873F, false, 1.2000F, 0F, gait, stride);
+                walk(arm_left_upper, 0.9467F, 0.6000F, false, 5.6774F, -0.2361F, gait, stride);
+                walk(arm_left_upper, 1.8933F, -0.2000F, false, 2.2275F, 0F, gait, stride);
+                walk(arm_left_lower, 0.9467F, 0.6000F, false, 1.1761F, 0.1323F, gait, stride);
+                walk(arm_left_lower, 1.8933F, -0.2500F, false, 4.1569F, 0F, gait, stride);
+                walk(arm_left_foot, 0.9467F, 0.8000F, false, 2.2535F, -0.3500F, gait, stride);
+                walk(arm_left_foot, 1.8933F, -0.3000F, false, 5.2464F, 0F, gait, stride);
+                walk(arm_left_paw, 0.9467F, 0.4000F, false, 2.8968F, -0.3500F, gait, stride);
+                walk(arm_left_paw, 1.8933F, 0.2000F, false, 5.7891F, 0F, gait, stride);
+                walk(arm_right_upper, 0.9467F, 0.6000F, false, 0.1836F, -0.1788F, gait, stride);
+                walk(arm_right_upper, 1.8933F, 0.2000F, false, 0.5725F, 0F, gait, stride);
+                walk(arm_right_lower, 0.9467F, 0.6000F, false, 2.1073F, 0.0404F, gait, stride);
+                walk(arm_right_lower, 1.8933F, 0.2500F, false, 2.5903F, 0F, gait, stride);
+                walk(arm_right_foot, 0.9467F, -0.8000F, false, 6.0490F, -0.3500F, gait, stride);
+                walk(arm_right_foot, 1.8933F, 0.3000F, false, 3.6680F, 0F, gait, stride);
+                walk(arm_right_paw, 0.9467F, -0.4000F, false, 0.6208F, -0.3500F, gait, stride);
+                walk(arm_right_paw, 1.8933F, 0.2000F, false, 0.8487F, 0F, gait, stride);
+                walk(leg_left_upper, 0.9467F, 0.4075F, false, 1.9680F, -0.3124F, gait, stride);
+                walk(leg_left_upper, 1.8933F, 0.1936F, false, 5.9487F, 0F, gait, stride);
+                walk(leg_left_lower, 0.9467F, 0.6000F, false, 3.1871F, 0.2300F, gait, stride);
+                walk(leg_left_lower, 1.8933F, 0.2500F, false, 2.7883F, 0F, gait, stride);
+                walk(leg_left_foot, 0.9467F, 0.8000F, false, 4.4937F, -0.3500F, gait, stride);
+                walk(leg_left_foot, 1.8933F, 0.0858F, false, 4.8658F, 0F, gait, stride);
+                walk(leg_left_paw, 0.9467F, -0.4000F, false, 3.2106F, 0.0956F, gait, stride);
+                walk(leg_left_paw, 1.8933F, 0.2000F, false, 4.8328F, 0F, gait, stride);
+                walk(leg_right_upper, 0.9467F, 0.4216F, false, 2.8722F, -0.2431F, gait, stride);
+                walk(leg_right_upper, 1.8933F, -0.1895F, false, 4.3486F, 0F, gait, stride);
+                walk(leg_right_lower, 0.9467F, 0.6000F, false, 3.7688F, 0.3500F, gait, stride);
+                walk(leg_right_lower, 1.8933F, 0.2500F, false, 4.3266F, 0F, gait, stride);
+                walk(leg_right_foot, 0.9467F, 0.8000F, false, 5.2593F, -0.3500F, gait, stride);
+                walk(leg_right_foot, 1.8933F, -0.0959F, false, 3.1953F, 0F, gait, stride);
+                walk(leg_right_paw, 0.9467F, 0.4000F, false, 0.7301F, -0.0723F, gait, stride);
+                walk(leg_right_paw, 1.8933F, -0.2000F, false, 3.3259F, 0F, gait, stride);
             }
         }
 

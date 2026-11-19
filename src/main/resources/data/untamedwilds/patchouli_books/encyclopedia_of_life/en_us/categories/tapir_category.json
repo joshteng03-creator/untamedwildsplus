@@ -1,0 +1,6 @@
+{
+    "name": "Tapirs",
+    "description": "Tapirs are herbivore Mammals with heavy bodies, short legs and a short prehensile snout, related to horses and rhinoceroses. $(br2)This group also includes Palorchestes, an Australian marsupial that was not a true tapir but shared a similar build. $(br2)Tapirs are usually found in forests and wetlands, close to water.",
+    "icon": "untamedwilds:textures/icon/tapir/category.png",
+    "parent": "untamedwilds:taxon_mammal"
+}

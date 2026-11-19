@@ -75,6 +75,13 @@ public class AngrySleeperTarget<T extends LivingEntity> extends TargetGoal {
          * keep whatever it had found on some earlier night -- so start() could aim a freshly woken animal
          * at a stale entity, and a sleeper held the target slot all night regardless. */
         this.target = null;
+        /* 2.8.0: was an entity search on every goal evaluation for every sleeping animal. Same random interval
+         * vanilla's NearestAttackableTargetGoal uses (~10 ticks), so an intruder is still noticed within a
+         * second; the owner's eco level is memoised per tick, so the predicate no longer recomputes it per
+         * candidate either. */
+        if (this.mob.getRandom().nextInt(reducedTickDelay(10)) != 0) {
+            return false;
+        }
         List<LivingEntity> list = this.mob.level.getEntitiesOfClass(LivingEntity.class, this.mob.getBoundingBox().inflate(6.0D, 4.0D, 6.0D), (input) -> this.targetEntitySelector.test((T) input));
         if (list.isEmpty()) {
             return false;

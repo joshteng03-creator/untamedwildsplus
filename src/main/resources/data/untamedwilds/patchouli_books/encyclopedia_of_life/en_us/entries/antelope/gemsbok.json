@@ -1,0 +1,22 @@
+{
+    "name": "Gemsbok",
+    "icon": "untamedwilds:textures/icon/antelope/gemsbok.png",
+    "category": "untamedwilds:antelope_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Gemsbok",
+            "text": "The gemsbok ($(o)Oryx gazella$()) is a large antelope of the deserts and dry grasslands of southern Africa, including the Kalahari and Namib.$(br2)Both sexes carry long, straight, rapier-like horns, and the face is boldly marked in black and white.$(br2)Gemsbok are superbly adapted to heat, able to go without drinking for long periods and to let their body temperature rise to save water."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:antelope{Variant: 6, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Gemsbok",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 6 Days"
+        }
+    ]
+}

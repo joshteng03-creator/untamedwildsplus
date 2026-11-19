@@ -50,6 +50,12 @@
       "size_max":1
     },
     {
+      "type":"untamedwilds:orca",
+      "weight":1,
+      "size_min":3,
+      "size_max":6
+    },
+    {
       "type":"untamedwilds:king_crab",
       "weight":4,
       "size_min":1,

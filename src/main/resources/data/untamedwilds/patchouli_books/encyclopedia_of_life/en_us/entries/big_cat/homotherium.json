@@ -1,0 +1,22 @@
+{
+    "name": "Scimitar Cat",
+    "icon": "untamedwilds:textures/icon/big_cat/homotherium.png",
+    "category": "untamedwilds:big_cat_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Scimitar Cat",
+            "text": "The scimitar cat ($(o)Homotherium latidens$()) is an extinct sabre-toothed cat that lived across Europe and Asia during the Pleistocene.$(br2)Its upper canines were shorter and broader than those of $(o)Smilodon$(), flattened and serrated like a scimitar blade. It had long forelimbs and a back that sloped down towards the hips.$(br2)A mummified cub around 35,000 years old has been found preserved in the Siberian permafrost."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:big_cat{Variant: 10, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Scimitar Cat",
+            "text": "Relative Size: ★★★☆☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 3$(br2)Growth time: 6 Days"
+        }
+    ]
+}

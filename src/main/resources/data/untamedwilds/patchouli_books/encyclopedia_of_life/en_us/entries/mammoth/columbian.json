@@ -1,0 +1,22 @@
+{
+    "name": "Columbian Mammoth",
+    "icon": "untamedwilds:textures/icon/mammoth/columbian.png",
+    "category": "untamedwilds:mammoth_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Columbian Mammoth",
+            "text": "The Columbian mammoth ($(o)Mammuthus columbi$()) is an extinct mammoth that lived in North America during the Pleistocene, from the northern United States to Central America.$(br2)It was one of the largest proboscideans, standing up to four metres tall at the shoulder, with enormous curved tusks.$(br2)Living in warmer regions than the woolly mammoth, it likely had a much thinner coat. It grazed on grasses and sedges and disappeared at the end of the Pleistocene."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:mammoth{Variant: 1, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Columbian Mammoth",
+            "text": "Relative Size: ★★★★★$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Hay Bale$(br2)Number of Offspring: 1$(br2)Growth time: 16 Days"
+        }
+    ]
+}

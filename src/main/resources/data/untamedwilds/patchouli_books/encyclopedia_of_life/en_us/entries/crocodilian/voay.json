@@ -1,0 +1,22 @@
+{
+    "name": "Horned Crocodile",
+    "icon": "untamedwilds:textures/icon/crocodilian/voay.png",
+    "category": "untamedwilds:crocodilian_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Horned Crocodile",
+            "text": "$(o)Voay$() ($(o)Voay robustus$()), the horned crocodile, lived in the rivers and marshes of Madagascar.$(br2)It was a heavy, robust crocodile with small bony horns at the back of its skull, and was the island's largest predator.$(br2)It died out within the last few thousand years, after people reached Madagascar."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:crocodilian{Variant: 5, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Horned Crocodile",
+            "text": "Relative Size: ★★★☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 3$(br2)Growth time: 8 Days"
+        }
+    ]
+}

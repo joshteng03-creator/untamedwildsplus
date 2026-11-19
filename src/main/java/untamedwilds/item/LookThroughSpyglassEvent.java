@@ -33,16 +33,20 @@ public class LookThroughSpyglassEvent {
     public static void lookAtEntityThroughSpyglassEvent(LivingEntityUseItemEvent event) {
         ItemStack usedItem = event.getItem();
         Entity entity = event.getEntity();
-        if (ConfigGamerules.spyglassBehaviorChange.get() && !entity.getLevel().isClientSide && entity instanceof Player playerIn && playerIn.tickCount % 20 == 0 && usedItem.getItem().equals(Items.SPYGLASS)) {
+        // Discovery (advancements) works even when a server turns the spyglass info display off.
+        if (!entity.getLevel().isClientSide && entity instanceof ServerPlayer playerIn && playerIn.tickCount % 20 == 0 && usedItem.getItem().equals(Items.SPYGLASS)) {
             HitResult hitresult = raycast(playerIn, ConfigGamerules.spyglassCheckRange.get(), true);
             if (hitresult.getType() == HitResult.Type.ENTITY) {
                 EntityHitResult entityHitResult = (EntityHitResult)hitresult;
                 if (entityHitResult.getEntity() instanceof LivingEntity livingEntityHitResult) {
-                    displayEntityData(livingEntityHitResult, playerIn, playerIn.getLevel());
-
-                    // TODO: Hardcoded list of "observing" advancements
+                    if (ConfigGamerules.spyglassBehaviorChange.get()) {
+                        displayEntityData(livingEntityHitResult, playerIn, playerIn.getLevel());
+                    }
+                    if (livingEntityHitResult instanceof ComplexMob) {
+                        ModAdvancementTriggers.DISCOVERED_ANIMAL.trigger(playerIn, livingEntityHitResult.getType());
+                    }
                     if (entityHitResult.getEntity() instanceof EntitySpitter)
-                        ModAdvancementTriggers.DISCOVERED_SPITTER.trigger((ServerPlayer) playerIn);
+                        ModAdvancementTriggers.DISCOVERED_SPITTER.trigger(playerIn);
                 }
             }
         }

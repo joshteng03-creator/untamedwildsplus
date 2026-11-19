@@ -1,0 +1,22 @@
+{
+    "name": "Harrington's Mountain Goat",
+    "icon": "untamedwilds:textures/icon/caprine/harrington_goat.png",
+    "category": "untamedwilds:caprine_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Harrington's Mountain Goat",
+            "text": "Harrington's mountain goat ($(o)Oreamnos harringtoni$()) was a smaller relative of the living mountain goat that lived in western North America during the Pleistocene.$(br2)Its remains have been found in caves in the Grand Canyon, along with preserved dung and hair.$(br2)Like its living relative, it probably had a shaggy white coat and short black horns."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:caprine{Variant: 5, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Harrington's Mountain Goat",
+            "text": "Relative Size: ★★☆☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 7 Days"
+        }
+    ]
+}

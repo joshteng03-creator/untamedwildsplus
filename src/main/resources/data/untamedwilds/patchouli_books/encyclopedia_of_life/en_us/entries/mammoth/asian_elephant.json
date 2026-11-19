@@ -1,0 +1,22 @@
+{
+    "name": "Asian Elephant",
+    "icon": "untamedwilds:textures/icon/mammoth/asian_elephant.png",
+    "category": "untamedwilds:mammoth_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Asian Elephant",
+            "text": "The Asian elephant ($(o)Elephas maximus$()) is an elephant found in the forests and grasslands of the Indian subcontinent and Southeast Asia.$(br2)It is smaller than the African elephants, with smaller rounded ears and a single finger-like tip on the end of its trunk. Only some males carry large tusks.$(br2)Asian elephants live in family groups led by an older female. The species is listed as Endangered."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:mammoth{Variant: 7, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Asian Elephant",
+            "text": "Relative Size: ★★★★★$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Hay Bale$(br2)Number of Offspring: 1$(br2)Growth time: 16 Days"
+        }
+    ]
+}

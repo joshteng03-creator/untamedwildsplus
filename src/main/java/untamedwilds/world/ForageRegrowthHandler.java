@@ -40,7 +40,61 @@ public class ForageRegrowthHandler {
     /** How far a bare column will look for a living neighbour to spread from. */
     private static final int SPREAD_SEARCH = 2;
 
+    /** Soak hook: how often the forage report is logged (half an in-game day). */
+    private static final long REPORT_TICKS = 12000L;
+    private static long regrownGround, regrownPlants;
+
     private ForageRegrowthHandler() {}
+
+    /** Centre of the dimension's force-loaded chunks, at its surface; null when nothing is force-loaded. */
+    private static BlockPos forcedCentre(ServerLevel level) {
+        it.unimi.dsi.fastutil.longs.LongSet forced = level.getForcedChunks();
+        if (forced.isEmpty()) {
+            return null;
+        }
+        long sx = 0, sz = 0;
+        for (long c : forced) {
+            sx += net.minecraft.world.level.ChunkPos.getX(c);
+            sz += net.minecraft.world.level.ChunkPos.getZ(c);
+        }
+        int x = (int) (sx * 16 / forced.size()) + 8, z = (int) (sz * 16 / forced.size()) + 8;
+        return new BlockPos(x, level.getSeaLevel(), z);
+    }
+
+    /**
+     * Soak hook: blocks regrown since the last report, and a sample of the force-loaded area's ground cover -- grass with a
+     * plant on it (forage), bare grass, dirt -- so a soak log shows directly whether the herds are eating it bare.
+     */
+    private static void report(ServerLevel level, Random random) {
+        BlockPos c = forcedCentre(level);
+        if (c == null) {
+            return;
+        }
+        int plant = 0, bare = 0, dirt = 0, other = 0;
+        for (int i = 0; i < 400; i++) {
+            BlockPos column = c.offset(random.nextInt(SAMPLE_RADIUS * 2) - SAMPLE_RADIUS, 0, random.nextInt(SAMPLE_RADIUS * 2) - SAMPLE_RADIUS);
+            if (!level.isLoaded(column)) {
+                continue;
+            }
+            BlockPos surface = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, column);
+            BlockState g = level.getBlockState(surface.below()), top = level.getBlockState(surface);
+            if (g.is(Blocks.GRASS_BLOCK)) {
+                if (top.is(Blocks.GRASS) || top.is(Blocks.FERN) || top.is(Blocks.TALL_GRASS) || top.is(Blocks.LARGE_FERN)) {
+                    plant++;
+                } else {
+                    bare++;
+                }
+            } else if (g.is(Blocks.DIRT) || g.is(Blocks.COARSE_DIRT)) {
+                dirt++;
+            } else {
+                other++;
+            }
+        }
+        UntamedWilds.LOGGER.info("[soak] forage day {}: regrown {} grass + {} plants since last report; ground cover plant {} / bare grass {} / dirt {} / other {}",
+                String.format("%.1f", level.getGameTime() / 24000.0), regrownGround, regrownPlants, plant, bare, dirt, other);
+        regrownGround = 0;
+        regrownPlants = 0;
+    }
 
     @SubscribeEvent
     public static void onWorldTick(TickEvent.WorldTickEvent event) {
@@ -49,6 +103,11 @@ public class ForageRegrowthHandler {
         }
         if (!(event.world instanceof ServerLevel level)) {
             return;
+        }
+        // soak hook report: checked before the per-tick early returns, which skip most ticks
+        if (untamedwilds.config.ConfigPerformance.debugRegrowForcedChunks.get() && level.getGameTime() % REPORT_TICKS == 0
+                && level.players().isEmpty()) {
+            report(level, level.getRandom());
         }
         int interval = ConfigGamerules.forageRegrowthInterval.get();
         int attempts = ConfigGamerules.forageRegrowthAttempts.get();
@@ -70,9 +129,23 @@ public class ForageRegrowthHandler {
             return;
         }
         Random random = level.getRandom();
+        java.util.List<BlockPos> origins = new java.util.ArrayList<>();
         for (int p = 0; p < level.players().size(); p++) {
-            BlockPos origin = level.players().get(p).blockPosition();
-            for (int i = 0; i < thisTick; i++) {
+            origins.add(level.players().get(p).blockPosition());
+        }
+        if (origins.isEmpty() && untamedwilds.config.ConfigPerformance.debugRegrowForcedChunks.get()) {
+            BlockPos stand = forcedCentre(level);
+            if (stand != null) {
+                origins.add(stand);           // soak hook: one virtual player at the centre of the force-loaded area
+            }
+        }
+        for (BlockPos origin : origins) {
+            /* Climate scales the local rate (ClimateHelper): rain speeds regrowth, snow stops it, and
+             * with Serene Seasons spring flushes and winter halves it. The fractional part is rolled so
+             * a 0.5x winter really is half the attempts on average, not zero. */
+            double want = thisTick * ClimateHelper.forageRegrowthFactor(level, origin);
+            int n = (int) want + (random.nextDouble() < want - (int) want ? 1 : 0);
+            for (int i = 0; i < n; i++) {
                 tryRegrow(level, random, origin);
             }
         }
@@ -96,6 +169,7 @@ public class ForageRegrowthHandler {
             // patch in a desert must not spontaneously turn green.
             if (hasNeighbour(level, ground, Blocks.GRASS_BLOCK)) {
                 level.setBlock(ground, Blocks.GRASS_BLOCK.defaultBlockState(), 2);
+                regrownGround++;
             }
             return;
         }
@@ -104,8 +178,10 @@ public class ForageRegrowthHandler {
             // needs putting back. Ferns only where ferns already grow, so biome character is preserved.
             if (hasNeighbour(level, surface, Blocks.FERN)) {
                 level.setBlock(surface, Blocks.FERN.defaultBlockState(), 2);
+                regrownPlants++;
             } else if (hasNeighbour(level, surface, Blocks.GRASS)) {
                 level.setBlock(surface, Blocks.GRASS.defaultBlockState(), 2);
+                regrownPlants++;
             }
         }
     }

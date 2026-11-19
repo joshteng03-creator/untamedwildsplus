@@ -109,6 +109,17 @@ take `small_game`. By region:
 | 8 | **Large rodents**: capybara, *Neochoerus* (giant capybara), *Castoroides* (giant beaver) | South American and North American wetland prey | Tier 1: one rodent body (beaver tail as a flag) |
 | 9 | **Smilodon fatalis** | North America's own sabertooth | Tier 3: big_cat species |
 
+### DONE 2026-10-02: quick-win batch (6 species, each skin signed off in Blockbench)
+
+| Type | Species (internal id, variant) | Fills |
+|---|---|---|
+| big_cat | North American Sabertooth, *Smilodon fatalis* (`smilodon_fatalis`, 16) | North America's own sabertooth |
+| deer | Chital, *Axis axis* (`chital`, 14) | tiger/dhole prey, Asia |
+| deer | Sambar, *Rusa unicolor* (`sambar`, 15) | tiger prey, Asia |
+| glyptodont | *Glyptotherium texanum* (`glyptotherium`, 3) | North America's glyptodont (rosette-stud shell) |
+| ground_sloth | *Glossotherium robustum* (`glossotherium`, 4) | grazing sloth of South America |
+| boar | Flat-Headed Peccary, *Platygonus compressus* (`platygonus`, 8) | North American mid-size prey |
+
 ### Cheap completions (Tier 3: new species on an existing body, no model work)
 
 | Body | Species | Fills |

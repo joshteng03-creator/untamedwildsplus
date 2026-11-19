@@ -1,0 +1,22 @@
+{
+    "name": "Moose",
+    "icon": "untamedwilds:textures/icon/deer/moose.png",
+    "category": "untamedwilds:deer_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Moose",
+            "text": "The moose ($(o)Alces alces$()), known as the elk in Europe, is the largest living deer, inhabiting the boreal and mixed forests of North America, Europe and Asia.$(br2)Bulls grow broad, palmate antlers each year and shed them after the autumn rut.$(br2)Moose are browsers that feed on twigs, leaves and bark, and in summer they often wade into lakes and rivers to eat aquatic plants."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:deer{Variant: 2, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Moose",
+            "text": "Relative Size: ★★★☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

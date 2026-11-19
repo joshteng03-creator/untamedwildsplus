@@ -58,6 +58,9 @@ public class EntityTapir extends ComplexMobTerrestrial implements INewSkins, ISp
 
     public static final Animation ATTACK_THREATEN = Animation.create(50);
     public static final Animation ATTACK_GORE = Animation.create(14);
+    public static final Animation EAT = Animation.create(40);   // 2.8.0 idle pose (gen_keyframes.py)
+    public static final Animation DRINK = Animation.create(100);   // 2.8.0 idle pose (gen_keyframes.py)
+    public static final Animation ALERT = Animation.create(40);   // 2.8.0 idle pose (gen_keyframes.py)
 
     public EntityTapir(EntityType<? extends ComplexMob> type, Level worldIn) {
         super(type, worldIn);
@@ -71,9 +74,11 @@ public class EntityTapir extends ComplexMobTerrestrial implements INewSkins, ISp
         // Flight before the attack goal, so a bitten animal runs rather than turning to
         // fight -- unless it is cornered and no escape path exists.
         this.goalSelector.addGoal(2, new HerdFleeGoal<>(this, LivingEntity.class, 20, 1.6D, 2.0D, EcologyTags::isPredator));
+        this.goalSelector.addGoal(3, new AlertGoal(this));   // 2.8.0 vigilance (below flight, never equal)
         this.goalSelector.addGoal(2, new SmartMeleeAttackGoal(this, 1.6D, false));
         this.goalSelector.addGoal(3, new SmartMateGoal(this, 0.8D));
         this.goalSelector.addGoal(3, new GrazeGoal(this, 10));
+        this.goalSelector.addGoal(3, new DrinkGoal(this));   // 2.8.0 cosmetic waterhole visits
         /* Density dependence, expressed as MOVEMENT rather than as a cap on births: a herd that
          * has eaten its range out, or that is standing in an overcrowded neighbourhood, shifts
          * ground, and surplus young adults disperse to found herds elsewhere. Runs on the herd
@@ -189,17 +194,24 @@ public class EntityTapir extends ComplexMobTerrestrial implements INewSkins, ISp
     }
 
     @Override
+    public Animation getAnimationDrink() { return DRINK; }
+    @Override
+    public Animation getAnimationAlert() { return ALERT; }
+    // 2.8.0 solved DRINK reach (gen_keyframes.py): muzzle 22.4 units in front of the centre at size 1
+    @Override
+    public double getDrinkReach() { return 1.398D * this.getMobSize(); }
+
+    @Override
     public Animation[] getAnimations() {
-        return new Animation[]{NO_ANIMATION, ATTACK_THREATEN, ATTACK_GORE};
+        return new Animation[]{NO_ANIMATION, ATTACK_THREATEN, ATTACK_GORE, EAT, DRINK, ALERT};
     }
 
-    public Animation getAnimationEat() { return NO_ANIMATION; }
+    public Animation getAnimationEat() { return EAT; }
 
     @Override
     public void updateAttributes() {
         this.applySpeciesSpeed();
-        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getAttack());
-        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(getEntityData(this.getType()).getSpeciesData().get(this.getVariant()).getHealth());
+        this.applySpeciesHealthAndAttack();
         this.setHealth(this.getMaxHealth());
     }
 }

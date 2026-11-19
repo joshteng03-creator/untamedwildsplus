@@ -4,7 +4,12 @@
   "growing_time":12,
   "offspring":1,
   "favourite_food":"untamedwilds:chum",
-  "sounds":{},
+  "sounds":{
+    "ambient":"untamedwilds:entity.baleen_whale.ambient",
+    "hurt":"untamedwilds:entity.baleen_whale.hurt",
+    "death":"untamedwilds:entity.baleen_whale.death",
+    "call":"untamedwilds:entity.baleen_whale.call"
+  },
   "flags":{
     "hasLongFins":0
   },

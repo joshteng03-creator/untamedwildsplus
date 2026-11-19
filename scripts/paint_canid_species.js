@@ -72,6 +72,34 @@
       noseCol: '#1a120d',
       shadeLo: 0.18, shadeHi: 0.90,
       hairScale: 2.2, hairAmt: 0.09, agoutiAmt: 0.06
+    },
+    // Canis simensis (2.9.0) -- bright tawny-red with WHITE throat, chest, underparts and lips, a black tail tip. It
+    // must not read as the maned wolf (the other red canid): no black stockings, no black mane, a smooth unagouti coat.
+    ethiopian_wolf: {
+      back: '#a5521e', flank: '#c06a2a', belly: '#efe6d8',
+      saddleCol: '#7d3d16', saddleAmt: 0.35, saddleLo: 0.62, saddleHi: 0.88,
+      ruffCol: '#d48a4a', ruffAmt: 0.25,
+      maskCol: '#8f4518', maskAmt: 0.30, paleCol: '#f6efe4', lipAmt: 0.85,
+      throatAmt: 0.95, earCol: '#b45a22', earAmt: 0.50,
+      legCol: '#c97032', legAmt: 0.30,
+      tailTipCol: '#1c1512', tailTipAmt: 0.75,
+      noseCol: '#1a1411',
+      shadeLo: 0.18, shadeHi: 0.90,
+      hairScale: 1.6, hairAmt: 0.10, agoutiAmt: 0.05
+    },
+    // Canis aureus (2.9.0) -- golden-tawny with a LIGHT grizzled saddle (black-tipped hairs), cream throat and belly,
+    // tawny legs, a black tail tip. Set apart from the coyote (redder, heavier grey-brown saddle) by gold, not grey.
+    golden_jackal: {
+      back: '#8f7040', flank: '#b08a4e', belly: '#dccaa0',
+      saddleCol: '#4f4536', saddleAmt: 0.55, saddleLo: 0.60, saddleHi: 0.86,
+      ruffCol: '#c0a070', ruffAmt: 0.25,
+      maskCol: '#9a7444', maskAmt: 0.35, paleCol: '#efe5cf', lipAmt: 0.70,
+      throatAmt: 0.70, earCol: '#a8783e', earAmt: 0.55,
+      legCol: '#c08a48', legAmt: 0.45,
+      tailTipCol: '#26201a', tailTipAmt: 0.80,
+      noseCol: '#211b17',
+      shadeLo: 0.16, shadeHi: 0.88,
+      hairScale: 1.7, hairAmt: 0.13, agoutiAmt: 0.15
     }
   };
 

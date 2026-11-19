@@ -1,0 +1,22 @@
+{
+    "name": "Giant Capybara",
+    "icon": "untamedwilds:textures/icon/large_rodent/neochoerus.png",
+    "category": "untamedwilds:large_rodent_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Giant Capybara",
+            "text": "$(o)Neochoerus$() ($(o)Neochoerus pinckneyi$()) was a giant capybara that lived in North and South America during the Pleistocene.$(br2)It was about twice the weight of a living capybara and lived along rivers and marshes much like its modern relative.$(br2)It disappeared at the end of the last ice age."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:large_rodent{Variant: 1, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Giant Capybara",
+            "text": "Relative Size: ★★★☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Sugar Cane$(br2)Number of Offspring: 2$(br2)Growth time: 6 Days"
+        }
+    ]
+}

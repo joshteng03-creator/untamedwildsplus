@@ -1,0 +1,22 @@
+{
+    "name": "Musk Ox",
+    "icon": "untamedwilds:textures/icon/bison/musk_ox.png",
+    "category": "untamedwilds:bison_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Musk Ox",
+            "text": "The musk ox ($(o)Ovibos moschatus$()) is a hoofed mammal of the Arctic, native to northern Canada and Greenland and reintroduced to parts of Alaska, Scandinavia and Siberia.$(br2)Despite its name and build, it is more closely related to sheep and goats than to cattle.$(br2)Its long outer coat covers a fine underwool called qiviut. When threatened, a herd forms a tight circle or line facing outward, horns towards the danger."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:bison{Variant: 9, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Musk Ox",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Junegrass$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

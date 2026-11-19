@@ -1,0 +1,22 @@
+{
+    "name": "Cuvieronius",
+    "icon": "untamedwilds:textures/icon/mammoth/cuvieronius.png",
+    "category": "untamedwilds:mammoth_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Cuvieronius",
+            "text": "The Cuvieronius ($(o)Cuvieronius hyodon$()) is an extinct gomphothere that lived from southern North America through Central America into South America, disappearing at the end of the Pleistocene.$(br2)Gomphotheres were relatives of elephants. Cuvieronius was smaller than a modern elephant, with distinctive tusks that were twisted in a spiral.$(br2)In South America it lived mainly in the Andes, inhabiting cooler highland environments."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:mammoth{Variant: 5, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Cuvieronius",
+            "text": "Relative Size: ★★★★★$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Hay Bale$(br2)Number of Offspring: 1$(br2)Growth time: 16 Days"
+        }
+    ]
+}

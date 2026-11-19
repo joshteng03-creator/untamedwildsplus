@@ -1,0 +1,22 @@
+{
+    "name": "Przewalski's Horse",
+    "icon": "untamedwilds:textures/icon/equid/przewalskis_horse.png",
+    "category": "untamedwilds:equid_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Przewalski's Horse",
+            "text": "Przewalski's horse ($(o)Equus ferus przewalskii$()) is a rare wild horse of the steppes of Central Asia, native to Mongolia and northern China.$(br2)It is stocky and dun-coloured, with a short, erect mane and no forelock.$(br2)Przewalski's horse became extinct in the wild in the 1960s, but horses bred from a small captive population have since been reintroduced to Mongolia and other parts of its former range."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:equid{Variant: 5, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Przewalski's Horse",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

@@ -251,9 +251,12 @@ public class EntityOpossum extends ComplexMobTerrestrial implements ISpecies, IN
             this.setFlags(EnumSet.of(Goal.Flag.MOVE));
         }
 
+        /** 2.8.0: parity-proof replacement for a tickCount % 4 gate (see GoalTimer). */
+        private final untamedwilds.util.GoalTimer checkTimer = new untamedwilds.util.GoalTimer(4, true);
+
         @Override
         public boolean canUse() {
-            if (this.taskOwner.tickCount % 4 != 0) {
+            if (!this.checkTimer.ready(this.taskOwner)) {
                 return false;
             }
             if (this.taskOwner.getTarget() != null || this.taskOwner.isSleeping() || this.taskOwner.getCommandInt() != 0 || this.taskOwner.isTame()) {

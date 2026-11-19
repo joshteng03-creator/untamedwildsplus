@@ -1,0 +1,22 @@
+{
+    "name": "Titanotylopus",
+    "icon": "untamedwilds:textures/icon/camel/titanotylopus.png",
+    "category": "untamedwilds:camel_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Titanotylopus",
+            "text": "The Titanotylopus ($(o)Titanotylopus nebraskensis$()) is an extinct giant camel that lived in North America from the Pliocene into the Pleistocene.$(br2)It was one of the largest camels that ever lived, standing around three metres or more at the shoulder.$(br2)Its long limbs carried a body far heavier than any living camel, and its skull bore large canine teeth."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:camel{Variant: 4, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Titanotylopus",
+            "text": "Relative Size: ★★★★★$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Junegrass$(br2)Number of Offspring: 1$(br2)Growth time: 13 Days"
+        }
+    ]
+}

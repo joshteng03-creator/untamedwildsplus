@@ -1,0 +1,6 @@
+{
+    "name": "Pinnipeds",
+    "description": "Pinnipeds are marine Mammals with flippers: the seals, sea lions and the walrus.$(br2)They hunt at sea and haul out onto ice, rocks and beaches to rest, give birth and moult, often in large crowded colonies. True seals hump along on their bellies on land, while sea lions and walruses can turn their hind flippers forward and walk.$(br2)Pinnipeds are found mostly in cold coastal waters, and are important prey for polar bears and large sharks.",
+    "icon": "untamedwilds:textures/icon/pinniped/category.png",
+    "parent": "untamedwilds:taxon_mammal"
+}

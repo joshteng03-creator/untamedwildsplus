@@ -15,12 +15,16 @@ public class ConfigBase {
     public static final ConfigGamerules GAMERULES;
     public static final ConfigMobControl MOBS;
     public static final ConfigModCompat COMPAT;
+    public static final ConfigPerformance PERFORMANCE;
+    public static final ConfigAmbience AMBIENCE;
 
     static {
         FEATURES = new ConfigFeatureControl(common_builder);
         GAMERULES = new ConfigGamerules(common_builder);
         MOBS = new ConfigMobControl(common_builder);
         COMPAT = new ConfigModCompat(common_builder);
+        PERFORMANCE = new ConfigPerformance(common_builder);
+        AMBIENCE = new ConfigAmbience(common_builder);
 
         common_config = common_builder.build();
     }

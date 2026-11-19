@@ -1,0 +1,22 @@
+{
+    "name": "Huemul",
+    "icon": "untamedwilds:textures/icon/deer/huemul.png",
+    "category": "untamedwilds:deer_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Huemul",
+            "text": "The huemul ($(o)Hippocamelus bisulcus$()), or South Andean deer, is a stocky deer native to the Andes of southern Chile and Argentina.$(br2)Its short legs and thick, coarse coat suit the steep, rugged terrain and cold climate of its mountain forests and grasslands.$(br2)The huemul is endangered, with only a few thousand left in the wild, and it appears on the coat of arms of Chile."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:deer{Variant: 6, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Huemul",
+            "text": "Relative Size: ★★☆☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

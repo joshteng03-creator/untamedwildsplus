@@ -272,6 +272,20 @@
           "category|desert"
         ]
       ]
+    },
+    {
+      "name":"sea_krait",
+      "variant":17,
+      "scale":0.9,
+      "rarity":2,
+      "flags":{
+        "venom":1
+      },
+      "spawnBiomes":[
+        [
+          "category|beach"
+        ]
+      ]
     }
   ],
   "ecology":{

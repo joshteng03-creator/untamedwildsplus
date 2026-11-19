@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "# #",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "untamedwilds:material_scute"
+    }
+  },
+  "result": {
+    "item": "untamedwilds:carapace_chestplate",
+    "count": 1
+  }
+}

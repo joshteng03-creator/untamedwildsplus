@@ -1,0 +1,22 @@
+{
+    "name": "Chital",
+    "icon": "untamedwilds:textures/icon/deer/chital.png",
+    "category": "untamedwilds:deer_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Chital",
+            "text": "The chital ($(o)Axis axis$()), or spotted deer, is a deer native to the forests and grasslands of the Indian subcontinent.$(br2)Unlike most deer, it keeps its white-spotted golden coat throughout adult life.$(br2)Chital live in herds and often feed beneath trees occupied by langur monkeys, eating the fruit and leaves the monkeys drop and heeding their alarm calls when predators such as tigers approach."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:deer{Variant: 14, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Chital",
+            "text": "Relative Size: ★★☆☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

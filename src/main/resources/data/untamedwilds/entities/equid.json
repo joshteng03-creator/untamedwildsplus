@@ -5,10 +5,12 @@
   "offspring": 1,
   "activityType": "diurnal",
   "favourite_food": "minecraft:wheat",
-  "sounds": {
-    "ambient": "minecraft:entity.horse.ambient",
-    "hurt": "minecraft:entity.horse.hurt",
-    "death": "minecraft:entity.horse.death"
+  "sounds":{
+    "ambient":"untamedwilds:entity.equid.ambient",
+    "hurt":"untamedwilds:entity.equid.hurt",
+    "death":"untamedwilds:entity.equid.death",
+    "alarm":"untamedwilds:entity.equid.alarm",
+    "call":"untamedwilds:entity.equid.call"
   },
   "flags": {
     "groupCount": 5
@@ -201,6 +203,53 @@
       ],
       "ecology": {
         "speed": 0.29
+      }
+    },
+    {
+      "name": "kiang",
+      "variant": 9,
+      "scale": 0.76,
+      "rarity": 3,
+      "attack": 3,
+      "health": 26,
+      "flags": {
+        "groupCount": 12
+      },
+      "spawnBiomes": [
+        [
+          "category|extreme_hills"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.29
+      }
+    },
+    {
+      "name": "haringtonhippus",
+      "variant": 10,
+      "scale": 0.69,
+      "rarity": 2,
+      "attack": 3,
+      "health": 24,
+      "flags": {
+        "groupCount": 8
+      },
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ],
+        [
+          "category|savanna"
+        ],
+        [
+          "category|desert"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.3
       }
     }
   ],

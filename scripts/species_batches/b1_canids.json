@@ -1,0 +1,12 @@
+[
+  {"type": "dire_wolf", "name": "ethiopian_wolf", "display": "Ethiopian Wolf", "sciname": "Canis simensis",
+   "entry": {"scale": 0.58, "rarity": 3, "attack": 4, "health": 16, "activityType": "diurnal",
+             "flags": {"groupCount": 6, "legLength": 1080, "legThickness": 900},
+             "spawnBiomes": [["category|extreme_hills"]],
+             "ecology": {"speed": 0.27, "diet": ["small_game"]}}},
+  {"type": "dire_wolf", "name": "golden_jackal", "display": "Golden Jackal", "sciname": "Canis aureus",
+   "entry": {"scale": 0.45, "rarity": 4, "attack": 3, "health": 12, "activityType": "crepuscular",
+             "flags": {"groupCount": 3},
+             "spawnBiomes": [["category|savanna"], ["category|desert"], ["category|plains"]],
+             "ecology": {"speed": 0.28, "diet": ["small_game"]}}}
+]

@@ -5,10 +5,12 @@
   "offspring": 1,
   "activityType": "diurnal",
   "favourite_food": "minecraft:sweet_berries",
-  "sounds": {
-    "ambient": "minecraft:entity.cow.ambient",
-    "hurt": "minecraft:entity.cow.hurt",
-    "death": "minecraft:entity.cow.death"
+  "sounds":{
+    "ambient":"untamedwilds:entity.giraffid.ambient",
+    "hurt":"untamedwilds:entity.giraffid.hurt",
+    "death":"untamedwilds:entity.giraffid.death",
+    "step":"untamedwilds:entity.megafauna.step",
+    "alarm":"untamedwilds:entity.giraffid.alarm"
   },
   "flags": {
     "groupCount": 3

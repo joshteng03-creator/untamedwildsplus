@@ -1,0 +1,6 @@
+{
+    "name": "Litopterns",
+    "description": "Litopterns are extinct hoofed herbivore Mammals that evolved in South America. $(br2)The macraucheniids had long necks, long legs and three-toed feet, with nostrils set high on the skull. $(br2)They lived in the grasslands and open woodlands of South America.",
+    "icon": "untamedwilds:textures/icon/macrauchenia/category.png",
+    "parent": "untamedwilds:taxon_mammal"
+}

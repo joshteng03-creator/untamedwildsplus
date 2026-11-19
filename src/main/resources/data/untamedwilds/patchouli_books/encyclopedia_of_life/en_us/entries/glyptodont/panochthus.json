@@ -1,0 +1,22 @@
+{
+    "name": "Panochthus",
+    "icon": "untamedwilds:textures/icon/glyptodont/panochthus.png",
+    "category": "untamedwilds:glyptodont_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Panochthus",
+            "text": "$(o)Panochthus$() ($(o)Panochthus tuberculatus$()) was a large glyptodont, an armoured relative of armadillos, that lived on the grasslands of southern South America during the Pleistocene.$(br2)Its high-domed shell was made of bony plates covered in small bumps, and its tail ended in a long, rigid tube studded along the sides with large bony bosses.$(br2)It probably swung this armoured tail like a mace in fights. It died out about 12,000 years ago."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:glyptodont{Variant: 4, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Panochthus",
+            "text": "Relative Size: ★★★★☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 12 Days"
+        }
+    ]
+}

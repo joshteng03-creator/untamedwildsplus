@@ -1,0 +1,5 @@
+[
+  {"type": "glyptodont", "name": "panochthus", "display": "Panochthus", "sciname": "Panochthus tuberculatus",
+   "entry": {"scale": 1.0, "rarity": 3, "attack": 7, "health": 65, "flags": {"groupCount": 1, "hasTailClub": 1},
+             "spawnBiomes": [["category|plains"], ["category|savanna"]], "ecology": {"speed": 0.12}}}
+]

@@ -1,0 +1,22 @@
+{
+    "name": "Eremotherium",
+    "icon": "untamedwilds:textures/icon/ground_sloth/eremotherium.png",
+    "category": "untamedwilds:ground_sloth_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Eremotherium",
+            "text": "The Eremotherium ($(o)Eremotherium laurillardi$()) is an extinct giant ground sloth that lived across the tropical and subtropical Americas during the Pleistocene, from the southern United States to Brazil.$(br2)It rivalled its close relative Megatherium in size, making it one of the largest ground sloths ever.$(br2)Eremotherium was a browser that used its great height and long, curved claws to pull down leaves and branches."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:ground_sloth{Variant: 1, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Eremotherium",
+            "text": "Relative Size: ★★★★★$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 14 Days"
+        }
+    ]
+}

@@ -312,6 +312,115 @@ public class ModelMacrauchenia extends AdvancedEntityModel<EntityMacrauchenia> {
     private void animate(IAnimatedEntity entityIn) {
         EntityMacrauchenia macrauchenia = (EntityMacrauchenia) entityIn;
         animator.update(macrauchenia);
+        // <gen:idle-poses> 2.8.0: SOLVED by scripts/pose_reach.py against this model's own boxes (muzzle to the grass / the
+        // water line beyond the bank, every head part and horn family clear of the ground, nothing through the torso).
+        // Regenerate, never hand-edit: python scripts/gen_keyframes.py macrauchenia
+        // EAT (40t, GrazeGoal's mouthful): head down to the grass, a cropping lift, back down
+        animator.setAnimation(EntityMacrauchenia.EAT);
+        animator.startKeyframe(10);
+        this.rotate(animator, neck_base, 38.4F, 0.0F, 0.0F);
+        this.rotate(animator, neck_mid, 53.9F, 0.0F, 0.0F);
+        this.rotate(animator, neck_top, -19.1F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, -4.4F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, 0.1F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_1, -3.4F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_2, -7.7F, 0.0F, 0.0F);
+        animator.move(neck_base, 0.0F, 1.4F, -1.0F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_base, 38.4F, 0.0F, 0.0F);
+        this.rotate(animator, neck_mid, 53.9F, 0.0F, 0.0F);
+        this.rotate(animator, neck_top, -19.1F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, -10.4F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, 0.1F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_1, -3.4F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_2, -7.7F, 0.0F, 0.0F);
+        animator.move(neck_base, 0.0F, 1.4F, -1.0F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_base, 38.4F, 0.0F, 0.0F);
+        this.rotate(animator, neck_mid, 53.9F, 0.0F, 0.0F);
+        this.rotate(animator, neck_top, -19.1F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, -4.4F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, 0.1F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_1, -3.4F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_2, -7.7F, 0.0F, 0.0F);
+        animator.move(neck_base, 0.0F, 1.4F, -1.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(10);
+        animator.resetKeyframe(10);
+        // DRINK (100t, DrinkGoal): muzzle to the water past the bank edge, two swallows lifting the head
+        animator.setAnimation(EntityMacrauchenia.DRINK);
+        animator.startKeyframe(15);
+        this.rotate(animator, neck_base, 49.5F, 0.0F, 0.0F);
+        this.rotate(animator, neck_mid, 19.1F, 0.0F, 0.0F);
+        this.rotate(animator, neck_top, 0.3F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, 0.8F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, -4.8F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_1, -2.7F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_2, -2.9F, 0.0F, 0.0F);
+        animator.move(neck_base, 0.0F, 3.4F, 0.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(20);
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_base, 49.5F, 0.0F, 0.0F);
+        this.rotate(animator, neck_mid, 19.1F, 0.0F, 0.0F);
+        this.rotate(animator, neck_top, 0.3F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, -4.2F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, -4.8F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_1, -2.7F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_2, -2.9F, 0.0F, 0.0F);
+        animator.move(neck_base, 0.0F, 3.4F, 0.0F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_base, 49.5F, 0.0F, 0.0F);
+        this.rotate(animator, neck_mid, 19.1F, 0.0F, 0.0F);
+        this.rotate(animator, neck_top, 0.3F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, 0.8F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, -4.8F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_1, -2.7F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_2, -2.9F, 0.0F, 0.0F);
+        animator.move(neck_base, 0.0F, 3.4F, 0.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(20);
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_base, 49.5F, 0.0F, 0.0F);
+        this.rotate(animator, neck_mid, 19.1F, 0.0F, 0.0F);
+        this.rotate(animator, neck_top, 0.3F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, -4.2F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, -4.8F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_1, -2.7F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_2, -2.9F, 0.0F, 0.0F);
+        animator.move(neck_base, 0.0F, 3.4F, 0.0F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_base, 49.5F, 0.0F, 0.0F);
+        this.rotate(animator, neck_mid, 19.1F, 0.0F, 0.0F);
+        this.rotate(animator, neck_top, 0.3F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, 0.8F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, -4.8F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_1, -2.7F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_2, -2.9F, 0.0F, 0.0F);
+        animator.move(neck_base, 0.0F, 3.4F, 0.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(10);
+        animator.resetKeyframe(15);
+        // ALERT (40t, AlertGoal): head raised, ears up, staring at the threat; repeats while the alert lasts
+        animator.setAnimation(EntityMacrauchenia.ALERT);
+        animator.startKeyframe(8);
+        this.rotate(animator, neck_base, -34.1F, 0.0F, 0.0F);
+        this.rotate(animator, neck_mid, -6.3F, 0.0F, 0.0F);
+        this.rotate(animator, neck_top, -15.7F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, 0.2F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, 12.0F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_1, 12.0F, 0.0F, 0.0F);
+        this.rotate(animator, proboscis_2, 12.0F, 0.0F, 0.0F);
+        this.rotate(animator, ear_left, 25.0F, 0.0F, 0.0F);
+        this.rotate(animator, ear_right, 25.0F, 0.0F, 0.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(24);
+        animator.resetKeyframe(8);
+        // </gen:idle-poses>
 
         // ATTACK_THREATEN (50t) -- a camelid display, not a bovid one. Macrauchenia has no
         // horns and no incisor battery, so the threat is made of HEIGHT: the neck stacks

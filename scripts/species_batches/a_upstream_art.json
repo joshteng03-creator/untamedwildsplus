@@ -1,0 +1,16 @@
+[
+  {"type": "catfish", "name": "shovelnose", "display": "Shovelnose Catfish", "sciname": "Pseudoplatystoma fasciatum",
+   "entry": {"scale": 0.9, "rarity": 2, "flags": {"groupCount": 2}, "spawnBiomes": [["category|river"], ["category|jungle"], ["category|swamp"]]}},
+  {"type": "catfish", "name": "goonch", "display": "Goonch", "sciname": "Bagarius yarrelli",
+   "entry": {"scale": 1.3, "rarity": 1, "flags": {"groupCount": 1}, "spawnBiomes": [["category|river"], ["category|jungle"]]}},
+  {"type": "catfish", "name": "piraiba", "display": "Piraiba", "sciname": "Brachyplatystoma filamentosum",
+   "entry": {"scale": 2.0, "rarity": 1, "flags": {"groupCount": 1}, "spawnBiomes": [["category|river"], ["category|jungle"]]}},
+  {"type": "catfish", "name": "mekong", "display": "Mekong Giant Catfish", "sciname": "Pangasianodon gigas",
+   "entry": {"scale": 2.0, "rarity": 1, "flags": {"groupCount": 1}, "spawnBiomes": [["category|river"], ["category|jungle"]]}},
+  {"type": "catfish", "name": "wels", "display": "Wels Catfish", "sciname": "Silurus glanis",
+   "entry": {"scale": 1.8, "rarity": 1, "flags": {"groupCount": 1}, "spawnBiomes": [["category|river"], ["category|swamp"], ["category|plains"]]}},
+  {"type": "snake", "name": "sea_krait", "display": "Banded Sea Krait", "sciname": "Laticauda colubrina",
+   "entry": {"scale": 0.9, "rarity": 2, "flags": {"venom": 1}, "spawnBiomes": [["category|beach"]]}},
+  {"type": "giant_clam", "name": "crocea", "display": "Crocus Clam", "sciname": "Tridacna crocea",
+   "entry": {"scale": 0.45, "rarity": 2, "spawnBiomes": [["resource|minecraft:warm_ocean"], ["resource|minecraft:lukewarm_ocean"], ["resource|minecraft:deep_warm_ocean"], ["resource|terraforged:warm_beach"]]}}
+]

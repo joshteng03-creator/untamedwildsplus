@@ -1,0 +1,6 @@
+{
+    "name": "Giraffids",
+    "description": "Giraffids are hoofed ruminant Mammals, represented today only by the giraffe and the okapi. $(br2)Common characteristics of giraffids include skin-covered, horn-like ossicones, long legs, and long, dark tongues used to strip leaves from branches. $(br2)Extinct giraffids were far more diverse, including massive, short-necked forms that once ranged across Africa, Europe and Asia.",
+    "icon": "untamedwilds:textures/icon/giraffid/category.png",
+    "parent": "untamedwilds:taxon_mammal"
+}

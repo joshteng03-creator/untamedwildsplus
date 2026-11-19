@@ -5,10 +5,11 @@
   "offspring": 1,
   "activityType": "nocturnal",
   "favourite_food": "minecraft:apple",
-  "sounds": {
-    "ambient": "minecraft:entity.horse.breathe",
-    "hurt": "minecraft:entity.horse.hurt",
-    "death": "minecraft:entity.horse.death"
+  "sounds":{
+    "ambient":"untamedwilds:entity.tapir.ambient",
+    "hurt":"untamedwilds:entity.tapir.hurt",
+    "death":"untamedwilds:entity.tapir.death",
+    "call":"untamedwilds:entity.tapir.call"
   },
   "flags": {
     "groupCount": 2

@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import untamedwilds.client.model.ModelMammoth;
 import untamedwilds.entity.mammal.EntityMammoth;
+import untamedwilds.client.render.layer.SaddleLayer;
 
 public class RendererMammoth extends MobRenderer<EntityMammoth, EntityModel<EntityMammoth>> {
 
@@ -15,6 +16,7 @@ public class RendererMammoth extends MobRenderer<EntityMammoth, EntityModel<Enti
 
     public RendererMammoth(EntityRendererProvider.Context renderManager) {
         super(renderManager, MAMMOTH_MODEL, 1F);
+        this.addLayer(new SaddleLayer<>(this, "mammoth"));
     }
 
     protected void scale(EntityMammoth entity, PoseStack matrixStackIn, float partialTickTime) {

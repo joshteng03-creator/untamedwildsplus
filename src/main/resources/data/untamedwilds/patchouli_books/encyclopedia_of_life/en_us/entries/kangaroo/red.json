@@ -1,0 +1,22 @@
+{
+    "name": "Red Kangaroo",
+    "icon": "untamedwilds:textures/icon/kangaroo/red.png",
+    "category": "untamedwilds:kangaroo_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Red Kangaroo",
+            "text": "The red kangaroo ($(o)Osphranter rufus$()) is the largest living marsupial, found across the dry plains and deserts of mainland Australia.$(br2)Males are usually reddish-brown, while females are often blue-grey. It can travel long distances at speed with little effort, covering several metres in a single bound.$(br2)Rival males settle disputes by boxing, balancing on their tails to kick."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:kangaroo{Variant: 0, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Red Kangaroo",
+            "text": "Relative Size: ★★☆☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 8 Days"
+        }
+    ]
+}

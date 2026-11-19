@@ -7,7 +7,8 @@
   "sounds":{
     "ambient":"entity.turtle.ambient_land",
     "hurt":"entity.turtle.hurt",
-    "death":"entity.turtle.death"
+    "death":"entity.turtle.death",
+    "threat":"untamedwilds:entity.softshell_turtle.threat"
   },
   "species":[
     {

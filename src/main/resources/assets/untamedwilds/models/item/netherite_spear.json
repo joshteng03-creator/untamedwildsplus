@@ -1,0 +1,20 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "untamedwilds:item/netherite_spear"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "untamedwilds:trim": 0.5
+      },
+      "model": "untamedwilds:item/netherite_spear_tooth"
+    },
+    {
+      "predicate": {
+        "untamedwilds:trim": 1.0
+      },
+      "model": "untamedwilds:item/netherite_spear_antler"
+    }
+  ]
+}

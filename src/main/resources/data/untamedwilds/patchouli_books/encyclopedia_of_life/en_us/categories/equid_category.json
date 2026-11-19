@@ -1,0 +1,6 @@
+{
+    "name": "Equids",
+    "description": "Equids are hoofed Mammals that include horses, zebras and asses. $(br2)Common characteristics of equids include long legs ending in a single hoof, long heads, manes along the neck, and teeth suited to grinding tough grasses. $(br2)Equids are fast, grazing herd animals that thrive in open grasslands, steppes and deserts.",
+    "icon": "untamedwilds:textures/icon/equid/category.png",
+    "parent": "untamedwilds:taxon_mammal"
+}

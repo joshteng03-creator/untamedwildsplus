@@ -1,0 +1,22 @@
+{
+    "name": "Xenocyon",
+    "icon": "untamedwilds:textures/icon/dire_wolf/xenocyon.png",
+    "category": "untamedwilds:dire_wolf_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Xenocyon",
+            "text": "$(o)Xenocyon$() ($(o)Xenocyon lycaonoides$()) is an extinct canid that lived across Eurasia and Africa during the Early and Middle Pleistocene.$(br2)It was a large, wolf-sized hunter with teeth specialised for an almost entirely meat-based diet.$(br2)It is considered closely related to the living African wild dog and dhole, which share its hypercarnivorous teeth."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:dire_wolf{Variant: 9, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Xenocyon",
+            "text": "Relative Size: ★★☆☆☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 3$(br2)Growth time: 5 Days"
+        }
+    ]
+}

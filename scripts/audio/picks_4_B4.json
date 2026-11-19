@@ -1,0 +1,24 @@
+[
+ ["B4", "baleen_whale", "call", "baleen_whale/commons-64715", 9.5, 17.5, "humpback whale song units (NOAA PMEL hydrophone, Commons PD)", {"hp": 30}],
+ ["B4", "baleen_whale", "call", "baleen_whale/commons-64715", 25.0, 33.0, "humpback whale song units (NOAA PMEL hydrophone, Commons PD)", {"hp": 30}],
+ ["B4", "baleen_whale", "call", "baleen_whale/commons-64721", 12.5, 17.0, "humpback whale moo (NPS Glacier Bay hydrophone, Commons PD)", {"hp": 30, "lp": 1000, "note": "low-passed to cut hydrophone hiss"}],
+ ["B4", "baleen_whale", "ambient", "baleen_whale/commons-64720", 7.5, 10.0, "humpback whale wheeze-blow (NPS Glacier Bay, Commons PD)", {"hp": 30, "lp": 2500}],
+ ["B4", "baleen_whale", "ambient", "baleen_whale/commons-64720", 29.3, 31.8, "humpback whale wheeze-blow (NPS Glacier Bay, Commons PD)", {"hp": 30, "lp": 2500}],
+ ["B4", "baleen_whale", "hurt", "baleen_whale/commons-64715", 41.5, 44.0, "humpback whale short moan (NOAA PMEL)", {"hp": 30}],
+ ["B4", "baleen_whale", "death", "baleen_whale/commons-64721", 24.5, 27.5, "humpback whale low moo (NPS Glacier Bay)", {"hp": 30, "lp": 1000}],
+
+ ["B4", "pinniped", "ambient", "pinniped/fs-499564", 0.0, 3.0, "South American sea lions barking (Chile, felix.blume)"],
+ ["B4", "pinniped", "ambient", "pinniped/fs-499564", 3.2, 5.5, "South American sea lions barking (Chile, felix.blume)"],
+ ["B4", "pinniped", "ambient", "pinniped/fs-437960", 15.3, 18.3, "seal barks and squeals (vintage library, craigsmith)"],
+ ["B4", "pinniped", "call", "pinniped/fs-437960", 23.4, 30.6, "seal bark series (vintage library, craigsmith)"],
+ ["B4", "pinniped", "call", "pinniped/fs-499564", 30.4, 33.0, "sea lion bark chorus (Chile)"],
+ ["B4", "pinniped", "threat", "pinniped/fs-849186", 0.7, 2.9, "sea lion growl-roar (Valdivia, Chile)"],
+ ["B4", "pinniped", "hurt", "pinniped/fs-499564", 7.0, 8.3, "sea lion scream (Chile)"],
+ ["B4", "pinniped", "hurt", "pinniped/fs-680733", 0.0, null, "California sea lion bark (Pier 39)"],
+ ["B4", "pinniped", "death", "pinniped/fs-450751", 0.0, null, "Hawaiian seal moan"],
+
+ ["B4", "large_rodent", "ambient", "large_rodent/fs-759812", 1.4, 2.5, "guinea pig rumble (stand-in for capybara purr/clicks)"],
+ ["B4", "large_rodent", "ambient", "large_rodent/fs-840081", 12.8, 15.0, "guinea pig bubbling clicks (stand-in)"],
+ ["B4", "large_rodent", "alarm", "large_rodent/fs-860985", 0.0, null, "chinchilla single alarm bark (stand-in for capybara bark)"],
+ ["B4", "large_rodent", "hurt", "large_rodent/fs-815837", 0.3, 2.4, "guinea pig squealing (stand-in)"]
+]

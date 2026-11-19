@@ -1,0 +1,22 @@
+{
+    "name": "Bramatherium",
+    "icon": "untamedwilds:textures/icon/giraffid/bramatherium.png",
+    "category": "untamedwilds:giraffid_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Bramatherium",
+            "text": "Bramatherium ($(o)Bramatherium perimense$()) is an extinct giraffid that lived from India to the eastern Mediterranean during the Late Miocene, named after Perim Island off western India.$(br2)It was a close relative of $(o)Sivatherium$(), with a heavily built, okapi-like body.$(br2)Its skull carried a striking crown of four ossicones radiating outwards, and wear on its teeth suggests it lived in woodlands and wetlands."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:giraffid{Variant: 4, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Bramatherium",
+            "text": "Relative Size: ★★★★☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 12 Days"
+        }
+    ]
+}

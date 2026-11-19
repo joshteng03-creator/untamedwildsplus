@@ -1,0 +1,22 @@
+{
+    "name": "Pelorovis",
+    "icon": "untamedwilds:textures/icon/bison/pelorovis.png",
+    "category": "untamedwilds:bison_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Pelorovis",
+            "text": "The Pelorovis ($(o)Pelorovis oldowayensis$()) is an extinct bovine that lived in East Africa during the Early Pleistocene, best known from fossils at Olduvai Gorge in Tanzania.$(br2)It was one of the largest bovines that ever lived, with large males possibly reaching two tonnes.$(br2)Its horn cores alone were about a metre long, each curving away from the head in a half circle. Its name means monstrous sheep, after the shape of these horns."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:bison{Variant: 12, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Pelorovis",
+            "text": "Relative Size: ★★★★☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Junegrass$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

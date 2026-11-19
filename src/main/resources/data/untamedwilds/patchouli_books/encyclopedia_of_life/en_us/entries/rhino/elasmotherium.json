@@ -1,0 +1,22 @@
+{
+    "name": "Elasmotherium",
+    "icon": "untamedwilds:textures/icon/rhino/elasmotherium.png",
+    "category": "untamedwilds:rhino_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Elasmotherium",
+            "text": "The Elasmotherium ($(o)Elasmotherium sibiricum$()) is an extinct giant rhinoceros that lived on the steppes of eastern Europe and Central Asia during the Pleistocene, surviving until at least 39,000 years ago.$(br2)It was a grazer, with large, high-crowned cheek teeth for chewing tough grasses.$(br2)A huge domed bony boss on its forehead is thought to have supported a single large horn, earning it the nickname Siberian unicorn."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:rhino{Variant: 6, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Elasmotherium",
+            "text": "Relative Size: ★★★★★$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Melon Slice$(br2)Number of Offspring: 1$(br2)Growth time: 12 Days"
+        }
+    ]
+}

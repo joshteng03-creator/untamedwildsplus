@@ -3,10 +3,12 @@
   "breeding": "MID_SUMMER",
   "growing_time": 10,
   "offspring": 1,
-  "sounds": {
-    "ambient": "untamedwilds:entity.bison.ambient",
-    "hurt": "minecraft:entity.cow.hurt",
-    "death": "minecraft:entity.cow.death"
+  "sounds":{
+    "ambient":"untamedwilds:entity.bison.ambient",
+    "hurt":"minecraft:entity.cow.hurt",
+    "death":"minecraft:entity.cow.death",
+    "call":"untamedwilds:entity.bison.call",
+    "step":"untamedwilds:entity.megafauna.step"
   },
   "flags": {
     "groupCount": 6,
@@ -78,7 +80,7 @@
     {
       "name": "long_horned",
       "variant": 3,
-      "scale": 1.5,
+      "scale": 1.634,
       "rarity": 2,
       "activityType": "diurnal",
       "favourite_food": "untamedwilds:flora_junegrass",
@@ -310,6 +312,57 @@
       "spawnBiomes": [
         [
           "category|savanna"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.22
+      }
+    },
+    {
+      "name": "antiquus",
+      "variant": 13,
+      "scale": 1.36,
+      "rarity": 3,
+      "activityType": "diurnal",
+      "favourite_food": "untamedwilds:flora_junegrass",
+      "health": 75,
+      "attack": 8,
+      "flags": {
+        "groupCount": 16
+      },
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ],
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.24
+      }
+    },
+    {
+      "name": "bootherium",
+      "variant": 14,
+      "scale": 1.2,
+      "rarity": 2,
+      "activityType": "diurnal",
+      "favourite_food": "untamedwilds:flora_junegrass",
+      "health": 60,
+      "attack": 7,
+      "flags": {
+        "groupCount": 8
+      },
+      "spawnBiomes": [
+        [
+          "category|taiga"
+        ],
+        [
+          "category|forest"
         ],
         [
           "category|plains"

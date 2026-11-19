@@ -1,0 +1,22 @@
+{
+    "name": "Pygmy Mammoth",
+    "icon": "untamedwilds:textures/icon/mammoth/pygmy_mammoth.png",
+    "category": "untamedwilds:mammoth_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Pygmy Mammoth",
+            "text": "The pygmy mammoth ($(o)Mammuthus exilis$()) is an extinct dwarf mammoth that lived on the Channel Islands of California during the Late Pleistocene.$(br2)It descended from Columbian mammoths that reached the islands, likely by swimming, when sea levels were lower.$(br2)With limited food on the islands, the mammoths became much smaller over many generations, standing less than two metres tall at the shoulder."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:mammoth{Variant: 10, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Pygmy Mammoth",
+            "text": "Relative Size: ★★★★☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Hay Bale$(br2)Number of Offspring: 1$(br2)Growth time: 16 Days"
+        }
+    ]
+}

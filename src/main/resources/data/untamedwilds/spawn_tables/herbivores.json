@@ -8,6 +8,18 @@
       "size_max": 12
     },
     {
+      "type": "untamedwilds:ground_bird",
+      "weight": 2,
+      "size_min": 2,
+      "size_max": 4
+    },
+    {
+      "type": "untamedwilds:great_ape",
+      "weight": 1,
+      "size_min": 1,
+      "size_max": 2
+    },
+    {
       "type": "untamedwilds:mammoth",
       "weight": 4,
       "size_min": 4,
@@ -66,6 +78,42 @@
       "weight": 4,
       "size_min": 1,
       "size_max": 2
+    },
+    {
+      "type": "untamedwilds:diprotodont",
+      "weight": 3,
+      "size_min": 2,
+      "size_max": 4
+    },
+    {
+      "type": "untamedwilds:kangaroo",
+      "weight": 4,
+      "size_min": 3,
+      "size_max": 6
+    },
+    {
+      "type": "untamedwilds:pinniped",
+      "weight": 4,
+      "size_min": 3,
+      "size_max": 8
+    },
+    {
+      "type": "untamedwilds:caprine",
+      "weight": 5,
+      "size_min": 3,
+      "size_max": 7
+    },
+    {
+      "type": "untamedwilds:large_rodent",
+      "weight": 5,
+      "size_min": 2,
+      "size_max": 6
+    },
+    {
+      "type": "untamedwilds:wildebeest",
+      "weight": 6,
+      "size_min": 4,
+      "size_max": 10
     },
     {
       "type": "untamedwilds:toxodon",

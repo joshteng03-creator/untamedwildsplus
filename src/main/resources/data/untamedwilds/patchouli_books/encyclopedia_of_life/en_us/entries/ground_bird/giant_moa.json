@@ -1,0 +1,22 @@
+{
+    "name": "South Island Giant Moa",
+    "icon": "untamedwilds:textures/icon/ground_bird/giant_moa.png",
+    "category": "untamedwilds:ground_bird_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "South Island Giant Moa",
+            "text": "The $(o)South Island Giant Moa$() ($(o)Dinornis robustus$()) was one of the tallest birds that ever lived. Females could reach their heads over 3.5 metres high and were much larger than males.$(br2)Moa had no wings at all, and their bodies were covered in shaggy, hair-like reddish-brown feathers. They browsed the forests and shrublands of New Zealand.$(br2)They were hunted to extinction within about 200 years of the first human settlement, around 600 years ago."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:ground_bird{Variant: 0, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "South Island Giant Moa",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 8 Days"
+        }
+    ]
+}

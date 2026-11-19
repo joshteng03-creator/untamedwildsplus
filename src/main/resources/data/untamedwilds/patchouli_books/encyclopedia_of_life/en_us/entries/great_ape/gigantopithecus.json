@@ -1,0 +1,22 @@
+{
+    "name": "Gigantopithecus",
+    "icon": "untamedwilds:textures/icon/great_ape/gigantopithecus.png",
+    "category": "untamedwilds:great_ape_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Gigantopithecus",
+            "text": "$(o)Gigantopithecus$() ($(o)Gigantopithecus blacki$()) was the largest ape that ever lived, a relative of the orangutans that inhabited the forests of southern China until a few hundred thousand years ago.$(br2)It is known almost entirely from massive jaws and teeth, which suggest an animal perhaps 3 metres tall that fed on fruit and tough plants.$(br2)It probably died out as its forests gave way to more open country that could not feed so large an ape."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:great_ape{Variant: 0, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Gigantopithecus",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Melon Slice$(br2)Number of Offspring: 1$(br2)Growth time: 12 Days"
+        }
+    ]
+}

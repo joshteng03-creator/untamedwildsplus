@@ -7,6 +7,7 @@ import com.github.alexthe666.citadel.client.model.ModelAnimator;
 import com.github.alexthe666.citadel.client.model.basic.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.util.Mth;
+import untamedwilds.entity.ComplexMob;
 import untamedwilds.entity.mammal.EntityGlyptodont;
 
 public class ModelGlyptodont extends AdvancedEntityModel<EntityGlyptodont> {
@@ -260,6 +261,68 @@ public class ModelGlyptodont extends AdvancedEntityModel<EntityGlyptodont> {
     private void animate(IAnimatedEntity entityIn) {
         EntityGlyptodont glyptodont = (EntityGlyptodont) entityIn;
         animator.update(glyptodont);
+        // <gen:idle-poses> 2.8.0: SOLVED by scripts/pose_reach.py against this model's own boxes (muzzle to the grass / the
+        // water line beyond the bank, every head part and horn family clear of the ground, nothing through the torso).
+        // Regenerate, never hand-edit: python scripts/gen_keyframes.py glyptodont
+        // EAT (40t, GrazeGoal's mouthful): head down to the grass, a cropping lift, back down
+        animator.setAnimation(EntityGlyptodont.EAT);
+        animator.startKeyframe(10);
+        this.rotate(animator, head_neck, 20.4F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, 6.2F, 0.0F, 0.0F);
+        this.rotate(animator, snout, 0.9F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 5.4F, -0.2F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, head_neck, 20.4F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, 0.2F, 0.0F, 0.0F);
+        this.rotate(animator, snout, 0.9F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 5.4F, -0.2F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, head_neck, 20.4F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, 6.2F, 0.0F, 0.0F);
+        this.rotate(animator, snout, 0.9F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 5.4F, -0.2F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(10);
+        animator.resetKeyframe(10);
+        // DRINK (100t, DrinkGoal): muzzle to the water past the bank edge, two swallows lifting the head
+        animator.setAnimation(EntityGlyptodont.DRINK);
+        animator.startKeyframe(15);
+        this.rotate(animator, head_neck, 24.1F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, 5.9F, 0.0F, 0.0F);
+        this.rotate(animator, snout, 1.0F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 6.0F, -1.4F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(20);
+        animator.startKeyframe(5);
+        this.rotate(animator, head_neck, 24.1F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, 0.9F, 0.0F, 0.0F);
+        this.rotate(animator, snout, 1.0F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 6.0F, -1.4F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, head_neck, 24.1F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, 5.9F, 0.0F, 0.0F);
+        this.rotate(animator, snout, 1.0F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 6.0F, -1.4F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(20);
+        animator.startKeyframe(5);
+        this.rotate(animator, head_neck, 24.1F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, 0.9F, 0.0F, 0.0F);
+        this.rotate(animator, snout, 1.0F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 6.0F, -1.4F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, head_neck, 24.1F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, 5.9F, 0.0F, 0.0F);
+        this.rotate(animator, snout, 1.0F, 0.0F, 0.0F);
+        animator.move(head_neck, 0.0F, 6.0F, -1.4F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(10);
+        animator.resetKeyframe(15);
+        // </gen:idle-poses>
 
         // Threat: hunker down, pull the head back under the shell rim and cock the tail to one side --
         // a glyptodont's defence is its carapace, and (for doedicurus) winding up the club.
@@ -321,8 +384,23 @@ public class ModelGlyptodont extends AdvancedEntityModel<EntityGlyptodont> {
         this.club_spike_top.showModel = club;
         this.club_spike_rear.showModel = club;
 
+        // Per-species: lowShell (pampatherium, user 2026-10-09). A pampathere is a giant ARMADILLO, not a
+        // glyptodont: a long low carapace and a long narrow snout. Every part is setScale'd about its own
+        // pivot (scaleChildren off, UV-safe) -- the dome to 35%, core and flanks to 80%, the end panels
+        // to 75% -- so the shell lowers from the bottom and shows more leg; the legs keep their pivots,
+        // so the feet stay on the ground. Written on BOTH branches: Citadel's resetToDefaultPose
+        // restores rotations and rotation points but NOT scale, and the model is shared.
+        boolean low = ComplexMob.speciesFlag(glyptodont, "lowShell") == 1;
+        float core = low ? 0.8F : 1.0F;
+        this.shell_crown.setScale(1.0F, low ? 0.35F : 1.0F, 1.0F);
+        this.shell_flank_left.setScale(1.0F, core, 1.0F);
+        this.shell_flank_right.setScale(1.0F, core, 1.0F);
+        this.shell_front.setScale(1.0F, low ? 0.75F : 1.0F, 1.0F);
+        this.shell_rear.setScale(1.0F, low ? 0.75F : 1.0F, 1.0F);
+        this.snout.setScale(low ? 0.8F : 1.0F, 1.0F, low ? 1.8F : 1.0F);
+
         // Idle: the shell barely moves -- only a slow breath and a lazy tail sway.
-        this.body_core.setScale((float) (1.0F + Math.sin(ageInTicks / 24) * 0.035F), (float) (1.0F + Math.sin(ageInTicks / 20) * 0.035F), 1.0F);
+        this.body_core.setScale((float) (1.0F + Math.sin(ageInTicks / 24) * 0.035F), (float) (1.0F + Math.sin(ageInTicks / 20) * 0.035F) * core, 1.0F);
         bob(body_core, 0.3F * globalSpeed, 0.08F, false, ageInTicks / 24, 2);
         walk(head_neck, 0.3f * globalSpeed, 0.04f, false, 2.8F, 0.05F, ageInTicks / 24, 2);
         this.swing(tail_1, 0.07F, 0.09F, false, 0F, 0F, ageInTicks, 1);

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CHC"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:copper_ingot"
+    },
+    "H": {
+      "item": "untamedwilds:material_horn"
+    }
+  },
+  "result": {
+    "item": "untamedwilds:herding_horn",
+    "count": 1
+  }
+}

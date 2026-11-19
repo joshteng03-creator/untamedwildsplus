@@ -4,9 +4,12 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.phys.Vec3;
 import untamedwilds.config.ConfigGamerules;
+import untamedwilds.config.ConfigPerformance;
 import untamedwilds.entity.ComplexMob;
 import untamedwilds.util.EcologyTags;
+import untamedwilds.util.PerfCounters;
 
+import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
 /**
@@ -85,6 +88,12 @@ public class HerdFleeGoal<T extends LivingEntity> extends SmartAvoidGoal<T> {
         return animal.herd != null && animal.herd.isDefender(animal);
     }
 
+    /** Herd prey watches a predator it can see but is not yet close enough to run from (2.8.0 vigilance). */
+    @Override
+    protected boolean alertsInBand() {
+        return true;
+    }
+
     @Override
     protected boolean shouldAbandonTarget() {
         return !isDefending(this.taskOwner);
@@ -153,6 +162,7 @@ public class HerdFleeGoal<T extends LivingEntity> extends SmartAvoidGoal<T> {
         if (this.toAvoid == null) {
             return;
         }
+        this.panicIndex = 0;
         /* One heading for the whole herd: away from the threat, measured from the herd's centre. Every
          * animal used to run to its own random point away from the predator, which scattered the herd --
          * and a scattered herd is a row of stragglers, exactly what straggler_bias then picks off. Running
@@ -225,13 +235,16 @@ public class HerdFleeGoal<T extends LivingEntity> extends SmartAvoidGoal<T> {
         return escape != null ? escape : DefaultRandomPos.getPosAway(animal, 16, 7, threat.position());
     }
 
+    /** Animals panicked by the current alert so far; spreads their pathfinding over panic_path_spread_ticks. */
+    private int panicIndex;
+
     private void panic(ComplexMob animal, Vec3 heading) {
         // A herd-mate holding the line is not swept up in the stampede; see isDefending.
         if (!animal.isAlive() || animal.isTame() || this.toAvoid == null || isDefending(animal)) {
             return;
         }
         // Already running from this panic: keep the escape path it has rather than recomputing one.
-        if (animal.fleeCooldown > 0 && !animal.getNavigation().isDone()) {
+        if (animal.fleeCooldown > 0 && (!animal.getNavigation().isDone() || animal.pendingFleeTicks > 0)) {
             return;
         }
         animal.setTarget(null);
@@ -240,8 +253,35 @@ public class HerdFleeGoal<T extends LivingEntity> extends SmartAvoidGoal<T> {
             animal.setSleeping(false);
         }
         animal.fleeHeading = heading;
-        Vec3 escape = escapeAlong(animal, heading, this.toAvoid);
+        /* 2.8.0: a twenty-strong herd plus its alarm-network neighbours used to pathfind all in the same tick.
+         * Every animal still stops and is committed to the stampede NOW; the paths themselves are issued over
+         * panic_path_spread_ticks (ComplexMob.aiStep -> issuePendingFlee). 0 = the old all-at-once behaviour. */
+        int spread = ConfigPerformance.panicPathSpreadTicks.get();
+        if (spread > 0) {
+            animal.getNavigation().stop();
+            animal.pendingFleeFrom = this.toAvoid;
+            animal.pendingFleeTicks = 1 + (this.panicIndex++ % spread);
+            return;
+        }
+        fleeNow(animal, heading, this.toAvoid);
+    }
+
+    /** Called from ComplexMob.aiStep when a deferred panic path comes due. */
+    public static void issuePendingFlee(ComplexMob animal) {
+        LivingEntity from = animal.pendingFleeFrom;
+        animal.pendingFleeFrom = null;
+        if (from == null || !from.isAlive() || !animal.isAlive() || animal.fleeCooldown <= 0
+                || animal.getTarget() != null || isDefending(animal)) {
+            return;
+        }
+        fleeNow(animal, animal.fleeHeading, from);
+    }
+
+    private static void fleeNow(ComplexMob animal, @Nullable Vec3 heading, LivingEntity threat) {
+        Vec3 escape = escapeAlong(animal, heading, threat);
         if (escape != null) {
+            PerfCounters.inc(PerfCounters.Counter.FLEE_PATH);
+            animal.perfFleePaths++;
             // Each animal runs at its OWN condition, so the blown and the wounded fall behind -- which
             // is how a pack picks which animal it is going to get.
             animal.getNavigation().moveTo(escape.x, escape.y, escape.z, PANIC_SPEED * animal.getFleeSpeedFactor());

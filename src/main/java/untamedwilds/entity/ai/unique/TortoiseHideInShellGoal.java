@@ -25,9 +25,12 @@ public class TortoiseHideInShellGoal<T extends LivingEntity> extends Goal {
         this.setFlags(EnumSet.of(Flag.MOVE));
     }
 
+    /** 2.8.0: parity-proof replacement for a tickCount % 40 gate (see GoalTimer). */
+    private final untamedwilds.util.GoalTimer checkTimer = new untamedwilds.util.GoalTimer(40, true);
+
     @Override
     public boolean canUse() {
-        if (this.taskOwner.tickCount % 40 != 0) {
+        if (!this.checkTimer.ready(this.taskOwner)) {
             return false;
         }
         if (this.taskOwner.getTarget() != null || this.taskOwner.getCommandInt() != 0 || this.taskOwner.isTame()) {
@@ -47,6 +50,11 @@ public class TortoiseHideInShellGoal<T extends LivingEntity> extends Goal {
         super.start();
         this.taskOwner.getNavigation().stop();
         this.taskOwner.setSitting(true);
+        // 2.8.0: pulling into the shell forces the air out -- the hiss a real tortoise makes (its "threat" sound)
+        net.minecraft.sounds.SoundEvent hiss = untamedwilds.util.EntityUtils.getSound(this.taskOwner.getType(), this.taskOwner.getVariant(), "threat");
+        if (hiss != null) {
+            this.taskOwner.playSound(hiss, 0.8F, this.taskOwner.voicePitch());
+        }
     }
 
     public void stop() {

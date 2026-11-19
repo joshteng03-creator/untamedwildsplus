@@ -1,0 +1,154 @@
+{
+  "name": "caprine",
+  "breeding": "AUTUMN",
+  "growing_time": 7,
+  "offspring": 1,
+  "activityType": "diurnal",
+  "favourite_food": "minecraft:wheat",
+  "sounds":{
+    "ambient":"untamedwilds:entity.caprine.ambient",
+    "hurt":"untamedwilds:entity.caprine.hurt",
+    "death":"untamedwilds:entity.caprine.death",
+    "alarm":"untamedwilds:entity.caprine.alarm"
+  },
+  "flags": {
+    "groupCount": 6
+  },
+  "ecology": {
+    "tags": [
+      "grazer",
+      "browser"
+    ]
+  },
+  "species": [
+    {
+      "name": "alpine_ibex",
+      "variant": 0,
+      "scale": 0.897,
+      "rarity": 3,
+      "attack": 5,
+      "health": 26,
+      "flags": {
+        "groupCount": 8
+      },
+      "spawnBiomes": [
+        [
+          "category|extreme_hills"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.27
+      }
+    },
+    {
+      "name": "siberian_ibex",
+      "variant": 1,
+      "scale": 0.997,
+      "rarity": 3,
+      "attack": 5,
+      "health": 28,
+      "flags": {
+        "groupCount": 8
+      },
+      "spawnBiomes": [
+        [
+          "category|extreme_hills"
+        ],
+        [
+          "category|taiga"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.27
+      }
+    },
+    {
+      "name": "argali",
+      "variant": 2,
+      "scale": 1.146,
+      "rarity": 2,
+      "attack": 6,
+      "health": 34,
+      "flags": {
+        "groupCount": 8
+      },
+      "spawnBiomes": [
+        [
+          "category|extreme_hills"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.28
+      }
+    },
+    {
+      "name": "bighorn",
+      "variant": 3,
+      "scale": 0.947,
+      "rarity": 3,
+      "attack": 6,
+      "health": 30,
+      "flags": {
+        "groupCount": 8
+      },
+      "spawnBiomes": [
+        [
+          "category|extreme_hills"
+        ],
+        [
+          "category|mesa"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.27
+      }
+    },
+    {
+      "name": "chamois",
+      "variant": 4,
+      "scale": 0.748,
+      "rarity": 3,
+      "attack": 3,
+      "health": 18,
+      "flags": {
+        "groupCount": 10
+      },
+      "spawnBiomes": [
+        [
+          "category|extreme_hills"
+        ],
+        [
+          "category|forest"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.3
+      }
+    },
+    {
+      "name": "harrington_goat",
+      "variant": 5,
+      "scale": 0.798,
+      "rarity": 2,
+      "attack": 4,
+      "health": 22,
+      "flags": {
+        "groupCount": 5
+      },
+      "spawnBiomes": [
+        [
+          "category|mesa"
+        ],
+        [
+          "category|extreme_hills"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.26
+      }
+    }
+  ]
+}

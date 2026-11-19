@@ -14,7 +14,7 @@
     {
       "name":"common",
       "variant":0,
-      "scale":1.2,
+      "scale":1.371,
       "rarity":1,
       "skins":30,
       "flags":{},
@@ -28,6 +28,76 @@
       ],
       "ecology":{
         "speed":0.16
+      }
+    },
+    {
+      "name":"european",
+      "variant":1,
+      "scale":1.65,
+      "rarity":1,
+      "activityType":"nocturnal",
+      "flags":{
+
+      },
+      "spawnBiomes":[
+        [
+          "category|swamp"
+        ],
+        [
+          "category|river"
+        ]
+      ],
+      "ecology":{
+        "speed":0.16
+      }
+    },
+    {
+      "name":"pygmy",
+      "variant":2,
+      "scale":0.78,
+      "rarity":2,
+      "activityType":"nocturnal",
+      "attack":4,
+      "health":30,
+      "flags":{
+
+      },
+      "spawnBiomes":[
+        [
+          "category|jungle"
+        ],
+        [
+          "category|swamp"
+        ]
+      ],
+      "ecology":{
+        "speed":0.17
+      }
+    },
+    {
+      "name":"malagasy_dwarf",
+      "variant":3,
+      "scale":0.64,
+      "rarity":1,
+      "activityType":"nocturnal",
+      "attack":4,
+      "health":30,
+      "flags":{
+
+      },
+      "spawnBiomes":[
+        [
+          "category|swamp"
+        ],
+        [
+          "category|river"
+        ],
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology":{
+        "speed":0.17
       }
     }
   ],

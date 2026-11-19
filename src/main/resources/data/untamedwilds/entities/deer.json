@@ -5,10 +5,13 @@
   "offspring": 1,
   "activityType": "crepuscular",
   "favourite_food": "minecraft:wheat",
-  "sounds": {
-    "ambient": "minecraft:entity.cow.ambient",
-    "hurt": "minecraft:entity.cow.hurt",
-    "death": "minecraft:entity.cow.death"
+  "sounds":{
+    "ambient":"untamedwilds:entity.deer.ambient",
+    "hurt":"untamedwilds:entity.deer.hurt",
+    "death":"untamedwilds:entity.deer.death",
+    "threat":"untamedwilds:entity.deer.threat",
+    "alarm":"untamedwilds:entity.deer.alarm",
+    "call":"untamedwilds:entity.deer.call"
   },
   "flags": {
     "groupCount": 4,
@@ -303,7 +306,7 @@
       "health": 22,
       "flags": {
         "groupCount": 12,
-        "palmate": 0,
+        "palmate": 1,
         "throatBell": 0,
         "antlerScale": 654
       },
@@ -370,6 +373,58 @@
       "offspring": 1,
       "ecology": {
         "speed": 0.25
+      }
+    },
+    {
+      "name": "chital",
+      "variant": 14,
+      "scale": 0.55,
+      "rarity": 3,
+      "attack": 3,
+      "health": 20,
+      "flags": {
+        "groupCount": 15,
+        "palmate": 0,
+        "throatBell": 0,
+        "antlerScale": 600
+      },
+      "spawnBiomes": [
+        [
+          "category|jungle"
+        ],
+        [
+          "category|savanna"
+        ]
+      ],
+      "offspring": 1,
+      "ecology": {
+        "speed": 0.27
+      }
+    },
+    {
+      "name": "sambar",
+      "variant": 15,
+      "scale": 0.75,
+      "rarity": 3,
+      "attack": 5,
+      "health": 34,
+      "flags": {
+        "groupCount": 4,
+        "palmate": 0,
+        "throatBell": 0,
+        "antlerScale": 750
+      },
+      "spawnBiomes": [
+        [
+          "category|jungle"
+        ],
+        [
+          "category|forest"
+        ]
+      ],
+      "offspring": 1,
+      "ecology": {
+        "speed": 0.26
       }
     }
   ],

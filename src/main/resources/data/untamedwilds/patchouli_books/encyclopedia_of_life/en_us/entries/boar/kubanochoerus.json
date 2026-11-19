@@ -1,0 +1,22 @@
+{
+    "name": "Kubanochoerus",
+    "icon": "untamedwilds:textures/icon/boar/kubanochoerus.png",
+    "category": "untamedwilds:boar_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Kubanochoerus",
+            "text": "The Kubanochoerus ($(o)Kubanochoerus gigas$()) is an extinct giant pig that lived in Eurasia during the Miocene, millions of years before the ice ages.$(br2)It was one of the largest members of the pig family ever to have lived, with long legs and a large head.$(br2)Males bore a large bony horn on the forehead along with smaller horns above the eyes, which they may have used in contests with one another."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:boar{Variant: 7, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Kubanochoerus",
+            "text": "Relative Size: ★★★★☆$(br2)Active during Nighttime$(br2)1 Color$(br2)Favourite Food: Beetroot$(br2)Number of Offspring: 5$(br2)Growth time: 4 Days"
+        }
+    ]
+}

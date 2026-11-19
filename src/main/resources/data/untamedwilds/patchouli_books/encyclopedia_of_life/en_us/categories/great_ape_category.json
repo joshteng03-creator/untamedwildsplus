@@ -1,0 +1,6 @@
+{
+    "name": "Great Apes",
+    "description": "Great apes are large, tailless primate Mammals: the orangutans, gorillas, chimpanzees and bonobos, and humans.$(br2)They are intelligent and long-lived, with long arms and grasping hands, and on the ground most of them walk on all fours, resting their weight on their knuckles or fists.$(br2)The living non-human apes are found only in the tropical forests of Africa and Southeast Asia.",
+    "icon": "untamedwilds:textures/icon/great_ape/category.png",
+    "parent": "untamedwilds:taxon_mammal"
+}

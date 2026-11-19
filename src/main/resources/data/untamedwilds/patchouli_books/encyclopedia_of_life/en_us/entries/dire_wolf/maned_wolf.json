@@ -1,0 +1,22 @@
+{
+    "name": "Maned Wolf",
+    "icon": "untamedwilds:textures/icon/dire_wolf/maned_wolf.png",
+    "category": "untamedwilds:dire_wolf_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Maned Wolf",
+            "text": "The maned wolf ($(o)Chrysocyon brachyurus$()) is a canid of the grasslands and scrub savannas of central South America.$(br2)Despite its name, it is neither a wolf nor a fox. It is the tallest wild canid, with very long legs, a red coat and a black mane along its neck.$(br2)Maned wolves are solitary omnivores; much of their diet is fruit, especially the wolf apple."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:dire_wolf{Variant: 8, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Maned Wolf",
+            "text": "Relative Size: ★★☆☆☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 3$(br2)Growth time: 5 Days"
+        }
+    ]
+}

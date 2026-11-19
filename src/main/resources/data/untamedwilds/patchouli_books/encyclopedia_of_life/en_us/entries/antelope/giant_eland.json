@@ -1,0 +1,22 @@
+{
+    "name": "Giant Eland",
+    "icon": "untamedwilds:textures/icon/antelope/giant_eland.png",
+    "category": "untamedwilds:antelope_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Giant Eland",
+            "text": "The giant eland ($(o)Taurotragus derbianus$()), also called Lord Derby's eland, is a spiral-horned antelope of the wooded savannas of West and Central Africa.$(br2)It is one of the largest antelope in the world, and both males and females carry long, tightly spiralled horns.$(br2)Giant eland are browsers, feeding on leaves and shoots, and use their horns to break down branches out of reach."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:antelope{Variant: 5, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Giant Eland",
+            "text": "Relative Size: ★★★★☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 6 Days"
+        }
+    ]
+}

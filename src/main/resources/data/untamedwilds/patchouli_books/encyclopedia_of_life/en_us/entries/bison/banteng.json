@@ -1,0 +1,22 @@
+{
+    "name": "Banteng",
+    "icon": "untamedwilds:textures/icon/bison/banteng.png",
+    "category": "untamedwilds:bison_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Banteng",
+            "text": "The banteng ($(o)Bos javanicus$()) is a species of wild cattle native to Southeast Asia, including mainland forests, Java and Borneo.$(br2)Both sexes have white lower legs and a white patch on the rump. Bulls are dark brown to black, while cows and calves are a reddish brown.$(br2)Banteng have been domesticated as Bali cattle, which are raised widely across Indonesia."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:bison{Variant: 11, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Banteng",
+            "text": "Relative Size: ★★★★☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Junegrass$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

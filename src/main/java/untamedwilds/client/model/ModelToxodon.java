@@ -296,6 +296,66 @@ public class ModelToxodon extends AdvancedEntityModel<EntityToxodon> {
     private void animate(IAnimatedEntity entityIn) {
         EntityToxodon toxodon = (EntityToxodon) entityIn;
         animator.update(toxodon);
+        // <gen:idle-poses> 2.8.0: SOLVED by scripts/pose_reach.py against this model's own boxes (muzzle to the grass / the
+        // water line beyond the bank, every head part and horn family clear of the ground, nothing through the torso).
+        // Regenerate, never hand-edit: python scripts/gen_keyframes.py toxodon
+        // EAT (40t, GrazeGoal's mouthful): head down to the grass, a cropping lift, back down
+        animator.setAnimation(EntityToxodon.EAT);
+        animator.startKeyframe(10);
+        this.rotate(animator, neck, 29.0F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, -0.5F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 6.0F, -1.9F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck, 29.0F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, -6.0F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, -0.5F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 6.0F, -1.9F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck, 29.0F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, -0.5F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 6.0F, -1.9F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(10);
+        animator.resetKeyframe(10);
+        // DRINK (100t, DrinkGoal): muzzle to the water past the bank edge, two swallows lifting the head
+        animator.setAnimation(EntityToxodon.DRINK);
+        animator.startKeyframe(15);
+        this.rotate(animator, neck, 49.9F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, -17.9F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, -0.4F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 6.0F, -3.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(20);
+        animator.startKeyframe(5);
+        this.rotate(animator, neck, 49.9F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, -22.9F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, -0.4F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 6.0F, -3.0F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck, 49.9F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, -17.9F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, -0.4F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 6.0F, -3.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(20);
+        animator.startKeyframe(5);
+        this.rotate(animator, neck, 49.9F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, -22.9F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, -0.4F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 6.0F, -3.0F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck, 49.9F, 0.0F, 0.0F);
+        this.rotate(animator, head_skull, -17.9F, 0.0F, 0.0F);
+        this.rotate(animator, head_muzzle, -0.4F, 0.0F, 0.0F);
+        animator.move(neck, 0.0F, 6.0F, -3.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(10);
+        animator.resetKeyframe(15);
+        // </gen:idle-poses>
 
         // ATTACK_THREATEN (50t) -- head swung low and side to side, weight rocking between
         // the forelegs. A toxodon has no horns, so the threat display is the broad head and

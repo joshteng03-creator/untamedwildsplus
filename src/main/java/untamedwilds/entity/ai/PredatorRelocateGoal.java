@@ -13,6 +13,7 @@ import untamedwilds.entity.ComplexMob;
 import untamedwilds.entity.ComplexMobTerrestrial;
 import untamedwilds.entity.HerdEntity;
 import untamedwilds.util.EcologyTags;
+import untamedwilds.util.PerfCounters;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -32,6 +33,9 @@ import java.util.List;
 public class PredatorRelocateGoal extends Goal {
 
     private static final int SEARCH_ATTEMPTS = 10;
+    /* 2.8.0: each candidate's census is a 64-block entity sweep; up to ten of them ran in one tick. The
+     * attempts still skip unloaded / water candidates, but at most four candidates are actually censused. */
+    private static final int MAX_CENSUS_SCANS = 4;
     private static final int TRAVEL_BUDGET = 2400;
     private static final double ARRIVAL_DIST_SQR = 64D;
     /** How far a predator casts about for a new hunting ground. */
@@ -54,6 +58,9 @@ public class PredatorRelocateGoal extends Goal {
         this.setFlags(EnumSet.of(Flag.MOVE));
     }
 
+    /** 2.8.0: parity-proof replacement for a tickCount % 40 gate (see GoalTimer). */
+    private final untamedwilds.util.GoalTimer checkTimer = new untamedwilds.util.GoalTimer(40, true);
+
     @Override
     public boolean canUse() {
         int limit = ConfigGamerules.predatorRelocateTicks.get();
@@ -65,16 +72,29 @@ public class PredatorRelocateGoal extends Goal {
         if (herd != null && herd.getLeader() != this.taskOwner) {
             return false;
         }
+        // Cheap: a check every couple of seconds, not every tick.
+        if (!this.checkTimer.ready(this.taskOwner)) {
+            return false;
+        }
+        /* Dispersal at maturity (2026-10-24): a solitary predator that has just come of age leaves home once,
+         * for the best prey-per-predator ground it can find, instead of setting up beside its mother. */
+        if (this.taskOwner.pendingDispersal) {
+            this.taskOwner.pendingDispersal = false;
+            this.dispersing = true;
+            this.destination = this.findHuntingGround(DISPERSAL_MIN, DISPERSAL_MAX, true);
+            return this.destination != null;
+        }
+        this.dispersing = false;
         // Only a predator that is actually going hungry has a reason to leave. A fed one stays put.
         if (this.taskOwner.getHunger() > 60) {
             this.droughtTicks = 0;
             return false;
         }
-        // Cheap: a scan every couple of seconds, not every tick.
-        if (this.taskOwner.tickCount % 40 != 0) {
-            return false;
-        }
-        if (this.hasPreyNearby()) {
+        /* 2026-10-24: leave when the local prey per predator stays LOW, not only when there is no prey at all.
+         * Waiting for zero meant predators ate a range out before they moved; the ratio is the same number the
+         * breeding gate reads, so a crowded range both stops breeding and sheds hunters. */
+        boolean preyHere = this.hasPreyNearby();    // 2.8.0: one scan per check (was two)
+        if (preyHere && this.taskOwner.preyPerPredator() >= ConfigGamerules.predatorRelocateRatio.get()) {
             this.droughtTicks = 0;
             return false;
         }
@@ -82,9 +102,17 @@ public class PredatorRelocateGoal extends Goal {
         if (this.droughtTicks < limit) {
             return false;
         }
-        this.destination = this.findHuntingGround();
+        this.destination = this.findHuntingGround(MIN_DISTANCE, MAX_DISTANCE, !preyHere);
+        if (this.destination == null) {
+            this.droughtTicks = 0;      // nothing better within reach: stay, and look again later
+        }
         return this.destination != null;
     }
+
+    /** Dispersal range for a predator leaving home at maturity. */
+    private static final int DISPERSAL_MIN = 64;
+    private static final int DISPERSAL_MAX = 128;
+    private boolean dispersing;
 
     @Override
     public void start() {
@@ -165,15 +193,22 @@ public class PredatorRelocateGoal extends Goal {
      * range when nothing is detected, because a predator with no information should still move rather
      * than starve in place -- an empty search is exactly the situation this goal exists for.
      */
+    /**
+     * Heads for the ground with the most prey PER PREDATOR (2026-10-24; was: the most prey, which sent every
+     * pack to the same herd). Only moves when a candidate beats the ratio here; {@code allowFallback} -- no
+     * prey here at all, or a dispersing youngster -- takes any walkable ground at range when nothing scores,
+     * because a predator with no information should still move rather than starve in place.
+     */
     @Nullable
-    private BlockPos findHuntingGround() {
+    private BlockPos findHuntingGround(int minDist, int maxDist, boolean allowFallback) {
         BlockPos origin = this.taskOwner.blockPosition();
         BlockPos best = null;
-        int bestCount = 0;
+        double bestScore = this.dispersing ? 0D : this.taskOwner.preyPerPredator();
         BlockPos fallback = null;
-        for (int i = 0; i < SEARCH_ATTEMPTS; i++) {
+        int censuses = 0;
+        for (int i = 0; i < SEARCH_ATTEMPTS && censuses < MAX_CENSUS_SCANS; i++) {
             double angle = this.taskOwner.getRandom().nextDouble() * Math.PI * 2D;
-            double dist = MIN_DISTANCE + this.taskOwner.getRandom().nextInt(MAX_DISTANCE - MIN_DISTANCE);
+            double dist = minDist + this.taskOwner.getRandom().nextInt(Math.max(1, maxDist - minDist));
             BlockPos candidate = this.groundAt(origin.offset(Math.cos(angle) * dist, 0, Math.sin(angle) * dist));
             if (candidate == null) {
                 continue;
@@ -181,13 +216,16 @@ public class PredatorRelocateGoal extends Goal {
             if (fallback == null) {
                 fallback = candidate;
             }
-            int count = this.nearbyPrey(candidate, PREY_SCAN_RADIUS).size();
-            if (count > bestCount) {
-                bestCount = count;
+            censuses++;
+            PerfCounters.inc(PerfCounters.Counter.RELOCATE_SCAN);
+            float[] census = ComplexMob.countPreyAndPredators(this.taskOwner, candidate, PREY_SCAN_RADIUS);
+            double score = census[0] / (census[1] + 1D);     // +1: this predator arriving
+            if (census[0] > 0 && score > bestScore) {
+                bestScore = score;
                 best = candidate;
             }
         }
-        return best != null ? best : fallback;
+        return best != null ? best : (allowFallback ? fallback : null);
     }
 
     @Nullable

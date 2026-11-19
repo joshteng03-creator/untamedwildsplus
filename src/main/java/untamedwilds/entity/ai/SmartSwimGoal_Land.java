@@ -56,6 +56,9 @@ public class SmartSwimGoal_Land extends Goal {
         return !this.entity.isOnGround() && this.entity.isInWater() && this.entity.getTarget() == null;
     }
 
+    /** 2.8.0: parity-proof replacement for a tickCount % 6 gate (see GoalTimer). */
+    private final untamedwilds.util.GoalTimer splashTimer = new untamedwilds.util.GoalTimer(6, true);
+
     @Override
     public void tick() {
         if (this.entity.getNavigation().isDone()) {
@@ -65,7 +68,7 @@ public class SmartSwimGoal_Land extends Goal {
         if (this.entity.isEyeInFluid(FluidTags.WATER) || colliding) {
             this.entity.getJumpControl().jump();
         }
-        if (this.entity.tickCount % 6 == 0) {
+        if (this.splashTimer.ready(this.entity)) {
             EntityUtils.spawnParticlesOnEntity(this.entity.level, this.entity, ParticleTypes.SPLASH, 4, 2);
         }
     }

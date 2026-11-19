@@ -1,0 +1,6 @@
+{
+    "name": "Mustelids",
+    "description": "Mustelids are carnivore Mammals of the weasel family, which also includes badgers, otters, martens and stoats.$(br2)Most are long-bodied and short-legged, with thick fur and scent glands, and many are fierce for their size, taking prey much larger than themselves.$(br2)They are found on every continent except Australia and Antarctica, from the Arctic tundra to tropical savanna.",
+    "icon": "untamedwilds:textures/icon/mustelid/category.png",
+    "parent": "untamedwilds:taxon_mammal"
+}

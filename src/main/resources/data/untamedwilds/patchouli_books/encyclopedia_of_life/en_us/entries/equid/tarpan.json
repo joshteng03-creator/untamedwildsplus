@@ -1,0 +1,22 @@
+{
+    "name": "Tarpan",
+    "icon": "untamedwilds:textures/icon/equid/tarpan.png",
+    "category": "untamedwilds:equid_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Tarpan",
+            "text": "The tarpan ($(o)Equus ferus ferus$()), or Eurasian wild horse, is an extinct horse that roamed the steppes and forests of Europe and western Asia.$(br2)Historical accounts describe it as a small horse with a mouse-grey to dun coat, dark legs and a dark stripe along its back.$(br2)Hunted and crossbred with domestic horses, it disappeared in the wild during the 19th century, and the last known tarpan died in captivity in 1909."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:equid{Variant: 2, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Tarpan",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

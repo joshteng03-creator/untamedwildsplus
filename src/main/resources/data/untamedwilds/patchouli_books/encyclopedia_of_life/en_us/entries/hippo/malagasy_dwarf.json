@@ -1,0 +1,22 @@
+{
+    "name": "Malagasy Dwarf Hippopotamus",
+    "icon": "untamedwilds:textures/icon/hippo/malagasy_dwarf.png",
+    "category": "untamedwilds:hippo_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Malagasy Dwarf Hippopotamus",
+            "text": "The Malagasy dwarf hippopotamus ($(o)Hippopotamus lemerlei$()) lived in the rivers and lakes of western Madagascar until about 1,000 years ago.$(br2)It looked like a small common hippo, about 2 metres long and 70 centimetres tall, with its eyes set high on its head for watching from the water.$(br2)Its ancestors were full-sized hippos that reached the island and shrank. Bones with butchery marks show that people hunted Malagasy hippos."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:hippo{Variant: 3, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Malagasy Dwarf Hippopotamus",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Nighttime$(br2)1 Color$(br2)Favourite Food: Water Hyacinth$(br2)Number of Offspring: 1$(br2)Growth time: 8 Days"
+        }
+    ]
+}

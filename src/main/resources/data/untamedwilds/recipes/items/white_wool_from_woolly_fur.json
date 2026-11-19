@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wool",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "untamedwilds:material_woolly_fur"
+    }
+  },
+  "result": {
+    "item": "minecraft:white_wool"
+  }
+}

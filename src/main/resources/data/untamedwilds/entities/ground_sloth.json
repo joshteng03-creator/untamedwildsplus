@@ -5,10 +5,12 @@
   "offspring": 1,
   "activityType": "cathemeral",
   "favourite_food": "minecraft:sweet_berries",
-  "sounds": {
-    "ambient": "minecraft:entity.cow.ambient",
-    "hurt": "minecraft:entity.cow.hurt",
-    "death": "minecraft:entity.cow.death"
+  "sounds":{
+    "ambient":"untamedwilds:entity.ground_sloth.ambient",
+    "hurt":"untamedwilds:entity.ground_sloth.hurt",
+    "death":"untamedwilds:entity.ground_sloth.death",
+    "threat":"untamedwilds:entity.ground_sloth.threat",
+    "step":"untamedwilds:entity.megafauna.step"
   },
   "flags": {
     "groupCount": 2
@@ -17,12 +19,13 @@
     {
       "name": "megatherium",
       "variant": 0,
-      "scale": 1.4,
+      "scale": 0.993,
       "rarity": 2,
       "attack": 9,
       "health": 95,
       "flags": {
-        "groupCount": 1
+        "groupCount": 1,
+        "headShape": 0
       },
       "spawnBiomes": [
         [
@@ -39,12 +42,13 @@
     {
       "name": "eremotherium",
       "variant": 1,
-      "scale": 1.35,
+      "scale": 1.043,
       "rarity": 2,
       "attack": 9,
       "health": 90,
       "flags": {
-        "groupCount": 1
+        "groupCount": 1,
+        "headShape": 0
       },
       "spawnBiomes": [
         [
@@ -58,12 +62,13 @@
     {
       "name": "megalonyx",
       "variant": 2,
-      "scale": 1.1,
+      "scale": 0.596,
       "rarity": 3,
       "attack": 7,
       "health": 65,
       "flags": {
-        "groupCount": 1
+        "groupCount": 1,
+        "headShape": 2
       },
       "spawnBiomes": [
         [
@@ -77,12 +82,13 @@
     {
       "name": "megalocnus",
       "variant": 3,
-      "scale": 0.7,
+      "scale": 0.323,
       "rarity": 3,
       "attack": 4,
       "health": 40,
       "flags": {
-        "groupCount": 2
+        "groupCount": 2,
+        "headShape": 2
       },
       "spawnBiomes": [
         [
@@ -94,6 +100,105 @@
       ],
       "ecology": {
         "speed": 0.16
+      }
+    },
+    {
+      "name": "glossotherium",
+      "variant": 4,
+      "scale": 0.695,
+      "rarity": 3,
+      "attack": 7,
+      "health": 75,
+      "flags": {
+        "groupCount": 1,
+        "headShape": 1
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.13
+      }
+    },
+    {
+      "name": "lestodon",
+      "variant": 5,
+      "scale": 0.92,
+      "rarity": 3,
+      "attack": 9,
+      "health": 100,
+      "flags": {
+        "groupCount": 3,
+        "headShape": 1
+      },
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ],
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.12
+      }
+    },
+    {
+      "name": "paramylodon",
+      "variant": 6,
+      "scale": 0.72,
+      "rarity": 3,
+      "attack": 7,
+      "health": 70,
+      "flags": {
+        "groupCount": 1,
+        "headShape": 1
+      },
+      "spawnBiomes": [
+        [
+          "category|plains"
+        ],
+        [
+          "category|forest"
+        ],
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.13
+      }
+    },
+    {
+      "name": "nothrotheriops",
+      "variant": 7,
+      "scale": 0.42,
+      "rarity": 3,
+      "attack": 4,
+      "health": 35,
+      "activityType": "crepuscular",
+      "flags": {
+        "groupCount": 1,
+        "headShape": 0
+      },
+      "spawnBiomes": [
+        [
+          "category|desert"
+        ],
+        [
+          "category|mesa"
+        ],
+        [
+          "category|savanna"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.15
       }
     }
   ],

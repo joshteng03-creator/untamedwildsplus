@@ -1,0 +1,22 @@
+{
+    "name": "Okapi",
+    "icon": "untamedwilds:textures/icon/giraffid/okapi.png",
+    "category": "untamedwilds:giraffid_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Okapi",
+            "text": "The okapi ($(o)Okapia johnstoni$()) is a giraffid native to the dense rainforests of the Democratic Republic of the Congo in central Africa.$(br2)Although its striped legs resemble a zebra's, it is the closest living relative of the giraffe, and males bear short, skin-covered ossicones.$(br2)Shy and solitary, the okapi browses on leaves and buds with its long tongue, and it was unknown to Western science until the early 20th century."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:giraffid{Variant: 2, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Okapi",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 12 Days"
+        }
+    ]
+}

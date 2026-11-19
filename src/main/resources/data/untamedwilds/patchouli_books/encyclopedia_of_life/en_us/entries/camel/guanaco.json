@@ -1,0 +1,22 @@
+{
+    "name": "Guanaco",
+    "icon": "untamedwilds:textures/icon/camel/guanaco.png",
+    "category": "untamedwilds:camel_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Guanaco",
+            "text": "The guanaco ($(o)Lama guanicoe$()) is a wild camelid native to South America, found from the Andes of Peru to the plains of Patagonia and Tierra del Fuego.$(br2)It is the wild ancestor of the domestic llama.$(br2)Guanacos usually live in family groups of a single male with several females and their young. Their thick, woolly coat protects them in cold, dry and high-altitude habitats."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:camel{Variant: 5, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Guanaco",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Junegrass$(br2)Number of Offspring: 1$(br2)Growth time: 13 Days"
+        }
+    ]
+}

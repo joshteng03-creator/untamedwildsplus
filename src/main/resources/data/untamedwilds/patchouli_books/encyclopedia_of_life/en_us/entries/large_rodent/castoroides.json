@@ -1,0 +1,22 @@
+{
+    "name": "Giant Beaver",
+    "icon": "untamedwilds:textures/icon/large_rodent/castoroides.png",
+    "category": "untamedwilds:large_rodent_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Giant Beaver",
+            "text": "$(o)Castoroides$() ($(o)Castoroides ohioensis$()), the giant beaver, lived in the lakes and wetlands of North America during the Pleistocene.$(br2)It was about the size of a black bear, with huge incisors, but it probably did not build dams or fell trees like modern beavers, feeding instead on water plants.$(br2)It vanished at the end of the last ice age."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:large_rodent{Variant: 2, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Giant Beaver",
+            "text": "Relative Size: ★★★☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Sugar Cane$(br2)Number of Offspring: 2$(br2)Growth time: 6 Days"
+        }
+    ]
+}

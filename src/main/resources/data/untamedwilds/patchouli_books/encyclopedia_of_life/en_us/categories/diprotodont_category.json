@@ -1,0 +1,6 @@
+{
+    "name": "Diprotodonts",
+    "description": "Diprotodonts are extinct herbivore Mammals from Australia and New Guinea, the largest marsupials that ever lived. Their closest living relatives are the wombats and koalas.$(br2)They had heavy, barrel-shaped bodies on pillar-like legs, large heads with deep jaws, and feet that turned inward. Like wombats, the females carried their young in a pouch that opened to the rear.$(br2)Diprotodonts lived in open woodland, scrub, grassland and forest, and disappeared during the Late Pleistocene.",
+    "icon": "untamedwilds:textures/icon/diprotodont/category.png",
+    "parent": "untamedwilds:taxon_mammal"
+}

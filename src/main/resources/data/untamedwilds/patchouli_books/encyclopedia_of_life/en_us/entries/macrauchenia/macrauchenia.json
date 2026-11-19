@@ -1,0 +1,22 @@
+{
+    "name": "Macrauchenia",
+    "icon": "untamedwilds:textures/icon/macrauchenia/macrauchenia.png",
+    "category": "untamedwilds:macrauchenia_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Macrauchenia",
+            "text": "The Macrauchenia ($(o)Macrauchenia patachonica$()) is an extinct litoptern that lived in South America during the Pleistocene, disappearing at its end.$(br2)It had a long neck, long legs and three-toed feet, giving it a build somewhat like a camel. Its nasal opening sat high on the skull, between the eyes.$(br2)The first fossils were collected by Charles Darwin in Patagonia in 1834. Its closest living relatives are thought to be the odd-toed ungulates, such as horses and tapirs."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:macrauchenia{Variant: 0, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Macrauchenia",
+            "text": "Relative Size: ★★★★☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Hay Bale$(br2)Number of Offspring: 1$(br2)Growth time: 11 Days"
+        }
+    ]
+}

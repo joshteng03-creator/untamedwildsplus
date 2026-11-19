@@ -1,0 +1,6 @@
+{
+    "name": "Giant Ground Birds",
+    "description": "Giant ground birds are huge, flightless herbivore Birds: the moa of New Zealand, the elephant birds of Madagascar and the mihirungs of Australia.$(br2)They walked on long, powerful legs, browsed leaves, fruit and shoots, and had no wings to speak of.$(br2)All of them died out within a few thousand years of people arriving in their homelands.",
+    "icon": "untamedwilds:textures/icon/ground_bird/category.png",
+    "parent": "untamedwilds:taxon_bird"
+}

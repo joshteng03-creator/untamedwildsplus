@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "untamedwilds:block/ivory_slab"
+    },
+    "type=top": {
+      "model": "untamedwilds:block/ivory_slab_top"
+    },
+    "type=double": {
+      "model": "untamedwilds:block/ivory_block"
+    }
+  }
+}

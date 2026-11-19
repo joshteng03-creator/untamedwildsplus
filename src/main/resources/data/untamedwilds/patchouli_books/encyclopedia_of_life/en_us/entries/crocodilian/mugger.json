@@ -1,0 +1,22 @@
+{
+    "name": "Mugger Crocodile",
+    "icon": "untamedwilds:textures/icon/crocodilian/mugger.png",
+    "category": "untamedwilds:crocodilian_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Mugger Crocodile",
+            "text": "The mugger crocodile ($(o)Crocodylus palustris$()) lives in the rivers, lakes and marshes of India and neighbouring countries.$(br2)It has the broadest snout of any living crocodile, and eats fish, birds and mammals.$(br2)In dry seasons it digs burrows to shelter from the heat."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:crocodilian{Variant: 2, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Mugger Crocodile",
+            "text": "Relative Size: ★★★☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 3$(br2)Growth time: 8 Days"
+        }
+    ]
+}

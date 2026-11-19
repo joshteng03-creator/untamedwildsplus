@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=south": {
+      "model": "untamedwilds:block/antler_trophy"
+    },
+    "facing=west": {
+      "model": "untamedwilds:block/antler_trophy",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "untamedwilds:block/antler_trophy",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "untamedwilds:block/antler_trophy",
+      "y": 270
+    }
+  }
+}

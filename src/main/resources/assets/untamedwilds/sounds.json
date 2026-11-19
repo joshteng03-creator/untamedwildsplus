@@ -49,15 +49,16 @@
 		],
 		"subtitle": "untamedwilds.subtitles.bear.baby.cry"
 	},
-
 	"entity.bison.ambient": {
 		"sounds": [
 			"untamedwilds:bison/idle_1",
-			"untamedwilds:bison/idle_2"
+			"untamedwilds:bison/idle_2",
+			"untamedwilds:bison/ambient_1",
+			"untamedwilds:bison/ambient_2",
+			"untamedwilds:bison/ambient_3"
 		],
 		"subtitle": "untamedwilds.subtitles.bison.ambient"
 	},
-
 	"entity.big_cat.ambient": {
 		"sounds": [
 			"untamedwilds:big_cat/idle_1",
@@ -86,7 +87,6 @@
 		],
 		"subtitle": "untamedwilds.subtitles.big_cat.death"
 	},
-
 	"entity.aardvark.ambient": {
 		"sounds": [
 			"mob/rabbit/idle1",
@@ -114,7 +114,6 @@
 		],
 		"subtitle": "untamedwilds.subtitles.aardvark.death"
 	},
-
 	"entity.tarantula.ambient": {
 		"category": "neutral",
 		"sounds": [
@@ -123,7 +122,6 @@
 		],
 		"subtitle": "untamedwilds.subtitles.tarantula.ambient"
 	},
-
 	"entity.hippo.ambient": {
 		"category": "neutral",
 		"sounds": [
@@ -132,7 +130,6 @@
 		],
 		"subtitle": "untamedwilds.subtitles.hippo.ambient"
 	},
-
 	"entity.hyena.laugh": {
 		"category": "neutral",
 		"sounds": [
@@ -178,7 +175,6 @@
 		],
 		"subtitle": "untamedwilds.subtitles.hyena.death"
 	},
-
 	"entity.boar.squeal": {
 		"category": "neutral",
 		"sounds": [
@@ -215,7 +211,6 @@
 		],
 		"subtitle": "untamedwilds.subtitles.boar.death"
 	},
-
 	"entity.camel.ambient": {
 		"category": "neutral",
 		"sounds": [
@@ -248,7 +243,6 @@
 		],
 		"subtitle": "untamedwilds.subtitles.camel.spit"
 	},
-
 	"entity.opossum.hiss": {
 		"sounds": [
 			"untamedwilds:opossum/hiss"
@@ -279,7 +273,6 @@
 		],
 		"subtitle": "untamedwilds.subtitles.opossum.death"
 	},
-
 	"entity.spitter.spit": {
 		"sounds": [
 			"mob/llama/spit1",
@@ -309,7 +302,6 @@
 		],
 		"subtitle": "untamedwilds.subtitles.spitter.death"
 	},
-
 	"entity.snake.warning": {
 		"category": "neutral",
 		"sounds": [
@@ -323,5 +315,799 @@
 			"untamedwilds:snake_rattle"
 		],
 		"subtitle": "untamedwilds.subtitles.snake.rattle"
+	},
+	"entity.diprotodont.ambient": {
+		"sounds": [
+			"untamedwilds:diprotodont/ambient_1",
+			"untamedwilds:diprotodont/ambient_2"
+		],
+		"subtitle": "untamedwilds.subtitles.diprotodont.ambient"
+	},
+	"entity.diprotodont.threat": {
+		"sounds": [
+			"untamedwilds:diprotodont/threat_1"
+		],
+		"subtitle": "untamedwilds.subtitles.diprotodont.threat"
+	},
+	"entity.glyptodont.ambient": {
+		"sounds": [
+			"untamedwilds:glyptodont/ambient_1",
+			"untamedwilds:glyptodont/ambient_2",
+			"untamedwilds:glyptodont/ambient_3",
+			"untamedwilds:glyptodont/ambient_4"
+		],
+		"subtitle": "untamedwilds.subtitles.glyptodont.ambient"
+	},
+	"entity.glyptodont.death": {
+		"sounds": [
+			"untamedwilds:glyptodont/death_1"
+		],
+		"subtitle": "untamedwilds.subtitles.glyptodont.death"
+	},
+	"entity.glyptodont.hurt": {
+		"sounds": [
+			"untamedwilds:glyptodont/hurt_1",
+			"untamedwilds:glyptodont/hurt_2"
+		],
+		"subtitle": "untamedwilds.subtitles.glyptodont.hurt"
+	},
+	"entity.ground_sloth.ambient": {
+		"sounds": [
+			"untamedwilds:ground_sloth/ambient_1",
+			"untamedwilds:ground_sloth/ambient_2",
+			"untamedwilds:ground_sloth/ambient_3"
+		],
+		"subtitle": "untamedwilds.subtitles.ground_sloth.ambient"
+	},
+	"entity.ground_sloth.death": {
+		"sounds": [
+			"untamedwilds:ground_sloth/death_1"
+		],
+		"subtitle": "untamedwilds.subtitles.ground_sloth.death"
+	},
+	"entity.ground_sloth.hurt": {
+		"sounds": [
+			"untamedwilds:ground_sloth/hurt_1",
+			"untamedwilds:ground_sloth/hurt_2"
+		],
+		"subtitle": "untamedwilds.subtitles.ground_sloth.hurt"
+	},
+	"entity.ground_sloth.threat": {
+		"sounds": [
+			"untamedwilds:ground_sloth/threat_1",
+			"untamedwilds:ground_sloth/threat_2"
+		],
+		"subtitle": "untamedwilds.subtitles.ground_sloth.threat"
+	},
+	"entity.mammoth.alarm": {
+		"sounds": [
+			"untamedwilds:mammoth/alarm_1",
+			"untamedwilds:mammoth/alarm_2"
+		],
+		"subtitle": "untamedwilds.subtitles.mammoth.alarm"
+	},
+	"entity.mammoth.ambient": {
+		"sounds": [
+			"untamedwilds:mammoth/ambient_1",
+			"untamedwilds:mammoth/ambient_2"
+		],
+		"subtitle": "untamedwilds.subtitles.mammoth.ambient"
+	},
+	"entity.mammoth.call": {
+		"sounds": [
+			{
+				"name": "untamedwilds:mammoth/call_1",
+				"stream": true,
+				"attenuation_distance": 48
+			},
+			{
+				"name": "untamedwilds:mammoth/call_2",
+				"attenuation_distance": 48
+			}
+		],
+		"subtitle": "untamedwilds.subtitles.mammoth.call"
+	},
+	"entity.mammoth.death": {
+		"sounds": [
+			"untamedwilds:mammoth/death_1"
+		],
+		"subtitle": "untamedwilds.subtitles.mammoth.death"
+	},
+	"entity.mammoth.hurt": {
+		"sounds": [
+			"untamedwilds:mammoth/hurt_1",
+			"untamedwilds:mammoth/hurt_2"
+		],
+		"subtitle": "untamedwilds.subtitles.mammoth.hurt"
+	},
+	"entity.mammoth.threat": {
+		"sounds": [
+			"untamedwilds:mammoth/threat_1",
+			"untamedwilds:mammoth/threat_2"
+		],
+		"subtitle": "untamedwilds.subtitles.mammoth.threat"
+	},
+	"entity.rhino.alarm": {
+		"sounds": [
+			"untamedwilds:rhino/alarm_1"
+		],
+		"subtitle": "untamedwilds.subtitles.rhino.alarm"
+	},
+	"entity.rhino.ambient": {
+		"sounds": [
+			"untamedwilds:rhino/ambient_1",
+			"untamedwilds:rhino/ambient_2",
+			"untamedwilds:rhino/ambient_3"
+		],
+		"subtitle": "untamedwilds.subtitles.rhino.ambient"
+	},
+	"entity.rhino.death": {
+		"sounds": [
+			"untamedwilds:rhino/death_1"
+		],
+		"subtitle": "untamedwilds.subtitles.rhino.death"
+	},
+	"entity.rhino.hurt": {
+		"sounds": [
+			"untamedwilds:rhino/hurt_1",
+			"untamedwilds:rhino/hurt_2"
+		],
+		"subtitle": "untamedwilds.subtitles.rhino.hurt"
+	},
+	"entity.rhino.threat": {
+		"sounds": [
+			"untamedwilds:rhino/threat_1"
+		],
+		"subtitle": "untamedwilds.subtitles.rhino.threat"
+	},
+	"entity.toxodon.ambient": {
+		"sounds": [
+			"untamedwilds:toxodon/ambient_1",
+			"untamedwilds:toxodon/ambient_2",
+			"untamedwilds:toxodon/ambient_3"
+		],
+		"subtitle": "untamedwilds.subtitles.toxodon.ambient"
+	},
+	"entity.toxodon.death": {
+		"sounds": [
+			"untamedwilds:toxodon/death_1"
+		],
+		"subtitle": "untamedwilds.subtitles.toxodon.death"
+	},
+	"entity.toxodon.hurt": {
+		"sounds": [
+			"untamedwilds:toxodon/hurt_1",
+			"untamedwilds:toxodon/hurt_2"
+		],
+		"subtitle": "untamedwilds.subtitles.toxodon.hurt"
+	},
+	"entity.toxodon.threat": {
+		"sounds": [
+			"untamedwilds:toxodon/threat_1"
+		],
+		"subtitle": "untamedwilds.subtitles.toxodon.threat"
+	},
+	"entity.antelope.alarm": {
+		"sounds": [
+			"untamedwilds:antelope/alarm_1",
+			"untamedwilds:antelope/alarm_2"
+		],
+		"subtitle": "untamedwilds.subtitles.antelope.alarm"
+	},
+	"entity.antelope.ambient": {
+		"sounds": [
+			"untamedwilds:antelope/ambient_1",
+			"untamedwilds:antelope/ambient_2",
+			"untamedwilds:antelope/ambient_3"
+		],
+		"subtitle": "untamedwilds.subtitles.antelope.ambient"
+	},
+	"entity.bison.call": {
+		"sounds": [
+			{
+				"name": "untamedwilds:bison/call_1",
+				"attenuation_distance": 48
+			},
+			{
+				"name": "untamedwilds:bison/call_2",
+				"attenuation_distance": 48
+			}
+		],
+		"subtitle": "untamedwilds.subtitles.bison.call"
+	},
+	"entity.caprine.alarm": {
+		"sounds": [
+			"untamedwilds:caprine/alarm_1"
+		],
+		"subtitle": "untamedwilds.subtitles.caprine.alarm"
+	},
+	"entity.caprine.ambient": {
+		"sounds": [
+			"untamedwilds:caprine/ambient_1",
+			"untamedwilds:caprine/ambient_2",
+			"untamedwilds:caprine/ambient_3"
+		],
+		"subtitle": "untamedwilds.subtitles.caprine.ambient"
+	},
+	"entity.caprine.death": {
+		"sounds": [
+			"untamedwilds:caprine/death_1"
+		],
+		"subtitle": "untamedwilds.subtitles.caprine.death"
+	},
+	"entity.caprine.hurt": {
+		"sounds": [
+			"untamedwilds:caprine/hurt_1",
+			"untamedwilds:caprine/hurt_2"
+		],
+		"subtitle": "untamedwilds.subtitles.caprine.hurt"
+	},
+	"entity.deer.alarm": {
+		"sounds": [
+			"untamedwilds:deer/alarm_1",
+			"untamedwilds:deer/alarm_2"
+		],
+		"subtitle": "untamedwilds.subtitles.deer.alarm"
+	},
+	"entity.deer.ambient": {
+		"sounds": [
+			"untamedwilds:deer/ambient_1",
+			"untamedwilds:deer/ambient_2",
+			"untamedwilds:deer/ambient_3",
+			"untamedwilds:deer/ambient_4"
+		],
+		"subtitle": "untamedwilds.subtitles.deer.ambient"
+	},
+	"entity.deer.call": {
+		"sounds": [
+			{
+				"name": "untamedwilds:deer/call_1",
+				"stream": true,
+				"attenuation_distance": 48
+			},
+			{
+				"name": "untamedwilds:deer/call_2",
+				"stream": true,
+				"attenuation_distance": 48
+			},
+			{
+				"name": "untamedwilds:deer/call_3",
+				"stream": true,
+				"attenuation_distance": 48
+			},
+			{
+				"name": "untamedwilds:deer/call_4",
+				"stream": true,
+				"attenuation_distance": 48
+			}
+		],
+		"subtitle": "untamedwilds.subtitles.deer.call"
+	},
+	"entity.deer.death": {
+		"sounds": [
+			"untamedwilds:deer/death_1"
+		],
+		"subtitle": "untamedwilds.subtitles.deer.death"
+	},
+	"entity.deer.hurt": {
+		"sounds": [
+			"untamedwilds:deer/hurt_1",
+			"untamedwilds:deer/hurt_2"
+		],
+		"subtitle": "untamedwilds.subtitles.deer.hurt"
+	},
+	"entity.deer.threat": {
+		"sounds": [
+			"untamedwilds:deer/threat_1",
+			"untamedwilds:deer/threat_2"
+		],
+		"subtitle": "untamedwilds.subtitles.deer.threat"
+	},
+	"entity.equid.alarm": {
+		"sounds": [
+			"untamedwilds:equid/alarm_1",
+			"untamedwilds:equid/alarm_2"
+		],
+		"subtitle": "untamedwilds.subtitles.equid.alarm"
+	},
+	"entity.equid.ambient": {
+		"sounds": [
+			"untamedwilds:equid/ambient_1",
+			"untamedwilds:equid/ambient_2",
+			"untamedwilds:equid/ambient_3"
+		],
+		"subtitle": "untamedwilds.subtitles.equid.ambient"
+	},
+	"entity.equid.call": {
+		"sounds": [
+			{
+				"name": "untamedwilds:equid/call_1",
+				"attenuation_distance": 48
+			},
+			{
+				"name": "untamedwilds:equid/call_2",
+				"attenuation_distance": 48
+			}
+		],
+		"subtitle": "untamedwilds.subtitles.equid.call"
+	},
+	"entity.equid.death": {
+		"sounds": [
+			"untamedwilds:equid/death_1"
+		],
+		"subtitle": "untamedwilds.subtitles.equid.death"
+	},
+	"entity.equid.hurt": {
+		"sounds": [
+			"untamedwilds:equid/hurt_1"
+		],
+		"subtitle": "untamedwilds.subtitles.equid.hurt"
+	},
+	"entity.macrauchenia.alarm": {
+		"sounds": [
+			"untamedwilds:macrauchenia/alarm_1",
+			"untamedwilds:macrauchenia/alarm_2"
+		],
+		"subtitle": "untamedwilds.subtitles.macrauchenia.alarm"
+	},
+	"entity.macrauchenia.ambient": {
+		"sounds": [
+			"untamedwilds:macrauchenia/ambient_1",
+			"untamedwilds:macrauchenia/ambient_2",
+			"untamedwilds:macrauchenia/ambient_3"
+		],
+		"subtitle": "untamedwilds.subtitles.macrauchenia.ambient"
+	},
+	"entity.macrauchenia.hurt": {
+		"sounds": [
+			"untamedwilds:macrauchenia/hurt_1"
+		],
+		"subtitle": "untamedwilds.subtitles.macrauchenia.hurt"
+	},
+	"entity.crocodilian.ambient": {
+		"sounds": [
+			"untamedwilds:crocodilian/ambient_1"
+		],
+		"subtitle": "untamedwilds.subtitles.crocodilian.ambient"
+	},
+	"entity.crocodilian.call": {
+		"sounds": [
+			{
+				"name": "untamedwilds:crocodilian/call_1",
+				"attenuation_distance": 48
+			},
+			{
+				"name": "untamedwilds:crocodilian/call_2",
+				"stream": true,
+				"attenuation_distance": 48
+			}
+		],
+		"subtitle": "untamedwilds.subtitles.crocodilian.call"
+	},
+	"entity.crocodilian.death": {
+		"sounds": [
+			"untamedwilds:crocodilian/death_1"
+		],
+		"subtitle": "untamedwilds.subtitles.crocodilian.death"
+	},
+	"entity.crocodilian.hurt": {
+		"sounds": [
+			"untamedwilds:crocodilian/hurt_1",
+			"untamedwilds:crocodilian/hurt_2"
+		],
+		"subtitle": "untamedwilds.subtitles.crocodilian.hurt"
+	},
+	"entity.crocodilian.threat": {
+		"sounds": [
+			"untamedwilds:crocodilian/threat_1",
+			"untamedwilds:crocodilian/threat_2"
+		],
+		"subtitle": "untamedwilds.subtitles.crocodilian.threat"
+	},
+	"entity.dire_wolf.alarm": {
+		"sounds": [
+			"untamedwilds:dire_wolf/alarm_1"
+		],
+		"subtitle": "untamedwilds.subtitles.dire_wolf.alarm"
+	},
+	"entity.dire_wolf.ambient": {
+		"sounds": [
+			"untamedwilds:dire_wolf/ambient_1",
+			"untamedwilds:dire_wolf/ambient_2"
+		],
+		"subtitle": "untamedwilds.subtitles.dire_wolf.ambient"
+	},
+	"entity.dire_wolf.call": {
+		"sounds": [
+			{
+				"name": "untamedwilds:dire_wolf/call_1",
+				"stream": true,
+				"attenuation_distance": 48
+			},
+			{
+				"name": "untamedwilds:dire_wolf/call_2",
+				"stream": true,
+				"attenuation_distance": 48
+			},
+			{
+				"name": "untamedwilds:dire_wolf/call_3",
+				"stream": true,
+				"attenuation_distance": 48
+			}
+		],
+		"subtitle": "untamedwilds.subtitles.dire_wolf.call"
+	},
+	"entity.dire_wolf.death": {
+		"sounds": [
+			"untamedwilds:dire_wolf/death_1"
+		],
+		"subtitle": "untamedwilds.subtitles.dire_wolf.death"
+	},
+	"entity.dire_wolf.hurt": {
+		"sounds": [
+			"untamedwilds:dire_wolf/hurt_1",
+			"untamedwilds:dire_wolf/hurt_2"
+		],
+		"subtitle": "untamedwilds.subtitles.dire_wolf.hurt"
+	},
+	"entity.dire_wolf.threat": {
+		"sounds": [
+			"untamedwilds:dire_wolf/threat_1",
+			"untamedwilds:dire_wolf/threat_2"
+		],
+		"subtitle": "untamedwilds.subtitles.dire_wolf.threat"
+	},
+	"entity.giant_monitor.hurt": {
+		"sounds": [
+			"untamedwilds:giant_monitor/hurt_1"
+		],
+		"subtitle": "untamedwilds.subtitles.giant_monitor.hurt"
+	},
+	"entity.giant_monitor.threat": {
+		"sounds": [
+			"untamedwilds:giant_monitor/threat_1",
+			"untamedwilds:giant_monitor/threat_2"
+		],
+		"subtitle": "untamedwilds.subtitles.giant_monitor.threat"
+	},
+	"entity.monitor.threat": {
+		"sounds": [
+			"untamedwilds:monitor/threat_1"
+		],
+		"subtitle": "untamedwilds.subtitles.monitor.threat"
+	},
+	"entity.tortoise.ambient": {
+		"sounds": [
+			"untamedwilds:tortoise/ambient_1",
+			"untamedwilds:tortoise/ambient_2"
+		],
+		"subtitle": "untamedwilds.subtitles.tortoise.ambient"
+	},
+	"entity.baleen_whale.ambient": {
+		"sounds": [
+			"untamedwilds:baleen_whale/ambient_1",
+			"untamedwilds:baleen_whale/ambient_2"
+		],
+		"subtitle": "untamedwilds.subtitles.baleen_whale.ambient"
+	},
+	"entity.baleen_whale.call": {
+		"sounds": [
+			{
+				"name": "untamedwilds:baleen_whale/call_1",
+				"stream": true,
+				"attenuation_distance": 48
+			},
+			{
+				"name": "untamedwilds:baleen_whale/call_2",
+				"stream": true,
+				"attenuation_distance": 48
+			},
+			{
+				"name": "untamedwilds:baleen_whale/call_3",
+				"stream": true,
+				"attenuation_distance": 48
+			},
+			{
+				"name": "untamedwilds:baleen_whale/call_4",
+				"attenuation_distance": 48
+			}
+		],
+		"subtitle": "untamedwilds.subtitles.baleen_whale.call"
+	},
+	"entity.baleen_whale.death": {
+		"sounds": [
+			"untamedwilds:baleen_whale/death_1"
+		],
+		"subtitle": "untamedwilds.subtitles.baleen_whale.death"
+	},
+	"entity.baleen_whale.hurt": {
+		"sounds": [
+			"untamedwilds:baleen_whale/hurt_1"
+		],
+		"subtitle": "untamedwilds.subtitles.baleen_whale.hurt"
+	},
+	"entity.kangaroo.alarm": {
+		"sounds": [
+			"untamedwilds:kangaroo/alarm_1"
+		],
+		"subtitle": "untamedwilds.subtitles.kangaroo.alarm"
+	},
+	"entity.large_rodent.alarm": {
+		"sounds": [
+			"untamedwilds:large_rodent/alarm_1"
+		],
+		"subtitle": "untamedwilds.subtitles.large_rodent.alarm"
+	},
+	"entity.large_rodent.ambient": {
+		"sounds": [
+			"untamedwilds:large_rodent/ambient_1",
+			"untamedwilds:large_rodent/ambient_2"
+		],
+		"subtitle": "untamedwilds.subtitles.large_rodent.ambient"
+	},
+	"entity.large_rodent.hurt": {
+		"sounds": [
+			"untamedwilds:large_rodent/hurt_1"
+		],
+		"subtitle": "untamedwilds.subtitles.large_rodent.hurt"
+	},
+	"entity.pinniped.ambient": {
+		"sounds": [
+			"untamedwilds:pinniped/ambient_1",
+			"untamedwilds:pinniped/ambient_2",
+			"untamedwilds:pinniped/ambient_3"
+		],
+		"subtitle": "untamedwilds.subtitles.pinniped.ambient"
+	},
+	"entity.pinniped.call": {
+		"sounds": [
+			{
+				"name": "untamedwilds:pinniped/call_1",
+				"stream": true,
+				"attenuation_distance": 48
+			},
+			{
+				"name": "untamedwilds:pinniped/call_2",
+				"attenuation_distance": 48
+			}
+		],
+		"subtitle": "untamedwilds.subtitles.pinniped.call"
+	},
+	"entity.pinniped.death": {
+		"sounds": [
+			"untamedwilds:pinniped/death_1"
+		],
+		"subtitle": "untamedwilds.subtitles.pinniped.death"
+	},
+	"entity.pinniped.hurt": {
+		"sounds": [
+			"untamedwilds:pinniped/hurt_1",
+			"untamedwilds:pinniped/hurt_2"
+		],
+		"subtitle": "untamedwilds.subtitles.pinniped.hurt"
+	},
+	"entity.pinniped.threat": {
+		"sounds": [
+			"untamedwilds:pinniped/threat_1"
+		],
+		"subtitle": "untamedwilds.subtitles.pinniped.threat"
+	},
+	"entity.animal.drink": {
+		"sounds": [
+			"untamedwilds:shared/animal_drink_1",
+			"untamedwilds:shared/animal_drink_2"
+		],
+		"subtitle": "untamedwilds.subtitles.shared.animal_drink"
+	},
+	"entity.carcass.butcher": {
+		"sounds": [
+			"untamedwilds:shared/carcass_butcher_1",
+			"untamedwilds:shared/carcass_butcher_2",
+			"untamedwilds:shared/carcass_butcher_3"
+		],
+		"subtitle": "untamedwilds.subtitles.shared.carcass_butcher"
+	},
+	"entity.grazer.eat": {
+		"sounds": [
+			"untamedwilds:shared/grazer_eat_1",
+			"untamedwilds:shared/grazer_eat_2",
+			"untamedwilds:shared/grazer_eat_3",
+			"untamedwilds:shared/grazer_eat_4",
+			"untamedwilds:shared/grazer_eat_5",
+			"untamedwilds:shared/grazer_eat_6"
+		],
+		"subtitle": "untamedwilds.subtitles.shared.grazer_eat"
+	},
+	"entity.megafauna.step": {
+		"sounds": [
+			"untamedwilds:shared/megafauna_step_1",
+			"untamedwilds:shared/megafauna_step_2",
+			"untamedwilds:shared/megafauna_step_3",
+			"untamedwilds:shared/megafauna_step_4"
+		],
+		"subtitle": "untamedwilds.subtitles.shared.megafauna_step"
+	},
+	"entity.giraffid.ambient": {
+		"sounds": [
+			"untamedwilds:giraffid/ambient_1",
+			"untamedwilds:giraffid/ambient_2",
+			"untamedwilds:giraffid/ambient_3"
+		],
+		"subtitle": "untamedwilds.subtitles.giraffid.ambient"
+	},
+	"entity.giraffid.alarm": {
+		"sounds": [
+			"untamedwilds:giraffid/alarm_1",
+			"untamedwilds:giraffid/alarm_2"
+		],
+		"subtitle": "untamedwilds.subtitles.giraffid.alarm"
+	},
+	"entity.giraffid.hurt": {
+		"sounds": [
+			"untamedwilds:giraffid/hurt_1",
+			"untamedwilds:giraffid/hurt_2"
+		],
+		"subtitle": "untamedwilds.subtitles.giraffid.hurt"
+	},
+	"entity.giraffid.death": {
+		"sounds": [
+			"untamedwilds:giraffid/death_1"
+		],
+		"subtitle": "untamedwilds.subtitles.giraffid.death"
+	},
+	"entity.tapir.call": {
+		"sounds": [
+			{
+				"name": "untamedwilds:tapir/call_1",
+				"attenuation_distance": 48
+			},
+			{
+				"name": "untamedwilds:tapir/call_2",
+				"attenuation_distance": 48
+			}
+		],
+		"subtitle": "untamedwilds.subtitles.tapir.call"
+	},
+	"entity.tapir.ambient": {
+		"sounds": [
+			"untamedwilds:tapir/ambient_1",
+			"untamedwilds:tapir/ambient_2",
+			"untamedwilds:tapir/ambient_3"
+		],
+		"subtitle": "untamedwilds.subtitles.tapir.ambient"
+	},
+	"entity.tapir.hurt": {
+		"sounds": [
+			"untamedwilds:tapir/hurt_1",
+			"untamedwilds:tapir/hurt_2"
+		],
+		"subtitle": "untamedwilds.subtitles.tapir.hurt"
+	},
+	"entity.tapir.death": {
+		"sounds": [
+			"untamedwilds:tapir/death_1"
+		],
+		"subtitle": "untamedwilds.subtitles.tapir.death"
+	},
+	"entity.wildebeest.call": {
+		"sounds": [
+			{
+				"name": "untamedwilds:wildebeest/call_1",
+				"attenuation_distance": 48
+			},
+			{
+				"name": "untamedwilds:wildebeest/call_2",
+				"attenuation_distance": 48
+			}
+		],
+		"subtitle": "untamedwilds.subtitles.wildebeest.call"
+	},
+	"entity.wildebeest.ambient": {
+		"sounds": [
+			"untamedwilds:wildebeest/ambient_1",
+			"untamedwilds:wildebeest/ambient_2",
+			"untamedwilds:wildebeest/ambient_3"
+		],
+		"subtitle": "untamedwilds.subtitles.wildebeest.ambient"
+	},
+	"entity.wildebeest.alarm": {
+		"sounds": [
+			"untamedwilds:wildebeest/alarm_1",
+			"untamedwilds:wildebeest/alarm_2"
+		],
+		"subtitle": "untamedwilds.subtitles.wildebeest.alarm"
+	},
+	"entity.wildebeest.hurt": {
+		"sounds": [
+			"untamedwilds:wildebeest/hurt_1",
+			"untamedwilds:wildebeest/hurt_2"
+		],
+		"subtitle": "untamedwilds.subtitles.wildebeest.hurt"
+	},
+	"entity.wildebeest.death": {
+		"sounds": [
+			"untamedwilds:wildebeest/death_1"
+		],
+		"subtitle": "untamedwilds.subtitles.wildebeest.death"
+	},
+	"entity.softshell_turtle.threat": {
+		"sounds": [
+			"untamedwilds:softshell_turtle/threat_1",
+			"untamedwilds:softshell_turtle/threat_2"
+		],
+		"subtitle": "untamedwilds.subtitles.softshell_turtle.threat"
+	},
+	"entity.tortoise.threat": {
+		"sounds": [
+			"untamedwilds:tortoise/threat_1",
+			"untamedwilds:tortoise/threat_2"
+		],
+		"subtitle": "untamedwilds.subtitles.tortoise.threat"
+	},
+	"entity.kangaroo.ambient": {
+		"sounds": [
+			"untamedwilds:kangaroo/ambient_1",
+			"untamedwilds:kangaroo/ambient_2",
+			"untamedwilds:kangaroo/ambient_3"
+		],
+		"subtitle": "untamedwilds.subtitles.kangaroo.ambient"
+	},
+	"entity.kangaroo.threat": {
+		"sounds": [
+			"untamedwilds:kangaroo/threat_1",
+			"untamedwilds:kangaroo/threat_2"
+		],
+		"subtitle": "untamedwilds.subtitles.kangaroo.threat"
+	},
+	"entity.kangaroo.hurt": {
+		"sounds": [
+			"untamedwilds:kangaroo/hurt_1",
+			"untamedwilds:kangaroo/hurt_2"
+		],
+		"subtitle": "untamedwilds.subtitles.kangaroo.hurt"
+	},
+	"entity.kangaroo.death": {
+		"sounds": [
+			"untamedwilds:kangaroo/death_1"
+		],
+		"subtitle": "untamedwilds.subtitles.kangaroo.death"
+	},
+	"entity.diprotodont.hurt": {
+		"sounds": [
+			"untamedwilds:diprotodont/hurt_1",
+			"untamedwilds:diprotodont/hurt_2"
+		],
+		"subtitle": "untamedwilds.subtitles.diprotodont.hurt"
+	},
+	"entity.diprotodont.death": {
+		"sounds": [
+			"untamedwilds:diprotodont/death_1"
+		],
+		"subtitle": "untamedwilds.subtitles.diprotodont.death"
+	},
+	"entity.antelope.hurt": {
+		"sounds": [
+			"untamedwilds:antelope/hurt_1",
+			"untamedwilds:antelope/hurt_2"
+		],
+		"subtitle": "untamedwilds.subtitles.antelope.hurt"
+	},
+	"entity.antelope.death": {
+		"sounds": [
+			"untamedwilds:antelope/death_1"
+		],
+		"subtitle": "untamedwilds.subtitles.antelope.death"
+	},
+	"entity.macrauchenia.death": {
+		"sounds": [
+			"untamedwilds:macrauchenia/death_1"
+		],
+		"subtitle": "untamedwilds.subtitles.macrauchenia.death"
+	},
+	"entity.large_rodent.death": {
+		"sounds": [
+			"untamedwilds:large_rodent/death_1"
+		],
+		"subtitle": "untamedwilds.subtitles.large_rodent.death"
 	}
 }

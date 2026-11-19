@@ -1,0 +1,22 @@
+{
+    "name": "Shovelnose Catfish",
+    "icon": "untamedwilds:textures/icon/catfish/shovelnose.png",
+    "category": "untamedwilds:catfish_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Shovelnose Catfish",
+            "text": "The barred sorubim ($(o)Pseudoplatystoma fasciatum$()), or tiger shovelnose catfish, is a predatory catfish of the rivers of the Guianas in northern South America.$(br2)It has a long, flat, shovel-shaped head with long whiskers, and a grey body with dark vertical bars and spots above a white belly.$(br2)It hunts fish at night. Until 2007 its name also covered the similar tiger shovelnoses of the Amazon and Orinoco, which are now separate species."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:catfish{Variant: 3, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Shovelnose Catfish",
+            "text": "Relative Size: ★☆☆☆☆$(br2)Always active$(br2)1 Color$(br2)Favourite Food: Chum$(br2)Number of Offspring: 5$(br2)Growth time: 6 Days"
+        }
+    ]
+}

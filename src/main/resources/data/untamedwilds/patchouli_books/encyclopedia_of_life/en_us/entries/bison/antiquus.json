@@ -1,0 +1,22 @@
+{
+    "name": "Ancient Bison",
+    "icon": "untamedwilds:textures/icon/bison/antiquus.png",
+    "category": "untamedwilds:bison_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Ancient Bison",
+            "text": "The ancient bison ($(o)Bison antiquus$()) roamed the grasslands and open woodlands of North America, from Canada to Central America, during the Late Pleistocene.$(br2)It was larger and longer-legged than the living American bison, with bigger, straighter horns that spanned about 90 centimetres.$(br2)Clovis and Folsom hunters trapped whole herds in steep-sided gullies. Around 10,000 years ago it gave rise to the modern American bison."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:bison{Variant: 13, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Ancient Bison",
+            "text": "Relative Size: ★★★★☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Junegrass$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

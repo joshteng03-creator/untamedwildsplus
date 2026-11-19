@@ -1,0 +1,22 @@
+{
+    "name": "Hemiauchenia",
+    "icon": "untamedwilds:textures/icon/camel/hemiauchenia.png",
+    "category": "untamedwilds:camel_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Hemiauchenia",
+            "text": "The Hemiauchenia ($(o)Hemiauchenia macrocephala$()) is an extinct camelid that lived across North America from the Pliocene until the end of the Pleistocene.$(br2)It belonged to the same branch of the camel family as the llamas, which originated in North America before spreading south.$(br2)It had long, slender legs, and is thought to have been a capable long-distance traveller over open country."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:camel{Variant: 11, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Hemiauchenia",
+            "text": "Relative Size: ★★★☆☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Cactus$(br2)Number of Offspring: 1$(br2)Growth time: 13 Days"
+        }
+    ]
+}

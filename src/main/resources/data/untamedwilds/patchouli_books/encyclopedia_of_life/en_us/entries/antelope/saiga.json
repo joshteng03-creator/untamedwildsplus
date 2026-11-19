@@ -1,0 +1,22 @@
+{
+    "name": "Saiga",
+    "icon": "untamedwilds:textures/icon/antelope/saiga.png",
+    "category": "untamedwilds:antelope_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Saiga",
+            "text": "The saiga ($(o)Saiga tatarica$()) is an antelope of the dry steppes and semi-deserts of Central Asia, found today mainly in Kazakhstan, Russia and Mongolia.$(br2)Its most striking feature is a large, flexible, drooping nose, which filters out dust in summer and warms cold air in winter.$(br2)During the Pleistocene, saiga roamed the mammoth steppe from western Europe to Alaska."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:antelope{Variant: 0, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Saiga",
+            "text": "Relative Size: ★★☆☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 6 Days"
+        }
+    ]
+}

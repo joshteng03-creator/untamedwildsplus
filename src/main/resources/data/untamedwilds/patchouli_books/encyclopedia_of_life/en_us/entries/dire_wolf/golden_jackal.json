@@ -1,0 +1,22 @@
+{
+    "name": "Golden Jackal",
+    "icon": "untamedwilds:textures/icon/dire_wolf/golden_jackal.png",
+    "category": "untamedwilds:dire_wolf_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Golden Jackal",
+            "text": "The golden jackal ($(o)Canis aureus$()) lives in south-eastern Europe, the Middle East and southern Asia.$(br2)It is a small, slim canid with a golden to tawny coat, a grizzled darker saddle on its back, a pale throat and belly, and a bushy, dark-tipped tail.$(br2)An adaptable omnivore, it has spread north-west across Europe in recent decades, reaching as far as the Baltic states and Denmark."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:dire_wolf{Variant: 12, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Golden Jackal",
+            "text": "Relative Size: ★☆☆☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 3$(br2)Growth time: 5 Days"
+        }
+    ]
+}

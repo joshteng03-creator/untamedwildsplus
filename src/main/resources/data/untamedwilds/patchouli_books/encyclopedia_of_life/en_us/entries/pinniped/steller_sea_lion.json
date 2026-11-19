@@ -1,0 +1,22 @@
+{
+    "name": "Steller Sea Lion",
+    "icon": "untamedwilds:textures/icon/pinniped/steller_sea_lion.png",
+    "category": "untamedwilds:pinniped_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Steller Sea Lion",
+            "text": "The Steller sea lion ($(o)Eumetopias jubatus$()) is the largest sea lion, found on the rocky coasts of the northern Pacific.$(br2)Unlike true seals, it can turn its hind flippers forward and walk on all four limbs, and it swims by beating its long front flippers.$(br2)Bulls are much larger than females, with a thick mane-like neck."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:pinniped{Variant: 4, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Steller Sea Lion",
+            "text": "Relative Size: ★★★★☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Raw Cod$(br2)Number of Offspring: 1$(br2)Growth time: 8 Days"
+        }
+    ]
+}

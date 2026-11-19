@@ -1,0 +1,6 @@
+{
+    "name": "Kangaroos",
+    "description": "Kangaroos are herbivore Mammals from Australia and New Guinea, marsupials that move by hopping on their enormous hind legs.$(br2)They balance on a thick, muscular tail, which also serves as a fifth leg when they move slowly. Females carry their young, called joeys, in a forward-facing pouch.$(br2)During the Pleistocene, giant kangaroos lived alongside today's species, including short-faced browsers that may have walked upright.",
+    "icon": "untamedwilds:textures/icon/kangaroo/category.png",
+    "parent": "untamedwilds:taxon_mammal"
+}

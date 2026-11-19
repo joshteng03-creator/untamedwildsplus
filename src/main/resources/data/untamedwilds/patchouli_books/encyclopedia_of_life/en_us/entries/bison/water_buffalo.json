@@ -1,0 +1,22 @@
+{
+    "name": "Wild Water Buffalo",
+    "icon": "untamedwilds:textures/icon/bison/water_buffalo.png",
+    "category": "untamedwilds:bison_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Wild Water Buffalo",
+            "text": "The wild water buffalo ($(o)Bubalus arnee$()) is a large bovine native to South and Southeast Asia, where it lives in wet grasslands, swamps and river valleys.$(br2)It has the widest horn span of any living bovid, its backward-sweeping horns spreading up to two metres.$(br2)Wild water buffalo spend much of the day wallowing in mud and water. The species is endangered, with only a few thousand left in the wild."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:bison{Variant: 10, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Wild Water Buffalo",
+            "text": "Relative Size: ★★★★☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Junegrass$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

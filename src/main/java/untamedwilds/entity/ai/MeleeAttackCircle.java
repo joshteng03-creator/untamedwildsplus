@@ -97,6 +97,12 @@ public class MeleeAttackCircle extends Goal {
         this.attacker.getNavigation().stop();
     }
 
+    /** 2.8.0: parity-proof replacement for a tickCount % 400 gate (see GoalTimer). */
+    private final untamedwilds.util.GoalTimer cycleTimer = new untamedwilds.util.GoalTimer(400, false);
+
+    /** 2.8.0: parity-proof replacement for a tickCount % 10 gate (see GoalTimer). */
+    private final untamedwilds.util.GoalTimer repathTimer = new untamedwilds.util.GoalTimer(10, false);
+
     public void tick() {
         LivingEntity livingentity = this.attacker.getTarget();
         double d0 = this.attacker.distanceToSqr(livingentity.getX(), livingentity.getBoundingBox().minY, livingentity.getZ());
@@ -107,11 +113,11 @@ public class MeleeAttackCircle extends Goal {
             this.targetY = livingentity.getBoundingBox().minY;
             this.targetZ = livingentity.getZ();
             // Circling
-            if (this.attacker.tickCount % 400 == 0) {
+            if (this.cycleTimer.ready(this.attacker)) {
                 this.invert *= -1;
             }
             if (this.attacker.tickCount % 400 > 80) {
-                if (this.attacker.getTarget() != null && this.attacker.tickCount % 10 == 0) {
+                if (this.attacker.getTarget() != null && this.repathTimer.ready(this.attacker)) {
                     double x = this.attacker.getTarget().getX() + Math.cos(this.attacker.tickCount / 60F) * 10 * this.invert;
                     double z = this.attacker.getTarget().getZ() + Math.sin(this.attacker.tickCount / 60F) * 10 * this.invert;
                     this.attacker.getNavigation().moveTo(x, this.attacker.getTarget().getY(), z, 2.3F);

@@ -1,0 +1,6 @@
+[
+ ["B1", "diprotodont", "ambient", "diprotodont/fs-471508", 3.5, 6.5, "unidentified bush creature, recordist believed koala bellow (faint)", {"hp": 80, "note": "faint field recording; species not confirmed by recordist"}],
+ ["B1", "diprotodont", "ambient", "diprotodont/fs-471508", 7.5, 10.5, "unidentified bush creature, recordist believed koala bellow (faint)", {"hp": 80, "note": "faint field recording; species not confirmed by recordist"}],
+ ["B1", "diprotodont", "threat", "diprotodont/fs-471508", 14.3, 16.3, "unidentified bush creature, recordist believed koala (louder burst)", {"hp": 80, "note": "species not confirmed by recordist"}],
+ ["B1", "glyptodont", "ambient", "glyptodont/fs-864329", 0.0, null, "common warthog sniffing with grunt (zoo)", {"hp": 80}]
+]

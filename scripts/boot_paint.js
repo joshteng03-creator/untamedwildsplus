@@ -9,6 +9,7 @@
   window.RIGTEX = Texture.all[0];
 
   eval(require('fs').readFileSync(window.SP + 'paintlib.js', 'utf8'));
+  var MM = window.MM;
 
   MM.build();
   MM.bounds();

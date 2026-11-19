@@ -1,0 +1,22 @@
+{
+    "name": "Crocus Clam",
+    "icon": "untamedwilds:textures/icon/giant_clam/crocea.png",
+    "category": "untamedwilds:giant_clam_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Crocus Clam",
+            "text": "The boring clam ($(o)Tridacna crocea$()) is the smallest giant clam, found on the shallow coral reefs of the Indo-Pacific.$(br2)Its shell is rarely more than 15 centimetres long, and its fleshy mantle is brilliant blue, green, gold or brown, often patterned with spots and streaks.$(br2)It grinds its way into coral heads until only the colourful mantle shows. Algae living in the mantle feed it with sugars made from sunlight."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:giant_clam{Variant: 4, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Crocus Clam",
+            "text": "Relative Size: ★☆☆☆☆$(br2)Always active$(br2)1 Color$(br2)Favourite Food: Chum$(br2)Number of Offspring: 4$(br2)Growth time: 6 Days"
+        }
+    ]
+}

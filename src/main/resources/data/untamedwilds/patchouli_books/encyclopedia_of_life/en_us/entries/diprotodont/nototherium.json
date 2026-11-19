@@ -1,0 +1,22 @@
+{
+    "name": "Nototherium",
+    "icon": "untamedwilds:textures/icon/diprotodont/nototherium.png",
+    "category": "untamedwilds:diprotodont_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Nototherium",
+            "text": "$(o)Nototherium$() ($(o)Nototherium mitchelli$()) was a stocky, short-faced diprotodont that lived in eastern Australia during the Pleistocene.$(br2)It was smaller than Diprotodon, with a broad muzzle suited to cropping low vegetation.$(br2)Its remains are often found alongside those of other large Pleistocene marsupials."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:diprotodont{Variant: 2, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Nototherium",
+            "text": "Relative Size: ★★★★☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 12 Days"
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "name": "Barbary Lion",
+    "icon": "untamedwilds:textures/icon/big_cat/barbary_lion.png",
+    "category": "untamedwilds:big_cat_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Barbary Lion",
+            "text": "The Barbary lion ($(o)Panthera leo leo$()) is a population of lion that once lived in North Africa, from Morocco to Egypt, including the Atlas Mountains.$(br2)Lions from this region were captured in great numbers for the Roman arenas. Historical accounts describe males with heavy, dark manes.$(br2)Persecuted for centuries, the Barbary lion was hunted out of the wild by the middle of the twentieth century."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:big_cat{Variant: 13, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Barbary Lion",
+            "text": "Relative Size: ★★★☆☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 3$(br2)Growth time: 6 Days"
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "name": "Palorchestes",
+    "icon": "untamedwilds:textures/icon/tapir/palorchestes.png",
+    "category": "untamedwilds:tapir_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Palorchestes",
+            "text": "The Palorchestes ($(o)Palorchestes azael$()) is an extinct marsupial that lived in Australia during the Pleistocene.$(br2)Despite its tapir-like build, it was not a tapir at all, but a relative of wombats and Diprotodon. It was first thought to be a giant kangaroo, hence its name, meaning \"ancient leaper\".$(br2)Palorchestes was a herbivore with powerful forelimbs armed with long claws, likely used to strip or pull down vegetation."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:tapir{Variant: 6, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Palorchestes",
+            "text": "Relative Size: ★★★★☆$(br2)Active during Nighttime$(br2)1 Color$(br2)Favourite Food: Apple$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

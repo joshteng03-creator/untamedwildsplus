@@ -1,0 +1,10 @@
+[
+  {"type": "bison", "name": "antiquus", "display": "Ancient Bison", "sciname": "Bison antiquus",
+   "entry": {"scale": 1.36, "rarity": 3, "activityType": "diurnal", "favourite_food": "untamedwilds:flora_junegrass",
+             "health": 75, "attack": 8, "flags": {"groupCount": 16},
+             "spawnBiomes": [["category|plains"], ["category|savanna"]], "ecology": {"speed": 0.24}}},
+  {"type": "bison", "name": "bootherium", "display": "Helmeted Musk Ox", "sciname": "Bootherium bombifrons",
+   "entry": {"scale": 1.2, "rarity": 2, "activityType": "diurnal", "favourite_food": "untamedwilds:flora_junegrass",
+             "health": 60, "attack": 7, "flags": {"groupCount": 8},
+             "spawnBiomes": [["category|taiga"], ["category|forest"], ["category|plains"]], "ecology": {"speed": 0.22}}}
+]

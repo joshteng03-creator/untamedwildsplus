@@ -1,0 +1,22 @@
+{
+    "name": "Shasta Ground Sloth",
+    "icon": "untamedwilds:textures/icon/ground_sloth/nothrotheriops.png",
+    "category": "untamedwilds:ground_sloth_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Shasta Ground Sloth",
+            "text": "The Shasta ground sloth ($(o)Nothrotheriops shastensis$()) was a small ground sloth of the deserts and canyons of south-western North America.$(br2)It weighed about 250 kilograms, with a narrow snout, a coarse shaggy coat, long curved claws and a thick tail it leaned on when rearing up to browse.$(br2)Its dried dung, preserved in caves such as Rampart Cave in the Grand Canyon, shows it ate yucca, globemallow and Joshua tree. It vanished about 13,000 years ago."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:ground_sloth{Variant: 7, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Shasta Ground Sloth",
+            "text": "Relative Size: ★★★☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 14 Days"
+        }
+    ]
+}

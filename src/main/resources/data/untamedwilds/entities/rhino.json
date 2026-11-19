@@ -6,9 +6,12 @@
   "activityType":"cathemeral",
   "favourite_food":"minecraft:melon_slice",
   "sounds":{
-    "ambient":"minecraft:entity.cow.ambient",
-    "hurt":"minecraft:entity.cow.hurt",
-    "death":"minecraft:entity.cow.death"
+    "ambient":"untamedwilds:entity.rhino.ambient",
+    "hurt":"untamedwilds:entity.rhino.hurt",
+    "death":"untamedwilds:entity.rhino.death",
+    "threat":"untamedwilds:entity.rhino.threat",
+    "alarm":"untamedwilds:entity.rhino.alarm",
+    "step":"untamedwilds:entity.megafauna.step"
   },
   "flags":{
     "stubHorn":0
@@ -52,7 +55,7 @@
     {
       "name":"javan",
       "variant":2,
-      "scale":0.8,
+      "scale":0.977,
       "rarity":1,
       "attack":6,
       "health":45,
@@ -84,7 +87,7 @@
     {
       "name":"white",
       "variant":4,
-      "scale":1,
+      "scale":1.099,
       "rarity":2,
       "attack":10,
       "health":60,

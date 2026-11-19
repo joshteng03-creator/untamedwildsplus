@@ -1,0 +1,22 @@
+{
+    "name": "Marsh Deer",
+    "icon": "untamedwilds:textures/icon/deer/marsh_deer.png",
+    "category": "untamedwilds:deer_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Marsh Deer",
+            "text": "The marsh deer ($(o)Blastocerus dichotomus$()) is the largest deer in South America, living in the wetlands and floodplains of the continent's centre, from Brazil to northern Argentina.$(br2)Its hooves are long and can spread widely, supported by membranes between the toes that help it walk on soft, waterlogged ground.$(br2)Marsh deer are strong swimmers and feed mainly on aquatic and marshland plants."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:deer{Variant: 5, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Marsh Deer",
+            "text": "Relative Size: ★★★☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

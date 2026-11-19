@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:shield"
+    },
+    {
+      "item": "untamedwilds:material_scute"
+    },
+    {
+      "item": "untamedwilds:material_scute"
+    }
+  ],
+  "result": {
+    "item": "untamedwilds:carapace_shield"
+  }
+}

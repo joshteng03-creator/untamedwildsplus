@@ -140,6 +140,9 @@
         // spots fade out on the belly and off the rump, as they do on a real fawn coat
         dot *= MM.smooth(15.0, 20.0, p.y) * (1 - MM.smooth(12.0, 20.0, p.z));
         if (limb) dot *= 0.25;
+        // the rows are laid out in z/y, so on a face that looks along z (chest front, rump)
+        // every cell collapses into a horizontal bar -- damp them there
+        if (o.face === 'north' || o.face === 'south' || o.face === 'front' || o.face === 'back') dot *= 0.15;
         col = MM.mix(col, pale, S.spotAmt * Math.max(0, Math.min(1, dot)));
       }
 

@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "wear=0": {
+      "model": "untamedwilds:block/salt_lick_0"
+    },
+    "wear=1": {
+      "model": "untamedwilds:block/salt_lick_1"
+    },
+    "wear=2": {
+      "model": "untamedwilds:block/salt_lick_2"
+    },
+    "wear=3": {
+      "model": "untamedwilds:block/salt_lick_3"
+    }
+  }
+}

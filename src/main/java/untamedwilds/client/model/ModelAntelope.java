@@ -46,6 +46,7 @@ public class ModelAntelope extends AdvancedEntityModel<EntityAntelope> {
     private static final int GEMSBOK = 6;
     private static final int SABLE = 7;
     private static final int BLUEBUCK = 8;
+    private static final int IMPALA = 9;
 
     private final AdvancedModelBox body_barrel;
     private final AdvancedModelBox body_chest;
@@ -84,6 +85,12 @@ public class ModelAntelope extends AdvancedEntityModel<EntityAntelope> {
     private final AdvancedModelBox scimitar_3_right;
     private final AdvancedModelBox neck_mane;
     private final AdvancedModelBox dewlap;
+    private final AdvancedModelBox lyre_1_left;
+    private final AdvancedModelBox lyre_2_left;
+    private final AdvancedModelBox lyre_3_left;
+    private final AdvancedModelBox lyre_1_right;
+    private final AdvancedModelBox lyre_2_right;
+    private final AdvancedModelBox lyre_3_right;
     private final AdvancedModelBox arm_left_1;
     private final AdvancedModelBox arm_left_2;
     private final AdvancedModelBox arm_left_3;
@@ -253,6 +260,30 @@ public class ModelAntelope extends AdvancedEntityModel<EntityAntelope> {
         this.dewlap.setRotationPoint(0.0F, -3.0F, -3.0F);
         this.dewlap.addBox(-1.6000F, -1.0F, -1.5000F, 3.2000F, 7.5000F, 2.2000F, 0.0F);
         this.setRotateAngle(dewlap, -0.1396F, 0.0F, 0.0F);
+        this.lyre_1_left = new AdvancedModelBox(this, 227, 15);
+        this.lyre_1_left.setRotationPoint(1.0500F, -3.0F, -1.6000F);
+        this.lyre_1_left.addBox(-0.5600F, -5.2000F, -0.7600F, 1.1200F, 6.0F, 1.5200F, 0.0F);
+        this.setRotateAngle(lyre_1_left, -0.5585F, 0.0F, 0.2793F);
+        this.lyre_2_left = new AdvancedModelBox(this, 239, 15);
+        this.lyre_2_left.setRotationPoint(0.0F, -5.2000F, 0.0F);
+        this.lyre_2_left.addBox(-0.4500F, -4.6000F, -0.6000F, 0.9000F, 5.4000F, 1.2000F, 0.0F);
+        this.setRotateAngle(lyre_2_left, 0.2793F, 0.2094F, 0.1745F);
+        this.lyre_3_left = new AdvancedModelBox(this, 252, 0);
+        this.lyre_3_left.setRotationPoint(0.0F, -4.6000F, 0.0F);
+        this.lyre_3_left.addBox(-0.3400F, -3.6000F, -0.5000F, 0.6800F, 4.4000F, 1.0F, 0.0F);
+        this.setRotateAngle(lyre_3_left, 0.4189F, 0.3142F, -0.7330F);
+        this.lyre_1_right = new AdvancedModelBox(this, 233, 15);
+        this.lyre_1_right.setRotationPoint(-1.0500F, -3.0F, -1.6000F);
+        this.lyre_1_right.addBox(-0.5600F, -5.2000F, -0.7600F, 1.1200F, 6.0F, 1.5200F, 0.0F);
+        this.setRotateAngle(lyre_1_right, -0.5585F, 0.0F, -0.2793F);
+        this.lyre_2_right = new AdvancedModelBox(this, 244, 15);
+        this.lyre_2_right.setRotationPoint(0.0F, -5.2000F, 0.0F);
+        this.lyre_2_right.addBox(-0.4500F, -4.6000F, -0.6000F, 0.9000F, 5.4000F, 1.2000F, 0.0F);
+        this.setRotateAngle(lyre_2_right, 0.2793F, -0.2094F, -0.1745F);
+        this.lyre_3_right = new AdvancedModelBox(this, 252, 6);
+        this.lyre_3_right.setRotationPoint(0.0F, -4.6000F, 0.0F);
+        this.lyre_3_right.addBox(-0.3400F, -3.6000F, -0.5000F, 0.6800F, 4.4000F, 1.0F, 0.0F);
+        this.setRotateAngle(lyre_3_right, 0.4189F, -0.3142F, 0.7330F);
         this.arm_left_1 = new AdvancedModelBox(this, 206, 0);
         this.arm_left_1.setRotationPoint(3.1000F, -0.4000F, 0.6000F);
         this.arm_left_1.addBox(-1.9000F, -0.4000F, -3.2000F, 3.8000F, 9.6000F, 6.4000F, 0.0F);
@@ -366,6 +397,12 @@ public class ModelAntelope extends AdvancedEntityModel<EntityAntelope> {
         this.scimitar_2_right.addChild(this.scimitar_3_right);
         this.neck.addChild(this.neck_mane);
         this.neck_base.addChild(this.dewlap);
+        this.head.addChild(this.lyre_1_left);
+        this.lyre_1_left.addChild(this.lyre_2_left);
+        this.lyre_2_left.addChild(this.lyre_3_left);
+        this.head.addChild(this.lyre_1_right);
+        this.lyre_1_right.addChild(this.lyre_2_right);
+        this.lyre_2_right.addChild(this.lyre_3_right);
         this.body_chest.addChild(this.arm_left_1);
         this.arm_left_1.addChild(this.arm_left_2);
         this.arm_left_2.addChild(this.arm_left_3);
@@ -441,6 +478,12 @@ public class ModelAntelope extends AdvancedEntityModel<EntityAntelope> {
             scimitar_3_right,
             neck_mane,
             dewlap,
+            lyre_1_left,
+            lyre_2_left,
+            lyre_3_left,
+            lyre_1_right,
+            lyre_2_right,
+            lyre_3_right,
             arm_left_1,
             arm_left_2,
             arm_left_3,
@@ -468,6 +511,88 @@ public class ModelAntelope extends AdvancedEntityModel<EntityAntelope> {
     private void animate(IAnimatedEntity entityIn) {
         EntityAntelope antelope = (EntityAntelope) entityIn;
         animator.update(antelope);
+        // <gen:idle-poses> 2.8.0: SOLVED by scripts/pose_reach.py against this model's own boxes (muzzle to the grass / the
+        // water line beyond the bank, every head part and horn family clear of the ground, nothing through the torso).
+        // Regenerate, never hand-edit: python scripts/gen_keyframes.py antelope
+        // EAT (40t, GrazeGoal's mouthful): head down to the grass, a cropping lift, back down
+        animator.setAnimation(EntityAntelope.EAT);
+        animator.startKeyframe(10);
+        this.rotate(animator, neck_base, 63.3F, 0.0F, 0.0F);
+        this.rotate(animator, neck, 16.8F, 0.0F, 0.0F);
+        this.rotate(animator, head, 2.4F, 0.0F, 0.0F);
+        this.rotate(animator, muzzle, 5.9F, 0.0F, 0.0F);
+        animator.move(neck_base, 0.0F, 5.6F, 0.0F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_base, 63.3F, 0.0F, 0.0F);
+        this.rotate(animator, neck, 16.8F, 0.0F, 0.0F);
+        this.rotate(animator, head, -3.6F, 0.0F, 0.0F);
+        this.rotate(animator, muzzle, 5.9F, 0.0F, 0.0F);
+        animator.move(neck_base, 0.0F, 5.6F, 0.0F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_base, 63.3F, 0.0F, 0.0F);
+        this.rotate(animator, neck, 16.8F, 0.0F, 0.0F);
+        this.rotate(animator, head, 2.4F, 0.0F, 0.0F);
+        this.rotate(animator, muzzle, 5.9F, 0.0F, 0.0F);
+        animator.move(neck_base, 0.0F, 5.6F, 0.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(10);
+        animator.resetKeyframe(10);
+        // DRINK (100t, DrinkGoal): muzzle to the water past the bank edge, two swallows lifting the head
+        animator.setAnimation(EntityAntelope.DRINK);
+        animator.startKeyframe(15);
+        this.rotate(animator, neck_base, 64.9F, 0.0F, 0.0F);
+        this.rotate(animator, neck, 21.0F, 0.0F, 0.0F);
+        this.rotate(animator, head, 2.5F, 0.0F, 0.0F);
+        this.rotate(animator, muzzle, 3.8F, 0.0F, 0.0F);
+        animator.move(neck_base, 0.0F, 6.0F, -1.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(20);
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_base, 64.9F, 0.0F, 0.0F);
+        this.rotate(animator, neck, 21.0F, 0.0F, 0.0F);
+        this.rotate(animator, head, -2.5F, 0.0F, 0.0F);
+        this.rotate(animator, muzzle, 3.8F, 0.0F, 0.0F);
+        animator.move(neck_base, 0.0F, 6.0F, -1.0F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_base, 64.9F, 0.0F, 0.0F);
+        this.rotate(animator, neck, 21.0F, 0.0F, 0.0F);
+        this.rotate(animator, head, 2.5F, 0.0F, 0.0F);
+        this.rotate(animator, muzzle, 3.8F, 0.0F, 0.0F);
+        animator.move(neck_base, 0.0F, 6.0F, -1.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(20);
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_base, 64.9F, 0.0F, 0.0F);
+        this.rotate(animator, neck, 21.0F, 0.0F, 0.0F);
+        this.rotate(animator, head, -2.5F, 0.0F, 0.0F);
+        this.rotate(animator, muzzle, 3.8F, 0.0F, 0.0F);
+        animator.move(neck_base, 0.0F, 6.0F, -1.0F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_base, 64.9F, 0.0F, 0.0F);
+        this.rotate(animator, neck, 21.0F, 0.0F, 0.0F);
+        this.rotate(animator, head, 2.5F, 0.0F, 0.0F);
+        this.rotate(animator, muzzle, 3.8F, 0.0F, 0.0F);
+        animator.move(neck_base, 0.0F, 6.0F, -1.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(10);
+        animator.resetKeyframe(15);
+        // ALERT (40t, AlertGoal): head raised, ears up, staring at the threat; repeats while the alert lasts
+        animator.setAnimation(EntityAntelope.ALERT);
+        animator.startKeyframe(8);
+        this.rotate(animator, neck_base, -21.5F, 0.0F, 0.0F);
+        this.rotate(animator, neck, -13.9F, 0.0F, 0.0F);
+        this.rotate(animator, head, 3.4F, 0.0F, 0.0F);
+        this.rotate(animator, muzzle, 12.0F, 0.0F, 0.0F);
+        this.rotate(animator, ear_left, 25.0F, 0.0F, 0.0F);
+        this.rotate(animator, ear_right, 25.0F, 0.0F, 0.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(24);
+        animator.resetKeyframe(8);
+        // </gen:idle-poses>
 
         // Threat display: an antelope does not rear, it drops the neck to present the horns
         // and swings the head laterally while stamping a forefoot -- the "broadside" display.
@@ -544,6 +669,10 @@ public class ModelAntelope extends AdvancedEntityModel<EntityAntelope> {
         this.scimitar_1_right.showModel = scimitar;
         this.dewlap.showModel = variant == GIANT_ELAND;
         this.neck_mane.showModel = variant == GIANT_ELAND || variant == SABLE;
+        // LYRE (Phase 4.7): impala RAMS only -- ewes are hornless, and calves grow theirs later
+        boolean lyre = variant == IMPALA && antelope.isMale() && !antelope.isBaby();
+        this.lyre_1_left.showModel = lyre;
+        this.lyre_1_right.showModel = lyre;
 
         // SPIRAL is authored at giant-eland proportions and SCIMITAR at sable's, because a
         // uniform scale can change SIZE but never SHAPE -- so the biggest member of each

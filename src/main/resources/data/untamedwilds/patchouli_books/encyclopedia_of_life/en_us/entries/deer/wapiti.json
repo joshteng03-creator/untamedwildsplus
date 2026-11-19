@@ -1,0 +1,22 @@
+{
+    "name": "Wapiti",
+    "icon": "untamedwilds:textures/icon/deer/wapiti.png",
+    "category": "untamedwilds:deer_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Wapiti",
+            "text": "The wapiti ($(o)Cervus canadensis$()), also called the elk in North America, is one of the largest deer, found in the forests and grasslands of North America and Central and East Asia.$(br2)During the autumn rut, bulls produce a loud, high-pitched call known as bugling to attract cows and challenge rivals.$(br2)Wapiti gather in large herds, especially in winter, and graze on grasses, sedges and shrubs."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:deer{Variant: 3, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Wapiti",
+            "text": "Relative Size: ★★★☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

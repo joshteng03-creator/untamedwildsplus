@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=south": {
+      "model": "untamedwilds:block/species_placard"
+    },
+    "facing=west": {
+      "model": "untamedwilds:block/species_placard",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "untamedwilds:block/species_placard",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "untamedwilds:block/species_placard",
+      "y": 270
+    }
+  }
+}

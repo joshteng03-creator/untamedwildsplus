@@ -1,0 +1,22 @@
+{
+    "name": "Sambar",
+    "icon": "untamedwilds:textures/icon/deer/sambar.png",
+    "category": "untamedwilds:deer_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Sambar",
+            "text": "The sambar ($(o)Rusa unicolor$()) is a large deer native to the forests of South Asia, southern China and Southeast Asia.$(br2)It has a coarse, dark brown coat, and stags carry long, three-tined antlers.$(br2)Sambar are mostly active at dusk and during the night, rarely stray far from water, and are one of the most important prey animals of the tiger."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:deer{Variant: 15, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Sambar",
+            "text": "Relative Size: ★★★☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

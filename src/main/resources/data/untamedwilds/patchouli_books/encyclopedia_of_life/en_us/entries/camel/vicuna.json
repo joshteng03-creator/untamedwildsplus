@@ -1,0 +1,22 @@
+{
+    "name": "Vicuña",
+    "icon": "untamedwilds:textures/icon/camel/vicuna.png",
+    "category": "untamedwilds:camel_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Vicuña",
+            "text": "The vicuña ($(o)Vicugna vicugna$()) is a wild camelid native to the high Andes of South America, living in alpine grasslands at elevations above 3,000 metres.$(br2)It is the smallest living camelid and the wild ancestor of the alpaca.$(br2)Its wool is extremely fine and warm. Once hunted close to extinction for it, the vicuña has recovered under protection and is the national animal of Peru."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:camel{Variant: 6, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Vicuña",
+            "text": "Relative Size: ★★☆☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Junegrass$(br2)Number of Offspring: 1$(br2)Growth time: 13 Days"
+        }
+    ]
+}

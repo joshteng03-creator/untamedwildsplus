@@ -7,7 +7,7 @@
     "ambient":"untamedwilds:entity.big_cat.ambient",
     "hurt":"untamedwilds:entity.big_cat.hurt",
     "death":"untamedwilds:entity.big_cat.death",
-    "threat":"untamedwilds:entity.big_cat.warning"
+    "threat":"untamedwilds:entity.big_cat.ambient"
   },
   "flags":{
     "fluffyTail":0,
@@ -162,6 +162,12 @@
       "spawnBiomes":[
         [
           "category|jungle"
+        ],
+        [
+          "category|savanna"
+        ],
+        [
+          "category|forest"
         ]
       ],
       "ecology":{
@@ -212,7 +218,7 @@
     {
       "name":"sabertooth",
       "variant":6,
-      "scale":1,
+      "scale":1.059,
       "rarity":1,
       "breeding":"ALL",
       "growing_time":6,
@@ -531,6 +537,73 @@
           "grazer",
           "browser",
           "megafauna"
+        ]
+      }
+    },
+    {
+      "name":"smilodon_fatalis",
+      "variant":16,
+      "scale":0.92,
+      "rarity":1,
+      "breeding":"ALL",
+      "growing_time":6,
+      "offspring":2,
+      "activityType":"cathemeral",
+      "favourite_food":"minecraft:beef",
+      "attack":10,
+      "health":46,
+      "flags":{
+        "hasSabreFangs":1,
+        "groupCount":3
+      },
+      "spawnBiomes":[
+        [
+          "category|plains"
+        ],
+        [
+          "category|forest"
+        ]
+      ],
+      "ecology":{
+        "speed":0.25,
+        "diet":[
+          "grazer",
+          "browser",
+          "megafauna"
+        ]
+      }
+    },
+    {
+      "name":"clouded_leopard",
+      "variant":17,
+      "scale":0.48,
+      "rarity":3,
+      "breeding":"ALL",
+      "growing_time":5,
+      "offspring":2,
+      "activityType":"nocturnal",
+      "favourite_food":"minecraft:chicken",
+      "attack":5,
+      "health":22,
+      "sounds":{
+        "ambient":"untamedwilds:entity.big_cat.ambient_meow"
+      },
+      "flags":{
+        "groupCount":1
+      },
+      "spawnBiomes":[
+        [
+          "category|jungle"
+        ],
+        [
+          "category|forest"
+        ]
+      ],
+      "ecology":{
+        "speed":0.28,
+        "diet":[
+          "small_game",
+          "browser"
         ]
       }
     }

@@ -1,0 +1,22 @@
+{
+    "name": "Fallow Deer",
+    "icon": "untamedwilds:textures/icon/deer/fallow.png",
+    "category": "untamedwilds:deer_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Fallow Deer",
+            "text": "The fallow deer ($(o)Dama dama$()) is a medium-sized deer native to the eastern Mediterranean and Anatolia, introduced since ancient times across Europe and beyond.$(br2)Bucks grow broad, palmate antlers, unlike the branching antlers of most deer.$(br2)Its coat is unusually variable, ranging from the common chestnut with white spots to pale menil, black and pure white forms."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:deer{Variant: 11, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Fallow Deer",
+            "text": "Relative Size: ★★☆☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

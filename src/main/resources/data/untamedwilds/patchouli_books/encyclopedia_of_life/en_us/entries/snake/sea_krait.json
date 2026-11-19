@@ -1,0 +1,22 @@
+{
+    "name": "Banded Sea Krait",
+    "icon": "untamedwilds:textures/icon/snake/sea_krait.png",
+    "category": "untamedwilds:snake_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Banded Sea Krait",
+            "text": "The yellow-lipped sea krait ($(o)Laticauda colubrina$()) lives on the coral reefs and rocky coasts of the eastern Indian Ocean and western Pacific.$(br2)It is bluish grey with evenly spaced black rings, a black head with a bright yellow upper lip and snout, and a flattened, paddle-shaped tail.$(br2)It hunts eels underwater, but returns to land to digest, shed its skin, mate and lay its eggs. Its venom is very strong, but it rarely bites."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:snake{Variant: 17, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Banded Sea Krait",
+            "text": "Relative Size: ★☆☆☆☆$(br2)Always active$(br2)1 Color$(br2)Favourite Food: Raw Rabbit$(br2)Number of Offspring: 4$(br2)Growth time: 6 Days"
+        }
+    ]
+}

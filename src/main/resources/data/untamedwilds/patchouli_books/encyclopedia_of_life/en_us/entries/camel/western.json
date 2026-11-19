@@ -1,0 +1,22 @@
+{
+    "name": "Western Camel",
+    "icon": "untamedwilds:textures/icon/camel/western.png",
+    "category": "untamedwilds:camel_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Western Camel",
+            "text": "The western camel ($(o)Camelops hesternus$()) is an extinct camel that lived across western North America during the Pleistocene, until about 13,000 years ago.$(br2)It was somewhat taller than the living dromedary, with longer legs.$(br2)Ancient DNA shows it was more closely related to the camels of the Old World than to llamas. It was a mixed feeder that browsed on shrubs as well as grazing."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:camel{Variant: 3, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Western Camel",
+            "text": "Relative Size: ★★★★☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Junegrass$(br2)Number of Offspring: 1$(br2)Growth time: 13 Days"
+        }
+    ]
+}

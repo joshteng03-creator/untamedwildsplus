@@ -66,6 +66,16 @@
         col = MM.mix(col, pale, S.cheekAmt * Math.max(0, Math.min(1, ch)));
       }
 
+      // pale collar band (the collared-peccary mark): runs from the throat diagonally UP and
+      // BACK over the shoulders, so its centre moves tailward with height; fades out down the legs
+      if (S.collarAmt && !B.has(B.HEAD, n)) {
+        var zc = S.collarZ + 0.35 * (p.y - 8.0);
+        var cb = 1 - MM.smooth(S.collarW * 0.5, S.collarW, Math.abs(p.z - zc));
+        if (limb) cb *= MM.smooth(5.0, 9.0, p.y);
+        cb *= 0.85 + 0.3 * MM.fbm(p, 1.6, 2, 37);
+        col = MM.mix(col, MM.hex(S.collarCol), S.collarAmt * Math.max(0, Math.min(1, cb)));
+      }
+
       // pale forehead shield, centred and high on the skull. Kubanochoerus carried a
       // bony horn there that this rig has no geometry for, so the marking has to carry it
       // -- the same job elasmotherium's painted frontal dome does for its missing horn.

@@ -1,0 +1,22 @@
+{
+    "name": "Harp Seal",
+    "icon": "untamedwilds:textures/icon/pinniped/harp_seal.png",
+    "category": "untamedwilds:pinniped_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Harp Seal",
+            "text": "The harp seal ($(o)Pagophilus groenlandicus$()) is a seal of the North Atlantic and Arctic, named for the dark harp-shaped band across the back of adults.$(br2)Pups are born on the pack ice in a fluffy white coat, which they shed after a few weeks.$(br2)Harp seals gather in enormous breeding colonies on the ice each spring."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:pinniped{Variant: 3, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Harp Seal",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Raw Cod$(br2)Number of Offspring: 1$(br2)Growth time: 8 Days"
+        }
+    ]
+}

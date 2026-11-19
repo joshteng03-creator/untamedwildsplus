@@ -265,6 +265,88 @@ public class ModelCamel extends AdvancedEntityModel<EntityCamel> {
 
     private void animate(IAnimatedEntity entityIn) {
         animator.update(entityIn);
+        // <gen:idle-poses> 2.8.0: SOLVED by scripts/pose_reach.py against this model's own boxes (muzzle to the grass / the
+        // water line beyond the bank, every head part and horn family clear of the ground, nothing through the torso).
+        // Regenerate, never hand-edit: python scripts/gen_keyframes.py camel
+        // EAT (40t, GrazeGoal's mouthful): head down to the grass, a cropping lift, back down
+        animator.setAnimation(EntityCamel.EAT);
+        animator.startKeyframe(10);
+        this.rotate(animator, neck_1, 57.3F, 0.0F, 0.0F);
+        this.rotate(animator, neck_2, 25.8F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, 7.8F, 0.0F, 0.0F);
+        this.rotate(animator, head_nose, -3.2F, 0.0F, 0.0F);
+        animator.move(neck_1, 0.0F, 4.6F, -0.1F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_1, 57.3F, 0.0F, 0.0F);
+        this.rotate(animator, neck_2, 25.8F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, 1.8F, 0.0F, 0.0F);
+        this.rotate(animator, head_nose, -3.2F, 0.0F, 0.0F);
+        animator.move(neck_1, 0.0F, 4.6F, -0.1F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_1, 57.3F, 0.0F, 0.0F);
+        this.rotate(animator, neck_2, 25.8F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, 7.8F, 0.0F, 0.0F);
+        this.rotate(animator, head_nose, -3.2F, 0.0F, 0.0F);
+        animator.move(neck_1, 0.0F, 4.6F, -0.1F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(10);
+        animator.resetKeyframe(10);
+        // DRINK (100t, DrinkGoal): muzzle to the water past the bank edge, two swallows lifting the head
+        animator.setAnimation(EntityCamel.DRINK);
+        animator.startKeyframe(15);
+        this.rotate(animator, neck_1, 56.2F, 0.0F, 0.0F);
+        this.rotate(animator, neck_2, 27.1F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, 7.6F, 0.0F, 0.0F);
+        this.rotate(animator, head_nose, -3.5F, 0.0F, 0.0F);
+        animator.move(neck_1, 0.0F, 5.8F, -1.2F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(20);
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_1, 56.2F, 0.0F, 0.0F);
+        this.rotate(animator, neck_2, 27.1F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, 2.6F, 0.0F, 0.0F);
+        this.rotate(animator, head_nose, -3.5F, 0.0F, 0.0F);
+        animator.move(neck_1, 0.0F, 5.8F, -1.2F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_1, 56.2F, 0.0F, 0.0F);
+        this.rotate(animator, neck_2, 27.1F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, 7.6F, 0.0F, 0.0F);
+        this.rotate(animator, head_nose, -3.5F, 0.0F, 0.0F);
+        animator.move(neck_1, 0.0F, 5.8F, -1.2F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(20);
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_1, 56.2F, 0.0F, 0.0F);
+        this.rotate(animator, neck_2, 27.1F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, 2.6F, 0.0F, 0.0F);
+        this.rotate(animator, head_nose, -3.5F, 0.0F, 0.0F);
+        animator.move(neck_1, 0.0F, 5.8F, -1.2F);
+        animator.endKeyframe();
+        animator.startKeyframe(5);
+        this.rotate(animator, neck_1, 56.2F, 0.0F, 0.0F);
+        this.rotate(animator, neck_2, 27.1F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, 7.6F, 0.0F, 0.0F);
+        this.rotate(animator, head_nose, -3.5F, 0.0F, 0.0F);
+        animator.move(neck_1, 0.0F, 5.8F, -1.2F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(10);
+        animator.resetKeyframe(15);
+        // ALERT (40t, AlertGoal): head raised, ears up, staring at the threat; repeats while the alert lasts
+        animator.setAnimation(EntityCamel.ALERT);
+        animator.startKeyframe(8);
+        this.rotate(animator, neck_1, -35.0F, 0.0F, 0.0F);
+        this.rotate(animator, neck_2, 12.0F, 0.0F, 0.0F);
+        this.rotate(animator, head_main, -9.0F, 0.0F, 0.0F);
+        this.rotate(animator, head_nose, 12.0F, 0.0F, 0.0F);
+        this.rotate(animator, ear_right, 25.0F, 0.0F, 0.0F);
+        this.rotate(animator, ear_left, 25.0F, 0.0F, 0.0F);
+        animator.endKeyframe();
+        animator.setStaticKeyframe(24);
+        animator.resetKeyframe(8);
+        // </gen:idle-poses>
 
         animator.setAnimation(EntityCamel.IDLE_TALK);
         animator.startKeyframe(10);

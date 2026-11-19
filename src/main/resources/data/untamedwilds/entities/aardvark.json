@@ -4,7 +4,7 @@
   "growing_time":6,
   "offspring":1,
   "activityType":"nocturnal",
-  "favourite_food":"untamedwilds:aardvark_cucumber",
+  "favourite_food":"untamedwilds:food_aardvark_cucumber",
   "sounds":{
     "ambient":"untamedwilds:entity.aardvark.ambient",
     "hurt":"untamedwilds:entity.aardvark.hurt",

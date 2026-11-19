@@ -1,0 +1,22 @@
+{
+    "name": "Paleolama",
+    "icon": "untamedwilds:textures/icon/camel/paleolama.png",
+    "category": "untamedwilds:camel_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Paleolama",
+            "text": "The Paleolama ($(o)Palaeolama mirifica$()) is an extinct llama-like camelid that lived in the southern United States during the Pleistocene, especially in Florida.$(br2)Often called the stout-legged llama, it had shorter, sturdier limbs than living llamas and was considerably heavier.$(br2)It is thought to have been a browser, feeding on leaves and shrubs in wooded habitats."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:camel{Variant: 7, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Paleolama",
+            "text": "Relative Size: ★★★☆☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Cactus$(br2)Number of Offspring: 1$(br2)Growth time: 13 Days"
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "name": "Sivatherium",
+    "icon": "untamedwilds:textures/icon/giraffid/sivatherium.png",
+    "category": "untamedwilds:giraffid_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Sivatherium",
+            "text": "Sivatherium ($(o)Sivatherium maurusium$()) is an extinct giraffid that lived across Africa during the Pliocene and Pleistocene.$(br2)Unlike the modern giraffe, it was massively built, with a short neck and a heavy, okapi-like body, making it one of the largest ruminants ever known.$(br2)Males bore two pairs of ossicones: a broad, branching pair at the back of the skull and a smaller pair above the eyes."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:giraffid{Variant: 1, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Sivatherium",
+            "text": "Relative Size: ★★★★☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 12 Days"
+        }
+    ]
+}

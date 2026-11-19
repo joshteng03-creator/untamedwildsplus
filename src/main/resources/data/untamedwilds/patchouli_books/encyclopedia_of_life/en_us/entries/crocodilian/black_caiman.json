@@ -1,0 +1,22 @@
+{
+    "name": "Black Caiman",
+    "icon": "untamedwilds:textures/icon/crocodilian/black_caiman.png",
+    "category": "untamedwilds:crocodilian_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Black Caiman",
+            "text": "The black caiman ($(o)Melanosuchus niger$()) is the largest predator of the Amazon basin.$(br2)It is almost black, with pale grey bands on its jaws and flanks, and hunts capybaras, fish and other animals at night.$(br2)It was once hunted almost to extinction for its skin, and has since recovered."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:crocodilian{Variant: 3, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Black Caiman",
+            "text": "Relative Size: ★★★☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 3$(br2)Growth time: 8 Days"
+        }
+    ]
+}

@@ -1,0 +1,60 @@
+# S2: the ecology soak (2.8.0). A busier force-loaded patch than S1 -- 9 herbivore herds, 5 predator groups -- with
+# the predators set HUNGRY right after they spawn, so hunting, kills, carcasses, scavenging and the alarm network all
+# actually happen inside a run of a few in-game days. (/summon with NBT would skip the spawn setup that assigns a
+# species, so hunger is set afterwards with data merge.)
+forceload add -112 -112 112 112
+@wait 20
+time set noon
+# herbivore herds
+execute positioned 20 ~ 20 run summon untamedwilds:bison ~ ~ ~
+execute positioned 22 ~ 20 run summon untamedwilds:bison ~ ~ ~
+execute positioned 24 ~ 22 run summon untamedwilds:bison ~ ~ ~
+execute positioned 21 ~ 24 run summon untamedwilds:bison ~ ~ ~
+execute positioned -30 ~ 10 run summon untamedwilds:deer ~ ~ ~
+execute positioned -32 ~ 12 run summon untamedwilds:deer ~ ~ ~
+execute positioned -34 ~ 10 run summon untamedwilds:deer ~ ~ ~
+execute positioned -30 ~ 14 run summon untamedwilds:deer ~ ~ ~
+execute positioned -33 ~ 15 run summon untamedwilds:deer ~ ~ ~
+execute positioned 40 ~ -30 run summon untamedwilds:equid ~ ~ ~
+execute positioned 42 ~ -30 run summon untamedwilds:equid ~ ~ ~
+execute positioned 44 ~ -32 run summon untamedwilds:equid ~ ~ ~
+execute positioned 41 ~ -34 run summon untamedwilds:equid ~ ~ ~
+execute positioned -40 ~ -40 run summon untamedwilds:antelope ~ ~ ~
+execute positioned -42 ~ -40 run summon untamedwilds:antelope ~ ~ ~
+execute positioned -44 ~ -42 run summon untamedwilds:antelope ~ ~ ~
+execute positioned -46 ~ -40 run summon untamedwilds:antelope ~ ~ ~
+execute positioned -43 ~ -44 run summon untamedwilds:antelope ~ ~ ~
+execute positioned 60 ~ 60 run summon untamedwilds:wildebeest ~ ~ ~
+execute positioned 62 ~ 60 run summon untamedwilds:wildebeest ~ ~ ~
+execute positioned 64 ~ 62 run summon untamedwilds:wildebeest ~ ~ ~
+execute positioned 61 ~ 64 run summon untamedwilds:wildebeest ~ ~ ~
+execute positioned -60 ~ 60 run summon untamedwilds:caprine ~ ~ ~
+execute positioned -62 ~ 60 run summon untamedwilds:caprine ~ ~ ~
+execute positioned -61 ~ 63 run summon untamedwilds:caprine ~ ~ ~
+execute positioned 0 ~ -60 run summon untamedwilds:mammoth ~ ~ ~
+execute positioned 4 ~ -60 run summon untamedwilds:mammoth ~ ~ ~
+execute positioned 2 ~ -64 run summon untamedwilds:mammoth ~ ~ ~
+execute positioned 80 ~ -10 run summon untamedwilds:giraffid ~ ~ ~
+execute positioned 83 ~ -10 run summon untamedwilds:giraffid ~ ~ ~
+execute positioned -80 ~ -10 run summon untamedwilds:ground_sloth ~ ~ ~
+execute positioned 0 ~ 80 run summon untamedwilds:tapir ~ ~ ~
+execute positioned 3 ~ 82 run summon untamedwilds:tapir ~ ~ ~
+# predators
+execute positioned 10 ~ 40 run summon untamedwilds:dire_wolf ~ ~ ~
+execute positioned 12 ~ 40 run summon untamedwilds:dire_wolf ~ ~ ~
+execute positioned 14 ~ 42 run summon untamedwilds:dire_wolf ~ ~ ~
+execute positioned 11 ~ 43 run summon untamedwilds:dire_wolf ~ ~ ~
+execute positioned -20 ~ -20 run summon untamedwilds:big_cat ~ ~ ~
+execute positioned -22 ~ -21 run summon untamedwilds:big_cat ~ ~ ~
+execute positioned 50 ~ 0 run summon untamedwilds:hyena ~ ~ ~
+execute positioned 52 ~ 0 run summon untamedwilds:hyena ~ ~ ~
+execute positioned 51 ~ 3 run summon untamedwilds:hyena ~ ~ ~
+execute positioned -50 ~ 0 run summon untamedwilds:bear ~ ~ ~
+execute positioned 30 ~ -70 run summon untamedwilds:bear ~ ~ ~
+@wait 5
+# hungry: under the hunt threshold (30), so the first hunts start within minutes
+execute as @e[type=untamedwilds:dire_wolf] run data merge entity @s {Hunger:12}
+execute as @e[type=untamedwilds:big_cat] run data merge entity @s {Hunger:12}
+execute as @e[type=untamedwilds:hyena] run data merge entity @s {Hunger:12}
+execute as @e[type=untamedwilds:bear] run data merge entity @s {Hunger:12}
+@wait 5

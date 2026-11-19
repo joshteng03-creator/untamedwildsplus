@@ -1,0 +1,22 @@
+{
+    "name": "Alpaca",
+    "icon": "untamedwilds:textures/icon/camel/alpaca.png",
+    "category": "untamedwilds:camel_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Alpaca",
+            "text": "The alpaca ($(o)Vicugna pacos$()) is a domesticated South American camelid, bred from the wild vicuña in the Andes thousands of years ago.$(br2)It is smaller than the llama and is raised mainly for its soft, warm fleece rather than as a pack animal.$(br2)Alpacas live in herds and come in two breeds: the huacaya, with dense crimped fleece, and the suri, with long silky locks."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:camel{Variant: 10, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Alpaca",
+            "text": "Relative Size: ★★☆☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Cactus$(br2)Number of Offspring: 1$(br2)Growth time: 13 Days"
+        }
+    ]
+}

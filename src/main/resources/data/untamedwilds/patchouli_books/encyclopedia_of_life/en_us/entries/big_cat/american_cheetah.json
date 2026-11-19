@@ -1,0 +1,22 @@
+{
+    "name": "American Cheetah",
+    "icon": "untamedwilds:textures/icon/big_cat/american_cheetah.png",
+    "category": "untamedwilds:big_cat_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "American Cheetah",
+            "text": "The American cheetah ($(o)Miracinonyx trumani$()) is an extinct cat that lived in the open country of western North America during the Pleistocene.$(br2)It had long legs, a short face and a slender build very like the living cheetah's.$(br2)Despite this, genetic and anatomical studies show it was more closely related to the puma, its cheetah-like body being an example of convergent evolution."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:big_cat{Variant: 12, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "American Cheetah",
+            "text": "Relative Size: ★★☆☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 3$(br2)Growth time: 6 Days"
+        }
+    ]
+}

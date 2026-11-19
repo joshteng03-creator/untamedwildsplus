@@ -1,0 +1,22 @@
+{
+    "name": "Aurochs",
+    "icon": "untamedwilds:textures/icon/bison/aurochs.png",
+    "category": "untamedwilds:bison_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Aurochs",
+            "text": "The aurochs ($(o)Bos primigenius$()) is an extinct species of wild cattle that once ranged across Europe, Asia and North Africa. The last known individual died in Poland in 1627.$(br2)The aurochs is the wild ancestor of domestic cattle, which were domesticated from it independently in the Near East and South Asia.$(br2)Bulls were much larger than most modern cattle, with long, forward-curving horns and a dark coat."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:bison{Variant: 4, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Aurochs",
+            "text": "Relative Size: ★★★★☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "name": "Pampas Deer",
+    "icon": "untamedwilds:textures/icon/deer/pampas_deer.png",
+    "category": "untamedwilds:deer_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Pampas Deer",
+            "text": "The pampas deer ($(o)Ozotoceros bezoarticus$()) is a small, slender deer that lives in the open grasslands of South America, from Brazil to Argentina.$(br2)Males have glands in their hind hooves that give off a strong, distinctive odour that can be detected from a considerable distance.$(br2)Once abundant across the pampas, it has declined greatly as its grasslands were converted to farmland and pasture."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:deer{Variant: 7, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Pampas Deer",
+            "text": "Relative Size: ★★☆☆☆$(br2)Most active during Dawn/Dusk$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

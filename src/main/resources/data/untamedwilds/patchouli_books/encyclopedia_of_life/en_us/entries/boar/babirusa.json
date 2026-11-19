@@ -1,0 +1,22 @@
+{
+    "name": "Babirusa",
+    "icon": "untamedwilds:textures/icon/boar/babirusa.png",
+    "category": "untamedwilds:boar_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Babirusa",
+            "text": "The babirusa ($(o)Babyrousa celebensis$()) is a wild pig endemic to the northern part of the Indonesian island of Sulawesi and some nearby islands.$(br2)Its skin is almost hairless and wrinkled.$(br2)In males, the upper canine tusks grow upward straight through the top of the snout and curve back towards the forehead, giving the babirusa one of the most unusual faces of any mammal."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:boar{Variant: 6, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Babirusa",
+            "text": "Relative Size: ★★☆☆☆$(br2)Active during Nighttime$(br2)1 Color$(br2)Favourite Food: Beetroot$(br2)Number of Offspring: 5$(br2)Growth time: 4 Days"
+        }
+    ]
+}

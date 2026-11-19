@@ -1,0 +1,7 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "untamedwilds:item/netherite_spear",
+    "layer1": "untamedwilds:item/spear_trim_tooth"
+  }
+}

@@ -1,0 +1,22 @@
+{
+    "name": "Zygomaturus",
+    "icon": "untamedwilds:textures/icon/diprotodont/zygomaturus.png",
+    "category": "untamedwilds:diprotodont_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Zygomaturus",
+            "text": "$(o)Zygomaturus$() ($(o)Zygomaturus trilobus$()) was a bull-sized diprotodont that lived in southern and eastern Australia during the Late Pleistocene.$(br2)It had a broad, short skull with a raised nasal area, and probably lived in wetter forests and around swamps.$(br2)Its strong jaws may have let it feed on reeds and sedges as well as shrubs."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:diprotodont{Variant: 1, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Zygomaturus",
+            "text": "Relative Size: ★★★★☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 12 Days"
+        }
+    ]
+}

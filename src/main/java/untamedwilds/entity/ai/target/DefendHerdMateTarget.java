@@ -57,6 +57,11 @@ public class DefendHerdMateTarget extends TargetGoal {
         if (this.defender.defendCooldown > 0) {
             return false;
         }
+        // 2.8.0: every member walked the whole herd every evaluation (O(herd^2) per herd); ~5-tick random
+        // interval, the same throttle vanilla target goals use. A call for help is answered within a quarter second.
+        if (this.defender.getRandom().nextInt(reducedTickDelay(5)) != 0) {
+            return false;
+        }
         for (ComplexMob member : this.defender.herd.creatureList) {
             if (member == this.defender || !member.isAlive()
                     || member.distanceToSqr(this.defender) > radius * radius) {

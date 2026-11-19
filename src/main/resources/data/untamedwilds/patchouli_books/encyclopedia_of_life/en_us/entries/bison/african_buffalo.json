@@ -1,0 +1,22 @@
+{
+    "name": "African Buffalo",
+    "icon": "untamedwilds:textures/icon/bison/african_buffalo.png",
+    "category": "untamedwilds:bison_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "African Buffalo",
+            "text": "The African buffalo ($(o)Syncerus caffer$()) is a large bovine native to sub-Saharan Africa, found in savannas, grasslands and forests near water.$(br2)It is highly social, living in herds that can number in the hundreds and that will band together to defend members against lions.$(br2)In adult males, the bases of the horns meet across the forehead to form a heavy bony shield known as a boss."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:bison{Variant: 8, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "African Buffalo",
+            "text": "Relative Size: ★★★★☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Junegrass$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

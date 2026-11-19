@@ -1,0 +1,6 @@
+{
+    "name": "Giant Monitors",
+    "description": "Giant monitors are the largest lizards, carnivorous Reptiles of the monitor lizard family.$(br2)They have long necks, powerful tails and sprawling legs, flick a forked tongue to taste the air, and deliver a venomous bite that stops blood from clotting.$(br2)They are ambush hunters of open woodland, grassland and scrub, able to take prey much larger than themselves.",
+    "icon": "untamedwilds:textures/icon/giant_monitor/category.png",
+    "parent": "untamedwilds:taxon_reptile"
+}

@@ -1,0 +1,22 @@
+{
+    "name": "European Hippopotamus",
+    "icon": "untamedwilds:textures/icon/hippo/european.png",
+    "category": "untamedwilds:hippo_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "European Hippopotamus",
+            "text": "The European hippopotamus ($(o)Hippopotamus antiquus$()) lived in the rivers and lakes of Europe from about 2 million until about 400,000 years ago.$(br2)It was the largest hippo ever, around twice the weight of a living hippo, with its eyes set higher on the skull and shorter feet.$(br2)It spread as far north as England only during warm interglacials, and the dwarf hippos of Crete are thought to have descended from it."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:hippo{Variant: 1, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "European Hippopotamus",
+            "text": "Relative Size: ★★★★★$(br2)Active during Nighttime$(br2)1 Color$(br2)Favourite Food: Water Hyacinth$(br2)Number of Offspring: 1$(br2)Growth time: 8 Days"
+        }
+    ]
+}

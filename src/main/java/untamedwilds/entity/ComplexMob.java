@@ -44,9 +44,13 @@ import untamedwilds.block.blockentity.CritterBurrowBlockEntity;
 import untamedwilds.compat.CompatBridge;
 import untamedwilds.compat.CompatSereneSeasons;
 import untamedwilds.config.ConfigGamerules;
+import untamedwilds.world.ClimateHelper;
+import untamedwilds.config.ConfigAmbience;
 import untamedwilds.config.ConfigMobControl;
+import untamedwilds.config.ConfigPerformance;
 import untamedwilds.config.EcologyMode;
 import untamedwilds.init.ModAdvancementTriggers;
+import untamedwilds.util.EcoStats;
 import untamedwilds.util.EcologyTags;
 import untamedwilds.util.EntityDataHolder;
 import untamedwilds.util.EntityDataHolderClient;
@@ -56,10 +60,13 @@ import untamedwilds.util.EntityUtils;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.entity.Entity;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
@@ -75,6 +82,7 @@ public abstract class ComplexMob extends TamableAnimal {
     private static final EntityDataAccessor<Integer> GENDER = SynchedEntityData.defineId(ComplexMob.class, EntityDataSerializers.INT); // 0 - Male, 1 - Female
     private static final EntityDataAccessor<Boolean> IS_ANGRY = SynchedEntityData.defineId(ComplexMob.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> COMMAND = SynchedEntityData.defineId(ComplexMob.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> SADDLED = SynchedEntityData.defineId(ComplexMob.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> SLEEPING = SynchedEntityData.defineId(ComplexMob.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> SITTING = SynchedEntityData.defineId(ComplexMob.class, EntityDataSerializers.BOOLEAN);
     /* Moved up from ComplexMobTerrestrial. HuntMobTarget.canUse() gates hunting on hunger behind an
@@ -92,6 +100,33 @@ public abstract class ComplexMob extends TamableAnimal {
     /** Direction this animal's herd is fleeing in, set by HerdFleeGoal so the herd runs together. Not persisted. */
     @Nullable
     public Vec3 fleeHeading;
+    /* 2.8.0 panic spread: a herd that panics has every member's flee pathfind spread over a few ticks instead of
+     * computed all in one tick. Each animal stops and is flagged at once; its path is issued when this reaches 0. */
+    public int pendingFleeTicks;
+    @Nullable
+    public LivingEntity pendingFleeFrom;
+    /* 2.8.0 vigilance: a predator seen just beyond flight range. While alertTicks > 0 the animal stops grazing,
+     * wandering and drinking and watches alertSource (AlertGoal). Not persisted. */
+    public int alertTicks;
+    /** Habituation: ticks of unbroken alert, and the game time until which a band-only sighting is ignored. */
+    public int alertStreak;
+    public long vigilanceRelaxUntil;
+
+    public boolean isRelaxedVigilance() {
+        return this.level.getGameTime() < this.vigilanceRelaxUntil;
+    }
+    @Nullable
+    public LivingEntity alertSource;
+    /* 2.8.0 cosmetic drinking: game time of the next waterhole visit (-1 = not scheduled yet; DrinkGoal picks a
+     * random point in the cycle). Persisted as "NextDrink". drinkVisits counts visits for the GameTests. */
+    public long nextDrinkTime = -1L;
+    public int drinkVisits;
+    /* 2.8.0: this animal's own share of the PerfCounters, so a GameTest can assert on ONE animal while wild ones
+     * spawned by worldgen run alongside it. Not persisted; plain ints, server thread only. */
+    public int perfHuntScans;
+    public int perfAnimStarts;
+    public int perfFleePaths;
+    public int perfFleeScans;
     /* Non-zero only while a hunt-for-food goal is actually running. huntingCooldown cannot be used for
      * this -- it stays at 6000 for five minutes AFTER the hunt ends. The low-health break-off in
      * isRouted() consults this so a predator presses a genuine hunt to the kill, while every other
@@ -151,6 +186,17 @@ public abstract class ComplexMob extends TamableAnimal {
      * vanilla baby/adult flag, so any cohort that reached adulthood was immortal and populations could
      * only ever climb. Compared against getLifespan(). Persisted. */
     public int lifeTicks;
+    /* Ticks left before a predator mother may conceive again (2026-10-24). She used to be eligible the
+     * tick she gave birth, so a female short-faced bear could raise ~35 cubs in a lifetime; real large
+     * carnivores rear one litter to independence first. Counted down in aiStep, persisted, and also the
+     * window in which she pays lactation_drain_factor. */
+    public int rearingTicks;
+    /* Set when a solitary predator comes of age: it leaves its birthplace once, toward the best local
+     * prey-per-predator ratio it can find (PredatorRelocateGoal), instead of setting up next to its mother.
+     * Not persisted -- a reload simply skips one dispersal. */
+    public boolean pendingDispersal;
+    /** Set just before an old-age death is dealt, so the census can tell it from other GENERIC damage. */
+    public boolean oldAgeDeath;
     public static HashMap<EntityType<?>, EntityDataHolder> ENTITY_DATA_HASH = new HashMap<>();
     public static HashMap<EntityType<?>, EntityDataHolderClient> CLIENT_DATA_HASH = new HashMap<>();
 
@@ -168,6 +214,7 @@ public abstract class ComplexMob extends TamableAnimal {
         this.entityData.define(GENDER, 0);
         this.entityData.define(IS_ANGRY, false);
         this.entityData.define(COMMAND, 0);
+        this.entityData.define(SADDLED, false);
         this.entityData.define(SLEEPING, false);
         this.entityData.define(SITTING, false);
         this.entityData.define(HUNGER, 79); // One point less than the breeding threshold
@@ -182,6 +229,32 @@ public abstract class ComplexMob extends TamableAnimal {
                 this.retaliationCooldown--;
             if (this.fleeCooldown > 0)
                 this.fleeCooldown--;
+            if (this.pendingFleeTicks > 0 && --this.pendingFleeTicks == 0) {
+                untamedwilds.entity.ai.HerdFleeGoal.issuePendingFlee(this);
+            }
+            this.tickCalls();
+            if (this.alertTicks > 0 && (--this.alertTicks == 0 || this.fleeCooldown > 0
+                    || this.alertSource == null || !this.alertSource.isAlive())) {
+                this.alertTicks = 0;
+                this.alertSource = null;
+            }
+            // habituation (2.8.0 soak): a predator resting just beyond flight range re-raised the alert on every scan,
+            // and an alert animal never grazes -- herds stared at it until they starved. After alert_max_ticks of
+            // unbroken alert (40% of that when hungry) the animal relaxes for alert_relax_ticks and feeds.
+            if (this.alertTicks > 0) {
+                int limit = ConfigAmbience.alertMaxTicks.get();
+                if (this.getHunger() < 40) {
+                    limit = Math.max(20, limit * 2 / 5);
+                }
+                if (++this.alertStreak >= limit) {
+                    this.alertTicks = 0;
+                    this.alertSource = null;
+                    this.alertStreak = 0;
+                    this.vigilanceRelaxUntil = this.level.getGameTime() + ConfigAmbience.alertRelaxTicks.get();
+                }
+            } else {
+                this.alertStreak = 0;
+            }
             if (this.defendCooldown > 0)
                 this.defendCooldown--;
             if (this.dispersalLockout > 0) {
@@ -193,6 +266,8 @@ public abstract class ComplexMob extends TamableAnimal {
             }
             if (this.avoidHerdUntil > 0 && --this.avoidHerdUntil == 0)
                 this.avoidedHerd = null;
+            if (this.rearingTicks > 0)
+                this.rearingTicks--;
             this.tickHuntCommitment();
             this.tickHuntAbandon();
             this.tickFleeStamina();
@@ -212,6 +287,31 @@ public abstract class ComplexMob extends TamableAnimal {
             EntityDataListenerEvent.registerEntityData(typeIn);
         }
         return ENTITY_DATA_HASH.get(typeIn);
+    }
+
+    /**
+     * Null-safe per-species flag for CLIENT code (models, render layers) -- 2.8.0. Returns 0 when the type's
+     * species data has not reached this client yet or the variant is out of range, so a render can never throw.
+     * Server code may keep using {@link #getEntityData} directly.
+     */
+    public static int speciesFlag(ComplexMob mob, String flag) {
+        EntityDataHolder data = getEntityData(mob.getType());
+        int variant = mob.getVariant();
+        if (data == null || variant < 0 || variant >= data.getSpeciesData().size()) {
+            return 0;
+        }
+        return data.getFlags(variant, flag);
+    }
+
+    /**
+     * 2.8.0: null-safe. Sound ids come from datapack JSON; a missing or unregistered id resolves to null, and
+     * vanilla's playSound would then throw building the sound packet. A missing sound is silence, never a crash.
+     */
+    @Override
+    public void playSound(SoundEvent sound, float volume, float pitch) {
+        if (sound != null) {
+            super.playSound(sound, volume, pitch);
+        }
     }
 
     protected SoundEvent getAmbientSound() {
@@ -254,7 +354,14 @@ public abstract class ComplexMob extends TamableAnimal {
         return false;
     }
 
-    public void setSleeping(boolean sleeping){ this.entityData.set(SLEEPING, sleeping); }
+    public void setSleeping(boolean sleeping){
+        // 2.8.0: an animal waking up often goes for a drink soon after (the dawn trip to the waterhole)
+        if (!sleeping && this.isSleeping() && !this.level.isClientSide && this.nextDrinkTime >= 0L
+                && this.random.nextDouble() < ConfigAmbience.drinkAfterWakeChance.get()) {
+            this.nextDrinkTime = Math.min(this.nextDrinkTime, this.level.getGameTime() + 200 + this.random.nextInt(1000));
+        }
+        this.entityData.set(SLEEPING, sleeping);
+    }
     public boolean isSleeping(){ return (this.entityData.get(SLEEPING)); }
 
     public void setSitting(boolean sitting){ this.entityData.set(SITTING, sitting); }
@@ -285,7 +392,12 @@ public abstract class ComplexMob extends TamableAnimal {
      * hunger entirely and starving the hunt gate of its input.
      */
     public void drainHuntingHunger(int base) {
-        this.addHunger(-Math.max(1, Math.round(base * (float) EcologyMode.hungerDrainScale(this))));
+        float scale = (float) EcologyMode.hungerDrainScale(this);
+        // A mother rearing cubs is feeding them: cubs are no longer free (2026-10-24).
+        if (this.rearingTicks > 0 && EcologyMode.usesConditionForBreeding(this)) {
+            scale *= ConfigGamerules.lactationDrainFactor.get().floatValue();
+        }
+        this.addHunger(-Math.max(1, Math.round(base * scale)));
     }
 
     /* Restores hunger when a predator lands the killing blow, so HuntMobTarget.canUse() then blocks new hunts
@@ -295,9 +407,27 @@ public abstract class ComplexMob extends TamableAnimal {
             /* Somebody stronger, or simply more numerous, may take this off us before we have finished
              * it. Resolved here, at the kill, rather than by polling for "is anyone feeding" every
              * tick -- the carcass is not an entity in this mod, so the kill IS the meal. */
+            int perHealth = ConfigGamerules.carcassFoodPerHealth.get();
+            /* The carcass is a FINITE pool (2026-10-24): everyone who eats -- killer, pack, cubs, a thief,
+             * scavengers -- draws from the same prey max HP x carcass_food_per_health, and when it is gone
+             * it is gone. It used to pay the killer and pack AND then +60 to every bear and hyena within 16
+             * blocks with no limit, which let single kills feed whole bear populations. */
+            float pool = perHealth <= 0 ? Float.MAX_VALUE : le.getMaxHealth() * perHealth;
+            /* 2.8.0: if the kill left a carcass entity (die() runs before this), it holds the pool: the killer and
+             * its pack eat exactly as below, and whatever they leave stays IN the carcass for scavengers to walk to,
+             * instead of being paid to them instantly from up to 16 blocks away. */
+            EntityCarcass carcass = target instanceof ComplexMob dead && dead.carcass != null && dead.carcass.isAlive() ? dead.carcass : null;
+            if (carcass != null) {
+                pool = carcass.getFood();
+            }
             ComplexMob thief = this.findCarcassThief();
             if (thief != null) {
-                this.loseCarcassTo(thief, target);
+                float left = this.loseCarcassTo(thief, target, pool);
+                if (carcass != null) {
+                    carcass.setFood(left);
+                    carcass.exclude(thief);
+                    carcass.exclude(this);
+                }
                 return;
             }
             /* The carcass is a fixed amount of food, split between everyone eating from it. It used to
@@ -305,17 +435,11 @@ public abstract class ComplexMob extends TamableAnimal {
              * so pack size cost nothing: one kill fed a pack of twelve as fully as a pack of three, the
              * whole pack stayed in breeding condition, and packs grew without limit. The caps keep a lone
              * hunter or a small pack on decent prey exactly where it was. */
-            List<ComplexMob> eaters = new ArrayList<>();
-            if (this.herd != null) {
-                for (ComplexMob member : this.herd.creatureList) {
-                    if (member != this && member.isAlive() && member.distanceToSqr(target) < 256D) {
-                        eaters.add(member);
-                    }
-                }
-            }
-            int perHealth = ConfigGamerules.carcassFoodPerHealth.get();
-            float share = perHealth <= 0 ? Float.MAX_VALUE : le.getMaxHealth() * perHealth / (1 + eaters.size());
-            this.addHunger((int) Math.min(120F, share));
+            List<ComplexMob> eaters = this.carcassEaters(target);
+            float share = pool / (1 + eaters.size());
+            int own = (int) Math.min(120F, share);
+            this.addHunger(own);
+            pool -= own;
             /* The full lockout is paid HERE, on the kill, and no longer when the hunt starts. Charging it
              * at the start meant any interruption -- prey breaking line of sight, a pack-mate's fight
              * stealing the target slot -- locked the predator out for five minutes while the animal it
@@ -329,18 +453,70 @@ public abstract class ComplexMob extends TamableAnimal {
              * hunted grazed back to full in seconds. Pack-mates near the kill now eat too, which is
              * both how real pack predators work and what makes their populations sustainable. */
             for (ComplexMob member : eaters) {
-                member.addHunger((int) Math.min(90F, share));
+                int bite = (int) Math.min(90F, share);
+                member.addHunger(bite);
+                pool -= bite;
                 // Fed off this carcass, so the hunt is over for them too -- otherwise a pack-mate
                 // that ate but never committed rolls straight into a second animal.
                 member.huntingCooldown = ConfigGamerules.predatorKillCooldown.get();
                 member.endHuntCommitment();
             }
-            this.shareCarcassWithScavengers(target);
+            if (carcass != null) {
+                carcass.setFood(pool);
+                carcass.exclude(this);
+                for (ComplexMob member : eaters) {
+                    carcass.exclude(member);
+                }
+            } else {
+                this.shareCarcassWithScavengers(target, pool);
+            }
             if (UntamedWilds.DEBUG) {
                 UntamedWilds.LOGGER.info("{} killed {}, hunger now {}, locked out for {} ticks", this.getName().getString(), target.getName().getString(), this.getHunger(), this.huntingCooldown);
             }
         }
     }
+    /**
+     * Everyone besides the killer who eats from its kill: pack-mates within 16 blocks, plus same-type young
+     * within 16 blocks (2026-10-24). The young matter most for SOLITARY predators -- a bear's cubs have no
+     * herd, so before this they were fed only by the unlimited scavenger payouts. Now weaned cubs eat at
+     * their mother's kills or starve, which is how lean years thin a predator population.
+     */
+    protected List<ComplexMob> carcassEaters(Entity carcass) {
+        List<ComplexMob> eaters = new ArrayList<>();
+        if (this.herd != null) {
+            for (ComplexMob member : this.herd.creatureList) {
+                if (member != this && member.isAlive() && member.distanceToSqr(carcass) < 256D) {
+                    eaters.add(member);
+                }
+            }
+        }
+        for (ComplexMob young : this.level.getEntitiesOfClass(ComplexMob.class, new AABB(carcass.blockPosition()).inflate(16D),
+                c -> c != this && c.isAlive() && c.isBaby() && !c.isTame() && c.getType() == this.getType())) {
+            if (!eaters.contains(young)) {
+                eaters.add(young);
+            }
+        }
+        return eaters;
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // Nursing and weaning (2026-10-24)
+    // ---------------------------------------------------------------------------------------------
+
+    /** A baby in the first nursing_fraction of its babyhood: fed by its mother, cannot starve. */
+    public boolean isNursing() {
+        if (!this.isBaby()) {
+            return false;
+        }
+        int adult = this.getAdulthoodTime();
+        return adult > 0 && -this.getAge() > adult * (1.0D - ConfigGamerules.nursingFraction.get());
+    }
+
+    /** A baby past nursing: feeds itself (calves graze, cubs eat at kills). */
+    public boolean isWeaned() {
+        return this.isBaby() && !this.isNursing();
+    }
+
     /* Fraction of max health below which an animal gives up a fight and runs. Fights used to only ever
      * end in a death, which is what made a single scuffle wipe out both herds. */
     public static final float ROUT_THRESHOLD = 0.1F;
@@ -350,6 +526,211 @@ public abstract class ComplexMob extends TamableAnimal {
     private static final float MIN_FLEE_FACTOR = 0.45F;
     /** Share of the adult ecological level a juvenile is worth. See getEcoLevel. */
     private static final float BABY_ECO_FACTOR = 0.3F;
+    /* 2.8.0: getEcoLevel memo -- one value per game tick for each variant (with / without the herd term).
+     * Every hunt scan scores every candidate, and several predators score the same animals in the same tick.
+     * Never stored while an attack bonus is applied, and dropped on any health change and on every bonus
+     * apply/clear, so the "eco must not move during a hunting blow" invariant is untouched. Primitives, not an
+     * array: LivingEntity's constructor calls setHealth before this class's field initialisers have run. */
+    private long ecoTickHerd = Long.MIN_VALUE;
+    private long ecoTickPrey = Long.MIN_VALUE;
+    private int ecoValueHerd;
+    private int ecoValuePrey;
+
+    public boolean isAlert() {
+        return this.alertTicks > 0;
+    }
+
+    /** Public view of the (protected) vanilla voice pitch, for goals that play this animal's sounds. */
+    public float voicePitch() {
+        return this.getVoicePitch();
+    }
+
+    /**
+     * 2.8.0 vigilance: this animal has spotted {@code source} beyond flight range. With {@code spread}, its herd-mates
+     * go on alert too (alert ticks only -- nobody paths anywhere), and the herd makes at most one alarm call per
+     * {@code alarm_call_cooldown_ticks}. Returns true when this was the herd's first alarm in that window.
+     */
+    public boolean raiseAlert(LivingEntity source, boolean spread) {
+        if (source == null || this.fleeCooldown > 0 || !ConfigAmbience.herbivoreAlert.get() || this.isRelaxedVigilance()) {
+            return false;
+        }
+        int ticks = ConfigAmbience.alertTicks.get();
+        this.alertTicks = ticks;
+        this.alertSource = source;
+        untamedwilds.util.PerfCounters.inc(untamedwilds.util.PerfCounters.Counter.ALERT_RAISED);
+        boolean alarm = false;
+        if (spread && this.herd != null) {
+            long now = this.level.getGameTime();
+            if (now - this.herd.lastAlarmTick >= ConfigAmbience.alarmCallCooldownTicks.get()) {
+                this.herd.lastAlarmTick = now;
+                alarm = true;
+                this.playAlarmCall();
+            }
+            for (ComplexMob member : this.herd.creatureList) {
+                if (member != this && member.isAlive() && member.fleeCooldown <= 0 && member.alertTicks < ticks / 2
+                        && !member.isRelaxedVigilance()) {
+                    member.alertTicks = ticks;
+                    member.alertSource = source;
+                }
+            }
+        }
+        return alarm;
+    }
+
+    private int lastThreatCallTick = -10000;
+
+    /**
+     * 2.8.0: one "threat" call (a hiss, a growl) the moment a NEW target is taken -- for types whose own code never
+     * plays its threat sound otherwise (the bear, boar and canids have their own threat displays). Call it from a
+     * setTarget override BEFORE super.setTarget; at most once every 200 ticks, never from a baby.
+     */
+    protected void threatCallOnNewTarget(@Nullable LivingEntity target) {
+        if (target == null || target == this.getTarget() || this.level.isClientSide || this.isBaby()
+                || this.tickCount - this.lastThreatCallTick < 200) {
+            return;
+        }
+        SoundEvent threat = this.getThreatSound();
+        if (threat != null) {
+            this.lastThreatCallTick = this.tickCount;
+            this.playSound(threat, this.getSoundVolume(), this.getVoicePitch());
+        }
+    }
+
+    /** The herd's alarm call (2.8.0): the type's "alarm" sound, else its "threat" sound, else silence. */
+    protected void playAlarmCall() {
+        SoundEvent alarm = this.getAlarmSound();
+        if (alarm != null) {
+            this.playSound(alarm, this.getSoundVolume() * 1.5F, this.getVoicePitch());
+        }
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // 2.8.0 voices: keys looked up in the species / type "sounds" JSON, with sensible fallbacks
+    // ---------------------------------------------------------------------------------------------
+
+    @Nullable
+    public SoundEvent getAlarmSound() {
+        SoundEvent alarm = EntityUtils.getSound(this.getType(), this.getVariant(), "alarm");
+        return alarm != null ? alarm : this.getThreatSound();
+    }
+
+    /** Long-range contact call (bugle, howl, trumpet); null = this type has none. */
+    @Nullable
+    public SoundEvent getCallSound() {
+        return EntityUtils.getSound(this.getType(), this.getVariant(), "call");
+    }
+
+    /** A mouthful. Herbivores fall back to the shared grazing sound. */
+    @Nullable
+    public SoundEvent getEatSound() {
+        SoundEvent eat = EntityUtils.getSound(this.getType(), this.getVariant(), "eat");
+        return eat != null || this.isCarnivore() ? eat : untamedwilds.init.ModSounds.ENTITY_GRAZER_EAT;
+    }
+
+    public SoundEvent getDrinkSound() {
+        SoundEvent drink = EntityUtils.getSound(this.getType(), this.getVariant(), "drink");
+        return drink != null ? drink : untamedwilds.init.ModSounds.ENTITY_ANIMAL_DRINK;
+    }
+
+    /**
+     * A footstep: the type's "step" sound (heavy megafauna steps), scaled by size, when footstep_sounds is on;
+     * otherwise the vanilla step the entity always used.
+     */
+    protected void playFootstep(SoundEvent vanilla, float volume, float pitch) {
+        SoundEvent step = ConfigAmbience.footstepSounds.get() ? EntityUtils.getSound(this.getType(), this.getVariant(), "step") : null;
+        if (step != null) {
+            float size = Math.max(0.3F, this.getMobSize());
+            this.playSound(step, Mth.clamp(0.15F + 0.12F * size, 0.15F, 0.5F), Mth.clamp(1.15F - 0.15F * size, 0.75F, 1.1F));
+        } else {
+            this.playSound(vanilla, volume, pitch);
+        }
+    }
+
+    private static final Map<EntityType<?>, Float> TYPICAL_SIZE = new HashMap<>();
+
+    /** The median species scale of this type: the size its recordings are pitched for. */
+    private float typicalSize() {
+        return TYPICAL_SIZE.computeIfAbsent(this.getType(), type -> {
+            EntityDataHolder data = getEntityData(type);
+            if (data == null || data.getSpeciesData().isEmpty()) {
+                return 1.0F;
+            }
+            List<Float> scales = new ArrayList<>();
+            for (untamedwilds.util.SpeciesDataHolder s : data.getSpeciesData()) {
+                Float scale = s.getModelScale();
+                if (scale != null && scale > 0F) {
+                    scales.add(scale);
+                }
+            }
+            if (scales.isEmpty()) {
+                return 1.0F;
+            }
+            java.util.Collections.sort(scales);
+            return scales.get(scales.size() / 2);
+        });
+    }
+
+    /** 2.8.0: vanilla pitch (babies higher) x size relative to the type's typical species, clamped. */
+    @Override
+    public float getVoicePitch() {
+        float base = super.getVoicePitch();
+        if (!ConfigAmbience.pitchBySize.get() || this.isBaby()) {
+            return base;
+        }
+        float size = this.getMobSize();
+        float ref = this.typicalSize();
+        if (size <= 0F || ref <= 0F) {
+            return base;
+        }
+        return base * Mth.clamp((float) Math.sqrt(ref / size), 0.75F, 1.35F);
+    }
+
+    /** Big animals are heard from further away: 1.0 for small types up to 2.0 for the largest. */
+    @Override
+    protected float getSoundVolume() {
+        return Mth.clamp(0.8F + 0.4F * this.getBbHeight(), 1.0F, 2.0F);
+    }
+
+    /**
+     * Herd leaders and solitary animals now and then make their long-range call (bugle, howl, trumpet), audible
+     * 48-64 blocks away (volume 3: the server sends a sound to players within 16 x volume). Server side, every 100
+     * ticks staggered by id.
+     */
+    protected void tickCalls() {
+        if ((this.tickCount + this.getId()) % 100 != 0 || !ConfigAmbience.longRangeCalls.get() || this.isBaby()
+                || this.isSleeping() || this.fleeCooldown > 0 || this.getTarget() != null) {
+            return;
+        }
+        if (this.herd != null && this.herd.creatureList.size() > 1 && this.herd.getLeader() != this) {
+            return;
+        }
+        if (this.random.nextInt(Math.max(1, ConfigAmbience.callIntervalTicks.get() / 100)) != 0) {
+            return;
+        }
+        SoundEvent call = this.getCallSound();
+        if (call != null) {
+            untamedwilds.util.PerfCounters.inc(untamedwilds.util.PerfCounters.Counter.CALL_PLAYED);
+            this.playSound(call, 3.0F, this.getVoicePitch());
+        }
+    }
+
+    /** The goal selector, for GameTests that need to call a specific goal directly (2.8.0). */
+    public net.minecraft.world.entity.ai.goal.GoalSelector goalSelectorForTests() {
+        return this.goalSelector;
+    }
+
+    /** Drops the per-tick eco memo; the next {@link #getEcoLevel} recomputes. */
+    public void invalidateEcoCache() {
+        this.ecoTickHerd = Long.MIN_VALUE;
+        this.ecoTickPrey = Long.MIN_VALUE;
+    }
+
+    @Override
+    public void setHealth(float health) {
+        super.setHealth(health);
+        this.invalidateEcoCache();
+    }
+
     /* Identity of the one-attack-long ATTACK_DAMAGE modifier used by every predator damage bonus. A
      * fixed UUID, because removeModifier keys off it and a fresh one per attack would leak. */
     private static final UUID ATTACK_BONUS_UUID = UUID.fromString("7a5f3c11-2b64-4d0e-9c7a-1f8e05d3b642");
@@ -421,6 +802,7 @@ public abstract class ComplexMob extends TamableAnimal {
             attack.addTransientModifier(new AttributeModifier(ATTACK_BONUS_UUID, "Predator attack bonus",
                     bonus, AttributeModifier.Operation.MULTIPLY_TOTAL));
         }
+        this.invalidateEcoCache();
     }
 
     /** Tears down {@link #applyAttackBonus}. Safe to call when no bonus was applied. */
@@ -429,6 +811,13 @@ public abstract class ComplexMob extends TamableAnimal {
         if (attack != null) {
             attack.removeModifier(ATTACK_BONUS_UUID);
         }
+        this.invalidateEcoCache();
+    }
+
+    /** True while a transient attack bonus is applied (between applyAttackBonus and clearAttackBonus). */
+    public boolean hasAttackBonus() {
+        AttributeInstance attack = this.getAttribute(Attributes.ATTACK_DAMAGE);
+        return attack != null && attack.getModifier(ATTACK_BONUS_UUID) != null;
     }
 
     /**
@@ -489,7 +878,17 @@ public abstract class ComplexMob extends TamableAnimal {
                 && (this.herd == null || this.herd.creatureList.size() <= 1)) {
             factor = Math.min(factor, 1F - ConfigGamerules.solitaryMegafaunaDamageReduction.get().floatValue());
         }
+        // Armour (glyptodont carapace): their herds are pairs, too small for the herd term to protect them.
+        float shell = this.getCarapaceReduction();
+        if (shell > 0F && source.getEntity() instanceof ComplexMob attacker && attacker.isCarnivore()) {
+            factor = Math.min(factor, 1F - shell);
+        }
         return super.hurt(source, factor >= 1F ? amount : amount * factor);
+    }
+
+    /** Fraction of predator damage this animal's armour turns aside. 0 for everything but the armoured herbivores. */
+    protected float getCarapaceReduction() {
+        return 0F;
     }
 
     /** Max health from which a herd-less herbivore counts as solitary megafauna (rhinos, solitary sloths, moose). */
@@ -649,14 +1048,15 @@ public abstract class ComplexMob extends TamableAnimal {
         this.routFromCombat();
     }
 
-    /* Burned while the animal is panicking, recovered at half rate while it is not. */
+    /* Burned while the animal is panicking, recovered at the same rate while it is not (2026-10-24: was half
+     * rate, so a single panic left a herd blown for 400 ticks -- long enough for a pack's second rush). */
     private void tickFleeStamina() {
         int max = ConfigGamerules.preyFleeStaminaTicks.get();
         if (this.fleeCooldown > 0) {
             if (this.fleeStamina > 0) {
                 this.fleeStamina--;
             }
-        } else if (this.fleeStamina < max && this.tickCount % 2 == 0) {
+        } else if (this.fleeStamina < max) {
             this.fleeStamina++;
         }
         if (this.fleeStamina > max) {
@@ -936,6 +1336,12 @@ public abstract class ComplexMob extends TamableAnimal {
      */
     private void tickSurvival() {
         this.lifeTicks++;
+        /* Nursing young are fed by their mother (who pays lactation_drain_factor if she is a predator), so
+         * the species' own hunger drain cannot empty them. Calves used to drain to 0 while unable to graze
+         * and reached adulthood already starving. */
+        if (this.isNursing() && this.getHunger() < 80) {
+            this.setHunger(80);
+        }
         if (this.getHunger() > 0) {
             this.starveTicks = 0;
         } else {
@@ -951,6 +1357,26 @@ public abstract class ComplexMob extends TamableAnimal {
          * same tick, and this roll would land on top of that spike. */
         if (this.tickCount % 1000 == 0) {
             this.tickSenescence();
+        }
+        // Offset from the senescence roll so the two never land on the same tick.
+        if (this.tickCount % 1000 == 500) {
+            this.tickClimate();
+        }
+    }
+
+    /**
+     * Cold stress (2026-10-06): an animal that is not cold-adapted burns extra hunger while snow falls
+     * on it or through a temperate Serene Seasons winter -- winter scarcity through cost, not through a
+     * breeding gate (breeding runs all year; see CompatSereneSeasons). Babies and tamed animals are
+     * exempt for the same reasons they are exempt from starvation.
+     */
+    private void tickClimate() {
+        int drain = ConfigGamerules.coldHungerDrain.get();
+        if (drain <= 0 || !EcologyMode.allowsClimateEffects(this) || this.isBaby() || this.isTame() || this.isDeadOrDying()) {
+            return;
+        }
+        if (ClimateHelper.isColdStressed(this)) {
+            this.addHunger(-drain);
         }
     }
 
@@ -995,15 +1421,21 @@ public abstract class ComplexMob extends TamableAnimal {
      * through machinery that already existed. That is intended, not a side effect.
      */
     private void tickStarvation() {
-        if (!EcologyMode.allowsStarvationDeath(this) || this.isBaby() || this.isTame() || this.isDeadOrDying()) {
+        /* 2026-10-24: weaned predator cubs CAN starve -- cubs used to be exempt for their whole babyhood, so
+         * predator young cost nothing and survived to adulthood whatever the prey supply. Nursing young of
+         * every kind, and herbivore calves (which can now graze once weaned), stay exempt. */
+        boolean exemptYoung = this.isBaby() && (this.isNursing() || !this.isCarnivore());
+        if (!EcologyMode.allowsStarvationDeath(this) || exemptYoung || this.isTame() || this.isDeadOrDying()) {
             return;
         }
         int interval = ConfigGamerules.starvationDamageInterval.get();
         float damage = ConfigGamerules.starvationDamage.get().floatValue();
-        if (damage <= 0 || this.starveTicks <= ConfigGamerules.starvationGraceTicks.get()) {
+        // Adult predators get the longer grace, so a lean spell thins the weaned cubs before the breeders.
+        int grace = this.isCarnivore() && !this.isBaby() ? ConfigGamerules.predatorStarvationGrace.get() : ConfigGamerules.starvationGraceTicks.get();
+        if (damage <= 0 || this.starveTicks <= grace) {
             return;
         }
-        if ((this.starveTicks - ConfigGamerules.starvationGraceTicks.get()) % interval < CONDITION_INTERVAL) {
+        if ((this.starveTicks - grace) % interval < CONDITION_INTERVAL) {
             this.hurt(DamageSource.STARVE, damage);
             if (UntamedWilds.DEBUG) {
                 UntamedWilds.LOGGER.info("{} is starving, {} ticks at zero hunger, {}/{} health", this.getName().getString(), this.starveTicks, this.getHealth(), this.getMaxHealth());
@@ -1021,7 +1453,8 @@ public abstract class ComplexMob extends TamableAnimal {
      * and a world that has retuned its breeding rates gets a consistent lifespan without further work.
      */
     public int getLifespan() {
-        return (int) Math.min(Integer.MAX_VALUE, (long) (this.getAdulthoodTime() * ConfigGamerules.lifespanMultiplier.get()));
+        double multiplier = this.isCarnivore() ? ConfigGamerules.predatorLifespanMultiplier.get() : ConfigGamerules.lifespanMultiplier.get();
+        return (int) Math.min(Integer.MAX_VALUE, (long) (this.getAdulthoodTime() * multiplier));
     }
 
     /**
@@ -1061,6 +1494,7 @@ public abstract class ComplexMob extends TamableAnimal {
             if (UntamedWilds.DEBUG) {
                 UntamedWilds.LOGGER.info("{} died of old age at {} ticks (lifespan {})", this.getName().getString(), this.lifeTicks, lifespan);
             }
+            this.oldAgeDeath = true;
             this.hurt(DamageSource.GENERIC, this.getMaxHealth() * 4F);
         }
     }
@@ -1093,7 +1527,96 @@ public abstract class ComplexMob extends TamableAnimal {
         if (!EcologyMode.usesConditionForBreeding(this)) {
             return true;
         }
-        return this.isInGoodCondition() && !this.isLocallyOvercrowded();
+        // Still rearing the last litter (2026-10-24).
+        if (this.rearingTicks > 0) {
+            return false;
+        }
+        /* THE NUMERICAL RESPONSE (2026-10-24): breed only while local prey per predator is high enough.
+         * Predators then grow until they reach about predator_breed_ratio and stop; the lag from gestation
+         * and maturity is what makes predator and prey numbers cycle instead of running away. Bears and
+         * solitary cats had no density limit at all (isLocallyOvercrowded needs a herd), which is how a
+         * soak test ended with 780 bears and 330 herbivores.
+         * Safety net (the reason the old 3x-faster breeding existed): a predator that is RARE locally --
+         * no other adult of its kind in range, a mate aside -- breeds at a lower ratio and condition, so a
+         * knocked-down population can always climb back. */
+        boolean rare = this.isRarePredatorHere();
+        double needCondition = rare ? ConfigGamerules.rarePredatorCondition.get() : ConfigGamerules.breedingConditionThreshold.get();
+        double needRatio = rare ? ConfigGamerules.rarePredatorBreedRatio.get() : ConfigGamerules.predatorBreedRatio.get();
+        return this.condition >= needCondition && this.preyPerPredator() >= needRatio && !this.isLocallyOvercrowded();
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // Local prey per predator (2026-10-24). One cached scan per predator per RATIO_CACHE_TICKS feeds the
+    // breeding gate, PredatorRelocateGoal and immigration.
+    // ---------------------------------------------------------------------------------------------
+
+    private static final int RATIO_CACHE_TICKS = 600;
+    private long ratioCheckedAt = Long.MIN_VALUE / 2;
+    private float ratioCached;
+    private int sameKindAdultsCached;
+
+    /** Prey (adults, plus half per juvenile) per predator sharing this animal's diet, within ratio_radius. */
+    public float preyPerPredator() {
+        this.refreshRatio();
+        return this.ratioCached;
+    }
+
+    /** No other adult of this predator's type in range, a single mate aside. */
+    public boolean isRarePredatorHere() {
+        this.refreshRatio();
+        return this.sameKindAdultsCached <= 1;
+    }
+
+    private void refreshRatio() {
+        long now = this.level.getGameTime();
+        if (now - this.ratioCheckedAt < RATIO_CACHE_TICKS) {
+            return;
+        }
+        this.ratioCheckedAt = now;
+        float[] r = countPreyAndPredators(this, this.blockPosition(), ConfigGamerules.ratioRadius.get());
+        this.ratioCached = r[0] / Math.max(1F, r[1]);
+        this.sameKindAdultsCached = (int) r[2];
+    }
+
+    /**
+     * {prey, predators, same-type adults other than {@code hunter}} around {@code centre}. Prey is what the
+     * hunter's diet lists among the mod's own animals (vanilla animals still FEED predators, but a
+     * respawning vanilla subsidy must not license predator breeding); predators are adult carnivores that
+     * share at least one diet tag with the hunter, the hunter itself included.
+     */
+    public static float[] countPreyAndPredators(ComplexMob hunter, BlockPos centre, double radius) {
+        float prey = 0F;
+        float preds = 0F;
+        int same = 0;
+        List<String> diet = EcologyTags.getDiet(hunter);
+        for (ComplexMob other : hunter.level.getEntitiesOfClass(ComplexMob.class, new AABB(centre).inflate(radius, 24D, radius))) {
+            if (!other.isAlive() || other.isTame()) {
+                continue;
+            }
+            if (other.isCarnivore()) {
+                if (!other.isBaby() && (other == hunter || sharesDiet(diet, EcologyTags.getDiet(other)))) {
+                    preds += 1F;
+                    if (other != hunter && other.getType() == hunter.getType()) {
+                        same++;
+                    }
+                }
+            } else if (EcologyTags.isPreferredPrey(hunter, other)) {
+                prey += other.isBaby() ? 0.5F : 1F;
+            }
+        }
+        return new float[]{prey, Math.max(1F, preds), same};
+    }
+
+    private static boolean sharesDiet(List<String> a, List<String> b) {
+        if (a.isEmpty() || b.isEmpty()) {
+            return true;
+        }
+        for (String tag : a) {
+            if (b.contains(tag)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -1152,12 +1675,72 @@ public abstract class ComplexMob extends TamableAnimal {
             /* Anything that dies is food. Restricting scavenging to predator KILLS meant a hyena clan
              * could only eat by hunting, which is the opposite of how real scavengers make a living --
              * most of what they eat simply died. Deliberately below the 60 a stolen kill pays. */
+            /* 2026-10-24: a finite pool (max HP x carrion_food_per_health), at most max_scavengers eaters, and
+             * never for a PREDATOR KILL -- the kill pool in satiateFromKill feeds those, and die() runs
+             * inside hurt() before satiateFromKill, so the killer used to collect carrion on its own kill
+             * (+40 on top of its +120). */
             int carrion = ConfigGamerules.carrionHunger.get();
-            if (carrion > 0 && !this.isBaby()) {
-                this.feedScavengers(this, carrion);
+            boolean predated = cause.getEntity() instanceof ComplexMob killer && killer.isCarnivore();
+            /* 2.8.0: a death that leaves a carcass feeds scavengers THROUGH the carcass (FeedOnCarcassGoal, same
+             * per-scavenger caps) instead of paying them instantly from a distance; the loot stays in it too. */
+            boolean leaveCarcass = this.leavesCarcass(cause, predated);
+            if (carrion > 0 && !this.isBaby() && !predated && !leaveCarcass) {
+                float pool = this.getMaxHealth() * ConfigGamerules.carrionFoodPerHealth.get();
+                this.feedScavengers(this, pool, carrion);
             }
+            EcoStats.recordDeath(this, cause, predated);
+            this.carcassPending = leaveCarcass;
+            super.die(cause);
+            this.carcassPending = false;
+            // only if the death really happened: another mod may have cancelled LivingDeathEvent
+            if (leaveCarcass && this.dead) {
+                int perHealth = ConfigGamerules.carcassFoodPerHealth.get();
+                float pool = predated
+                        ? (perHealth <= 0 ? 100000F : this.getMaxHealth() * perHealth)      // 0 = unlimited, as in satiateFromKill
+                        : (carrion > 0 ? this.getMaxHealth() * ConfigGamerules.carrionFoodPerHealth.get() : 0F);
+                this.carcass = EntityCarcass.spawnFrom(this, pool, predated, predated ? 60 : Math.max(1, carrion));
+            }
+            return;
         }
         super.die(cause);
+    }
+
+    /* 2.8.0 carcasses. carcassPending is true only inside super.die() for a death that leaves a carcass, so the loot
+     * stays in the carcass instead of dropping; carcass is the one this animal left (satiateFromKill reads it). */
+    public boolean carcassPending;
+    @Nullable
+    public EntityCarcass carcass;
+
+    /**
+     * Whether this death leaves a carcass. Never for a player's kill (or a player's pet's) -- those drop loot exactly as
+     * before -- nor for babies, tamed, saddled or named animals, anything dying in water or lava, {@code /kill}, or in
+     * Zoo mode; and not past the per-dimension cap, where deaths simply fall back to the old instant behaviour.
+     */
+    protected boolean leavesCarcass(DamageSource cause, boolean predated) {
+        if (!ConfigAmbience.carcasses.get() || !EcologyMode.isEcosystem(this) || !(this instanceof ComplexMobTerrestrial)) {
+            return false;
+        }
+        if (this.isBaby() || this.isTame() || this.isSaddled() || this.hasCustomName() || this.isInWater() || this.isInLava()) {
+            return false;
+        }
+        if (cause == DamageSource.OUT_OF_WORLD || this.lastHurtByPlayerTime > 0 || this.lastHurtByPlayer != null) {
+            return false;
+        }
+        Entity killer = cause.getEntity();
+        if (killer instanceof Player || (killer instanceof net.minecraft.world.entity.TamableAnimal pet && pet.getOwnerUUID() != null)) {
+            return false;
+        }
+        if (!predated && !ConfigAmbience.carcassFromNaturalDeaths.get()) {
+            return false;
+        }
+        return EntityCarcass.countIn(this.level) < ConfigAmbience.carcassGlobalCap.get();
+    }
+
+    @Override
+    protected void dropFromLootTable(DamageSource source, boolean byPlayer) {
+        if (!this.carcassPending) {
+            super.dropFromLootTable(source, byPlayer);
+        }
     }
 
     public boolean isNotMoving(){
@@ -1251,6 +1834,15 @@ public abstract class ComplexMob extends TamableAnimal {
     @SuppressWarnings("unchecked") // Don't use this outside ComplexMobs
     public <T extends ComplexMob> void breed() {
         int bound = 1 + (this.getOffspring() > 0 ? this.random.nextInt(this.getOffspring() + 1) : 0);
+        boolean ecosystemPredator = this.isCarnivore() && EcologyMode.usesConditionForBreeding(this);
+        /* A thin predator mother bears a single cub; a full litter needs good condition (2026-10-24). */
+        if (ecosystemPredator && this.condition < ConfigGamerules.fullLitterCondition.get()) {
+            bound = 1;
+        }
+        // The cub-rearing interval: no new pregnancy until this litter is well on its way to independence.
+        if (ecosystemPredator && !this.isMale()) {
+            this.rearingTicks = (int) (this.getAdulthoodTime() * ConfigGamerules.predatorRearingFraction.get());
+        }
         for (int i = 0; i < bound; i++) {
             T child = (T) this.getBreedOffspring((ServerLevel) this.level, this);
             if (child != null) {
@@ -1270,6 +1862,7 @@ public abstract class ComplexMob extends TamableAnimal {
                 }
                 //((ServerLevel)this.level).addFreshEntityWithPassengers(child);
                 this.level.addFreshEntity(child);
+                EcoStats.recordBirth(child);
                 this.level.broadcastEntityEvent(this, (byte)18);
             }
         }
@@ -1351,6 +1944,28 @@ public abstract class ComplexMob extends TamableAnimal {
         }
     }
 
+    /**
+     * Applies the species' MAX_HEALTH and ATTACK_DAMAGE from its JSON, keeping the type's registered default
+     * for any value the species leaves out (2026-10-24). The species codec defaults a missing value to -1,
+     * which vanilla clamps to 1 HP / 0 attack -- six antelope species, tetrameryx among them, spawned with
+     * 1 HP: every hit killed them and each kill was worth 8 food, so predators stayed hungry and hunted them
+     * at the cooldown limit.
+     */
+    public void applySpeciesHealthAndAttack() {
+        EntityDataHolder data = getEntityData(this.getType());
+        if (data == null || this.getVariant() >= data.getSpeciesData().size()) {
+            return;
+        }
+        float attack = data.getSpeciesData().get(this.getVariant()).getAttack();
+        float health = data.getSpeciesData().get(this.getVariant()).getHealth();
+        if (attack >= 0F && this.getAttribute(Attributes.ATTACK_DAMAGE) != null) {
+            this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(attack);
+        }
+        if (health >= 1F && this.getAttribute(Attributes.MAX_HEALTH) != null) {
+            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(health);
+        }
+    }
+
     public boolean isFood(ItemStack stack) {
         if (getEntityData(this.getType()).getFavouriteFood(this.getVariant()).getItem().equals(Blocks.AIR.asItem()))
             return false;
@@ -1381,6 +1996,14 @@ public abstract class ComplexMob extends TamableAnimal {
         int i = this.age;
         super.setAge(age);
         this.age = age;
+        /* Coming of age (2026-10-24): start adult life with a clean starvation clock, and a solitary
+         * predator leaves home once, toward better hunting ground (PredatorRelocateGoal). */
+        if (i < 0 && age >= 0 && !this.level.isClientSide) {
+            this.starveTicks = 0;
+            if (this.isCarnivore() && !this.isTame() && (this.herd == null || this.herd.getMaxSize() <= 1)) {
+                this.pendingDispersal = true;
+            }
+        }
         if (!this.isMale() && !(this instanceof INestingMob nestingMob && nestingMob.isEggLayer()) && !ConfigGamerules.easyBreeding.get()) {
             if (i > 0 && age <= 0) {
                 this.breed();
@@ -1420,6 +2043,27 @@ public abstract class ComplexMob extends TamableAnimal {
     private static final double STRAY_RADIUS_FACTOR = 2.0D;
 
     private static int computeEcoLevel(LivingEntity entity, boolean includeHerd) {
+        if (!(entity instanceof ComplexMob mob) || mob.level == null) {
+            return computeEcoLevelUncached(entity, includeHerd);
+        }
+        long now = mob.level.getGameTime();
+        if (includeHerd ? mob.ecoTickHerd == now : mob.ecoTickPrey == now) {
+            return includeHerd ? mob.ecoValueHerd : mob.ecoValuePrey;
+        }
+        int value = computeEcoLevelUncached(entity, includeHerd);
+        if (!mob.hasAttackBonus()) {
+            if (includeHerd) {
+                mob.ecoTickHerd = now;
+                mob.ecoValueHerd = value;
+            } else {
+                mob.ecoTickPrey = now;
+                mob.ecoValuePrey = value;
+            }
+        }
+        return value;
+    }
+
+    private static int computeEcoLevelUncached(LivingEntity entity, boolean includeHerd) {
         if (entity instanceof Player) {
             return (int) (4 + (entity.getHealth() / 6));
         }
@@ -1479,9 +2123,9 @@ public abstract class ComplexMob extends TamableAnimal {
      * The "can this animal scavenge" question therefore lives on the recipient, in
      * {@link #canScavengeCarcass()}.
      */
-    protected void shareCarcassWithScavengers(Entity target) {
-        // Less than a pack-mate's 90: they are getting the scraps, not the carcass.
-        this.feedScavengers(target, 60);
+    protected void shareCarcassWithScavengers(Entity target, float pool) {
+        // Less than a pack-mate's 90: they are getting the scraps, not the carcass -- and only what is left.
+        this.feedScavengers(target, pool, 60);
     }
 
     /**
@@ -1493,18 +2137,32 @@ public abstract class ComplexMob extends TamableAnimal {
      *              carcass itself for an unowned death, in which case nothing is excluded but the
      *              carcass.
      */
-    protected void feedScavengers(Entity target, int amount) {
-        if (this.level.isClientSide() || amount <= 0) {
+    protected void feedScavengers(Entity target, float pool, int perScavengerCap) {
+        int limit = ConfigGamerules.maxScavengers.get();
+        if (this.level.isClientSide() || perScavengerCap <= 0 || pool < 1F || limit <= 0) {
             return;
         }
-        for (ComplexMob scavenger : this.level.getEntitiesOfClass(ComplexMob.class, new AABB(target.blockPosition()).inflate(16D))) {
-            /* The killer itself and its own pack-mates have already eaten above, at the full 120/90. Feeding
-             * them again here would hand a hyena clan that made its own kill a third helping. */
-            if (scavenger == this || scavenger == target || !scavenger.isAlive() || !scavenger.canScavengeCarcass()
-                    || (this.herd != null && this.herd.creatureList.contains(scavenger))) {
-                continue;
+        /* At most max_scavengers eat, nearest first, each up to perScavengerCap, and only while the pool
+         * lasts (2026-10-24). Babies do not scavenge (cubs eat at their mother's kill -- carcassEaters), and
+         * nothing eats a dead animal of its own type: bears dying of old age or hunger used to feed every
+         * other bear in range, a loop that paid the population for its own die-off. */
+        List<ComplexMob> candidates = this.level.getEntitiesOfClass(ComplexMob.class, new AABB(target.blockPosition()).inflate(16D),
+                scavenger -> scavenger != this && scavenger != target && scavenger.isAlive() && !scavenger.isBaby()
+                        && scavenger.canScavengeCarcass() && scavenger.getType() != target.getType()
+                        && (this.herd == null || !this.herd.creatureList.contains(scavenger)));
+        candidates.sort(Comparator.comparingDouble(s -> s.distanceToSqr(target)));
+        int fed = 0;
+        for (ComplexMob scavenger : candidates) {
+            if (fed >= limit || pool < 1F) {
+                break;
             }
-            scavenger.addHunger(amount);
+            int bite = (int) Math.min(perScavengerCap, pool / Math.max(1, Math.min(limit, candidates.size()) - fed));
+            if (bite <= 0) {
+                break;
+            }
+            scavenger.addHunger(bite);
+            pool -= bite;
+            fed++;
             scavenger.huntingCooldown = ConfigGamerules.predatorKillCooldown.get();
             scavenger.endHuntCommitment();
         }
@@ -1572,25 +2230,40 @@ public abstract class ComplexMob extends TamableAnimal {
      * scraps. It still pays the kill cooldown -- the hunt happened, the meal largely did not, and that
      * asymmetry is exactly what makes a scavenger's living cheaper than a hunter's.
      */
-    private void loseCarcassTo(ComplexMob thief, Entity target) {
-        this.addHunger(40);
-        this.huntingCooldown = ConfigGamerules.predatorKillCooldown.get();
-        this.endHuntCommitment();
-        this.routFromCombat();
-        thief.addHunger(120);
-        thief.huntingCooldown = ConfigGamerules.predatorKillCooldown.get();
+    /** @return the food left over after the thief, its group and the killer have eaten (2.8.0: kept in the carcass) */
+    private float loseCarcassTo(ComplexMob thief, Entity target, float pool) {
+        /* The thief and its group eat from the same finite pool the killer would have (2026-10-24); the
+         * animal that did the work gets what scraps are left, up to the old 40. */
+        List<ComplexMob> group = new ArrayList<>();
         if (thief.herd != null) {
             for (ComplexMob member : thief.herd.creatureList) {
                 if (member != thief && member.isAlive() && member.distanceToSqr(target) < 256D) {
-                    member.addHunger(90);
-                    member.huntingCooldown = ConfigGamerules.predatorKillCooldown.get();
-                    member.endHuntCommitment();
+                    group.add(member);
                 }
             }
         }
+        float share = pool / (1 + group.size());
+        int own = (int) Math.min(120F, share);
+        thief.addHunger(own);
+        pool -= own;
+        thief.huntingCooldown = ConfigGamerules.predatorKillCooldown.get();
+        for (ComplexMob member : group) {
+            int bite = (int) Math.min(90F, share);
+            member.addHunger(bite);
+            pool -= bite;
+            member.huntingCooldown = ConfigGamerules.predatorKillCooldown.get();
+            member.endHuntCommitment();
+        }
+        int scraps = (int) Math.max(0F, Math.min(40F, pool));
+        this.addHunger(scraps);
+        pool -= scraps;
+        this.huntingCooldown = ConfigGamerules.predatorKillCooldown.get();
+        this.endHuntCommitment();
+        this.routFromCombat();
         if (UntamedWilds.DEBUG) {
             UntamedWilds.LOGGER.info("{} was driven off its kill by {}", this.getName().getString(), thief.getName().getString());
         }
+        return Math.max(0F, pool);
     }
 
     /**
@@ -1636,22 +2309,109 @@ public abstract class ComplexMob extends TamableAnimal {
     // 2 - Sit: The mob will sit in place
     // 3 - Guard: The mob will sit in place and attack nearby mobs (NIY)
     public void setCommandInt(int command) { this.entityData.set(COMMAND, command % 3); }
+
+    // ---- Mounts (2026-10-08) -------------------------------------------------------------------------
+    public boolean isSaddled() { return this.entityData.get(SADDLED); }
+    public void setSaddled(boolean saddled) { this.entityData.set(SADDLED, saddled); }
+
+    /** How this type rides when tamed and saddled; null = not rideable. */
+    @Nullable
+    public MountProfile getMountProfile() { return null; }
+
+    public boolean canBeSaddled() {
+        return this.getMountProfile() != null && !this.isBaby() && this.getBbHeight() >= MountProfile.MIN_HEIGHT;
+    }
+
+    @Nullable
+    @Override
+    public Entity getControllingPassenger() {
+        // Only a saddled mount is steered; the wild-bison/boar rodeo keeps its passenger uncontrolled.
+        return this.isSaddled() && this.getFirstPassenger() instanceof Player rider ? rider : null;
+    }
+
+    @Override
+    protected boolean canAddPassenger(Entity passenger) {
+        MountProfile mount = this.getMountProfile();
+        return this.getPassengers().size() < (mount != null && this.isSaddled() ? mount.seats() : 1);
+    }
+
+    @Override
+    public double getPassengersRidingOffset() {
+        MountProfile mount = this.getMountProfile();
+        return mount != null && this.isSaddled() ? this.getBbHeight() * mount.riderHeight() : super.getPassengersRidingOffset();
+    }
+
+    @Override
+    public void positionRider(Entity passenger) {
+        super.positionRider(passenger);
+        int seat = this.getPassengers().indexOf(passenger);
+        if (seat > 0 && this.isSaddled()) {
+            // second seat sits behind the first along the body axis
+            float back = this.getBbWidth() * 0.35F * seat;
+            float yaw = this.yBodyRot * ((float) Math.PI / 180F);
+            passenger.setPos(passenger.getX() + net.minecraft.util.Mth.sin(yaw) * back, passenger.getY(), passenger.getZ() - net.minecraft.util.Mth.cos(yaw) * back);
+        }
+    }
+
+    @Override
+    protected void dropCustomDeathLoot(DamageSource source, int looting, boolean recentlyHit) {
+        super.dropCustomDeathLoot(source, looting, recentlyHit);
+        if (this.isSaddled()) {
+            this.spawnAtLocation(Items.SADDLE);
+        }
+    }
     public int getCommandInt() { return (this.entityData.get(COMMAND)); }
 
     public boolean shouldDespawn() { return this instanceof ISpecies && this.getHome() != BlockPos.ZERO; }
+
+    /**
+     * 2.8.0: off by default (= unchanged). When {@code count_toward_vanilla_mob_cap} is false, UW animals stop
+     * counting toward the vanilla CREATURE cap, and vanilla's despawn check skips its per-tick nearest-player
+     * search. Nothing despawns either way: {@link #removeWhenFarAway} is already false.
+     */
+    /**
+     * 2.8.0: a player who starts tracking this animal while it is mid-animation gets that animation at its
+     * current tick. Citadel only ever announced an animation at tick 0, so anyone who walked into range a
+     * moment later saw the animal frozen in its idle pose for the rest of it.
+     */
+    @Override
+    public void startSeenByPlayer(net.minecraft.server.level.ServerPlayer player) {
+        super.startSeenByPlayer(player);
+        if (this instanceof com.github.alexthe666.citadel.animation.IAnimatedEntity animated
+                && animated.getAnimation() != null
+                && animated.getAnimation() != com.github.alexthe666.citadel.animation.IAnimatedEntity.NO_ANIMATION) {
+            int index = org.apache.commons.lang3.ArrayUtils.indexOf(animated.getAnimations(), animated.getAnimation());
+            if (index >= 0) {
+                untamedwilds.network.UntamedInstance.sendToClient(
+                        new untamedwilds.network.AnimationStartPacket(this.getId(), index, animated.getAnimationTick()), player);
+            }
+        }
+    }
+
+    @Override
+    public boolean requiresCustomPersistence() {
+        return super.requiresCustomPersistence() || !ConfigPerformance.countTowardMobCap.get();
+    }
+
     @Override
     public void checkDespawn() {
         super.checkDespawn();
-        if (this.shouldDespawn()) {
-            if (!this.level.hasNearbyAlivePlayer(this.getX(), this.getY(), this.getZ(), ConfigMobControl.critterSpawnRange.get())) {
-                if (this instanceof ISpecies && this.getHome() != BlockPos.ZERO) {
-                    BlockEntity burrow = this.level.getBlockEntity(this.getHome());
-                    if (burrow instanceof CritterBurrowBlockEntity) {
-                        ((CritterBurrowBlockEntity)burrow).tryEnterBurrow(this);
-                        burrow.setChanged();
-                    }
-                }
-            }
+        /* 2.8.0: was every tick, for every animal with a home -- which since herd migration is most of them --
+         * and getBlockEntity() on a home in an unloaded chunk LOADS that chunk synchronously. Only a critter
+         * burrow ever acts on this, so: every 20 ticks, staggered by id, never touching an unloaded chunk, and
+         * the block entity is tested before the player search. */
+        if ((this.tickCount + this.getId()) % 20 != 0 || !this.shouldDespawn()) {
+            return;
+        }
+        BlockPos home = this.getHome();
+        if (!this.level.isLoaded(home)) {
+            return;
+        }
+        BlockEntity burrow = this.level.getBlockEntity(home);
+        if (burrow instanceof CritterBurrowBlockEntity critterBurrow
+                && !this.level.hasNearbyAlivePlayer(this.getX(), this.getY(), this.getZ(), ConfigMobControl.critterSpawnRange.get())) {
+            critterBurrow.tryEnterBurrow(this);
+            burrow.setChanged();
         }
     }
 
@@ -1666,6 +2426,7 @@ public abstract class ComplexMob extends TamableAnimal {
             compound.putInt("Command", this.getCommandInt());
         }
         compound.putInt("Variant", this.getVariant());
+        compound.putBoolean("Saddled", this.isSaddled());
         compound.putInt("Skin", this.getSkin());
         compound.putFloat("Size", this.getMobSize());
         compound.putInt("Gender", this.getGender());
@@ -1677,7 +2438,11 @@ public abstract class ComplexMob extends TamableAnimal {
          * old, and one whose condition reset would breed off a single kill again. */
         compound.putFloat("Condition", this.condition);
         compound.putInt("LifeTicks", this.lifeTicks);
+        compound.putInt("RearingTicks", this.rearingTicks);
         compound.putInt("StarveTicks", this.starveTicks);
+        if (this.nextDrinkTime >= 0L) {
+            compound.putLong("NextDrink", this.nextDrinkTime);
+        }
     }
 
     public void readAdditionalSaveData(CompoundTag compound){
@@ -1694,6 +2459,7 @@ public abstract class ComplexMob extends TamableAnimal {
         this.setVariant(EntityUtils.getClampedNumberOfSpecies(compound.getInt("Variant"), this.getType()));
         //this.setVariant(compound.getInt("Variant"));
         this.setSkin(compound.getInt("Skin"));
+        this.setSaddled(compound.getBoolean("Saddled"));
         this.setMobSize(compound.getFloat("Size"));
         this.setGender(compound.getInt("Gender"));
         this.setAngry(compound.getBoolean("isAngry"));
@@ -1706,7 +2472,9 @@ public abstract class ComplexMob extends TamableAnimal {
          * starving-weak and, at lifeTicks 0, all the same age. */
         this.condition = compound.contains("Condition") ? compound.getFloat("Condition") : Mth.clamp(this.getHunger() / CONDITION_FULL_HUNGER, 0F, 1F);
         this.lifeTicks = compound.contains("LifeTicks") ? compound.getInt("LifeTicks") : this.random.nextInt(Math.max(1, this.getLifespan() / 2));
+        this.rearingTicks = compound.getInt("RearingTicks");
         this.starveTicks = compound.getInt("StarveTicks");
+        this.nextDrinkTime = compound.contains("NextDrink") ? compound.getLong("NextDrink") : -1L;
     }
 
     @Nullable
@@ -1758,6 +2526,33 @@ public abstract class ComplexMob extends TamableAnimal {
                 }
             }
 
+            // Mounts (2026-10-08): saddle a tamed adult of a rideable type, ride it with an empty hand,
+            // sneak + shears takes the saddle off. Sneak + empty hand still cycles the commands below.
+            if (this.isTame() && this.getOwner() == player && this.canBeSaddled()) {
+                if (!this.isSaddled() && itemstack.is(Items.SADDLE)) {
+                    this.setSaddled(true);
+                    if (!player.getAbilities().instabuild) {
+                        itemstack.shrink(1);
+                    }
+                    this.playSound(SoundEvents.HORSE_SADDLE, 1.0F, 1.0F);
+                    return InteractionResult.CONSUME;
+                }
+                if (this.isSaddled() && itemstack.is(Items.SHEARS) && player.isShiftKeyDown()) {
+                    this.setSaddled(false);
+                    this.spawnAtLocation(Items.SADDLE);
+                    this.playSound(SoundEvents.SHEEP_SHEAR, 1.0F, 1.0F);
+                    return InteractionResult.CONSUME;
+                }
+                if (this.isSaddled() && itemstack.isEmpty() && !player.isShiftKeyDown() && this.canAddPassenger(player)) {
+                    this.setSitting(false);
+                    this.setSleeping(false);
+                    this.getNavigation().stop();
+                    player.setYRot(this.getYRot());
+                    player.setXRot(this.getXRot());
+                    player.startRiding(this);
+                    return InteractionResult.CONSUME;
+                }
+            }
             // Command handler for tamed mobs, includes Food/Potion consumption
             if (this.isTame() && this.getOwner() == player) {
                 if (itemstack.isEmpty()) {

@@ -1,0 +1,136 @@
+{
+  "name": "diprotodont",
+  "breeding": "EARLY_SUMMER",
+  "growing_time": 12,
+  "offspring": 1,
+  "activityType": "cathemeral",
+  "favourite_food": "minecraft:sweet_berries",
+  "sounds":{
+    "ambient":"untamedwilds:entity.diprotodont.ambient",
+    "hurt":"untamedwilds:entity.diprotodont.hurt",
+    "death":"untamedwilds:entity.diprotodont.death",
+    "threat":"untamedwilds:entity.diprotodont.threat",
+    "step":"untamedwilds:entity.megafauna.step"
+  },
+  "flags": {
+    "groupCount": 3
+  },
+  "ecology": {
+    "tags": [
+      "browser",
+      "megafauna"
+    ]
+  },
+  "species": [
+    {
+      "name": "diprotodon",
+      "variant": 0,
+      "scale": 1.211,
+      "rarity": 2,
+      "attack": 12,
+      "health": 110,
+      "flags": {
+        "groupCount": 4
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|plains"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.16
+      }
+    },
+    {
+      "name": "zygomaturus",
+      "variant": 1,
+      "scale": 0.74,
+      "rarity": 2,
+      "attack": 7,
+      "health": 60,
+      "flags": {
+        "groupCount": 3
+      },
+      "spawnBiomes": [
+        [
+          "category|swamp"
+        ],
+        [
+          "category|forest"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.17
+      }
+    },
+    {
+      "name": "nototherium",
+      "variant": 2,
+      "scale": 0.807,
+      "rarity": 2,
+      "attack": 8,
+      "health": 66,
+      "flags": {
+        "groupCount": 3
+      },
+      "spawnBiomes": [
+        [
+          "category|savanna"
+        ],
+        [
+          "category|forest"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.17
+      }
+    },
+    {
+      "name": "hulitherium",
+      "variant": 3,
+      "scale": 0.538,
+      "rarity": 1,
+      "attack": 5,
+      "health": 36,
+      "flags": {
+        "groupCount": 2
+      },
+      "spawnBiomes": [
+        [
+          "category|jungle"
+        ],
+        [
+          "category|extreme_hills"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.18
+      }
+    },
+    {
+      "name": "maokopia",
+      "variant": 4,
+      "scale": 0.404,
+      "rarity": 1,
+      "attack": 3,
+      "health": 24,
+      "flags": {
+        "groupCount": 2
+      },
+      "spawnBiomes": [
+        [
+          "category|extreme_hills"
+        ],
+        [
+          "category|jungle"
+        ]
+      ],
+      "ecology": {
+        "speed": 0.19
+      }
+    }
+  ]
+}

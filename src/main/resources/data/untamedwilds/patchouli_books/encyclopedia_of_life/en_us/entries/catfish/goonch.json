@@ -1,0 +1,22 @@
+{
+    "name": "Goonch",
+    "icon": "untamedwilds:textures/icon/catfish/goonch.png",
+    "category": "untamedwilds:catfish_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Goonch",
+            "text": "The goonch ($(o)Bagarius bagarius$()), long known as $(o)Bagarius yarrelli$(), is a giant catfish of the fast, rocky rivers of India, Nepal and Bangladesh.$(br2)It has a broad, flat head, a wide mouth full of sharp teeth, a mottled brown body and long trailing tips on its fins, and can reach 2 metres.$(br2)Fatal attacks on people in the Kali River between 1998 and 2007 were blamed on a giant goonch, though this was never proven."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:catfish{Variant: 4, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Goonch",
+            "text": "Relative Size: ★★☆☆☆$(br2)Always active$(br2)1 Color$(br2)Favourite Food: Chum$(br2)Number of Offspring: 5$(br2)Growth time: 6 Days"
+        }
+    ]
+}

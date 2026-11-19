@@ -1,0 +1,22 @@
+{
+    "name": "Cave Wolf",
+    "icon": "untamedwilds:textures/icon/dire_wolf/pleistocene_wolf.png",
+    "category": "untamedwilds:dire_wolf_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Cave Wolf",
+            "text": "The cave wolf ($(o)Canis lupus spelaeus$()) is an extinct subspecies of the gray wolf that lived in Europe during the Late Pleistocene.$(br2)It takes its name from the caves in which many of its remains have been found.$(br2)Like other Ice Age wolves, it had a sturdier skull and stronger teeth than most living wolves, suited to hunting and scavenging the large animals of the mammoth steppe."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:dire_wolf{Variant: 1, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Cave Wolf",
+            "text": "Relative Size: ★★☆☆☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 3$(br2)Growth time: 5 Days"
+        }
+    ]
+}

@@ -1,0 +1,22 @@
+{
+    "name": "Hulitherium",
+    "icon": "untamedwilds:textures/icon/diprotodont/hulitherium.png",
+    "category": "untamedwilds:diprotodont_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Hulitherium",
+            "text": "$(o)Hulitherium$() ($(o)Hulitherium tomasettii$()) was a diprotodont from the highland forests of New Guinea, known from the Late Pleistocene.$(br2)It is sometimes compared to a giant panda in build, and may have fed on bamboo and other forest plants.$(br2)Like other New Guinea diprotodonts, it was much smaller than its relatives on the Australian mainland."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:diprotodont{Variant: 3, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Hulitherium",
+            "text": "Relative Size: ★★★☆☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Sweet Berries$(br2)Number of Offspring: 1$(br2)Growth time: 12 Days"
+        }
+    ]
+}

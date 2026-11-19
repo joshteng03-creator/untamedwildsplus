@@ -1,0 +1,22 @@
+{
+    "name": "Dhole",
+    "icon": "untamedwilds:textures/icon/dire_wolf/dhole.png",
+    "category": "untamedwilds:dire_wolf_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Dhole",
+            "text": "The dhole ($(o)Cuon alpinus$()), or Asiatic wild dog, is a canid native to the forests of Central, South, East and Southeast Asia.$(br2)Dholes live in highly social packs that cooperate to hunt deer and other large prey, and keep in contact with distinctive whistling calls.$(br2)During the Pleistocene, dholes also ranged across Europe."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:dire_wolf{Variant: 2, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Dhole",
+            "text": "Relative Size: ★☆☆☆☆$(br2)Active at irregular hours$(br2)1 Color$(br2)Favourite Food: Raw Beef$(br2)Number of Offspring: 3$(br2)Growth time: 5 Days"
+        }
+    ]
+}

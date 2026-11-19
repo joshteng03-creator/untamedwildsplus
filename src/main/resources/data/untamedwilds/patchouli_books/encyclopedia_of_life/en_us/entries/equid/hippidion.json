@@ -1,0 +1,22 @@
+{
+    "name": "Hippidion",
+    "icon": "untamedwilds:textures/icon/equid/hippidion.png",
+    "category": "untamedwilds:equid_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Hippidion",
+            "text": "The hippidion ($(o)Hippidion principale$()) is an extinct horse that lived in South America during the Pleistocene, disappearing around the end of the last ice age.$(br2)It was stockily built, with short, robust legs, and was the largest member of its genus.$(br2)Its skull had unusually long, slender nasal bones and a deep nasal notch, a feature that sets it apart from the true horses of the genus $(o)Equus$()."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:equid{Variant: 1, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Hippidion",
+            "text": "Relative Size: ★★★☆☆$(br2)Active during Daytime$(br2)1 Color$(br2)Favourite Food: Wheat$(br2)Number of Offspring: 1$(br2)Growth time: 10 Days"
+        }
+    ]
+}

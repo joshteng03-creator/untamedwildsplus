@@ -28,24 +28,37 @@ Any time you remodel an animal, follow the standing 9-phase SOP at
 
 ## ▶ Start here (session handoff — read this first)
 
-**Where things stand (2026-10-01, version 2.6.0):**
-- Branch **`ice-age-megafauna`**, committed and pushed to `origin`
-  (`github.com/joshteng03-creator/untamedwildsplus`). The release PR targets **`1.18.2`**.
-- **Content:** 43 entity types, every one with a model, renderer, species JSON, loot table and spawn
-  entries. The ice-age types (mammoth, deer, ground_sloth, glyptodont, dire_wolf, equid, giraffid,
-  antelope, toxodon, macrauchenia) and the tapir are all **sculpted** in Blockbench and ported to
-  Java, and every skin is painted and user-approved.
-- **Ecology:** hunting, herds, demography, ecosystem mode (`/gamerule untamedwildsEcosystemMode`),
-  predator balance and prey-side defences — see the Progress log and the Phase 1–8 sections below.
-- **Roadmap:** `docs/plans/2026-09-30-status-audit-and-roadmap.md`. Phases 0–8 are done (Phase 2,
-  the in-game verification, was marked complete by the user on 2026-10-01). Phase 9 (release) is
-  built and pushed as 2.6.0; the PR `ice-age-megafauna` → `1.18.2` is opened by the user.
+**Where things stand (2026-11-19, version 2.9.0, uncommitted):**
+- **2.9.0 adds 35 species and 4 new types** (orca, mustelid, ground_bird, great_ape), for 345 species and 55 types.
+  - It also adds Stegodon (a new tusk family), Meiolania (horns + club on the tortoise) and a Birds taxon. The `dire_wolf` type is now displayed as "Canid".
+  - Plan and progress log: `docs/plans/2026-11-19-new-animals.md`. Built, with GameTests 22/22; installed in the Test and Planet Wild instances.
+  - **runClient for 2.7.0 + 2.8.0 + 2.9.0 is still the outstanding item.**
+  - Species batches live in `scripts/species_batches/*.json` and are applied with `scripts/add_species_batch.py`. `scripts/validate/validate_species.py` checks variants, textures and lang.
+  - **Encyclopedia drafts go in a NEW `scratch/encyclopedia_text/text_<letter>.json`.** Never overwrite an existing letter: `text_D.json` was overwritten once and had to be rebuilt from a transcript.
 
-**Next: Phase 10, future mob additions.** The candidate list is `docs/plans/future_species.md`; the
-user picks what goes in. Each pick gets ecology tags + a diet slotted into the food web, is built
-with the full remodelling SOP and Blockbench sign-off for its model and every skin, and any new
-predator or large herbivore gets a census soak (`/untamedwilds census auto <minutes>`) so it doesn't
-undo the Phase 4–5 balance.
+**Before 2.9.0 (2026-11-16, version 2.8.0):**
+- **2.8.0 is built on top of the uncommitted 2.7.0.** It adds voices, eat/drink/alert animations, waterholes, carcasses, performance work and the dedicated-server crash fix. Plan and progress log: `docs/plans/2026-11-16-s-tier-ambience-performance.md`. It is verified headless: `./gradlew runGameTestServer` plus `scripts/soak/soak.py`. See "2.8.0 — ambience and performance" below. New species are PARKED.
+- **Still not done:** the runClient visual pass, for 2.7.0 and 2.8.0 together.
+
+**Before 2.8.0 (2026-11-14, version 2.7.0):**
+- Branch **`ice-age-megafauna`** (`github.com/joshteng03-creator/untamedwildsplus`). 2.6.0 was the last
+  pushed release; **2.7.0 is built** (`build/libs/untamedwilds-1.18.2-2.7.0.jar`, installed in the Test
+  CurseForge instance) and its notes are at the top of `CHANGELOG.md`. Commit/push only when the user says.
+- **Content:** 51 entity types, 310 species. 2.7.0 added eight new types at life size — diprotodont,
+  kangaroo, giant_monitor, pinniped, caprine, large_rodent, wildebeest, crocodilian (37 species) — and the impala
+  (antelope variant 9, lyre horns on rams only), plus climate & weather
+  (Serene Seasons optional), the drops/materials/gear set, the zoo side (encyclopedia for every species,
+  icons, discovery advancements, Field Guide, mounts + saddles, trough/placard/salt lick), baby-skin
+  fixes and the upstream flat-skin repaints.
+- **Plan of record:** `docs/plans/2026-10-06-assessment-climate-drops-art.md` (Decisions log at the
+  bottom). **runClient has NOT been done for anything since 2.6.0** — that in-game pass is the main
+  outstanding item before 2.7.0 is pushed.
+
+**Next (user order 2026-11-14):** Phase 4 is DONE (4.8 crocodilians shipped). Then: (1) the older-skin pass
+(~70 original-art mammal skins, render sheets, the user picks), (2) cheap species on existing bodies, (3) bigger new
+bodies (Stegodon, giant tortoises, wolverine, orca, ground birds, Gigantopithecus), (4) sounds & ambience. Parked:
+the ecosystem soak test, the 9 never-hungry hunters, the 2.7.0 commit (nothing committed since `20754df`), slit-eye blink. Every new type follows the remodelling SOP and the per-asset approval gate, and any
+new predator or large herbivore gets a census soak (`/untamedwilds census auto <minutes>`).
 
 ## ▶ Blockbench MCP — how models get made this session
 
@@ -1121,6 +1134,395 @@ the mammoth action/walk key poses were built into Java after being shown.
   `<sp>_N.png`, else `<sp>.png`), ones digit − 1 = rare count (`<sp>_Nr.png`); dimorphic big cats
   append `_male`/`_female`.
 - The other TODOs are upstream feature wishes (climbing AI, chest raiding, egg hatching…) — left as-is.
+
+### Phase 10 — quick-win species batch (2026-10-02, build SUCCESSFUL, runClient pending)
+
+Six new species on existing bodies, each painted on its real rig and signed off in Blockbench:
+Smilodon fatalis (big_cat 16), chital (deer 14), sambar (deer 15), Glyptotherium (glyptodont 3),
+Glossotherium (ground_sloth 4), Platygonus (boar 8). Species theme: Middle–Late Pleistocene +
+Holocene only (`docs/plans/future_species.md`).
+- **Add species with `scripts/append_species.py <type> '<json>'`**: it appends at the END (variants
+  are saved as integer indices) in the file's own JSON style. Re-dumping a species JSON with
+  `json.dump` reformats the whole file.
+- **Blockbench MCP changed:** most tools are disabled (no `set_camera_angle` / `capture_screenshot`)
+  and inside `risky_eval` a runtime global like `MM` does not resolve as a bare name. Bind it
+  (`var MM = window.MM;`, same for `DEER` / `BOAR`) and take screenshots with
+  `scripts/bb_shots.js` (drives the preview camera, writes PNGs via `fs`).
+- New painters: `paint_smilodon_fatalis.js`, `paint_glyptotherium.js` (per-face stud grid: use an
+  EVEN cell so each centre falls on a texel corner — odd cells give "+" crosses),
+  `paint_glossotherium.js` (recolour by brightness keeps the hand-drawn strands); `chital` /
+  `sambar` / `platygonus` entries in the deer/boar species painters; `deerlib` damps spot rows on
+  z-facing faces; `boarlib` gained a diagonal shoulder `collar*` option.
+
+### Session 2026-10-06 — climate & weather, drops (hides), plan `docs/plans/2026-10-06-assessment-climate-drops-art.md`
+
+User priorities: ecosystem gaps DEFERRED except climate/weather → drops → skins & models → new
+models; **every new visible asset gets a design preview + approval before it is built**; breeding
+stays all year (never season-gated — population-crash risk).
+- **Climate & weather (Phase 1, builds; not run in game):**
+  - `compat/CompatSereneSeasons` = Serene Seasons by REFLECTION (no compile dep; API verified against
+    the 1.18.2 7.0.0.13 jar: `SeasonHelper.getSeasonState(Level)`, `getSeason()`, `getSubSeason()`).
+    `isCurrentSeason` deliberately still returns true.
+  - `world/ClimateHelper`: rain ×2 regrowth, snow stops it, SS spring ×1.5 / autumn ×0.75 / winter
+    ×0.5 (temperate biomes only, base temp < 0.8); cold stress = snow on the animal or SS winter.
+  - `SpeciesDataHolder.isColdAdapted()` (flag `coldAdapted`, else woolly coat or icy/taiga spawn).
+  - `ComplexMob.tickClimate()` (every 1000 ticks, offset 500): −`cold_hunger_drain` hunger when cold
+    stressed, Ecosystem mode only, babies/tamed exempt.
+  - `HerdEntity.tick()`: thunderstorm → grazer herds bunch to half radius; `world/WeatherEventHandler`:
+    lightning → nearby herds bolt away on one heading (both modes).
+  - `/untamedwilds census` prints a climate line. New ConfigGamerules: `climate_effects`,
+    `rain_regrowth_boost`, `spring_regrowth_boost`, `winter_regrowth_factor`, `cold_hunger_drain`,
+    `weather_herd_behaviour`.
+- **Drops so far (Phase 2):**
+  - Loot tables for `block_lard`, `block_pearl`, `flora_bush_creosote`, `flora_pampas_grass` (nest and
+    burrow left empty on purpose); snow-leopard hide added to `forge:hide`/`forge:leather`; whale pool
+    renamed.
+  - **Per-species hides + rugs for every bear (10) and big cat (17):** 17 new, generated by
+    `scripts/gen_hides.py` (closest existing hide recoloured into the species' skin palette; panda,
+    sun bear, spectacled bear, cheetah spots, softened fatalis stripes) and registered by
+    `scripts/register_hides.py` (ModItems / ModBlock CarpetBlock, models, blockstates, loot, 2→6 rug
+    recipe, forge tags, en_us). Every hide also crafts 1 → 1 leather.
+  - Bear/big_cat hide loot rewritten per variant; black-coated jaguar/leopard (Skin:1) drop panther.
+- **Materials (approved + built):** ivory, woolly fur, antler, scute (new art, `scripts/gen_materials.py`),
+  horn, shark tooth, whale meat raw (existing art) + cooked (new); `scripts/register_materials.py` adds
+  items, loot (mammoth ivory + fur and beef → pachyderm meat; rhino horn + woolly-rhino fur; bison and
+  horned-antelope horn; male-deer/all-caribou antler; glyptodont scute; shark tooth; whale meat),
+  bone-meal/wool fallbacks, whale cooking ×3, forge meat tags.
+- **Gear (approved + built, art from vanilla silhouettes via `scripts/gen_gear.py`):**
+  - `item/ModArmorMaterials`: FUR = leather stats (pieces in `minecraft:freeze_immune_wearables`),
+    CARAPACE = iron defence/durability + 1 toughness + 0.05 knockback resistance per piece (full set
+    requested by the user). Overlapping-scute art; fur art is dark, streaked, shaggy.
+  - Serrated arrow (`entity/ProjectileSerratedArrow`, Wither I 2 s on hit, `minecraft:arrows` tag,
+    dispenser behaviour, `RendererSerratedArrow`); Herding Horn (`item/HerdingHornItem`: tamed pets in
+    32 blocks → Follow, sneak → Sit, 7 s cooldown); ivory block/slab/stairs/wall/chiseled with
+    stonecutting. Data via `scripts/register_gear_data.py`.
+- **Batch 3 (approved + built, art `scripts/gen_batch3.py`, registry + data `scripts/register_batch3.py`):**
+  - Hunting spears, 6 vanilla tiers (`item/SpearItem` extends SwordItem so sword enchants + tier repair
+    just work): sword damage −1, speed 1.2, +1 `ForgeMod.ATTACK_RANGE` (modifier built lazily — Forge
+    attributes register AFTER items), no sweep. Hold-and-release throw like a trident →
+    `entity/ProjectileThrownSpear` (melee damage + Sharpness/Smite/Bane + Fire Aspect + Knockback,
+    sticks, picked back up, −1 durability per throw), drawn by `RendererThrownSpear` as two crossed item
+    sprites. Recipe: 2 sticks diagonal + material at the tip; netherite by smithing.
+  - Trims: spear + shark tooth / antler in the grid (`item/SpearTrimRecipe`, serializer in
+    `init/ModRecipes`) → NBT `SpearTrim`, item-model override `untamedwilds:trim` (0.5 tooth, 1 antler),
+    +2 damage to ComplexMobs (melee in `item/HuntingEvents.onLivingHurt`, thrown in the projectile).
+  - Carapace shield (`item/CarapaceShieldItem` + `client/render/CarapaceShieldRenderer` BEWLR, vanilla
+    ShieldModel with its own texture): 504 durability, scute repair, no banners. The `blocking` item
+    predicate has to be registered for it in `UntamedWilds.setupClient`.
+  - Taxidermy: Taxidermy Kit in the OFF hand when a player kills a ComplexMob → kit used, drops a
+    `mounted_specimen` item (`item/MountedSpecimenItem`, saved entity NBT minus living state under
+    `EntityTag`, + `MountWidth/Height`). Placed → `entity/EntityMountedSpecimen`, a plain non-living
+    Entity (NOT a frozen mob — no AI/ecology/census by construction); the client builds an un-ticked copy
+    with `EntityType.create` and `RendererMountedSpecimen` draws it through the species' own renderer at
+    partialTicks 0. Right-click cycles stand/sit/sleep/each animation at its midpoint, sneak turns 45°,
+    name tags work, only players break it (2 quick hits like an armour stand). Keep `Hunger`,
+    `Condition`, `LifeTicks` in the stored NBT: without them the load path calls server-only species
+    data, which a multiplayer client lacks. Display Plinth block (smooth stone + oak top).
+  - **runClient checks:** spear held/charging pose and thrown orientation; shield raise pose; specimen
+    action poses may wobble very slightly (Citadel keyframes interpolate on `getFrameTime`).
+- **Antler decor (approved in Blockbench + built):** `scripts/gen_antler_decor.py` holds ONE element list per
+  model that writes both the shipped block-model JSON and the Blockbench preview (scratch resource pack), so
+  the approved preview IS the shipped model; `scripts/register_antler_decor.py` registers them.
+  - Antler chandelier (`block/AntlerChandelierBlock`): 4 antlers (not 3 — block-model rotations are 22.5°
+    steps, a 120° ring is impossible) around 4 vanilla candles (candle_lit texture + vanilla UVs, flames as
+    SMALL_FLAME particles) on a dark-oak plate under a chain. Hangs only under a sturdy block, light 15, no
+    collision, axe. Recipe `ATA/ATA` (4 antlers + 2 torches).
+  - Antler trophy (`block/AntlerTrophyBlock`, HorizontalDirectionalBlock, model built facing south):
+    bleached deer skull — orbits on the SIDES, long tapering snout, no dark "mouth" (the user rejected a
+    face-like front) — and antler pair on a dark-oak plaque. Wall-mounted, no collision. Recipe `A A/ P `.
+  - Antler texture `textures/block/antler.png`: columns 0-7 one continuous bone gradient (ivory row 0 →
+    burr rows 13-15); elements sample from a start row for their own face height (never squashed). Columns
+    8-15 skull bone. Blockbench caches textures by path: call `t.reloadTexture()` after `fromPath`.
+- Deferred: the 9-hunter hunger bug (shark, monitor, snake, anaconda, softshell, tarantula, opossum,
+  football fish, salamander never get hungry → never hunt), zoo side, 3 broken favourite-food ids.
+
+### Session 2026-10-07 — Phase 3 skins: juvenile regions
+
+- **Juvenile skins fixed (user-approved):** cubs/calves/piglets are separate models (`ModelBigCatCub`,
+  `ModelBearCub`, `ModelBoarPiglet`, `ModelBisonCalf`, `ModelRhinoCalf`) reading their OWN rects of the
+  adult PNG; 24 live skins had those rects empty → see-through babies. `scripts/juvenile_census.py` measures
+  it (run it after painting ANY skin of these 5 types); `scripts/paint_juvenile.py` fills the gaps by
+  luminance-quantile transfer from a painted relative's juvenile region into the target's own adult palette
+  (per-target `CONTRAST` squeeze for high-contrast palettes), writing only unpainted texels;
+  `scripts/shoot_juvenile.py` renders contact sheets on the juvenile rigs. `skeleton.png` (bear) and
+  `peccary_old.png` (boar) are unreferenced legacy skins, left alone. `java2bb.py` now also parses
+  constructors without an animator (juvenile models).
+- **UV-resize audit closed (no repaint needed):** `scripts/uv_resize_audit.py` compares, per resized part,
+  the rects the game samples (original addBox size) with the rects the pre-fix painter wrote (scaled size),
+  respecting showModel visibility (palm vs plain beams). Caribou, eucladoceros, maned wolf, bush dog: clean.
+  White-tailed, fallow, sika: 3-4 antler segments sample mostly UN-repainted texels, but those hold the base
+  skin's antler bone of the same hue, so the fixed-rig render shows even bone -- harmless. No holes anywhere.
+- **Fallow deer now palmate** (`deer.json` fallow `palmate` 0 -> 1, user-approved): Tier 3 shipped it with
+  the red-deer beam rack by mistake. Its palm UV rects were already painted. Caribou stays beam-antlered.
+- **Dire wolf gait FITTED (Phase 3.2, build passes, runClient pending):** `scripts/wolf_gait.py --fit2` fits
+  walk (lateral sequence LH/LF/RH/RF, duty 0.62) and run (rotary gallop, duty 0.36) per leg against the exact
+  Citadel walk()/bob() maths + the model's FK (rest pose verified: all paws at y=24). Each joint = TWO walk()
+  calls (cycle + 2nd harmonic) so a paw can stay flat through stance; anatomical excursion bounds stop the
+  solver flipping paws 100 deg. `--java` emits the block spliced into `ModelDireWolf.setupAnim`; a re-parse
+  check matches the fit to 2e-4 rad. Key facts: vanilla limbSwing advances min(4*dist,1)/tick, so with
+  `gait = limbSwing_raw / renderScale` a planted paw keeps pace for every species size (K = 4/c unclamped);
+  the run is clamped above 0.25 b/t, so it is tuned for the hunt (attack x1.6 = 0.355 b/t -- mob ground speed
+  is QUADRATIC in the speed attribute: dist/tick = 2.2026 * 0.98 * 1.327 * s0^2). The body settles 0.85 (walk)
+  / 1.7 (run) units while moving: near-straight rest legs cannot reach the floor at stride ends. The run/walk
+  switch moved 0.06 -> 0.1 b/t of tracked speed (getCurrentSpeed = 0.546 x dist): at 0.06 plain wandering ran.
+  Results: no digging (<0.04 u), planted paw within ~0.25 u and +-6 deg mid-stance (paws roll at touchdown /
+  lift-off), stance speed within 11-37%. Inherited cycles dug 0.1-0.4 u and strode ~2.4x too far per cycle.
+- **Blockbench preview trap:** `gen_bb_rig` output builds into the CURRENT project. Loaded into a Java Block
+  project (e.g. a block-model tab left open), every group rotation is silently dropped and antlers/limbs
+  render straight. Run `newProject(Formats.modded_entity)` first.
+
+### Session 2026-10-08 — zoo side (user: "proceed with zoo side deferred changes before more models")
+
+User scope decisions: encyclopedia for every species (icons = hand template per body type, recoloured per
+species), discovery advancements, a survival Field Guide, rideable mounts (equids, camelids, proboscideans,
+large bovids & deer), zoo blocks. Approval before every visible asset still applies.
+- **Favourite foods fixed**: aardvark (`food_aardvark_cucumber`), manatee + spadefish (`minecraft:seagrass`);
+  all 96 ids verified against the registries (vanilla names from client-extra.jar).
+- **Encyclopedia complete (272/272 entries, 42 categories, 0 missing icons)**: `scripts/encyclopedia_census.py`
+  measures; `scripts/gen_encyclopedia.py --write` builds new entries (text drafted per species by research
+  agents into `scratch/encyclopedia_text/text_*.json`, spot-checked) and REGENERATES every stats page from the
+  species data (readable food names, colours from the `skins` digits, size stars from typical adult MASS --
+  hitbox volume was tried and rejected). An entry may file under another type's category (whale shark ->
+  sharks); scripts follow the entry's own `category`/`icon`.
+- **Icons**: `scripts/gen_icons.py` -- ASCII templates per new body type + feature overlays (antlers, ossicones,
+  tusks, ears, stripes, crest, forelock, topknot), palette from the species' own skin; existing types recolour
+  the nearest shipped icon by luminance rank. The user rejected the first tapir / canid / camelid icons
+  ("look weird"): tapir needs round rimmed ears + a trunk over a pale lip, canids a broad skull + cheek ruff,
+  camelids their own two templates (camel vs lama) -- recolouring the dromedary turned blotchy.
+- **Discovery advancements**: one `untamedwilds:discovered_animal` trigger (optional `entity_type`), fired by the
+  spyglass for any ComplexMob (works even with the spyglass info display off) -> First Sighting, Naturalist
+  (one per taxon, taxon = the category's parent), Encyclopedic Knowledge (every type, challenge).
+  `scripts/gen_discovery_advancements.py`.
+- Review page for the book: https://claude.ai/artifact/LvJZ3AukdDPLa3dBEB4CUy (built by a scratchpad script).
+- **Field Guide** (`item/FieldGuideItem`, recipe book + feather + ink sac): use on an animal -> field card
+  (species, sex, age stage, health, fed state, breeding, owner/saddle), fires `discovered_animal`, stores
+  `Studied` for the placard; sneak-use opens the encyclopedia entry through `compat/CompatPatchouli` (the
+  ONLY class touching Patchouli -- compile-only dep -- server-side `openBookEntry(ServerPlayer, ...)`).
+- **Mounts**: `entity/MountProfile` (EQUID jump bar, CAMELID +20% on sand/snow, PROBOSCIDEAN 2 seats +
+  1.5 step, BOVID/DEER charge) via `ComplexMob.getMountProfile()`; tamed adults >= 1.2 hitbox height take
+  a vanilla saddle (synced `SADDLED`, saved, dropped on death, sneak+shears removes). Empty-hand right-click
+  rides; sneak keeps the old command cycle. Riding = `ComplexMobTerrestrial.travel` after vanilla
+  AbstractHorse (implements PlayerRideableJumping); `getControllingPassenger` only when saddled, so the
+  wild bison/boar rodeo is unchanged.
+- **Saddle overlays** (`client/render/layer/SaddleLayer`, `scripts/gen_saddles.py`, preview
+  `scripts/shoot_saddles.py`): painted in MODEL SPACE -- every face texel projected through vanilla's
+  ModelPart.Cube UV mapping + the FK chain -- so the drape is continuous across stacked boxes (v1 painted
+  per-box fractions and the user called it "unattached"). Camel humps are hidden per species by transparent
+  skin texels, so an overlay must never paint them: camelids get `saddle_<species>.png` with the seat in the
+  hump-free stretch; humps stay bare. Mammoth paints both body and woolly-fur parts.
+- **Zoo blocks** (`scripts/gen_zoo_art.py` art, `scripts/register_zoo.py --blocks` data): Feeding Trough
+  (block entity calls the nearest hungry animal within 10 blocks that eats its contents -- diet by meat /
+  plant / favourite food -- no per-species AI goal), Species Placard (wall sign; Field Guide sets it;
+  `SpeciesPlacardRenderer` draws icon + names), Salt Lick (herbivores visit and lick, 4 wear sizes).
+- **Phase 3.4 renamed species repainted (user-approved)**: `scripts/paint_renamed.py` luminance-rank recolours
+  a painted base skin into a target ramp (antlers/tusks/eyes/hooves/toenails excluded by part).
+  Schomburgk's deer = eucladoceros skin -> chestnut (first olive-brown draft sat 10.3 from megaloceros in
+  `skin_census`; chestnut is 13.5 from its nearest); Sicilian dwarf elephant = straight-tusked skin -> lighter
+  warm grey (nearest 20.3). Icons regenerated. `scripts/preview_rig.py` = generic rig screenshot sheet.
+  Pre-existing census collision noted, untouched: steppe_mammoth vs straight_tusked (6.8).
+- **Phase 3.5 flat-skin repaints (all user-approved, 2026-10-09)** -- painters in `scripts/`, run in Blockbench on
+  a fresh modded-entity rig + `boot_paint.js`, with `//` comments stripped and `var MM = window.MM;` prepended:
+  cave lion (`paint_cave_lion.js`: grey-sand, faint flank stripes, maneless both sexes), S. populator
+  (`paint_smilodon_populator.js`: golden-ochre, bold dappled spots -- big-cat census is saturated, user judged
+  by eye), cave bear (`paint_cave_bear.js`: cool dark umber, grey frost FLECKS not streaks), woolly rhino
+  (`paint_woolly_rhino.js`: the mammoth fur language -- locks, partings, root->tip, painted hem -- plus the
+  ORIGINAL's grey mouth/nostril texels kept verbatim, user asked), short-faced hyena (`paint_shortface_hyena.js`:
+  was a byte copy of spotted_3; warm tawny brindle), giant buffalo (`paint_giant_buffalo_fix.js`: only the
+  pale ragged lower half -> smooth slate + clean leg bands; the "too hairy" wool PARTS were already hidden by
+  `lessHair`; aurochs left as is). `scripts/preview_rig.py` (PV_ZOOM) renders any skin on its rig.
+- **Phase 3.6 body misfits (user-approved 2026-10-09, build passes, runClient pending)** -- all UV-safe
+  (setScale with scaleChildren off + rotation-point moves), so no shipped skin rect moved:
+  tapir "big bust" (shoulder pivots +-5.7 -> +-4.5, shoulders setScale 0.6/0.8/0.8, chest Y 0.85 --
+  constants in ModelTapir); pampatherium `lowShell` flag (ModelGlyptodont: dome 0.35, core+flanks 0.8 Y,
+  end panels 0.75, snout 0.8 wide x 1.8 long; scale 0.85 -> 0.55); megalocnus scale 0.7 -> 0.4;
+  thylacine `stiffTail` flag (ModelDireWolf: even taper 1.2/0.85/0.95, pivots pushed back, slight droop,
+  speed lift x0.5 -- a 1.6x base / 0.7x tip read as a "bee stinger") + `scripts/paint_thylacine.js`
+  (bands only mid-back -> tail base, painted on the stiff-tail rig). **Citadel's resetToDefaultPose does
+  NOT restore scale** -- every per-species setScale must be written on both branches every frame.
+  New preview options: `gen_bb_rig.py --move part:dx:dy:dz` (Java deltas, subtree) and
+  `--rot part:rx:ry:rz` (Java radians; +X raises a tail).
+- **Phase 4.1 Diprotodont NEW TYPE (user-approved 2026-10-09, build passes, runClient pending)** -- 30 boxes on
+  256x128 from `scripts/diprotodont_spec.py` (FK/ground/z-fight/burial/UV/pose checks), ported by
+  `scripts/gen_model_diprotodont.py` (verify_port EXACT on 30/30), painted by ONE painter
+  `scripts/paint_diprotodont.js` (`window.DIP_SPECIES` picks the palette; run on a `gen_bb_rig ModelDiprotodont`
+  rig + boot_paint). 5 species at life size (scale = shoulder m x 16 / 23.78u): diprotodon 1.211, zygomaturus 0.74
+  (nasal_boss, variant-gated), nototherium 0.807, hulitherium 0.538, maokopia 0.404. Feet toe-in via a Y rotation on
+  each foot (the leg() helper re-solves ground contact for the roll it causes). Joey = synced `hasJoey()` (adult
+  female with a same-species baby within 10 blocks), hidden while sitting/sleeping. Rideable only at scale >= 0.7;
+  seat height follows the RENDERED size (hitbox is per type). Adults have NO flight goal (they shove);
+  marsupial_lion now also spawns in savanna + forest. Icons: `T["diprotodont"]` template in gen_icons.py;
+  saddle: SPEC["diprotodont"] in gen_saddles.py. **Install only the new type's icons/saddle** -- `gen_icons
+  --install` / `gen_saddles --install` copy EVERY type.
+- **Legacy life-size audit (2026-10-09)** -- `scripts/life_size_audit.py` measures each legacy model's shoulder with
+  full FK (rotations included) against real shoulder heights (REAL table, typical adults). FINDING: the legacy
+  models are mostly OVERSIZED (median 1.12x; 71 of 108 species >1.05x), not undersized -- the old "~0.85x" note
+  came from rotation-ignoring java2bb heights on bison/rhino only. **User decision: only GROW the small ones;
+  never shrink.** The 12 species under 0.95x were set to exact life size (sabertooth, long_horned bison, african
+  wild dog, thylacine, hippo, brown hyena, columbian/steppe/straight-tusked mammoth, P. namadicus, javan + white
+  rhino). Do not "fix" the oversized species without asking.
+- **Phase 4.2 Kangaroo NEW TYPE (user-approved 2026-10-10, build passes, runClient pending)** -- the first BIPED/HOPPING
+  rig: `scripts/kangaroo_spec.py` (one world-angle convention for zchain / tchain / hang; hip height and tail droop
+  are SOLVED so toes + tail rest on the floor; pose solver for sit / sleep / crawl incl. arms) ->
+  `scripts/gen_model_kangaroo.py` (verify_port EXACT 31/31) -> `scripts/paint_kangaroo.js` (`KANG_SPECIES`; paint the
+  sthenurines on the sthenurine rig build). Hopping is MODEL-ONLY: HOP above SLOW_SPEED 0.08 b/t, else blend to the
+  solved CRAWL pose (pentapedal). Sthenurines (variants 2,3): muzzle setScale z 0.55 + nose pulled back, arms
+  setScale y 1.35 with child pivots re-stacked, claws shown. EntityKangaroo: HerdFlee x2.2, ATTACK_KICK throws,
+  SparGoal (cosmetic male boxing), joey like the diprotodont. Upright posture means ventral shading must key on each
+  torso box's LOCAL down face, not world y.
+- **Phase 4.3 Giant monitor NEW TYPE (user-approved 2026-10-10, build passes, runClient pending)** -- Megalania + Komodo,
+  `scripts/giant_monitor_spec.py` (SPRAWLING legs authored directly: upper limb along +-X tilted by Z, lower hanging,
+  foot forward with toes out; fore lower-limb length and tail droop SOLVED for ground contact; belly-down sit/sleep
+  solver) -> `scripts/gen_model_giant_monitor.py` (verify_port EXACT 27/27) -> `scripts/paint_giant_monitor.js`.
+  Walk = rotateAngleY swings in diagonal pairs + lateral S-curve. Apex predator wired like the bear (HuntMobTarget by
+  diet, drainHuntingHunger), venomous bite = Poison II 5 s. Live young (an egg item would be a new asset). Icons are
+  RECOLOURS of the hand-drawn monitor icons with the tongue repainted. Skins: never a regular per-texel pattern
+  (a two-tone bead checker "looks like a chessboard" -- user).
+- **Phase 4.4 Pinniped NEW TYPE (user-approved 2026-10-10, build passes, runClient pending)** -- walrus, bearded, ringed,
+  harp, Steller sea lion; amphibious on ComplexMobAmphibious. `scripts/pinniped_spec.py` (fore splay + hind droop SOLVED
+  for ground contact; `stance_sealion()` solves the otariid raised stance incl. fore-flipper LENGTH, x1.45;
+  `rest_poses()` banana sit / flat sleep) -> `scripts/gen_model_pinniped.py` (EXACT 18/18) -> `scripts/paint_pinniped.js`
+  (7 textures incl. `harp_seal_pup` / `ringed_seal_pup`; EntityPinniped.getTexture() swaps them for babies). Haul-out =
+  wantsToBeOnLand() by day when fed; hunger refills while swimming. Walrus: tusks, ATTACK_TUSK, JoustGoal, ivory loot
+  via an `{Variant:0}` NBT predicate. Pattern lessons: ringed rings = noise CONTOUR lines; harp lyre is read from ABOVE.
+- **Phase 4.5 Caprine NEW TYPE (user-approved 2026-10-10, build passes, runClient pending)** -- Alpine + Siberian ibex,
+  argali, bighorn, chamois, Harrington's mountain goat. `scripts/caprine_spec.py` (each leg pair's pivot height SOLVED
+  separately; FOUR horn families -- ibex / ram / chamois / dagger -- one shown per species; the RAM CURL is built with
+  `horn_world()`, which sets each segment's WORLD orientation and derives the local euler (local = W_parent^-1 W_k) --
+  composing per-segment euler splay swung the curl back into the skull three times) -> `scripts/gen_model_caprine.py`
+  (EXACT 53/53) -> `scripts/paint_caprine.js`. EntityCaprine: step 1.5, ClimbWanderGoal (highest nearby surface on
+  stone), ClashGoal (cosmetic rut), ATTACK_BUTT throws; argali + bighorn rideable (MountProfile.CAPRINE). Tags
+  grazer + browser make them snow-leopard prey. Icon lesson: ibex horns from the front = close, near-parallel,
+  knobbed bars (thin or splayed ones read as antlers).
+- **gen_encyclopedia.py parents EVERY new category under taxon_mammal** -- reptile/fish/etc types must be reparented
+  by hand (giant_monitor -> taxon_reptile), then re-run gen_discovery_advancements.py.
+- **Phase 4.8 Crocodilian NEW TYPE (user-approved 2026-11-14, build passes, runClient pending)** -- Nile, saltwater,
+  mugger, black caiman, Quinkana, Voay. `scripts/crocodilian_spec.py` (45 boxes on 256x128, life size by LENGTH;
+  `--pose` solves sit/sleep/bask gape, `ERECT` solves Quinkana's upright legs) -> `scripts/gen_model_crocodilian.py`
+  (EXACT 45/45) -> `scripts/paint_crocodilian.js`. Per-species snout via setScale + shouldScaleChildren on snout_base
+  and jaw (UVs untouched); Voay horns via showModel; Quinkana's erect deltas fade by (1 - rest/40) because
+  progressRotation ADDS. EntityCrocodilian (ComplexMobAmphibious + INestingMob): river-ambush hunt predicate, death
+  roll in water, basking, NEST_REPTILE eggs, ectotherm hunger. EYES: socket ridge + the standard eye plane, 3x1
+  texels -- the user rejected bumps (read as ears), a 1-texel plane (no eye), an eye on a bump (uncanny), 3x2 (goggles).
+  Nest/egg hatchlings now use getAdulthoodTime() (they had double the growing time). Icons: top-down head (`--croc`).
+- **Phase 4 order (user 2026-10-10, revised):** pinnipeds, wild goats/sheep, large rodents, wildebeest-type
+  antelopes, crocodilians -- ALL DONE 2026-11-14.
+- **Proboscidean REBUILD (user-approved 2026-11-16, build passes, runClient pending)** -- the July mammoth rig (pre-SOP)
+  replaced: `scripts/proboscidean_spec.py` (57 boxes, families per species: headShape/backShape/tuskShape/earSize flags in
+  mammoth.json; `--json <species>` bakes one species' geometry) -> `scripts/gen_model_mammoth.py` (EXACT 57/57; family
+  tables + solved rest poses emitted as Java) -> `scripts/paint_proboscidean.js` (coat/hairy/sparse/bare). Ear authored at
+  the LARGEST size and shrunk (setScale never touches UVs). Preview a scaled species with UVs FROZEN at the authored size,
+  wait for Blockbench's async tab switch before any build/boot, and load preview skins from a unique path (texture cache).
+  Ground sloth rebuild DONE 2026-11-16: `scripts/ground_sloth_spec.py` (43 boxes, headShape MEGA/MYLO/MEGALONYCH, one
+  sloping topline over a nested barrel) -> `gen_model_ground_sloth.py` (EXACT 43/43; rear-up threat solved about the hip
+  joint and applied procedurally) -> `paint_ground_sloth.js`; walk fit `ground_sloth_walk_fit.py`. Author chains under a
+  TILTED parent in WORLD directions (world_frame=True) or the parent's tilt stacks onto the droop.
+- **RULE: after ANY repaint of a big_cat/bear/boar/bison/rhino skin, run `scripts/paint_juvenile.py` for it and
+  `scripts/juvenile_census.py`** -- the adult painters leave the cub/calf-only rects EMPTY (every repaint above
+  needed it). User 2026-10-09: "make sure all the baby versions of the mob are painted properly".
+- **Blockbench**: `Codecs.java_block.load(...)` opens the model in a NEW tab named after the file -- select
+  that tab, not the empty one created before it.
+
+### 2.8.0 — ambience and performance (2026-11-16, built, GameTests pass, runClient pending)
+
+**Tools that need no human in game. Use them before asking the user to play.**
+
+- **GameTests:** `./gradlew runGameTestServer` runs `untamedwilds.gametest` (22 tests; the jar excludes them). The real result is the log line `All N required tests passed`. Gradle then reports "daemon disappeared", because the server calls `System.exit`.
+  - Helper coordinates sit 1 block below the template, so animals stand at `UWGameTests.FEET_Y` = 3.
+  - In 1.18, `thenWaitUntil(tick, r)` means EXACTLY that tick; use the tickless form.
+  - Crepuscular animals sleep at noon: wrap spawns in `GTUtil.awake()`.
+  - Worldgen fauna share the global `PerfCounters`, so assert on the per-entity counters (`perfHuntScans`, `perfFleeScans`, `drinkVisits`, …).
+  - Call `GTUtil.done()` at the end of every test.
+  - GameTest-world heightmaps are stale.
+- **Soak:** `scripts/soak/soak.py --label X --minutes N [--set section.key=value]`. It runs a headless dedicated server over RCON and writes `scratch/soak/X_mspt.csv`. `ab_report.py A B` compares two runs.
+  - Every run starts from a FRESH seed-2808 world, and `--set` applies to that run only. Before this was fixed, an A/B compared two different populations: one bogus +97% result.
+  - Don't let the machine sleep during a soak, and keep other heavy processes (e.g. VS Code's Java indexer) the same for both sides.
+  - **For herbivore balance, run with `--set performance.debug_regrow_forced_chunks=true`.** Forage regrowth follows players, so a player-less soak otherwise eats its area bare. The server log then reports ground cover every half day (`[soak] forage`).
+- **Drive-to-a-spot goals:** walk the last ~2.5 blocks with `getMoveControl().setWantedPosition`, not `moveTo`.
+  - `moveTo` plans to block accuracy 1, and a wide mob reaches a waypoint within half its width, so the path ends up to ~1.8 blocks short.
+  - A re-path from there returns an already-finished path, and the animal freezes (DrinkGoal did).
+- **Validators:** `scripts/validate/validate_sounds.py`, which checks registry ↔ sounds.json ↔ files ↔ subtitles ↔ licences ↔ audio format.
+
+**Voices**
+
+- 153 CC0/PD clips, installed by `scripts/audio/install_voices.py` from `scratch/audio_stage`. It writes the ModSounds `// <gen:voices>` block, sounds.json, the entity JSON `sounds`, subtitles and `sounds/CREDITS.md`.
+- **Only CC0/PD recordings.** Never CC-BY: credits are in the file, not in-game.
+- A missing key keeps its vanilla sound; the gaps are listed in the CHANGELOG.
+- **Calls must be played at volume ≥ 3:** the server sends a sound only to players within 16 × volume blocks, and `attenuation_distance` only shapes the fall-off on the client.
+- **Animals with no recording of their own** get voices DERIVED from the staged clips (`scripts/audio/derive_voices.py`: pitch shifts, glides, cuts, repeats, filters; never synthesis).
+  - Each credits record lists its sources, and the review page marks them "not heard by the designer".
+  - Keep derived peaks ≤ −1.4 dBFS, because Vorbis overshoots the −0.5 limit.
+- **A "threat" key is silent unless something plays it.** Only bear, boar and the canids did. Others need a hook: `ComplexMob.threatCallOnNewTarget` (kangaroo, softshell) or a goal that plays it (tortoise shell-hide).
+
+**Animations**
+
+- `scripts/pose_reach.py` solves EAT/DRINK/ALERT against each model's real geometry (`fk_rig.py`).
+- `scripts/gen_keyframes.py <type>` writes a `// <gen:idle-poses>` region into the model and patches the entity: statics appended to `getAnimations()` (never reordered), the getters, and `getDrinkReach()` = solved muzzle reach × size.
+- **Re-run the solver and generator after ANY remodel of these 19 types** (the 17 herbivores plus the boar and mammoth drinks), or the head goes through the ground.
+- **Special drinks:**
+  - **Giraffid splay** (`pose_targets` `drink_body`): `solve_body` keeps every hoof planted, then the neck is solved on top.
+  - **Mammoth trunk** (`drink_style="trunk"`, `smooth` trunk ramp, `drink_band`): reuses the approved EAT coil.
+  - `fk_rig.pose_over_move` is the ONE reader of a pose record. Never re-derive overrides elsewhere.
+- `DataTests.animation_tables_are_consistent` catches a declared animation with no keyframes.
+
+**Carcasses**
+
+- `entity/EntityCarcass` holds the loot and the food pool.
+- `RendererCarcass` draws the species' own model rolled onto its side with a SOLVED lift/shift, from `scripts/gen_carcass_pose.py`. Types whose antlers or tusks would sink in instead lie in their sleep pose: deer and mammoth.
+- **Re-run `gen_carcass_pose.py` after any remodel.**
+
+**Hair and coats (2026-11-18 review, read before painting any fur)**
+
+- **The user has rejected two opposite failures:**
+  - "quite noisy": texel speckle and high contrast;
+  - "looks like rugs": the same small lock repeated in neat rows.
+- **Use `scripts/woollib.js` (`WOOL.hang`, `.under`, `.hem`)** for any shaggy coat: long low-contrast locks of random length, ragged ends, clumps, soft matted patches.
+- **To change only a skin's coat**, run `scripts/wool_repaint.js` on the type's rig.
+  - It paints old-mode and new-mode, and only the texels that differ replace the shipped PNG.
+  - `reproMismatch` ≈ 0 proves the rig is the one the skin was painted on.
+- **Fixed per-frame geometry must be mirrored in `pose_targets.STATICS`** (per-part setScale, limb roots pushed out), e.g. the sloth's wider barrel and shallower jaw. Otherwise the pose and carcass solvers solve the wrong shape.
+
+**Performance and the AI scheduling bug (read before writing any goal)**
+
+- **Parity bug:** vanilla only runs a goal's `tick()` when (serverTick + entityId) is even, so a `% N` check inside a goal never fires for half the mobs. Use `util/GoalTimer`.
+- **Citadel animation packets:** `AnimationEvent.Start` is cancelled for our mobs. `AnimationStartPacket` goes to tracking players only.
+- **Tracking ranges** are set by size class (`performance.tracking_range_multiplier`).
+- **Species data** for all 51 types is synced on `OnDatapackSyncEvent`. Client code must read flags through `ComplexMob.speciesFlag()`, never the server-only `getEntityData()`; this was the dedicated-server crash.
+- **Vigilance must habituate.** A predator resting just beyond flight range re-raised the alert on every scan, and an alert animal never grazes. In the S2 soak, 3 of 5 deer starved 30 blocks from two big cats.
+  - `ComplexMob.alertStreak` / `vigilanceRelaxUntil`: relax after `alert_max_ticks`, or 40% of that when hungry.
+  - GameTest `alert_habituates_so_prey_can_feed`.
+  - Any new "stop and do X" state needs the same escape.
+- **`ComplexMobTerrestrial.aiStep`'s sleep check** must respect a negative `forceSleep` (keep-awake). It did not, so a fight-woken animal fell straight back asleep.
+
+### 2.9.0 — new animals (2026-11-19, built, GameTests pass, runClient pending)
+
+**New types follow one pipeline.** Use it for the next new body too:
+`<type>_spec.py` (FK, z-fight, burial, UV pack, SOLVED poses, FITTED walk) → `gen_bb_build.py` grey build → `Codecs.modded_entity.compile()` export → `gen_model_<type>.py` → `verify_port.py` EXACT → entity, renderer, the 3 ModEntity hooks, data → painter → icons, encyclopedia, advancements → `gen_carcass_pose.py`.
+
+**Rigs and solving:**
+- **Author limbs by WORLD direction under a pitched parent.** Do it as in `ground_bird_spec` / `great_ape_spec`: carry the wanted world joint into the parent's rest frame with `to_local`, and set local rotation = `W_parent^T · W`.
+  - Solve the hip/shoulder height so the feet and fists stand exactly on the ground.
+  - A part that the eat/drink solver should move must sit in the NECK's subtree.
+- **Fit a gait instead of hand-setting it** (`ground_bird_spec.walk_fit`, `great_ape_spec.walk_fit`): random search over each joint's Citadel walk() degree, offset and weight, penalising digging, a forward-sliding planted foot, and stance away from ~60%. A hand-set biped dug 1u into the ground.
+- **Every rest pose was wrong on the first try** and was caught by rendering it, not by the numbers:
+  - Bird sit: the feet trailed, then the tarsus was thrown forward.
+  - Bird sleep: the head hung down.
+  - Ape sleep: the jaw went through the ground.
+  - Encode the anatomy as explicit penalties (hock behind, tarsus flat and forward, foot under the breast) and render every pose.
+- **Painting a family-scaled species on a baked rig:** freeze the UVs at the Java box size (`"os"` in the rig spec; `scripts/probo_species_rig.py`). Otherwise the ears paint 40% of their rect.
+- **New tusk family:** `scripts/stegodon_tusk_design.py`. Converge the tusks only AHEAD of the trunk, and check both tusk scales: at 1.35× the chain scale closes the gap.
+
+**Pipeline gaps:**
+- **gen_keyframes:** writes EAT/DRINK/ALERT even when pose_reach marks a pose `XX` (failed).
+  - Set `eat=False` / `drink=False` in `pose_targets` for bodies that cannot reach (apes feed with their hands).
+  - It also leaves `getAnimationEat()` to the entity.
+  - A type that is not in `pose_targets.T` (tortoise) is still hidden from the carcass solver via `HIDE`.
+- **Encyclopedia:** `gen_encyclopedia` parents every new category under `taxon_mammal`. Reparent birds and reptiles by hand. A new taxon also needs `gen_discovery_advancements.TAXA` and the Naturalist lang string.
+
+**Small traps:**
+- Citadel's `ModelAnimator` has no `scale()`.
+- Vanilla 1.18 has no `FOX_STEP`.
+- `[IO.File]` paths resolve against the process directory, not PowerShell's location.
+- Inline `python -c` with nested quotes breaks in PowerShell: write a file or use the Edit tool.
 
 ## Models & skins (Claude Design)
 

@@ -1,0 +1,6 @@
+{
+    "name": "Wildebeest",
+    "description": "Wildebeest and hartebeest are large antelopes of Africa's grasslands, herbivore Mammals with high, heavy shoulders, a back that slopes down to the rump, and a long face.$(br2)They live in herds that follow the rains in search of fresh grass, and are the main prey of lions, hyenas and wild dogs.$(br2)During the Pleistocene, a giant relative roamed southern Africa.",
+    "icon": "untamedwilds:textures/icon/wildebeest/category.png",
+    "parent": "untamedwilds:taxon_mammal"
+}

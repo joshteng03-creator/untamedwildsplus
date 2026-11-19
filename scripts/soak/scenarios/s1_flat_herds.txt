@@ -1,0 +1,36 @@
+# S1: a busy, fixed patch of the soak world around spawn, force-loaded so it ticks with nobody there.
+# ~20 herds, 6 predator groups, critters. Spawn eggs' natural spawn path is used via /summon + finalizeSpawn defaults.
+forceload add -96 -96 96 96
+@wait 20
+time set noon
+# herbivore herds (the mod groups nearby animals into herds on its own)
+execute positioned 20 ~ 20 run summon untamedwilds:bison ~ ~ ~
+execute positioned 22 ~ 20 run summon untamedwilds:bison ~ ~ ~
+execute positioned 24 ~ 22 run summon untamedwilds:bison ~ ~ ~
+execute positioned -30 ~ 10 run summon untamedwilds:deer ~ ~ ~
+execute positioned -32 ~ 12 run summon untamedwilds:deer ~ ~ ~
+execute positioned -34 ~ 10 run summon untamedwilds:deer ~ ~ ~
+execute positioned -30 ~ 14 run summon untamedwilds:deer ~ ~ ~
+execute positioned 40 ~ -30 run summon untamedwilds:equid ~ ~ ~
+execute positioned 42 ~ -30 run summon untamedwilds:equid ~ ~ ~
+execute positioned 44 ~ -32 run summon untamedwilds:equid ~ ~ ~
+execute positioned -40 ~ -40 run summon untamedwilds:antelope ~ ~ ~
+execute positioned -42 ~ -40 run summon untamedwilds:antelope ~ ~ ~
+execute positioned -44 ~ -42 run summon untamedwilds:antelope ~ ~ ~
+execute positioned -46 ~ -40 run summon untamedwilds:antelope ~ ~ ~
+execute positioned 60 ~ 60 run summon untamedwilds:wildebeest ~ ~ ~
+execute positioned 62 ~ 60 run summon untamedwilds:wildebeest ~ ~ ~
+execute positioned 64 ~ 62 run summon untamedwilds:wildebeest ~ ~ ~
+execute positioned -60 ~ 60 run summon untamedwilds:caprine ~ ~ ~
+execute positioned -62 ~ 60 run summon untamedwilds:caprine ~ ~ ~
+execute positioned 0 ~ -60 run summon untamedwilds:mammoth ~ ~ ~
+execute positioned 4 ~ -60 run summon untamedwilds:mammoth ~ ~ ~
+# predators
+execute positioned 10 ~ 40 run summon untamedwilds:dire_wolf ~ ~ ~
+execute positioned 12 ~ 40 run summon untamedwilds:dire_wolf ~ ~ ~
+execute positioned 14 ~ 42 run summon untamedwilds:dire_wolf ~ ~ ~
+execute positioned -20 ~ -20 run summon untamedwilds:big_cat ~ ~ ~
+execute positioned 50 ~ 0 run summon untamedwilds:hyena ~ ~ ~
+execute positioned 52 ~ 0 run summon untamedwilds:hyena ~ ~ ~
+execute positioned -50 ~ 0 run summon untamedwilds:bear ~ ~ ~
+@wait 5

@@ -1,0 +1,43 @@
+[
+ ["B2", "deer", "alarm", "deer/fs-569926", 2.9, 3.5, "deer alarm bark (field)"],
+ ["B2", "deer", "alarm", "deer/fs-569926", 8.45, 9.05, "deer alarm bark (field)"],
+ ["B2", "deer", "ambient", "deer/fs-486554", 0.7, 2.2, "moose grunt (recordist: moose and elk)"],
+ ["B2", "deer", "ambient", "deer/fs-486554", 4.1, 5.6, "moose grunt (recordist: moose and elk)"],
+ ["B2", "deer", "ambient", "deer/fs-351113", 4.5, 7.5, "deer group mewing/bleats (nature park)"],
+ ["B2", "deer", "ambient", "deer/fs-758377", 4.6, 7.6, "reindeer male grunting (park)"],
+ ["B2", "deer", "call", "deer/fs-826421", 26.0, 33.5, "red deer stag roar (brame), France"],
+ ["B2", "deer", "threat", "deer/fs-826421", 6.0, 8.4, "red deer stag roar, short"],
+
+ ["B2", "antelope", "alarm", "antelope/fs-839917", 0.0, null, "blackbuck two alarm snorts (zoo)"],
+ ["B2", "antelope", "alarm", "antelope/fs-850008", 0.0, null, "blackbuck single snort (zoo)"],
+ ["B2", "antelope", "ambient", "antelope/fs-838456", 0.6, 1.3, "scimitar oryx calf nasal snort/grunt (zoo)"],
+ ["B2", "antelope", "ambient", "antelope/fs-838456", 4.8, 5.9, "scimitar oryx calf grunt (zoo)"],
+ ["B2", "antelope", "ambient", "antelope/fs-838368", 0.0, null, "scimitar oryx calf grunt (zoo)"],
+
+ ["B2", "equid", "ambient", "equid/fs-861233", 0.0, null, "horse nicker"],
+ ["B2", "equid", "ambient", "equid/fs-861234", 0.0, null, "horse soft nicker"],
+ ["B2", "equid", "ambient", "equid/fs-777763", 0.0, null, "quarter horse soft neigh"],
+ ["B2", "equid", "call", "equid/fs-850661", 0.0, null, "Grant's zebra braying (zoo)"],
+ ["B2", "equid", "call", "equid/fs-856359", 0.0, null, "palomino horse neigh"],
+ ["B2", "equid", "alarm", "equid/fs-868302", 0.0, null, "horse snort (distant)"],
+ ["B2", "equid", "alarm", "equid/fs-856327", 0.0, null, "donkey snort"],
+ ["B2", "equid", "hurt", "equid/fs-848097", 0.0, 0.9, "horse squeal-neigh"],
+ ["B2", "equid", "death", "equid/fs-868300", 0.9, 3.9, "horse high neigh"],
+
+ ["B2", "caprine", "ambient", "caprine/fs-825399", 0.0, null, "billy goat bleat"],
+ ["B2", "caprine", "ambient", "caprine/fs-842307", 0.0, null, "goat bleat"],
+ ["B2", "caprine", "ambient", "caprine/fs-777755", 0.0, null, "goat bleat"],
+ ["B2", "caprine", "alarm", "caprine/fs-846010", 0.5, 1.9, "billy goat rut snort/blurt (stand-in for alarm snort)"],
+ ["B2", "caprine", "hurt", "caprine/fs-839527", 0.0, null, "goat kid bleat"],
+ ["B2", "caprine", "hurt", "caprine/fs-792534", 0.0, null, "goat kid bleat"],
+ ["B2", "caprine", "death", "caprine/fs-878895", 0.0, null, "goat bleat"],
+
+ ["B2", "macrauchenia", "ambient", "macrauchenia/fs-839099", 0.0, null, "alpaca moaning hum (two)"],
+ ["B2", "macrauchenia", "ambient", "macrauchenia/fs-839524", 0.0, null, "alpaca two moans"],
+ ["B2", "macrauchenia", "ambient", "macrauchenia/fs-840890", 0.0, null, "alpaca moan"],
+ ["B2", "macrauchenia", "alarm", "macrauchenia/fs-871455", 0.0, null, "llama alarm burst"],
+ ["B2", "macrauchenia", "alarm", "macrauchenia/fs-868310", 0.0, null, "alpaca high moan (alert)"],
+ ["B2", "macrauchenia", "hurt", "macrauchenia/fs-852641", 0.0, null, "alpaca high moan"],
+
+ ["B2", "bison", "ambient", "bison/fs-867549", 0.0, null, "American bison nasal huffs (close)"]
+]

@@ -64,7 +64,9 @@ public class GrazeGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        if (!this.taskOwner.canMove() || this.taskOwner.isBaby() || this.taskOwner.getHunger() > 100 || this.taskOwner.getTarget() != null || this.taskOwner.getRandom().nextInt(executionChance) != 0) {
+        // Weaned calves graze for themselves (2026-10-24); only nursing young are fed by their mothers.
+        if (!this.taskOwner.canMove() || this.taskOwner.isNursing() || this.taskOwner.getHunger() > 100 || this.taskOwner.getTarget() != null
+                || this.taskOwner.isAlert() || this.taskOwner.getRandom().nextInt(executionChance) != 0) {
             return false;
         }
         this.testpos = this.taskOwner.blockPosition().offset(Math.cos(Math.toRadians(this.taskOwner.getYRot()+ 90)) * 1.2, 0, Math.sin(Math.toRadians(this.taskOwner.getYRot() + 90)) * 1.2);
@@ -111,6 +113,9 @@ public class GrazeGoal extends Goal {
 
     @Override
     public boolean canContinueToUse() {
+        if (this.taskOwner.isAlert()) {
+            return false;       // 2.8.0: a grazer that spots a predator lifts its head (AlertGoal)
+        }
         if (this.targetPos != null) {
             return this.travelTicks < TRAVEL_BUDGET;
         }
@@ -125,6 +130,11 @@ public class GrazeGoal extends Goal {
         }
         this.eatingGrassTimer = Math.max(0, this.eatingGrassTimer - 1);
         if (this.eatingGrassTimer == 4) {
+            // 2.8.0: the mouthful is heard (the type's "eat" sound, or the shared grazing sound)
+            net.minecraft.sounds.SoundEvent eat = this.taskOwner.getEatSound();
+            if (eat != null) {
+                this.taskOwner.playSound(eat, 0.5F, this.taskOwner.voicePitch());
+            }
             if (this.entityWorld.getBlockState(this.testpos).is(ModTags.ModBlockTags.GRAZEABLE_BLOCKS)) {
                 if (net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.entityWorld, this.taskOwner) && ConfigGamerules.grazerGriefing.get()) {
                     this.entityWorld.destroyBlock(this.testpos, false);
@@ -184,9 +194,11 @@ public class GrazeGoal extends Goal {
     private void beginEating() {
         this.forageDensity = this.sampleForageDensity();
         this.eatingGrassTimer = 40;
-        this.entityWorld.broadcastEntityEvent(this.taskOwner, (byte)10);
+        // 2.8.0: the entity-event-10 broadcast that used to sit here is vanilla's SHEEP eating signal; no UW
+        // entity handles it, so it was a wasted packet to every tracking player on every mouthful.
         this.taskOwner.getNavigation().stop();
-        this.taskOwner.setAnimation(this.taskOwner.getAnimationEat());
+        // 2.8.0: never cut into an attack or threat that is already playing (was a bare setAnimation)
+        this.taskOwner.tryStartAnimation(this.taskOwner.getAnimationEat());
     }
 
     /**
@@ -208,6 +220,11 @@ public class GrazeGoal extends Goal {
         int found = 0;
         for (int i = 0; i < FORAGE_SAMPLES; ++i) {
             BlockPos column = origin.offset(random.nextInt(SEARCH_RADIUS * 2) - SEARCH_RADIUS, 0, random.nextInt(SEARCH_RADIUS * 2) - SEARCH_RADIUS);
+            /* 2.8.0: a heightmap read in an unloaded chunk loads that chunk synchronously; an animal grazing at
+             * the edge of the loaded area did that on every mouthful. Unloaded columns count as no forage. */
+            if (!this.entityWorld.isLoaded(column)) {
+                continue;
+            }
             BlockPos surface = this.entityWorld.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, column);
             if (this.isGrazeable(surface)) {
                 found++;
@@ -226,6 +243,9 @@ public class GrazeGoal extends Goal {
 
         for(int i = 0; i < SEARCH_ATTEMPTS; ++i) {
             BlockPos blockpos1 = blockpos.offset(random.nextInt(SEARCH_RADIUS * 2) - SEARCH_RADIUS, random.nextInt(SEARCH_HEIGHT * 2) - SEARCH_HEIGHT, random.nextInt(SEARCH_RADIUS * 2) - SEARCH_RADIUS);
+            if (!this.entityWorld.isLoaded(blockpos1)) {
+                continue;     // 2.8.0: never load a chunk to look for grass
+            }
             // Test the CANDIDATE, not testpos. Testing testpos here meant this could only ever return a
             // position when the animal was already standing on food, and returned null in exactly the
             // situation the search exists for.

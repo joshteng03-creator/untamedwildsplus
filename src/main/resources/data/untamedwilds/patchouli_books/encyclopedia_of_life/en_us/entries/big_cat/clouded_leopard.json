@@ -1,0 +1,22 @@
+{
+    "name": "Clouded Leopard",
+    "icon": "untamedwilds:textures/icon/big_cat/clouded_leopard.png",
+    "category": "untamedwilds:big_cat_category",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Clouded Leopard",
+            "text": "The clouded leopard ($(o)Neofelis nebulosa$()) lives in the forests of the Himalayan foothills, southern China and mainland Southeast Asia.$(br2)Its grey to tawny coat is marked with large, dark-edged \"clouds\", and it has short legs, broad paws and a long, thick tail.$(br2)For the size of its skull it has the longest canine teeth of any living cat, and it can climb down tree trunks head first."
+        },
+        {
+            "type": "entity",
+            "entity": "untamedwilds:big_cat{Variant: 17, Size: 1}",
+            "text": ""
+        },
+        {
+            "type": "text",
+            "title": "Clouded Leopard",
+            "text": "Relative Size: ★☆☆☆☆$(br2)Active during Nighttime$(br2)1 Color$(br2)Favourite Food: Raw Chicken$(br2)Number of Offspring: 2$(br2)Growth time: 5 Days"
+        }
+    ]
+}

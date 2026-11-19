@@ -4,7 +4,6 @@
   "growing_time":12,
   "offspring":1,
   "sounds":{
-    "ambient":"untamedwilds:entity.cow.ambient",
     "hurt":"minecraft:entity.cow.hurt",
     "death":"minecraft:entity.cow.death"
   },
@@ -18,7 +17,7 @@
       "attack":1,
       "health":25,
       "activityType":"diurnal",
-      "favourite_food":"minecraft:sea_grass",
+      "favourite_food":"minecraft:seagrass",
       "spawnBiomes":[
         [
           "resource|minecraft:warm_ocean"
@@ -39,7 +38,7 @@
       "attack":1,
       "health":20,
       "activityType":"diurnal",
-      "favourite_food":"minecraft:sea_grass",
+      "favourite_food":"minecraft:seagrass",
       "spawnBiomes":[
         [
           "category|jungle"
@@ -54,7 +53,7 @@
       "attack":1,
       "health":25,
       "activityType":"diurnal",
-      "favourite_food":"minecraft:sea_grass",
+      "favourite_food":"minecraft:seagrass",
       "spawnBiomes":[
         [
           "resource|minecraft:warm_ocean"
@@ -90,7 +89,7 @@
       "attack":1,
       "health":30,
       "activityType":"diurnal",
-      "favourite_food":"minecraft:sea_grass",
+      "favourite_food":"minecraft:seagrass",
       "spawnBiomes":[
         [
           "resource|minecraft:warm_ocean"
