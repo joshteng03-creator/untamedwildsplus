@@ -145,6 +145,14 @@ Orca (toothed whale), wolverine (mustelid), ground birds (moa, *Aepyornis*, *Gen
   - **Installed** in CurseForge Test and GDLauncher Planet Wild. The old 2.8.0 jars were kept as `.bak`.
   - Nothing is committed (the last commit is still `20754df`).
   - **Not yet done:** runClient, together with 2.7.0 and 2.8.0.
+- 2026-11-19: **COMMITTED** as `8def9aa` (2.7.0 + 2.8.0 + 2.9.0, 1,736 files; not pushed). `.gitignore` gained `run-*/`.
+- 2026-11-19: **SOAK s4_290**: 60 min, 3 in-game days. Scenario `scripts/soak/scenarios/s4_290.txt` is S2 plus the 4 new types; the orca pod is in a built 25×25×8 pool with trevally and seals. Run with `debug_regrow_forced_chunks=true`.
+  - **Clean:** no errors from any animal, and no species went extinct.
+    - Orcas 3/3; they killed both seals and 3 trevally (hunting works).
+    - Ground birds 5/5 (condition 0.79–0.94); great apes 2/2.
+    - Mustelids: 1 of 2 starved (it started at Hunger 12; vanilla rabbits, chickens and pigs ARE small_game prey).
+  - **Tick time:** mean 7.96 ms. The FIRST 15 min averaged 19.4 ms (p95 39, one 73 ms sample) against 7.4 ms in the s3grass soak; the rest averaged 4.5 ms against 6.3. The hump is unexplained: candidates are the pool fill and the orcas in a cramped pool. A `debug_perf_counters` run would attribute it.
+  - **Pre-existing, not 2.9.0:** 8 "other" deaths (both tapirs, 2 boar, 1 each of big cat, caprine, dire wolf and equid), as in the S3 soak. The scenario summons at the console's y, so possibly suffocation. There were also herbivore starvation deaths on a patch that is ~70% non-grass ground.
 
     - Galápagos is domed, not saddleback.
     - The giant tortoises' hitbox is smaller than the model.
